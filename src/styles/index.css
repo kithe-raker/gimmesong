@@ -24,7 +24,7 @@ body,
 body {
     line-height: 1.5;
     color: white;
-    font-family: "Montserrat", sans-serif;
+    font-family: sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -59,7 +59,16 @@ h6 {
     isolation: isolate;
 }
 
-a, a:hover {
+a,
+a:hover {
     text-decoration: none;
 }
 
+@font-face {
+    font-family: "Mexa";
+    src: url("@assets/fonts/Mexa-Regular.woff2") format("woff2"),
+        url("@assets/fonts/Mexa-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: fallback;
+}
