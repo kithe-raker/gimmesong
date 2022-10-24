@@ -1,10 +1,10 @@
-import Splash from "@components/Splash";
+import Home from "@pages/Home/Home";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 
 function App() {
   let routes = (
     <Routes>
-      <Route path="/" element={<Splash />} />
+      <Route path="/" element={<Home />} />
     </Routes>
   );
 

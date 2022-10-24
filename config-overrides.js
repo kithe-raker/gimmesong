@@ -14,6 +14,7 @@ module.exports = function override(config) {
       ["@artifacts"]: path.resolve(__dirname, "src/artifacts"),
       ["@scripts"]: path.resolve(__dirname, "src/scripts"),
       ["@store"]: path.resolve(__dirname, "src/store"),
+      ["@pages"]: path.resolve(__dirname, "src/pages"),
     },
   };
   return config;
