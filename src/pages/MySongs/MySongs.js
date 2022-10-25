@@ -30,8 +30,8 @@ function MySongs() {
         </h1>
       </div>
       {page === "new" ? <New /> : <Favorite />}
-      <div className="fixed bottom-0 flex items-center p-5 w-full max-w-md">
-        <button className="flex items-center bg-white hover:bg-gray-100 rounded-full p-3 pr-8 shadow-md">
+      <div className="fixed bottom-0 flex justify-center items-center p-5 w-full max-w-md">
+        <button className="flex h-16 mr-4 items-center bg-white hover:bg-gray-100 rounded-full p-3 pr-8 shadow-sm">
           <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
             <svg
               className="w-4 h-4"
@@ -48,6 +48,17 @@ function MySongs() {
           <span className="ml-5 gimmesong-primary-font text-xl">
             Tap to play this song
           </span>
+        </button>
+        <button className="flex h-16 w-16 justify-center items-center bg-white hover:bg-gray-100 rounded-full shadow-sm">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="#000000"
+          >
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
         </button>
       </div>
     </div>
