@@ -24,7 +24,7 @@ body,
 body {
     line-height: 1.5;
     color: white;
-    font-family: sans-serif;
+    font-family: "LINE Seed Sans TH", sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -69,6 +69,24 @@ a:hover {
     src: url("@assets/fonts/Mexa-Regular.woff2") format("woff2"),
         url("@assets/fonts/Mexa-Regular.woff") format("woff");
     font-weight: normal;
+    font-style: normal;
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: "LINE Seed Sans TH";
+    src: url("@assets/fonts/LINESeedSansTH_W_Rg.woff2") format("woff2"),
+        url("@assets/fonts/LINESeedSansTH_W_Rg.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: "LINE Seed Sans TH";
+    src: url("@assets/fonts/LINESeedSansTH_W_Th.woff2") format("woff2"),
+        url("@assets/fonts/LINESeedSansTH_W_Rg.woff") format("woff");
+    font-weight: 300;
     font-style: normal;
     font-display: fallback;
 }
