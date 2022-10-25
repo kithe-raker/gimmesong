@@ -9,7 +9,7 @@ function Sent() {
         <img
           className="absolute h-full w-full inset-0 object-cover"
           src={bg}
-          alt="Congrate"
+          alt="Congrats"
         />
         <div className="absolute flex w-64 flex-col items-center">
           <h1 className="gimmesong-primary-font text-white text-3xl mb-[5px]">
