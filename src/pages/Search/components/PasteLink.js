@@ -7,7 +7,7 @@ function PasteLink() {
       <span className="gimmesong-primary-font text-gray-600 text-xl ">
         Paste receiver link here
       </span>
-      <div class="relative mt-4">
+      <div class="relative w-[250px] mt-4">
         <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
           <svg
             aria-hidden="true"
