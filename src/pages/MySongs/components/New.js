@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import disc from "@assets/img/disc.svg";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 function New() {
   const [current, setCurrent] = useState(0);
+  const slider = useRef(null);
 
   const settings = {
     className: "center",
@@ -15,14 +16,17 @@ function New() {
     slidesToShow: 1,
     speed: 500,
     beforeChange: (current, next) => {
-      console.log(next);
       setCurrent(next);
     },
   };
 
+  const goTo = (index) => {
+    slider.current.slickGoTo(index);
+  };
+
   return (
     <div className="relative w-full overflow-hidden">
-      <Slider {...settings}>
+      <Slider ref={slider} {...settings}>
         {[...new Array(4)].map((item, i) => {
           return (
             <div className="outline-none" key={i}>

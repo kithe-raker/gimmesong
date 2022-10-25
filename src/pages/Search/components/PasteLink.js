@@ -7,7 +7,7 @@ function PasteLink() {
       <span className="gimmesong-primary-font text-gray-600 text-xl ">
         Paste receiver link here
       </span>
-      <div class="relative mt-4">
+      <div class="relative w-[250px] mt-4">
         <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
           <svg
             aria-hidden="true"
@@ -26,10 +26,9 @@ function PasteLink() {
           </svg>
         </div>
         <input
-          type="link here"
-          id="link here"
-          className="block h-12 w-[250px] pl-10 pr-12 w-full gimmesong-primary-font text-sm text-gray-900 bg-white rounded-full focus:outline-gray-500"
-          placeholder="link here"
+          type="text"
+          className="block h-12 w-[250px] pl-10 pr-12 w-full text-sm text-gray-900 bg-white rounded-full focus:outline-gray-500"
+          placeholder="e.g. gimmesong.link/@friend"
           required
         />
         <button className="text-white absolute flex right-2 bottom-2 top-2 hover:bg-gray-100 focus:outline-none font-medium rounded-full text-sm h-8 w-8 justify-center items-center">
