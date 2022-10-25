@@ -13,7 +13,7 @@ function Sent() {
         />
         <div className="absolute flex w-64 flex-col items-center">
           <h1 className="gimmesong-primary-font text-white text-3xl mb-[5px]">
-            Congratulation
+            Congratulation!
           </h1>
           <span className="text-white text-xs mb-[14px]">
             Your song already given!
