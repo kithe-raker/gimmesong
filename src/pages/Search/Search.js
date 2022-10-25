@@ -1,5 +1,6 @@
 import React from "react";
 import PasteLink from "./components/PasteLink.js";
+import OnSendComplete from "./components/OnComplete.js";
 
 function Search() {
   return (
