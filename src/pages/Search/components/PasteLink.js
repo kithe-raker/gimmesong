@@ -32,10 +32,7 @@ function PasteLink() {
           placeholder="link here"
           required
         />
-        <button
-          type="submit"
-          className="text-white absolute flex right-2 bottom-2 top-2 hover:bg-gray-100 focus:outline-none font-medium rounded-full text-sm h-8 w-8 justify-center items-center"
-        >
+        <button className="text-white absolute flex right-2 bottom-2 top-2 hover:bg-gray-100 focus:outline-none font-medium rounded-full text-sm h-8 w-8 justify-center items-center">
           <svg
             className="text-gray-400 h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
