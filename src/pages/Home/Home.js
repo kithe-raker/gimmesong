@@ -1,7 +1,7 @@
 import React from "react";
 import disc from "@assets/img/disc.svg";
 
-function Splash() {
+function Home() {
   return (
     <div className="flex flex-col justify-center items-center min-h-screen max-w-md mx-auto">
       <span className="gimmesong-primary-font">
@@ -23,6 +23,7 @@ function Splash() {
         </svg>
         <span>Connect with Google</span>
       </button>
+
       <span className="text-xxs mt-4 text-black">
         by continue you already accept our{" "}
         <a href="#" className="underline">
@@ -33,4 +34,4 @@ function Splash() {
   );
 }
 
-export default Splash;
+export default Home;
