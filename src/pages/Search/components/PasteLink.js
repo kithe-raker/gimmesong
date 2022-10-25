@@ -3,7 +3,7 @@ import linkBg from "@assets/img/link_bg.png";
 
 function PasteLink() {
   return (
-    <div className="relative flex w-64 items-center justify-center">
+    <div className="relative flex w-72 items-center justify-center">
       <img className="absolute" src={linkBg} alt="your link" />
       <div className="absolute">
         <span className="gimmesong-primary-font text-white flex justify-center">
