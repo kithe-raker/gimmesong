@@ -1,6 +1,7 @@
 import Home from "@pages/Home/Home";
 import Menu from "@pages/Menu/Menu";
 import Search from "@pages/Search/Search";
+import MySongs from "@pages/MySongs/MySongs";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/menu" element={<Menu />} />
       <Route path="/search" element={<Search />} />
+      <Route path="/mysongs" element={<MySongs />} />
     </Routes>
   );
 
