@@ -7,9 +7,9 @@ function Search() {
     <div className="flex flex-col justify-center items-center min-h-screen max-w-md mx-auto">
       <PasteLink />
       <div className="flex fixed bottom-10 w-full flex-col items-center">
-        <button className=" h-12 w-[250px] gimmesong-primary-font bg-black rounded-full text-white">
+        {/* <button className=" h-12 w-[250px] gimmesong-primary-font bg-black rounded-full text-white">
           NEXT
-        </button>
+        </button> */}
       </div>
     </div>
   );
