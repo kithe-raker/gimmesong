@@ -4,7 +4,7 @@ import menu2 from "@assets/img/menu2.svg";
 
 function Menu() {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen max-w-md mx-auto">
+    <div className="flex flex-col justify-center items-center min-h-screen max-w-md mx-auto py-6">
       <h1 className="gimmesong-primary-font text-5xl mt-2 mb-2">GIMMESONG</h1>
       <span className="gimmesong-primary-font">
         Songs have been given 123,568 times.

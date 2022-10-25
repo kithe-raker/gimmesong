@@ -27,7 +27,7 @@ function PasteLink() {
         </div>
         <input
           type="text"
-          className="block h-12 w-[250px] pl-10 pr-12 w-full text-sm text-gray-900 bg-white rounded-full focus:outline-gray-500"
+          className="block h-12 w-[250px] pl-10 pr-12 w-full text-gray-900 bg-white rounded-full focus:outline-gray-500"
           placeholder="e.g. gimmesong.link/@friend"
           required
         />
