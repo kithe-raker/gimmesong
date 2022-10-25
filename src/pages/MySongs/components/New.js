@@ -15,7 +15,6 @@ function New() {
     slidesToShow: 1,
     speed: 500,
     beforeChange: (current, next) => {
-      console.log(next);
       setCurrent(next);
     },
   };
