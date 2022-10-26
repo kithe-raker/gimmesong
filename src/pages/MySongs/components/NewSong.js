@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import disc from "@assets/img/disc.png";
+import shushingEmoji from "@assets/img/shushing_emoji.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -34,7 +35,23 @@ function NewSong() {
           return (
             <div className="outline-none" key={i}>
               <div className="flex flex-col items-center justify-center">
-                <img className="w-72 mt-6" src={disc} alt="disc" />
+                {/* <img className="w-72 mt-6" src={disc} alt="disc" /> */}
+                <div className="mt-6 w-[90%]">
+                  <div className="relative w-full pt-[100%] animate-spin-slow">
+                    <img
+                      className="absolute inset-0 w-full h-full object-contain"
+                      src={disc}
+                      alt="disc"
+                    />
+                    <div className="absolute inset-0 w-full h-full flex items-center justify-center">
+                      <img
+                        className="w-[20%] h-[20%] object-contain"
+                        src={shushingEmoji}
+                        alt="disc"
+                      />
+                    </div>
+                  </div>
+                </div>
                 {current === i && (
                   <span className="gimmesong-secondary-font mt-6 text-lg text-center text-gray-700 leading-6">
                     Give a song anonymous to <br />

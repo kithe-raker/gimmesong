@@ -4,32 +4,41 @@ import NewSong from "./components/NewSong";
 import FavoriteSong from "./components/FavoriteSong";
 
 function MySongs() {
-  const [page, setPage] = useState("new");
+  const [page, setPage] = useState("new_song");
+  const [active, setActive] = useState(null);
   const [playing, setPlaying] = useState(null);
+
+  const handleSwipe = (song) => {};
+
+  const handlePlay = (song) => {};
 
   return (
     <div className="flex flex-col items-center min-h-screen overflow-y-auto pb-[120px] max-w-md mx-auto py-6">
       <div className="p-5 my-5 bg-gray-300 w-full max-w-[300px]">ADS</div>
       <div className="flex items-center">
         <h1
-          onClick={() => setPage("new")}
+          onClick={() => setPage("new_song")}
           className={`gimmesong-primary-font text-4xl select-none cursor-pointer text-gray-400 ${
-            page === "new" && "text-gray-900"
+            page === "new_song" && "text-gray-900"
           }`}
         >
           NEW
         </h1>
         <span className="w-[1px] h-5 bg-gray-400 mx-6"></span>
         <h1
-          onClick={() => setPage("favorite")}
+          onClick={() => setPage("favorite_song")}
           className={`gimmesong-primary-font text-4xl select-none cursor-pointer text-gray-400 ${
-            page === "favorite" && "text-gray-900"
+            page === "favorite_song" && "text-gray-900"
           }`}
         >
           BOX
         </h1>
       </div>
-      {page === "new" ? <NewSong /> : <FavoriteSong />}
+      {page === "new_song" ? (
+        <NewSong onSwipe={handleSwipe} onPlay={handlePlay} />
+      ) : (
+        <FavoriteSong onPlay={handlePlay} />
+      )}
       <div className="fixed bottom-0 flex justify-center items-center p-5 w-full max-w-md">
         {/* <button className="flex h-16 mr-4 items-center bg-white hover:bg-gray-100 rounded-full p-3 pr-8 shadow-sm">
           <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
