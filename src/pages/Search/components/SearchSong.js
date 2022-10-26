@@ -40,11 +40,15 @@ function SearchSong() {
               key={i}
               className="flex items-center justify-between h-16 mb-2.5 w-full  bg-white hover:bg-gray-100 rounded-full p-3 pr-4 cursor-pointer"
             >
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
-                <div className="flex flex-col ml-2.5">
-                  <span className="text-sm">Pink Venom</span>
-                  <span className="text-xs text-gray-500">Blackpink</span>
+              <div className="flex items-center overflow-hidden">
+                <div className="w-10 h-10 bg-gray-200 rounded-full shrink-0"></div>
+                <div className="flex flex-col mx-2.5 min-w-0">
+                  <span className="text-sm truncate">
+                    Pink VenomPink VenomPink VenomPink Venom
+                  </span>
+                  <span className="text-xs text-gray-500 truncate">
+                    BlackpinkBlackpinkBlackpinkBlackpinkBlackpink
+                  </span>
                 </div>
               </div>
               <div className="text-xs">3:02</div>

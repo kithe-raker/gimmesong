@@ -1,9 +1,10 @@
-import React from "react";
+import { useState } from "react";
 import PasteLink from "./components/PasteLink.js";
 import Sent from "./components/Sent.js";
 import SearchSong from "./components/SearchSong.js";
 
 function Search() {
+  const [currentStep, setCurrentStep] = useState(1);
   return (
     <div className="flex flex-col justify-center items-center min-h-screen max-w-md mx-auto py-6">
       <SearchSong />
