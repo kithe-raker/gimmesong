@@ -24,6 +24,9 @@ function Sent() {
       <span className="gimmesong-primary-font mt-4 text-sm">
         Songs have been given 123,456 times.
       </span>
+      <button className="mt-6 h-12 w-[250px] gimmesong-primary-font bg-black rounded-full text-white">
+        Get your own anonymous song!
+      </button>
     </div>
   );
 }

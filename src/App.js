@@ -3,6 +3,7 @@ import SignUp from "@pages/SignUp";
 import Menu from "@pages/Menu";
 import Search from "@pages/Search";
 import MySongs from "@pages/MySongs";
+import Empty from "@pages/MySongs/components/Empty";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Route path="/menu" element={<Menu />} />
       <Route path="/search" element={<Search />} />
       <Route path="/mysongs" element={<MySongs />} />
+      <Route path="/empty" element={<Empty />} />
     </Routes>
   );
 
