@@ -1,6 +1,13 @@
-import React from "react";
+import { useState } from "react";
 
-function Send() {
+function Send({ next, onMessageChange, receiver, song }) {
+  const [message, setMessage] = useState("");
+
+  const handleMessageChange = (val) => {
+    setMessage(val);
+    onMessageChange(val);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center w-full max-w-xs">
       <div className="flex flex-col justify-between items-center w-full bg-white p-3 rounded-[36px] h-[360px] border border-gray-200">
@@ -8,15 +15,11 @@ function Send() {
           gimmesong.link/@tiemdwoo001
         </span>
         <textarea
+          value={message}
           className="my-auto w-full outline-none text-center resize-none"
           placeholder="“ Write something ”"
-          rows={5}
-          onChange={(e, limit = 5) => {
-            let values = e.target.value.replace(/\r\n/g, "\n").split("\n");
-            if (values.length > limit) {
-              e.target.value = values.slice(0, limit).join("\n");
-            }
-          }}
+          rows={6}
+          onChange={(e) => handleMessageChange(e.target.value)}
         />
 
         <div
@@ -36,7 +39,10 @@ function Send() {
           <div className="text-xs">3:02</div>
         </div>
       </div>
-      <button className="mt-5 h-12 w-[250px] gimmesong-primary-font bg-black hover:opacity-70 rounded-full text-white">
+      <button
+        onClick={next}
+        className="mt-5 h-12 w-[250px] gimmesong-primary-font bg-black hover:opacity-70 rounded-full text-white"
+      >
         SEND
       </button>
     </div>

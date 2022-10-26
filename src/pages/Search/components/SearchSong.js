@@ -1,12 +1,31 @@
-import React from "react";
+import { useState } from "react";
 
-function SearchSong() {
+function SearchSong({ next, onSongChange, receiver }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [results, setResults] = useState([]);
+  const [selected, setSelected] = useState(null);
+
+  const handleSearchTermChange = (val) => {
+    setSearchTerm(val);
+  };
+
+  const handleSongChange = (song) => {
+    setSelected(song);
+  };
+
+  const submit = () => {
+    // if (!selected) return;
+    // implement api & validation logic here
+    onSongChange(null);
+    next();
+  };
+
   return (
     <div className="flex flex-col items-center justify-center w-full max-w-xs">
       <span className="gimmesong-primary-font text-gray-600 text-xl ">
         Give me anonymous song !
       </span>
-      <div className="relative w-full mt-4">
+      <div className="relative w-full mt-3">
         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
           <svg
             aria-hidden="true"
@@ -25,6 +44,8 @@ function SearchSong() {
           </svg>
         </div>
         <input
+          value={searchTerm}
+          onChange={(e) => handleSearchTermChange(e.target.value)}
           type="text"
           className="block h-12 pl-10 pr-6 w-full text-gray-900 bg-white rounded-full focus:outline-gray-500"
           placeholder="search song"
@@ -33,7 +54,7 @@ function SearchSong() {
       </div>
       <div className="w-full bg-white p-3 rounded-[36px] h-[calc((64px*4)+50px)] overflow-y-auto overflow-x-hidden mt-3">
         {[...new Array(6)].map((item, i) => {
-          let selected = i == 2;
+          let selected = i === 2;
           return (
             <div
               key={i}
@@ -72,7 +93,10 @@ function SearchSong() {
           gimmesong.link/@tiemdwoo001
         </span>
       </div>
-      <button className="mt-5 h-12 w-[250px] gimmesong-primary-font bg-black hover:opacity-70 rounded-full text-white">
+      <button
+        onClick={submit}
+        className="h-12 w-[250px] gimmesong-primary-font bg-black hover:opacity-70 rounded-full text-white"
+      >
         NEXT
       </button>
     </div>

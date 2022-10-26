@@ -1,6 +1,20 @@
-import React from "react";
+import { useState } from "react";
 
-function PasteLink() {
+function PasteLink({ next, onFoundReceiver }) {
+  const [link, setLink] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLinkChange = (e) => {
+    let val = e.target.value;
+    setLink(val);
+  };
+
+  const submit = () => {
+    // implement api & validation logic here
+    onFoundReceiver(null);
+    next();
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <span className="gimmesong-primary-font text-gray-600 text-xl ">
@@ -26,8 +40,10 @@ function PasteLink() {
         </div>
         <input
           type="text"
-          className="block h-12 w-[250px] pl-10 pr-12 w-full text-gray-900 bg-white rounded-full focus:outline-gray-500"
-          placeholder="gimmesong.link/@friend"
+          value={link}
+          onChange={handleLinkChange}
+          className="block h-12 w-[250px] pl-10 pr-12 text-gray-900 bg-white rounded-full focus:outline-gray-500"
+          placeholder="link or @friendname"
           required
         />
         <button className="text-white absolute flex right-2 bottom-2 top-2 hover:bg-gray-100 focus:outline-none font-medium rounded-full text-sm h-8 w-8 justify-center items-center">
@@ -46,7 +62,10 @@ function PasteLink() {
           </svg>
         </button>
       </div>
-      <button className="mt-5 h-12 w-[250px] gimmesong-primary-font bg-black hover:opacity-70 rounded-full text-white">
+      <button
+        onClick={submit}
+        className="mt-5 h-12 w-[250px] gimmesong-primary-font bg-black hover:opacity-70 rounded-full text-white"
+      >
         NEXT
       </button>
     </div>

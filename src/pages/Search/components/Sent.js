@@ -2,7 +2,7 @@ import React from "react";
 import bg from "@assets/img/gimmesong_gradient_bg.png";
 import disc from "@assets/img/gimmesong_logo.png";
 
-function Sent() {
+function Sent({ next }) {
   return (
     <div className="flex flex-col items-center">
       <div className="relative h-48 w-72 flex flex-col items-center justify-center overflow-hidden rounded-3xl">
