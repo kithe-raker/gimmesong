@@ -33,7 +33,7 @@ function SearchSong() {
           required
         />
       </div>
-      <div className="w-full bg-white p-3 rounded-[36px] max-h-[calc((64px*4)+50px)] overflow-y-auto overflow-x-hidden mt-3">
+      <div className="w-full bg-white p-3 rounded-[36px] h-[calc((64px*4)+50px)] overflow-y-auto overflow-x-hidden mt-3">
         {[...new Array(6)].map((item, i) => {
           return (
             <div
