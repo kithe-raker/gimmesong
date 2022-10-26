@@ -3,7 +3,7 @@ import GetLink from "./GetLink";
 
 function EmptySong() {
   return (
-    <div className="flex flex-col justify-center items-center h-full">
+    <div className="mt-6 flex flex-col justify-center items-center">
       <div className="flex flex-col items-center justify-center mb-6">
         <span className="gimmesong-primary-font text-lg">
           Oops, it seems like no one sent you songs.

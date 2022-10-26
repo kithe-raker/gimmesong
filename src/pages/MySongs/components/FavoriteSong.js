@@ -1,8 +1,10 @@
-import React from "react";
-import disc from "@assets/img/disc.svg";
+import { useState } from "react";
+import EmptySong from "./EmptySong";
 
 function FavoriteSong() {
-  return <>fav</>;
+  const [songs, setSongs] = useState([]);
+
+  return songs.length > 0 ? null : <EmptySong />;
 }
 
 export default FavoriteSong;
