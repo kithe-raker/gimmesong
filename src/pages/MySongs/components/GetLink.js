@@ -31,7 +31,7 @@ function GetLink() {
           </div>
           <div className="h-12 w-full pl-12 pr-10 text-gray-800 bg-white rounded-full flex items-center overflow-hidden">
             <span className="gimmesong-primary-font text-lg truncate">
-              gimmesong.link/@friendxxx
+              gimmesong.link/@friend
             </span>
           </div>
           <button className="text-white absolute flex right-2 bottom-2 top-2 hover:bg-gray-100 focus:outline-none font-medium rounded-full text-sm h-8 w-8 justify-center items-center">
