@@ -1,5 +1,5 @@
 import React from "react";
-import disc from "@assets/img/disc.svg";
+import disc from "@assets/img/gimmesong_logo.png";
 
 function Home() {
   return (

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import disc from "@assets/img/disc.svg";
+import disc from "@assets/img/disc.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

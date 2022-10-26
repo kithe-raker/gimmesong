@@ -1,5 +1,5 @@
 import React from "react";
-import bg from "@assets/img/getLink_bg.png";
+import bg from "@assets/img/gimmesong_gradient_bg.png";
 
 function GetLink() {
   return (

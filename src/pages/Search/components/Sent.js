@@ -1,6 +1,6 @@
 import React from "react";
-import bg from "@assets/img/sendComplete_bg.png";
-import Disc from "@assets/img/disc.svg";
+import bg from "@assets/img/gimmesong_gradient_bg.png";
+import disc from "@assets/img/gimmesong_logo.png";
 
 function Sent() {
   return (
@@ -18,7 +18,7 @@ function Sent() {
           <span className="text-white text-xs mb-[14px]">
             Your song already given!
           </span>
-          <img className="h-[71px]" src={Disc} alt="disc" />
+          <img className="h-[71px]" src={disc} alt="disc" />
         </div>
       </div>
       <span className="gimmesong-primary-font mt-4 text-sm">

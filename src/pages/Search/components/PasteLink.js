@@ -1,5 +1,4 @@
 import React from "react";
-import linkBg from "@assets/img/link_bg.png";
 
 function PasteLink() {
   return (

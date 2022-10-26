@@ -1,5 +1,5 @@
 import React from "react";
-import GetLink from "./GetLink";
+import GetLink from "@components/GetLink";
 
 function EmptySong() {
   return (

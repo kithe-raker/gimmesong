@@ -1,6 +1,4 @@
 import React from "react";
-import linkBg from "@assets/img/link_bg.png";
-import Disc from "@assets/img/disc.svg";
 
 function SearchSong() {
   return (
