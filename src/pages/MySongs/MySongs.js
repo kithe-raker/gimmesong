@@ -8,7 +8,7 @@ function MySongs() {
   const [playing, setPlaying] = useState(null);
 
   return (
-    <div className="flex flex-col items-center min-h-screen pb-[120px] max-w-md mx-auto">
+    <div className="flex flex-col items-center min-h-screen pb-[120px] max-w-md mx-auto py-6">
       <div className="p-5 mt-5 bg-gray-300 w-full max-w-[300px]">ADS</div>
       <div className="flex items-center mt-6">
         <h1

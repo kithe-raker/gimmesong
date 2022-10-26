@@ -3,7 +3,7 @@ import disc from "@assets/img/disc.svg";
 
 function Home() {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen max-w-md mx-auto">
+    <div className="flex flex-col justify-center items-center min-h-screen max-w-md mx-auto py-6">
       <span className="gimmesong-primary-font">
         Songs have been given 123,568 times.
       </span>
