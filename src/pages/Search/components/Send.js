@@ -35,28 +35,18 @@ function SearchSong() {
       </div>
       <div className="w-full bg-white p-3 rounded-[36px] h-[calc((64px*4)+50px)] overflow-y-auto overflow-x-hidden mt-3">
         {[...new Array(6)].map((item, i) => {
-          let selected = i == 2;
           return (
             <div
               key={i}
-              className={`${
-                selected &&
-                "bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0]"
-              } ${
-                selected ? "text-white" : "text-gray-800 "
-              } flex items-center justify-between h-16 mb-2.5 w-full bg-white hover:bg-gray-100 rounded-full p-3 pr-4 cursor-pointer`}
+              className={`flex items-center justify-between h-16 mb-2.5 w-full bg-white hover:bg-gray-100 rounded-full p-3 pr-4 cursor-pointer`}
             >
               <div className="flex items-center overflow-hidden">
                 <div className="w-10 h-10 bg-gray-200 rounded-full shrink-0"></div>
                 <div className="flex flex-col mx-2.5 min-w-0 max-w-[150px]">
-                  <span className={`text-sm truncate`}>
+                  <span className="text-sm truncate">
                     Pink VenomPink VenomPink VenomPink Venom
                   </span>
-                  <span
-                    className={`text-xs truncate ${
-                      selected ? "text-white" : "text-gray-500 "
-                    }`}
-                  >
+                  <span className="text-xs text-gray-500 truncate">
                     BlackpinkBlackpinkBlackpinkBlackpinkBlackpink
                   </span>
                 </div>

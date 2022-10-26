@@ -46,7 +46,7 @@ function New() {
         })}
       </Slider>
       <div className="fixed bottom-0 flex justify-center items-center p-5 w-full max-w-md">
-        <button className="flex h-16 mr-4 items-center bg-white hover:bg-gray-100 rounded-full p-3 pr-8 shadow-sm">
+        {/* <button className="flex h-16 mr-4 items-center bg-white hover:bg-gray-100 rounded-full p-3 pr-8 shadow-sm">
           <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
             <svg
               className="w-4 h-4"
@@ -63,8 +63,22 @@ function New() {
           <span className="ml-5 gimmesong-primary-font text-xl">
             Tap to play this song
           </span>
-        </button>
-        <button className="flex h-16 w-16 justify-center items-center bg-white hover:bg-gray-100 rounded-full shadow-sm">
+        </button> */}
+        <div className="flex items-center justify-between h-16 mr-4 w-full bg-white hover:bg-gray-100 rounded-full p-3 pr-4 cursor-pointer">
+          <div className="flex items-center overflow-hidden">
+            <div className="w-10 h-10 bg-gray-200 rounded-full shrink-0"></div>
+            <div className="flex flex-col mx-2.5 min-w-0 max-w-[150px]">
+              <span className="text-sm truncate">
+                Pink VenomPink VenomPink VenomPink Venom
+              </span>
+              <span className="text-xs text-gray-500 truncate">
+                BlackpinkBlackpinkBlackpinkBlackpinkBlackpink
+              </span>
+            </div>
+          </div>
+          <div className="text-xs">3:02</div>
+        </div>
+        <button className="flex h-16 w-16 justify-center items-center bg-white hover:bg-gray-100 rounded-full shadow-sm shrink-0">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
