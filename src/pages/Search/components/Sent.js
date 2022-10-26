@@ -4,7 +4,7 @@ import Disc from "@assets/img/disc.svg";
 
 function Sent() {
   return (
-    <>
+    <div className="flex flex-col items-center">
       <div className="relative h-48 w-72 flex flex-col items-center justify-center overflow-hidden rounded-3xl">
         <img
           className="absolute h-full w-full inset-0 object-cover"
@@ -24,7 +24,7 @@ function Sent() {
       <span className="gimmesong-primary-font mt-4 text-sm">
         Songs have been given 123,456 times.
       </span>
-    </>
+    </div>
   );
 }
 

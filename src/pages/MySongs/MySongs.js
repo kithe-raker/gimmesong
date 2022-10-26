@@ -9,8 +9,8 @@ function MySongs() {
 
   return (
     <div className="flex flex-col items-center min-h-screen pb-[120px] max-w-md mx-auto py-6">
-      <div className="p-5 mt-5 bg-gray-300 w-full max-w-[300px]">ADS</div>
-      <div className="flex items-center mt-6">
+      <div className="p-5 my-5 bg-gray-300 w-full max-w-[300px]">ADS</div>
+      <div className="flex items-center">
         <h1
           onClick={() => setPage("new")}
           className={`gimmesong-primary-font text-4xl select-none cursor-pointer text-gray-400 ${
