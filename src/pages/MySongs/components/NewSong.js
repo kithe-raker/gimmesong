@@ -4,7 +4,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-function New() {
+import EmptySong from "./EmptySong";
+
+function NewSong() {
+  const [songs, setSongs] = useState([]);
   const [current, setCurrent] = useState(0);
   const slider = useRef(null);
 
@@ -24,7 +27,7 @@ function New() {
     slider.current.slickGoTo(index);
   };
 
-  return (
+  return songs.length > 0 ? (
     <div className="relative w-full overflow-hidden">
       <Slider ref={slider} {...settings}>
         {[...new Array(4)].map((item, i) => {
@@ -95,7 +98,9 @@ function New() {
         </button>
       </div>
     </div>
+  ) : (
+    <EmptySong />
   );
 }
 
-export default New;
+export default NewSong;

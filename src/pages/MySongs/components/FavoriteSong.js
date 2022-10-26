@@ -1,8 +1,8 @@
 import React from "react";
 import disc from "@assets/img/disc.svg";
 
-function Favorite() {
+function FavoriteSong() {
   return <>fav</>;
 }
 
-export default Favorite;
+export default FavoriteSong;
