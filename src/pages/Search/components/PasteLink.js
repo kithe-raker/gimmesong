@@ -7,8 +7,8 @@ function PasteLink() {
       <span className="gimmesong-primary-font text-gray-600 text-xl ">
         Paste receiver link here
       </span>
-      <div class="relative w-[250px] mt-4">
-        <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+      <div className="relative w-[250px] mt-4">
+        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
           <svg
             aria-hidden="true"
             className="w-5 h-5 text-gray-500"
@@ -38,9 +38,9 @@ function PasteLink() {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
             <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
             <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
