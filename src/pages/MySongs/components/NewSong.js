@@ -203,7 +203,7 @@ function NewSong() {
                         )}
                       </div>
                     </div>
-                    {current === i && (
+                    {current.id === item.id && (
                       <span className="gimmesong-secondary-font mt-6 text-lg text-center text-gray-700 leading-6">
                         {item.message}
                       </span>
