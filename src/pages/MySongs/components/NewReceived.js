@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import EmptySong from "./EmptySong";
 
-function NewSong() {
+function NewReceived() {
   const [received, setReceived] = useState([]);
 
   const slider = useRef(null);
@@ -15,15 +15,14 @@ function NewSong() {
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // const { newReceivedSongs, setAuth } = useReceivedSong();
-
   const handleSwipe = () => {
     setPlaying(false);
   };
 
   const handlePlay = (id) => {
     // get videoplayback url here, then set url to item in received
-    // then update played = true to db
+    // to reuse in next time
+    // then update played = true to database
 
     let url = "";
     let updated = received.map((item) =>
@@ -238,7 +237,10 @@ function NewSong() {
           </Slider>
         </div>
       ) : (
-        <EmptySong />
+        <EmptySong
+          message={`Oops, you don't have any new received songs at this
+        time.`}
+        />
       )}
       {current !== null && (
         <div className="fixed bottom-0 flex justify-center items-center p-5 w-full max-w-md">
@@ -330,4 +332,4 @@ function NewSong() {
   );
 }
 
-export default NewSong;
+export default NewReceived;

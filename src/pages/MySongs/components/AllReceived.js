@@ -3,7 +3,7 @@ import EmptySong from "./EmptySong";
 import disc from "@assets/img/disc.png";
 import shushingEmoji from "@assets/img/shushing_emoji.png";
 
-function FavoriteSong({ onSwipe, onPlay }) {
+function AllReceived({ onSwipe, onPlay }) {
   const [received, setReceived] = useState([]);
   const [current, setCurrent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -169,7 +169,7 @@ function FavoriteSong({ onSwipe, onPlay }) {
     ];
     if (results.length > 0) {
       setReceived(results);
-      setCurrent(results[0]);
+      setCurrent(0);
     }
     setTimeout(() => setLoading(false), 500);
   }, []);
@@ -216,10 +216,10 @@ function FavoriteSong({ onSwipe, onPlay }) {
           ))}
         </div>
       ) : (
-        <EmptySong />
+        <EmptySong message={`Oops, it seems like no one sent you songs.`} />
       )}
     </>
   );
 }
 
-export default FavoriteSong;
+export default AllReceived;
