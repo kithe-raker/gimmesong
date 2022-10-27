@@ -12,22 +12,29 @@ function NewSong() {
 
   const slider = useRef(null);
   const [current, setCurrent] = useState(null);
-  const [playing, setPlaying] = useState(null);
-  const [pause, setPause] = useState(true);
+  const [playing, setPlaying] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // const { newReceivedSongs, setAuth } = useReceivedSong();
 
   const handleSwipe = () => {
-    setPlaying(null);
+    setPlaying(false);
   };
 
-  const handlePlay = (song) => {
-    setPlaying(song);
-    setPause(false);
+  const handlePlay = (id) => {
+    // get videoplayback url here, then set url to item in received
+    // then update played = true to db
+
+    let url = "";
+    let updated = received.map((item) =>
+      item.id === id ? { ...item, url: "", played: true } : item
+    );
+    setReceived(updated);
+    setPlaying(true);
   };
 
-  const handlePause = () => {
-    setPause((prev) => !prev);
+  const toggleAudio = () => {
+    setPlaying((prev) => !prev);
   };
 
   const settings = {
@@ -38,7 +45,7 @@ function NewSong() {
     slidesToShow: 1,
     speed: 500,
     beforeChange: (current, next) => {
-      setCurrent(received[next]);
+      setCurrent(next);
     },
   };
 
@@ -98,6 +105,7 @@ function NewSong() {
           },
         },
         message: "halo fren 1",
+        played: false,
       },
       {
         id: 2,
@@ -149,10 +157,16 @@ function NewSong() {
           },
         },
         message: "halo fren 2",
+        played: false,
       },
     ];
-    setReceived(results);
-    if (results.length > 0) setCurrent(results[0]);
+
+    if (results.length > 0) {
+      setReceived(results);
+      setCurrent(0);
+    }
+
+    setTimeout(() => setLoading(false), 500);
   }, []);
 
   useEffect(() => {
@@ -161,6 +175,11 @@ function NewSong() {
 
   return (
     <>
+      {loading && (
+        <div className="absolute inset-0 w-full h-full bg-white z-10 flex justify-center items-center">
+          Loading
+        </div>
+      )}
       {received.length > 0 ? (
         <div className="relative w-full overflow-hidden">
           <Slider ref={slider} {...settings}>
@@ -172,17 +191,21 @@ function NewSong() {
                     <div className="mt-6 w-[90%]">
                       <div
                         className={`relative w-full pt-[100%] ${
-                          playing && playing.id === item.id
+                          received[current].id === item.id
                             ? "animate-spin-slow"
                             : ""
-                        } ${pause ? "animate-pause" : ""}`}
+                        } ${
+                          !playing && received[current].id === item.id
+                            ? "animate-pause"
+                            : ""
+                        }`}
                       >
                         <img
                           className="absolute inset-0 w-full h-full object-contain select-none"
                           src={disc}
                           alt="disc"
                         />
-                        {playing && playing.id === item.id ? (
+                        {item.played ? (
                           <div className="absolute inset-0 w-full h-full flex items-center justify-center">
                             {item.song?.thumbnails?.length > 0 && (
                               <img
@@ -203,7 +226,7 @@ function NewSong() {
                         )}
                       </div>
                     </div>
-                    {current.id === item.id && (
+                    {received[current].id === item.id && (
                       <span className="gimmesong-secondary-font mt-6 text-lg text-center text-gray-700 leading-6">
                         {item.message}
                       </span>
@@ -217,11 +240,11 @@ function NewSong() {
       ) : (
         <EmptySong />
       )}
-      {current && (
+      {current !== null && (
         <div className="fixed bottom-0 flex justify-center items-center p-5 w-full max-w-md">
-          {!playing ? (
+          {!received[current].played ? (
             <button
-              onClick={() => handlePlay(current)}
+              onClick={() => handlePlay(received[current].id)}
               className="flex h-16 w-[250px] mr-4 items-center bg-white hover:bg-gray-100 rounded-full p-3 pr-8 shadow-sm"
             >
               <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
@@ -243,12 +266,12 @@ function NewSong() {
             </button>
           ) : (
             <div
-              onClick={() => handlePause()}
+              onClick={() => toggleAudio()}
               className="flex items-center justify-between w-[250px] h-16 mr-4 bg-white hover:bg-gray-100 rounded-full p-3 pr-4 cursor-pointer"
             >
               <div className="flex items-center overflow-hidden">
                 <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                  {pause ? (
+                  {!playing ? (
                     <svg
                       className="w-4 h-4"
                       viewBox="0 0 11 13"
@@ -274,14 +297,16 @@ function NewSong() {
                 </div>
                 <div className="flex flex-col mx-2.5 min-w-0 max-w-[150px]">
                   <span className="text-sm truncate select-none">
-                    {playing.song?.title}
+                    {received[current].song?.title}
                   </span>
                   <span className="text-xs text-gray-500 truncate select-none">
-                    {playing.song?.artistInfo?.artist[0]?.text}
+                    {received[current].song?.artistInfo?.artist[0]?.text}
                   </span>
                 </div>
               </div>
-              <div className="text-xs select-none">{playing.song?.length}</div>
+              <div className="text-xs select-none">
+                {received[current].song?.length}
+              </div>
             </div>
           )}
           <button className="flex h-16 w-16 justify-center items-center bg-white hover:bg-gray-100 rounded-full shadow-sm shrink-0">

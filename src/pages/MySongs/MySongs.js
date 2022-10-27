@@ -9,7 +9,7 @@ function MySongs() {
   const [page, setPage] = useState("new_song");
 
   return (
-    <div className="flex flex-col items-center min-h-screen overflow-y-auto pb-[120px] max-w-md mx-auto py-6">
+    <div className="relative flex flex-col items-center min-h-screen overflow-y-auto pb-[120px] max-w-md mx-auto py-6">
       <div className="p-5 my-5 bg-gray-300 w-full max-w-[300px]">ADS</div>
       <div className="flex items-center">
         <h1
