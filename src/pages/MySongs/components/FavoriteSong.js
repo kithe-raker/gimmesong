@@ -1,7 +1,7 @@
 import { useState } from "react";
 import EmptySong from "./EmptySong";
 
-function FavoriteSong() {
+function FavoriteSong({ onSwipe, onPlay }) {
   const [songs, setSongs] = useState([]);
 
   return songs.length > 0 ? null : <EmptySong />;

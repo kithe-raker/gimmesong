@@ -59,8 +59,9 @@ function SearchSong({ next, onSongChange, receiver }) {
             <div
               key={i}
               className={`${
-                selected &&
-                "bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0]"
+                selected
+                  ? "bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0]"
+                  : ""
               } ${
                 selected ? "text-white" : "text-gray-800 "
               } flex items-center justify-between h-16 mb-2.5 w-full bg-white hover:bg-gray-100 rounded-full p-3 pr-4 cursor-pointer`}

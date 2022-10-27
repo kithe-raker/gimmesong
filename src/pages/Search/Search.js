@@ -51,7 +51,7 @@ function Search() {
 
   /**
    * @dev discuss the function below, don't worry about variable that depends on previous step
-   * because if user isn't complete that step, they can't go to next step.
+   * because if user isn't complete their current step, they can't go to the next step.
    */
 
   let render;
