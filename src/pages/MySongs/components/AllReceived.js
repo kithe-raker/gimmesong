@@ -119,7 +119,8 @@ function AllReceived({ layout }) {
             ],
           },
         },
-        message: "halo fren 1",
+        message:
+          "halo fren 1 โต๊ 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Meltะริม (Melt) โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)",
         played: false,
       },
       {
@@ -352,7 +353,7 @@ function AllReceived({ layout }) {
           <>
             {layout === "single" ? (
               <>
-                <div className="overflow-hidden">
+                <div className="max-h-[calc(100vh-24px-104px-42px-24px-24px)] overflow-hidden overflow-y-auto pb-[88px]">
                   <Slider ref={slider} {...settings}>
                     {received.map((item, i) => {
                       return (
