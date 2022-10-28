@@ -48,7 +48,7 @@ function MySongs() {
             onClick={() => setPageLayout("single")}
             className={`rounded-l-full ${
               pageLayout === "single" ? "bg-gray-200" : "bg-white"
-            } py-2 px-4 text-sm font-medium text-gray-500 hover:bg-gray-100`}
+            } py-2 px-4 text-sm font-medium text-gray-500 hover:bg-gray-200`}
           >
             <svg
               width="17"
@@ -78,7 +78,7 @@ function MySongs() {
             onClick={() => setPageLayout("multiple")}
             className={`rounded-r-full ${
               pageLayout === "multiple" ? "bg-gray-200" : "bg-white"
-            } py-2 px-4 text-sm font-medium text-gray-500 hover:bg-gray-100`}
+            } py-2 px-4 text-sm font-medium text-gray-500 hover:bg-gray-200`}
           >
             <svg
               width="22"
