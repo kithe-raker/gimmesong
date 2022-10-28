@@ -23,7 +23,7 @@ function SearchSong({ next, onSongChange, receiver }) {
   return (
     <div className="flex w-full max-w-xs flex-col items-center justify-center">
       <span className="gimmesong-primary-font text-xl text-gray-600 ">
-        Give me anonymous song !
+        Give me song anonymously!
       </span>
       <div className="relative mt-3 w-full">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
