@@ -180,6 +180,9 @@ function NewReceived({ layout, onLayoutChange }) {
       },
     ];
 
+    // due to default layout of new received page is single
+    // then if results not empty, set current index to first element in arrays
+    // to show music player automatically
     if (results.length > 0) {
       setReceived(results);
       setCurrent(0);
