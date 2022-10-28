@@ -195,7 +195,11 @@ function NewReceived({ layout, onLayoutChange }) {
           <>
             {layout === "single" ? (
               <>
-                <div className="max-h-[calc(100vh-24px-104px-42px-24px-24px)] overflow-hidden overflow-y-auto pb-[88px]">
+                <div
+                  className={`max-h-[calc(100vh-24px-104px-42px-24px-24px)] overflow-hidden overflow-y-auto ${
+                    current !== null ? "pb-[88px]" : ""
+                  }`}
+                >
                   <Slider ref={slider} {...settings}>
                     {received.map((item, i) => {
                       return (
@@ -253,7 +257,12 @@ function NewReceived({ layout, onLayoutChange }) {
                 </div>
               </>
             ) : (
-              <div className="grid max-h-[calc(100vh-24px-104px-42px-24px-24px)] grid-cols-2 gap-4 overflow-y-auto pt-4 pb-[88px]">
+              <div
+                className={`grid max-h-[calc(100vh-24px-104px-42px-24px-24px)] grid-cols-2 gap-4 overflow-y-auto pt-4 ${
+                  current !== null ? "pb-[88px]" : ""
+                }`}
+              >
+                {" "}
                 {received.map((item, i) => (
                   <div
                     onClick={() => handleSelect(i)}
