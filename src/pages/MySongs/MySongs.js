@@ -36,7 +36,7 @@ function MySongs() {
             currentPage === "allReceived" && "text-gray-900"
           }`}
         >
-          BOX
+          ALL
         </h1>
         <div className="ml-4 inline-flex rounded-full" role="group">
           <button
