@@ -49,6 +49,7 @@ function AllReceived({ layout, onLayoutChange }) {
   };
 
   const goTo = (index) => {
+    // disable animate true
     slider.current.slickGoTo(index, true);
   };
 
