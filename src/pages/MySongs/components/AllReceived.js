@@ -61,10 +61,17 @@ function AllReceived({ layout, onLayoutChange }) {
     handleSwipe();
   }, [current]);
 
+  /**
+   * @dev if switch layout from multiple to single
+   * or click select song from multiple layout (layout will change to single automatically)
+   * then scroll slider to index
+   */
   useEffect(() => {
     if (layout === "single") {
       if (received.length > 0) {
+        // by default in multiple layout current is null until user click select song
         if (current === null) setCurrent(0);
+        // use setTimeout to prevent element ref is null
         setTimeout(() => goTo(current), 100);
       }
     }

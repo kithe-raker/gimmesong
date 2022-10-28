@@ -58,9 +58,15 @@ function NewReceived({ layout, onLayoutChange }) {
     slider.current.slickGoTo(index, true);
   };
 
+  /**
+   * @dev if switch layout from multiple to single
+   * or click select song from multiple layout (layout will change to single automatically)
+   * then scroll slider to index
+   */
   useEffect(() => {
     if (layout === "single") {
       if (received.length > 0) {
+        // use setTimeout to prevent element ref is null
         setTimeout(() => goTo(current), 100);
       }
     }
