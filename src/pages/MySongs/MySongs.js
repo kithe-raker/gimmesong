@@ -13,8 +13,12 @@ function MySongs() {
   }, [currentPage]);
 
   let render = {
-    newReceived: <NewReceived layout={pageLayout} />,
-    allReceived: <AllReceived layout={pageLayout} />,
+    newReceived: (
+      <NewReceived layout={pageLayout} onLayoutChange={setPageLayout} />
+    ),
+    allReceived: (
+      <AllReceived layout={pageLayout} onLayoutChange={setPageLayout} />
+    ),
   };
 
   return (

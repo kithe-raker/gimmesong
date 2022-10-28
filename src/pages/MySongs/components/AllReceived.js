@@ -6,7 +6,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-function AllReceived({ layout }) {
+function AllReceived({ layout, onLayoutChange }) {
   const [received, setReceived] = useState([]);
 
   const slider = useRef(null);
@@ -28,6 +28,7 @@ function AllReceived({ layout }) {
 
   const handleSelect = (index) => {
     setCurrent(index);
+    onLayoutChange("single");
   };
 
   const handlePlay = (id) => {
