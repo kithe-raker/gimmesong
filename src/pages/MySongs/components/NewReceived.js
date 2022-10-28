@@ -174,76 +174,75 @@ function NewReceived() {
 
   return (
     <>
-      {loading && (
-        <div className="absolute inset-0 z-10 flex h-full w-full items-center justify-center bg-[#F9F9F9]">
-          Loading
-        </div>
-      )}
-      {received.length > 0 ? (
-        <div className="relative w-full overflow-hidden">
-          <Slider ref={slider} {...settings}>
-            {received.map((item, i) => {
-              return (
-                <div className="outline-none" key={i}>
-                  <div className="flex flex-col items-center justify-center">
-                    {/* <img className="w-72 mt-6" src={disc} alt="disc" /> */}
-                    <div className="mt-6 w-[90%]">
-                      <div
-                        className={`relative w-full pt-[100%] ${
-                          received[current].id === item.id
-                            ? "animate-spin-slow"
-                            : ""
-                        } ${
-                          !playing && received[current].id === item.id
-                            ? "animate-pause"
-                            : ""
-                        }`}
-                      >
-                        <img
-                          className="absolute inset-0 h-full w-full select-none object-contain"
-                          src={disc}
-                          alt="disc"
-                        />
-                        {item.played ? (
-                          <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                            {item.song?.thumbnails?.length > 0 && (
+      <div className="relative mt-6 w-full">
+        {loading ? (
+          <div className="my-12 flex items-center justify-center">Loading</div>
+        ) : received.length > 0 ? (
+          <div className="overflow-hidden">
+            <Slider ref={slider} {...settings}>
+              {received.map((item, i) => {
+                return (
+                  <div className="outline-none" key={i}>
+                    <div className="flex flex-col items-center justify-center">
+                      {/* <img className="w-72 mt-6" src={disc} alt="disc" /> */}
+                      <div className="mt-6 w-[90%]">
+                        <div
+                          className={`relative w-full pt-[100%] ${
+                            received[current].id === item.id
+                              ? "animate-spin-slow"
+                              : ""
+                          } ${
+                            !playing && received[current].id === item.id
+                              ? "animate-pause"
+                              : ""
+                          }`}
+                        >
+                          <img
+                            className="absolute inset-0 h-full w-full select-none object-contain"
+                            src={disc}
+                            alt="disc"
+                          />
+                          {item.played ? (
+                            <div className="absolute inset-0 flex h-full w-full items-center justify-center">
+                              {item.song?.thumbnails?.length > 0 && (
+                                <img
+                                  className="h-[27%] w-[27%] select-none rounded-full object-contain"
+                                  src={item.song?.thumbnails[0]?.url}
+                                  alt="disc"
+                                />
+                              )}
+                            </div>
+                          ) : (
+                            <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                               <img
-                                className="h-[27%] w-[27%] select-none rounded-full object-contain"
-                                src={item.song?.thumbnails[0]?.url}
+                                className="h-[20%] w-[20%] select-none object-contain"
+                                src={shushingEmoji}
                                 alt="disc"
                               />
-                            )}
-                          </div>
-                        ) : (
-                          <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                            <img
-                              className="h-[20%] w-[20%] select-none object-contain"
-                              src={shushingEmoji}
-                              alt="disc"
-                            />
-                          </div>
-                        )}
+                            </div>
+                          )}
+                        </div>
                       </div>
+                      {received[current].id === item.id && (
+                        <span className="gimmesong-secondary-font mt-6 text-center text-lg leading-6 text-gray-700">
+                          {item.message}
+                        </span>
+                      )}
                     </div>
-                    {received[current].id === item.id && (
-                      <span className="gimmesong-secondary-font mt-6 text-center text-lg leading-6 text-gray-700">
-                        {item.message}
-                      </span>
-                    )}
                   </div>
-                </div>
-              );
-            })}
-          </Slider>
-        </div>
-      ) : (
-        <EmptySong
-          message={`Oops, you don't have any new received songs at this
+                );
+              })}
+            </Slider>
+          </div>
+        ) : (
+          <EmptySong
+            message={`Oops, you don't have any new received songs at this
         time.`}
-        />
-      )}
-      {current !== null && (
-        <div className="fixed bottom-0 flex w-full max-w-md items-center justify-center p-5">
+          />
+        )}
+      </div>
+      {!loading && current !== null && (
+        <div className="fixed bottom-0 flex w-full items-center justify-center py-6 px-5">
           {!received[current].played ? (
             <button
               onClick={() => handlePlay(received[current].id)}

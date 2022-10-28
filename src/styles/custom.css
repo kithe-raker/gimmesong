@@ -6,6 +6,10 @@
     font-family: "LINE Seed Sans TH";
 }
 
+.gimmesong-bg {
+    background-color: #F9F9F9;
+}
+
 .text-xxs {
     font-size: 0.65rem;
     line-height: 1rem;
