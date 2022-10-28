@@ -88,8 +88,8 @@ function Search() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen max-w-md mx-auto py-6">
-      <div className="p-5 my-4 bg-gray-300 w-full max-w-[300px]">ADS</div>
+    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6">
+      <div className="my-4 w-full max-w-[300px] bg-gray-300 p-5">ADS</div>
       {render}
     </div>
   );

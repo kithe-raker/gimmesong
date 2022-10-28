@@ -1,14 +1,14 @@
 function SignUp() {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen max-w-md mx-auto py-6">
+    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6">
       <div className="flex flex-col items-center justify-center">
-        <span className="gimmesong-primary-font text-gray-600 text-xl ">
+        <span className="gimmesong-primary-font text-xl text-gray-600 ">
           Lorem Lorem Lorem Lorem
         </span>
-        <div className="relative w-[250px] mt-4">
-          <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+        <div className="relative mt-4 w-[250px]">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <svg
-              className="text-gray-500 h-5 w-5"
+              className="h-5 w-5 text-gray-500"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="none"
@@ -23,11 +23,11 @@ function SignUp() {
           </div>
           <input
             type="text"
-            className="block h-12 w-[250px] pl-10 pr-12 w-full text-gray-900 bg-white rounded-full focus:outline-gray-500"
+            className="block h-12 w-[250px] w-full rounded-full bg-white pl-10 pr-12 text-gray-900 focus:outline-gray-500"
             placeholder="yourname"
             required
           />
-          <div className="text-white absolute flex right-2 bottom-2 top-2 font-medium text-sm h-8 w-8 justify-center items-center">
+          <div className="absolute right-2 bottom-2 top-2 flex h-8 w-8 items-center justify-center text-sm font-medium text-white">
             {/* <svg
             className="text-gray-400 h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@ function SignUp() {
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg> */}
             <svg
-              className="text-gray-400 h-5 w-5"
+              className="h-5 w-5 text-gray-400"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="none"
@@ -55,7 +55,7 @@ function SignUp() {
             </svg>
           </div>
         </div>
-        <button className="mt-5 h-12 w-[250px] gimmesong-primary-font bg-black hover:opacity-70 rounded-full text-white">
+        <button className="gimmesong-primary-font mt-5 h-12 w-[250px] rounded-full bg-black text-white hover:opacity-70">
           ENTER
         </button>
       </div>

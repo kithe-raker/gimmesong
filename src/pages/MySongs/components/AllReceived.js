@@ -126,31 +126,6 @@ function AllReceived({ onSwipe, onPlay }) {
               width: 60,
               height: 60,
             },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w120-h120-l90-rj",
-              width: 120,
-              height: 120,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w180-h180-l90-rj",
-              width: 180,
-              height: 180,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w226-h226-l90-rj",
-              width: 226,
-              height: 226,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w302-h302-l90-rj",
-              width: 302,
-              height: 302,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w544-h544-l90-rj",
-              width: 544,
-              height: 544,
-            },
           ],
           length: "4:32",
           artistInfo: {
@@ -177,36 +152,36 @@ function AllReceived({ onSwipe, onPlay }) {
   return (
     <>
       {loading && (
-        <div className="absolute inset-0 w-full h-full bg-white z-10 flex justify-center items-center">
+        <div className="absolute inset-0 z-10 flex h-full w-full items-center justify-center bg-[#F9F9F9]">
           Loading
         </div>
       )}
       {received.length > 0 ? (
-        <div class="grid grid-cols-2 gap-4 mt-6">
+        <div class="mt-6 grid grid-cols-2 gap-4">
           {received.map((item, i) => (
             <div
               key={i}
-              className={`relative w-[160px] aspect-square pointer-events-none`}
+              className={`pointer-events-none relative aspect-square w-[160px]`}
             >
               <img
-                className="absolute inset-0 w-full h-full object-contain select-none"
+                className="absolute inset-0 h-full w-full select-none object-contain"
                 src={disc}
                 alt="disc"
               />
               {item.played ? (
-                <div className="absolute inset-0 w-full h-full flex items-center justify-center">
+                <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                   {item.song?.thumbnails?.length > 0 && (
                     <img
-                      className="w-[27%] h-[27%] rounded-full object-contain select-none"
+                      className="h-[27%] w-[27%] select-none rounded-full object-contain"
                       src={item.song?.thumbnails[0]?.url}
                       alt="disc"
                     />
                   )}
                 </div>
               ) : (
-                <div className="absolute inset-0 w-full h-full flex items-center justify-center">
+                <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                   <img
-                    className="w-[20%] h-[20%] object-contain select-none"
+                    className="h-[20%] w-[20%] select-none object-contain"
                     src={shushingEmoji}
                     alt="disc"
                   />

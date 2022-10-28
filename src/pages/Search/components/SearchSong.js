@@ -21,15 +21,15 @@ function SearchSong({ next, onSongChange, receiver }) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-xs">
-      <span className="gimmesong-primary-font text-gray-600 text-xl ">
+    <div className="flex w-full max-w-xs flex-col items-center justify-center">
+      <span className="gimmesong-primary-font text-xl text-gray-600 ">
         Give me anonymous song !
       </span>
-      <div className="relative w-full mt-3">
-        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+      <div className="relative mt-3 w-full">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           <svg
             aria-hidden="true"
-            className="w-5 h-5 text-gray-500"
+            className="h-5 w-5 text-gray-500"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -47,12 +47,12 @@ function SearchSong({ next, onSongChange, receiver }) {
           value={searchTerm}
           onChange={(e) => handleSearchTermChange(e.target.value)}
           type="text"
-          className="block h-12 pl-10 pr-6 w-full text-gray-900 bg-white rounded-full focus:outline-gray-500"
+          className="block h-12 w-full rounded-full bg-white pl-10 pr-6 text-gray-900 focus:outline-gray-500"
           placeholder="search song"
           required
         />
       </div>
-      <div className="w-full bg-white p-3 rounded-[36px] h-[calc((64px*4)+50px)] overflow-y-auto overflow-x-hidden mt-3">
+      <div className="mt-3 h-[calc((64px*4)+50px)] w-full overflow-y-auto overflow-x-hidden rounded-[36px] bg-white p-3">
         {[...new Array(6)].map((item, i) => {
           let selected = i === 2;
           return (
@@ -64,16 +64,16 @@ function SearchSong({ next, onSongChange, receiver }) {
                   : ""
               } ${
                 selected ? "text-white" : "text-gray-800 "
-              } flex items-center justify-between h-16 mb-2.5 w-full bg-white hover:bg-gray-100 rounded-full p-3 pr-4 cursor-pointer`}
+              } mb-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 hover:bg-gray-100`}
             >
               <div className="flex items-center overflow-hidden">
-                <div className="w-10 h-10 bg-gray-200 rounded-full shrink-0"></div>
-                <div className="flex flex-col mx-2.5 min-w-0 max-w-[150px]">
-                  <span className={`text-sm truncate`}>
+                <div className="h-10 w-10 shrink-0 rounded-full bg-gray-200"></div>
+                <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
+                  <span className={`truncate text-sm`}>
                     Pink VenomPink VenomPink VenomPink Venom
                   </span>
                   <span
-                    className={`text-xs truncate ${
+                    className={`truncate text-xs ${
                       selected ? "text-white" : "text-gray-500 "
                     }`}
                   >
@@ -86,17 +86,17 @@ function SearchSong({ next, onSongChange, receiver }) {
           );
         })}
       </div>
-      <div className="flex flex-col items-center my-4">
+      <div className="my-4 flex flex-col items-center">
         <span className="gimmesong-primary-font text-sm text-gray-500">
           give this song to
         </span>
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0]">
+        <span className="bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-transparent">
           gimmesong.link/@tiemdwoo001
         </span>
       </div>
       <button
         onClick={submit}
-        className="h-12 w-[250px] gimmesong-primary-font bg-black hover:opacity-70 rounded-full text-white"
+        className="gimmesong-primary-font h-12 w-[250px] rounded-full bg-black text-white hover:opacity-70"
       >
         NEXT
       </button>

@@ -175,7 +175,7 @@ function NewReceived() {
   return (
     <>
       {loading && (
-        <div className="absolute inset-0 w-full h-full bg-white z-10 flex justify-center items-center">
+        <div className="absolute inset-0 z-10 flex h-full w-full items-center justify-center bg-[#F9F9F9]">
           Loading
         </div>
       )}
@@ -200,24 +200,24 @@ function NewReceived() {
                         }`}
                       >
                         <img
-                          className="absolute inset-0 w-full h-full object-contain select-none"
+                          className="absolute inset-0 h-full w-full select-none object-contain"
                           src={disc}
                           alt="disc"
                         />
                         {item.played ? (
-                          <div className="absolute inset-0 w-full h-full flex items-center justify-center">
+                          <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                             {item.song?.thumbnails?.length > 0 && (
                               <img
-                                className="w-[27%] h-[27%] rounded-full object-contain select-none"
+                                className="h-[27%] w-[27%] select-none rounded-full object-contain"
                                 src={item.song?.thumbnails[0]?.url}
                                 alt="disc"
                               />
                             )}
                           </div>
                         ) : (
-                          <div className="absolute inset-0 w-full h-full flex items-center justify-center">
+                          <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                             <img
-                              className="w-[20%] h-[20%] object-contain select-none"
+                              className="h-[20%] w-[20%] select-none object-contain"
                               src={shushingEmoji}
                               alt="disc"
                             />
@@ -226,7 +226,7 @@ function NewReceived() {
                       </div>
                     </div>
                     {received[current].id === item.id && (
-                      <span className="gimmesong-secondary-font mt-6 text-lg text-center text-gray-700 leading-6">
+                      <span className="gimmesong-secondary-font mt-6 text-center text-lg leading-6 text-gray-700">
                         {item.message}
                       </span>
                     )}
@@ -243,15 +243,15 @@ function NewReceived() {
         />
       )}
       {current !== null && (
-        <div className="fixed bottom-0 flex justify-center items-center p-5 w-full max-w-md">
+        <div className="fixed bottom-0 flex w-full max-w-md items-center justify-center p-5">
           {!received[current].played ? (
             <button
               onClick={() => handlePlay(received[current].id)}
-              className="flex h-16 w-[250px] mr-4 items-center bg-white hover:bg-gray-100 rounded-full p-3 pr-8 shadow-sm"
+              className="mr-4 flex h-16 w-[250px] items-center rounded-full bg-white p-3 pr-8 shadow-sm hover:bg-gray-100"
             >
-              <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black">
                 <svg
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   viewBox="0 0 11 13"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -262,20 +262,20 @@ function NewReceived() {
                   />
                 </svg>
               </div>
-              <span className="ml-5 gimmesong-primary-font text-xl select-none">
+              <span className="gimmesong-primary-font ml-5 select-none text-xl">
                 Tap to play this song
               </span>
             </button>
           ) : (
             <div
               onClick={() => toggleAudio()}
-              className="flex items-center justify-between w-[250px] h-16 mr-4 bg-white hover:bg-gray-100 rounded-full p-3 pr-4 cursor-pointer"
+              className="mr-4 flex h-16 w-[250px] cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 hover:bg-gray-100"
             >
               <div className="flex items-center overflow-hidden">
-                <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black">
                   {!playing ? (
                     <svg
-                      className="w-4 h-4"
+                      className="h-4 w-4"
                       viewBox="0 0 11 13"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -287,7 +287,7 @@ function NewReceived() {
                     </svg>
                   ) : (
                     <svg
-                      className="w-3 h-3"
+                      className="h-3 w-3"
                       viewBox="0 0 11 11"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -297,21 +297,21 @@ function NewReceived() {
                     </svg>
                   )}
                 </div>
-                <div className="flex flex-col mx-2.5 min-w-0 max-w-[150px]">
-                  <span className="text-sm truncate select-none">
+                <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
+                  <span className="select-none truncate text-sm">
                     {received[current].song?.title}
                   </span>
-                  <span className="text-xs text-gray-500 truncate select-none">
+                  <span className="select-none truncate text-xs text-gray-500">
                     {received[current].song?.artistInfo?.artist[0]?.text}
                   </span>
                 </div>
               </div>
-              <div className="text-xs select-none">
+              <div className="select-none text-xs">
                 {received[current].song?.length}
               </div>
             </div>
           )}
-          <button className="flex h-16 w-16 justify-center items-center bg-white hover:bg-gray-100 rounded-full shadow-sm shrink-0">
+          <button className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm hover:bg-gray-100">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

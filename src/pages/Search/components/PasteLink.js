@@ -17,14 +17,14 @@ function PasteLink({ next, onFoundReceiver }) {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <span className="gimmesong-primary-font text-gray-600 text-xl ">
+      <span className="gimmesong-primary-font text-xl text-gray-600 ">
         Paste receiver link here
       </span>
-      <div className="relative w-[250px] mt-4">
-        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+      <div className="relative mt-4 w-[250px]">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           <svg
             aria-hidden="true"
-            className="w-5 h-5 text-gray-500"
+            className="h-5 w-5 text-gray-500"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -42,13 +42,13 @@ function PasteLink({ next, onFoundReceiver }) {
           type="text"
           value={link}
           onChange={handleLinkChange}
-          className="block h-12 w-[250px] pl-10 pr-12 text-gray-900 bg-white rounded-full focus:outline-gray-500"
+          className="block h-12 w-[250px] rounded-full bg-white pl-10 pr-12 text-gray-900 focus:outline-gray-500"
           placeholder="link or @friendname"
           required
         />
-        <button className="text-white absolute flex right-2 bottom-2 top-2 hover:bg-gray-100 focus:outline-none font-medium rounded-full text-sm h-8 w-8 justify-center items-center">
+        <button className="absolute right-2 bottom-2 top-2 flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium text-white hover:bg-gray-100 focus:outline-none">
           <svg
-            className="text-gray-400 h-5 w-5"
+            className="h-5 w-5 text-gray-400"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
@@ -64,7 +64,7 @@ function PasteLink({ next, onFoundReceiver }) {
       </div>
       <button
         onClick={submit}
-        className="mt-5 h-12 w-[250px] gimmesong-primary-font bg-black hover:opacity-70 rounded-full text-white"
+        className="gimmesong-primary-font mt-5 h-12 w-[250px] rounded-full bg-black text-white hover:opacity-70"
       >
         NEXT
       </button>
