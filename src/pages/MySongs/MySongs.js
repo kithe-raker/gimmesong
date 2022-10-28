@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import NewReceived from "./components/NewReceived";
 import AllReceived from "./components/AllReceived";
 
 function MySongs() {
   const [currentPage, setCurrentPage] = useState("newReceived");
+  const [pageLayout, setPageLayout] = useState("single");
+
+  useEffect(() => {
+    if (currentPage === "newReceived") setPageLayout("single");
+    else if (currentPage === "allReceived") setPageLayout("multiple");
+  }, [currentPage]);
 
   let render = {
-    newReceived: <NewReceived />,
-    allReceived: <AllReceived />,
+    newReceived: <NewReceived layout={pageLayout} />,
+    allReceived: <AllReceived layout={pageLayout} />,
   };
 
   return (
@@ -35,7 +41,10 @@ function MySongs() {
         <div className="ml-4 inline-flex rounded-full" role="group">
           <button
             type="button"
-            className="rounded-l-full bg-white py-2 px-4 text-sm font-medium text-gray-500 hover:bg-gray-100 "
+            onClick={() => setPageLayout("single")}
+            className={`rounded-l-full ${
+              pageLayout === "single" ? "bg-gray-100" : "bg-white"
+            } py-2 px-4 text-sm font-medium text-gray-500 hover:bg-gray-100`}
           >
             <svg
               width="17"
@@ -62,7 +71,10 @@ function MySongs() {
           </button>
           <button
             type="button"
-            className="rounded-r-full bg-white py-2 px-4 text-sm font-medium text-gray-500 hover:bg-gray-100 "
+            onClick={() => setPageLayout("multiple")}
+            className={`rounded-r-full ${
+              pageLayout === "multiple" ? "bg-gray-100" : "bg-white"
+            } py-2 px-4 text-sm font-medium text-gray-500 hover:bg-gray-100`}
           >
             <svg
               width="22"
