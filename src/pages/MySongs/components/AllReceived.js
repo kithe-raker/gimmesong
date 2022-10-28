@@ -49,7 +49,7 @@ function AllReceived({ layout, onLayoutChange }) {
   };
 
   const goTo = (index) => {
-    slider.current.slickGoTo(index);
+    slider.current.slickGoTo(index, true);
   };
 
   const handleSwipe = () => {
