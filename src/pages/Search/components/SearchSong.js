@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function SearchSong({ next, onSongChange, receiver }) {
+function SearchSong({ next, onSelectSong, receiver }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -16,7 +16,7 @@ function SearchSong({ next, onSongChange, receiver }) {
   const submit = () => {
     // if (!selected) return;
     // implement api & validation logic here
-    onSongChange(null);
+    onSelectSong(null);
     next();
   };
 
@@ -63,7 +63,7 @@ function SearchSong({ next, onSongChange, receiver }) {
                   ? "bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0]"
                   : ""
               } ${
-                selected ? "text-white" : "text-gray-800 "
+                selected ? "text-white" : "text-gray-800"
               } mb-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 hover:bg-gray-100`}
             >
               <div className="flex items-center overflow-hidden">

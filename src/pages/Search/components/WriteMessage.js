@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-function Send({ next, onMessageChange, receiver, song }) {
+function WriteMessage({ next, onTypingMessage, receiver, song }) {
   const [message, setMessage] = useState("");
 
   const handleMessageChange = (val) => {
     setMessage(val);
-    onMessageChange(val);
+    onTypingMessage(val);
   };
 
   return (
@@ -43,10 +43,10 @@ function Send({ next, onMessageChange, receiver, song }) {
         onClick={next}
         className="gimmesong-primary-font mt-5 h-12 w-[250px] rounded-full bg-black text-white hover:opacity-70"
       >
-        SEND
+        WriteMessage
       </button>
     </div>
   );
 }
 
-export default Send;
+export default WriteMessage;

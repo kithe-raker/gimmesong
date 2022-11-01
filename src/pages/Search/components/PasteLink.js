@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function PasteLink({ next, onFoundReceiver }) {
+function PasteLink({ next, onSelectReceiver }) {
   const [link, setLink] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -11,7 +11,7 @@ function PasteLink({ next, onFoundReceiver }) {
 
   const submit = () => {
     // implement api & validation logic here
-    onFoundReceiver(null);
+    onSelectReceiver(null);
     next();
   };
 

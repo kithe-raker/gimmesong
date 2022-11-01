@@ -2,7 +2,7 @@ import { useState } from "react";
 import PasteLink from "./components/PasteLink.js";
 import Sent from "./components/Sent.js";
 import SearchSong from "./components/SearchSong.js";
-import Send from "./components/Send.js";
+import WriteMessage from "./components/WriteMessage.js";
 
 function Search() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -52,30 +52,31 @@ function Search() {
   /**
    * @dev discuss the function below, don't worry about variable that depends on previous step
    * because if user isn't complete their current step, they can't go to the next step.
+   * and variable call won't fire an error
    */
 
   let render;
   switch (currentStep) {
     case 1:
       render = (
-        <PasteLink onFoundReceiver={handleReceiverChange} next={nextStep} />
+        <PasteLink onSelectReceiver={handleReceiverChange} next={nextStep} />
       );
       break;
     case 2:
       render = (
         <SearchSong
           receiver={receiver}
-          onSongChange={handleSongChange}
+          onSelectSong={handleSongChange}
           next={nextStep}
         />
       );
       break;
     case 3:
       render = (
-        <Send
+        <WriteMessage
           receiver={receiver}
           song={song}
-          onMessageChange={handleMessageChange}
+          onTypingMessage={handleMessageChange}
           next={sendSong}
         />
       );
