@@ -22,7 +22,7 @@ function MySongs() {
   };
 
   return (
-    <div className="relative mx-auto flex min-h-screen max-w-md flex-col items-center overflow-y-auto py-6">
+    <div className="relative mx-auto flex max-h-screen max-w-md flex-col items-center overflow-y-auto py-6 pt-[60px]">
       <div className="my-5 w-full max-w-[300px] bg-gray-300 p-5">ADS</div>
       <div className="flex items-center">
         <h1
@@ -139,66 +139,66 @@ function MySongs() {
           </button>
         </div>
         {/* <button
-          type="button"
-          className="flex h-[42px] w-[42px] items-center justify-center rounded-full bg-white text-sm font-medium text-gray-500 hover:bg-gray-100"
-        >
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 22 22"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle
-              cx="5"
-              cy="5"
-              r="4.5"
-              stroke="rgb(156 163 175 / var(--tw-text-opacity))"
-            />
-            <circle
-              cx="5.00023"
-              cy="5.00023"
-              r="1.55882"
-              stroke="rgb(156 163 175 / var(--tw-text-opacity))"
-            />
-            <circle
-              cx="17"
-              cy="5"
-              r="4.5"
-              stroke="rgb(156 163 175 / var(--tw-text-opacity))"
-            />
-            <circle
-              cx="17.0002"
-              cy="5.00023"
-              r="1.55882"
-              stroke="rgb(156 163 175 / var(--tw-text-opacity))"
-            />
-            <circle
-              cx="5"
-              cy="17"
-              r="4.5"
-              stroke="rgb(156 163 175 / var(--tw-text-opacity))"
-            />
-            <circle
-              cx="5.00023"
-              cy="17.0002"
-              r="1.55882"
-              stroke="rgb(156 163 175 / var(--tw-text-opacity))"
-            />
-            <circle
-              cx="17"
-              cy="17"
-              r="4.5"
-              stroke="rgb(156 163 175 / var(--tw-text-opacity))"
-            />
-            <circle
-              cx="17.0002"
-              cy="17.0002"
-              r="1.55882"
-              stroke="rgb(156 163 175 / var(--tw-text-opacity))"
-            />
-          </svg>
-        </button> */}
+      type="button"
+      className="flex h-[42px] w-[42px] items-center justify-center rounded-full bg-white text-sm font-medium text-gray-500 hover:bg-gray-100"
+    >
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 22 22"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="5"
+          cy="5"
+          r="4.5"
+          stroke="rgb(156 163 175 / var(--tw-text-opacity))"
+        />
+        <circle
+          cx="5.00023"
+          cy="5.00023"
+          r="1.55882"
+          stroke="rgb(156 163 175 / var(--tw-text-opacity))"
+        />
+        <circle
+          cx="17"
+          cy="5"
+          r="4.5"
+          stroke="rgb(156 163 175 / var(--tw-text-opacity))"
+        />
+        <circle
+          cx="17.0002"
+          cy="5.00023"
+          r="1.55882"
+          stroke="rgb(156 163 175 / var(--tw-text-opacity))"
+        />
+        <circle
+          cx="5"
+          cy="17"
+          r="4.5"
+          stroke="rgb(156 163 175 / var(--tw-text-opacity))"
+        />
+        <circle
+          cx="5.00023"
+          cy="17.0002"
+          r="1.55882"
+          stroke="rgb(156 163 175 / var(--tw-text-opacity))"
+        />
+        <circle
+          cx="17"
+          cy="17"
+          r="4.5"
+          stroke="rgb(156 163 175 / var(--tw-text-opacity))"
+        />
+        <circle
+          cx="17.0002"
+          cy="17.0002"
+          r="1.55882"
+          stroke="rgb(156 163 175 / var(--tw-text-opacity))"
+        />
+      </svg>
+    </button> */}
       </div>
       {render[currentPage]}
     </div>

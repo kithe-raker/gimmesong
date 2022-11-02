@@ -5,6 +5,8 @@ import Search from "@pages/Search";
 import MySongs from "@pages/MySongs";
 import MyAccount from "@pages/MyAccount";
 
+import Header from "@components/Header";
+
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 
 function App() {
@@ -21,7 +23,10 @@ function App() {
 
   return (
     <>
-      <Router>{routes}</Router>
+      <Router>
+        <Header />
+        {routes}
+      </Router>
     </>
   );
 }
