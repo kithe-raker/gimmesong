@@ -426,7 +426,9 @@ function AllReceived({ layout, onLayoutChange }) {
                       </div>
                     </div>
                     <div className="select-none text-xs">
-                      {durationToStr(duration)}
+                      {duration > 0
+                        ? durationToStr(duration)
+                        : received[current].song?.length}
                     </div>
                   </div>
                 )}

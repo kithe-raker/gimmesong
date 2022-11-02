@@ -4,7 +4,7 @@ function useAudioPlayer() {
   const [duration, setDuration] = useState(0);
   const [curTime, setCurTime] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [clickedTime, setClickedTime] = useState();
+  const [clickedTime, setClickedTime] = useState(null);
 
   const audioRef = useRef(null);
 
