@@ -7,42 +7,19 @@ import "slick-carousel/slick/slick-theme.css";
 
 import EmptySong from "./EmptySong";
 
+import useAudioPlayer from "@hooks/useAudioPlayer";
+
 function NewReceived({ layout, onLayoutChange }) {
+  const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
+    useAudioPlayer();
+
   const [received, setReceived] = useState([]);
 
   const slider = useRef(null);
   const [current, setCurrent] = useState(null);
-  const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const handleSwipe = () => {
-    setPlaying(false);
-  };
-
-  const handleSelect = (index) => {
-    // when user click on music disc,
-    // set current to selected index
-    // and change layout to single
-    setCurrent(index);
-    onLayoutChange("single");
-  };
-
-  const handlePlay = (id) => {
-    // get videoplayback url here, then set url to item in received
-    // to reuse in next time
-    // then update played = true to database
-
-    let url = "";
-    let updated = received.map((item) =>
-      item.id === id ? { ...item, url: "", played: true } : item
-    );
-    setReceived(updated);
-    setPlaying(true);
-  };
-
-  const toggleAudio = () => {
-    setPlaying((prev) => !prev);
-  };
+  const [playbackURL, setPlaybackURL] = useState({});
 
   const settings = {
     className: "center",
@@ -56,10 +33,74 @@ function NewReceived({ layout, onLayoutChange }) {
     },
   };
 
+  const handleSelect = (index) => {
+    // when user click on music disc,
+    // set current to selected index
+    // and change layout to single
+    setCurrent(index);
+    onLayoutChange("single");
+  };
+
+  const getPlaybackURL = async (videoId) => {
+    // implement fetch videoplayback url here, then set to playbackURL object
+    // to reuse in next time
+    setPlaybackURL((prev) => {
+      return {
+        ...prev,
+        [videoId]:
+          videoId === "79ucr8WTBIY"
+            ? "https://download.samplelib.com/mp3/sample-12s.mp3"
+            : "https://download.samplelib.com/mp3/sample-15s.mp3",
+      };
+    });
+  };
+
+  const handlePlay = async (id) => {
+    // get videoplayback url here
+    const videoId = received[current]?.song?.videoId;
+    await getPlaybackURL(videoId);
+
+    // then update played = true to database
+    let updated = received.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            played: true,
+          }
+        : item
+    );
+    setReceived(updated);
+    // reload audio source when current.src is changed
+    reloadAudioSrc();
+    setPlaying(true);
+  };
+
+  const toggleAudio = async () => {
+    // when toggle to play played audio, we need to get playback url again to prevent error
+    // from play/pause empty source url
+
+    const videoId = received[current]?.song?.videoId;
+    await getPlaybackURL(videoId);
+
+    // after current.src is changed, need to reload src before use audio.play()
+    // and to prevent reload src on pausing we determine from current audio time not equal zero
+    if (curTime === 0) reloadAudioSrc();
+    setPlaying((prev) => !prev);
+  };
+
+  const handleSwipe = () => {
+    setPlaying(false);
+    reloadAudioSrc();
+  };
+
   const goTo = (index) => {
     // disable animate true
     slider.current.slickGoTo(index, true);
   };
+
+  useEffect(() => {
+    handleSwipe();
+  }, [current]);
 
   /**
    * @dev if switch layout from multiple to single
@@ -194,10 +235,6 @@ function NewReceived({ layout, onLayoutChange }) {
     setTimeout(() => setLoading(false), 500);
   }, []);
 
-  useEffect(() => {
-    handleSwipe();
-  }, [current]);
-
   return (
     <>
       <div className={`relative mt-6 ${layout === "single" ? "w-full" : ""}`}>
@@ -274,7 +311,6 @@ function NewReceived({ layout, onLayoutChange }) {
                   current !== null ? "pb-[88px]" : ""
                 }`}
               >
-                {" "}
                 {received.map((item, i) => (
                   <div
                     onClick={() => handleSelect(i)}
@@ -319,6 +355,13 @@ function NewReceived({ layout, onLayoutChange }) {
             )}
             {current !== null && (
               <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
+                <audio ref={audioRef}>
+                  <source src={playbackURL[received[current]?.song?.videoId]} />
+                  Your browser does not support the <code>audio</code> element.
+                </audio>
+                {/* <Audio
+                  src={`https://download.samplelib.com/mp3/sample-15s.mp3`}
+                /> */}
                 {!received[current].played ? (
                   <button
                     onClick={() => handlePlay(received[current]?.id)}
@@ -347,7 +390,7 @@ function NewReceived({ layout, onLayoutChange }) {
                     className="mr-4 flex h-16 w-[250px] cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 hover:bg-gray-100"
                   >
                     <div className="flex items-center overflow-hidden">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black">
+                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-black">
                         {!playing ? (
                           <svg
                             className="h-4 w-4"
@@ -404,7 +447,9 @@ function NewReceived({ layout, onLayoutChange }) {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5" />
+                    <g fill="none" fillRule="evenodd">
+                      <path d="M18 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8c0-1.1.9-2 2-2h5M15 3h6v6M10 14L20.2 3.8" />
+                    </g>
                   </svg>
                 </button>
               </div>

@@ -6,13 +6,19 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import useAudioPlayer from "@hooks/useAudioPlayer";
+
 function AllReceived({ layout, onLayoutChange }) {
+  const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
+    useAudioPlayer();
+
   const [received, setReceived] = useState([]);
 
   const slider = useRef(null);
   const [current, setCurrent] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [playing, setPlaying] = useState(false);
+
+  const [playbackURL, setPlaybackURL] = useState({});
 
   const settings = {
     className: "center",
@@ -34,30 +40,61 @@ function AllReceived({ layout, onLayoutChange }) {
     onLayoutChange("single");
   };
 
-  const handlePlay = (id) => {
-    // get videoplayback url here, then set url to item in received
+  const getPlaybackURL = async (videoId) => {
+    // implement fetch videoplayback url here, then set to playbackURL object
     // to reuse in next time
-    // then update played = true to database
+    setPlaybackURL((prev) => {
+      return {
+        ...prev,
+        [videoId]:
+          videoId === "79ucr8WTBIY"
+            ? "https://download.samplelib.com/mp3/sample-12s.mp3"
+            : "https://download.samplelib.com/mp3/sample-15s.mp3",
+      };
+    });
+  };
 
-    let url = "";
+  const handlePlay = async (id) => {
+    // get videoplayback url here
+    const videoId = received[current]?.song?.videoId;
+    await getPlaybackURL(videoId);
+
+    // then update played = true to database
     let updated = received.map((item) =>
-      item.id === id ? { ...item, url: "", played: true } : item
+      item.id === id
+        ? {
+            ...item,
+            played: true,
+          }
+        : item
     );
     setReceived(updated);
+    // reload audio source when current.src is changed
+    reloadAudioSrc();
     setPlaying(true);
   };
 
-  const toggleAudio = () => {
+  const toggleAudio = async () => {
+    // when toggle to play played audio, we need to get playback url again to prevent error
+    // from play/pause empty source url
+
+    const videoId = received[current]?.song?.videoId;
+    await getPlaybackURL(videoId);
+
+    // after current.src is changed, need to reload src before use audio.play()
+    // and to prevent reload src on pausing we determine from current audio time not equal zero
+    if (curTime === 0) reloadAudioSrc();
     setPlaying((prev) => !prev);
+  };
+
+  const handleSwipe = () => {
+    setPlaying(false);
+    reloadAudioSrc();
   };
 
   const goTo = (index) => {
     // disable animate true
     slider.current.slickGoTo(index, true);
-  };
-
-  const handleSwipe = () => {
-    setPlaying(false);
   };
 
   useEffect(() => {
@@ -171,168 +208,6 @@ function AllReceived({ layout, onLayoutChange }) {
               url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w544-h544-l90-rj",
               width: 544,
               height: 544,
-            },
-          ],
-          length: "4:32",
-          artistInfo: {
-            artist: [
-              {
-                text: "Indigo",
-                browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
-                pageType: "MUSIC_PAGE_TYPE_ARTIST",
-              },
-            ],
-          },
-        },
-        message: "halo fren 2",
-        played: true,
-      },
-      {
-        id: 3,
-        receiver: "@friend",
-        song: {
-          videoId: "6-IotY7xluM",
-          title: "Zen Bang Bang",
-          thumbnails: [
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
-              width: 60,
-              height: 60,
-            },
-          ],
-          length: "4:32",
-          artistInfo: {
-            artist: [
-              {
-                text: "Indigo",
-                browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
-                pageType: "MUSIC_PAGE_TYPE_ARTIST",
-              },
-            ],
-          },
-        },
-        message: "halo fren 2",
-        played: true,
-      },
-      {
-        id: 4,
-        receiver: "@friend",
-        song: {
-          videoId: "6-IotY7xluM",
-          title: "Zen Bang Bang",
-          thumbnails: [
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
-              width: 60,
-              height: 60,
-            },
-          ],
-          length: "4:32",
-          artistInfo: {
-            artist: [
-              {
-                text: "Indigo",
-                browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
-                pageType: "MUSIC_PAGE_TYPE_ARTIST",
-              },
-            ],
-          },
-        },
-        message: "halo fren 2",
-        played: true,
-      },
-      {
-        id: 5,
-        receiver: "@friend",
-        song: {
-          videoId: "6-IotY7xluM",
-          title: "Zen Bang Bang",
-          thumbnails: [
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
-              width: 60,
-              height: 60,
-            },
-          ],
-          length: "4:32",
-          artistInfo: {
-            artist: [
-              {
-                text: "Indigo",
-                browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
-                pageType: "MUSIC_PAGE_TYPE_ARTIST",
-              },
-            ],
-          },
-        },
-        message: "halo fren 2",
-        played: true,
-      },
-      {
-        id: 6,
-        receiver: "@friend",
-        song: {
-          videoId: "6-IotY7xluM",
-          title: "Zen Bang Bang",
-          thumbnails: [
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
-              width: 60,
-              height: 60,
-            },
-          ],
-          length: "4:32",
-          artistInfo: {
-            artist: [
-              {
-                text: "Indigo",
-                browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
-                pageType: "MUSIC_PAGE_TYPE_ARTIST",
-              },
-            ],
-          },
-        },
-        message: "halo fren 2",
-        played: true,
-      },
-      {
-        id: 7,
-        receiver: "@friend",
-        song: {
-          videoId: "6-IotY7xluM",
-          title: "Zen Bang Bang",
-          thumbnails: [
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
-              width: 60,
-              height: 60,
-            },
-          ],
-          length: "4:32",
-          artistInfo: {
-            artist: [
-              {
-                text: "Indigo",
-                browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
-                pageType: "MUSIC_PAGE_TYPE_ARTIST",
-              },
-            ],
-          },
-        },
-        message: "halo fren 2",
-        played: true,
-      },
-      {
-        id: 8,
-        receiver: "@friend",
-        song: {
-          videoId: "6-IotY7xluM",
-          title: "Zen Bang Bang",
-          thumbnails: [
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
-              width: 60,
-              height: 60,
             },
           ],
           length: "4:32",
@@ -476,6 +351,10 @@ function AllReceived({ layout, onLayoutChange }) {
             )}
             {current !== null && (
               <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
+                <audio ref={audioRef}>
+                  <source src={playbackURL[received[current]?.song?.videoId]} />
+                  Your browser does not support the <code>audio</code> element.
+                </audio>
                 {!received[current].played ? (
                   <button
                     onClick={() => handlePlay(received[current]?.id)}
