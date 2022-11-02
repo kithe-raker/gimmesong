@@ -248,7 +248,7 @@ function NewReceived({ layout, onLayoutChange }) {
               <>
                 <div
                   className={`max-h-[calc(100vh-24px-104px-42px-24px-24px)] overflow-hidden overflow-y-auto ${
-                    current !== null ? "pb-[88px]" : ""
+                    current !== null ? "pb-[120px]" : ""
                   }`}
                 >
                   <Slider ref={slider} {...settings}>
