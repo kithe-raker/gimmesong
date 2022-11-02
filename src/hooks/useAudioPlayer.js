@@ -30,6 +30,7 @@ function useAudioPlayer() {
 
     // state setters wrappers
     const setAudioData = () => {
+      console.log(audio.duration);
       setDuration(audio.duration);
       setCurTime(audio.currentTime);
     };

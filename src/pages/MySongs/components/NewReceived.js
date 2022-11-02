@@ -9,6 +9,8 @@ import EmptySong from "./EmptySong";
 
 import useAudioPlayer from "@hooks/useAudioPlayer";
 
+import { durationToStr } from "@utils/audio";
+
 function NewReceived({ layout, onLayoutChange }) {
   const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
     useAudioPlayer();
@@ -431,7 +433,7 @@ function NewReceived({ layout, onLayoutChange }) {
                       </div>
                     </div>
                     <div className="select-none text-xs">
-                      {received[current].song?.length}
+                      {durationToStr(duration)}
                     </div>
                   </div>
                 )}

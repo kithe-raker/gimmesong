@@ -8,6 +8,8 @@ import "slick-carousel/slick/slick-theme.css";
 
 import useAudioPlayer from "@hooks/useAudioPlayer";
 
+import { durationToStr } from "@utils/audio";
+
 function AllReceived({ layout, onLayoutChange }) {
   const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
     useAudioPlayer();
@@ -424,7 +426,7 @@ function AllReceived({ layout, onLayoutChange }) {
                       </div>
                     </div>
                     <div className="select-none text-xs">
-                      {received[current].song?.length}
+                      {durationToStr(duration)}
                     </div>
                   </div>
                 )}
