@@ -27,6 +27,9 @@ function AllReceived({ layout, onLayoutChange }) {
   };
 
   const handleSelect = (index) => {
+    // when user click on music disc,
+    // set current to selected index
+    // and change layout to single
     setCurrent(index);
     onLayoutChange("single");
   };
@@ -68,7 +71,7 @@ function AllReceived({ layout, onLayoutChange }) {
    */
   useEffect(() => {
     if (layout === "single") {
-      if (received.length > 0) {
+      if (received.length > 0 && slider.current) {
         // by default in multiple layout current is null until user click select song
         if (current === null) setCurrent(0);
         // use setTimeout to prevent element ref is null
@@ -558,7 +561,9 @@ function AllReceived({ layout, onLayoutChange }) {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5" />
+                    <g fill="none" fillRule="evenodd">
+                      <path d="M18 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8c0-1.1.9-2 2-2h5M15 3h6v6M10 14L20.2 3.8" />
+                    </g>
                   </svg>
                 </button>
               </div>

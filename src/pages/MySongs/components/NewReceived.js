@@ -20,6 +20,9 @@ function NewReceived({ layout, onLayoutChange }) {
   };
 
   const handleSelect = (index) => {
+    // when user click on music disc,
+    // set current to selected index
+    // and change layout to single
     setCurrent(index);
     onLayoutChange("single");
   };
@@ -65,7 +68,7 @@ function NewReceived({ layout, onLayoutChange }) {
    */
   useEffect(() => {
     if (layout === "single") {
-      if (received.length > 0) {
+      if (received.length > 0 && slider.current) {
         // use setTimeout to prevent element ref is null
         setTimeout(() => goTo(current), 100);
       }
