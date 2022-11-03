@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import firebase from "@lib/firebase";
+
 import Home from "@pages/Home";
 import SignUp from "@pages/SignUp";
 import Menu from "@pages/Menu";
@@ -10,6 +13,18 @@ import Header from "@components/Header";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      setUser(user);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   let routes = (
     <Routes>
       <Route path="/" element={<Home />} />

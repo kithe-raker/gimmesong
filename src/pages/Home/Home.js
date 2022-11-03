@@ -1,6 +1,8 @@
 import React from "react";
 import disc from "@assets/img/gimmesong_logo.png";
 
+import { signInWithGoogle } from "@lib/firebase";
+
 function Home() {
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
@@ -13,7 +15,10 @@ function Home() {
         Give a song anonymous to <br />
         someone you&apos;re hiding.
       </span>
-      <button className="mt-12 flex h-12 w-[250px] items-center justify-center rounded-full bg-black font-bold text-white transition duration-150 ease-in-out hover:bg-gray-600">
+      <button
+        onClick={signInWithGoogle}
+        className="mt-12 flex h-12 w-[250px] items-center justify-center rounded-full bg-black font-bold text-white transition duration-150 ease-in-out hover:bg-gray-600"
+      >
         <svg
           className="mr-3 h-4 w-4 fill-current"
           viewBox="0 0 24 24"
