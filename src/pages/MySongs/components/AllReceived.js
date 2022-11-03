@@ -123,7 +123,7 @@ function AllReceived({ layout, onLayoutChange }) {
     let results = [
       {
         id: 1,
-        receiver: "@friend",
+        receiver: "friend",
         song: {
           videoId: "79ucr8WTBIY",
           title: "โต๊ะริม (Melt)",
@@ -176,7 +176,7 @@ function AllReceived({ layout, onLayoutChange }) {
       },
       {
         id: 2,
-        receiver: "@friend",
+        receiver: "friend",
         song: {
           videoId: "6-IotY7xluM",
           title: "Zen Bang Bang",

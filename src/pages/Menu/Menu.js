@@ -4,7 +4,7 @@ import menu2 from "@assets/img/menu2.svg";
 
 function Menu() {
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6">
+    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
       <h1 className="gimmesong-primary-font mt-2 mb-2 text-5xl">GIMMESONG</h1>
       <span className="gimmesong-primary-font">
         Songs have been given 123,568 times.
@@ -30,7 +30,7 @@ function Menu() {
       <div className="relative mt-7 h-64 w-64">
         <img className="w-fit" src={menu2} alt="give a song" />
         <div className="absolute top-3 right-3 flex items-center">
-          <span className="gimmesong-primary-font text-white">my songs</span>
+          <span className="gimmesong-primary-font text-white">send song</span>
           <svg
             className="h-4 w-4"
             xmlns="http://www.w3.org/2000/svg"

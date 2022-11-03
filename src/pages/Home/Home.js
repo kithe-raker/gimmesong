@@ -3,17 +3,17 @@ import disc from "@assets/img/gimmesong_logo.png";
 
 function Home() {
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6">
+    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
       <span className="gimmesong-primary-font">
         Songs have been given 123,568 times.
       </span>
-      <img className="mt-6 w-72" src={disc} alt="disc" />
+      <img className="mt-6 w-60" src={disc} alt="disc" />
       <h1 className="gimmesong-primary-font mt-6 text-5xl">GIMMESONG</h1>
       <span className="gimmesong-primary-font mt-3 text-center text-lg leading-6 text-gray-400">
         Give a song anonymous to <br />
         someone you&apos;re hiding.
       </span>
-      <button className="mt-12 flex h-12 w-[250px] items-center justify-center rounded-full bg-black font-bold text-white hover:opacity-70">
+      <button className="mt-12 flex h-12 w-[250px] items-center justify-center rounded-full bg-black font-bold text-white transition duration-150 ease-in-out hover:bg-gray-600">
         <svg
           className="mr-3 h-4 w-4 fill-current"
           viewBox="0 0 24 24"

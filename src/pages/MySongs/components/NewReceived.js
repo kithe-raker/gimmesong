@@ -122,7 +122,7 @@ function NewReceived({ layout, onLayoutChange }) {
     let results = [
       {
         id: 1,
-        receiver: "@friend",
+        receiver: "friend",
         song: {
           videoId: "79ucr8WTBIY",
           title: "โต๊ะริม (Melt)",
@@ -131,31 +131,6 @@ function NewReceived({ layout, onLayoutChange }) {
               url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w60-h60-l90-rj",
               width: 60,
               height: 60,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w120-h120-l90-rj",
-              width: 120,
-              height: 120,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w180-h180-l90-rj",
-              width: 180,
-              height: 180,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w226-h226-l90-rj",
-              width: 226,
-              height: 226,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w302-h302-l90-rj",
-              width: 302,
-              height: 302,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w544-h544-l90-rj",
-              width: 544,
-              height: 544,
             },
           ],
           length: "4:08",
@@ -174,7 +149,7 @@ function NewReceived({ layout, onLayoutChange }) {
       },
       {
         id: 2,
-        receiver: "@friend",
+        receiver: "friend",
         song: {
           videoId: "6-IotY7xluM",
           title: "Zen Bang Bang",
@@ -183,31 +158,6 @@ function NewReceived({ layout, onLayoutChange }) {
               url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
               width: 60,
               height: 60,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w120-h120-l90-rj",
-              width: 120,
-              height: 120,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w180-h180-l90-rj",
-              width: 180,
-              height: 180,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w226-h226-l90-rj",
-              width: 226,
-              height: 226,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w302-h302-l90-rj",
-              width: 302,
-              height: 302,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w544-h544-l90-rj",
-              width: 544,
-              height: 544,
             },
           ],
           length: "4:32",

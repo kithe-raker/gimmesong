@@ -1,18 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 function PasteLink({ next, onSelectReceiver }) {
   const [link, setLink] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLinkChange = (e) => {
-    let val = e.target.value;
+  const handleLinkChange = (val) => {
     setLink(val);
   };
 
   const submit = () => {
+    if (!link) {
+      toast("Receiver can not be empty", {
+        style: {
+          borderRadius: "25px",
+          background: "#FF6464",
+          color: "#fff",
+        },
+      });
+      return;
+    }
     // implement api & validation logic here
-    onSelectReceiver(null);
-    next();
+    setLoading(true);
+    try {
+      // mockup promise
+      setTimeout(() => {
+        // implement search api here
+        // this just a mock up
+        // if user not empty, go to next step
+        let user = link.length >= 3 ? "kithe" : "";
+        if (user) {
+          onSelectReceiver(user);
+          next();
+        } else {
+          toast("Not found receiver", {
+            style: {
+              borderRadius: "25px",
+              background: "#FF6464",
+              color: "#fff",
+            },
+          });
+        }
+        setLoading(false);
+      }, 1000);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -41,9 +74,10 @@ function PasteLink({ next, onSelectReceiver }) {
         <input
           type="text"
           value={link}
-          onChange={handleLinkChange}
+          disabled={loading}
+          onChange={(e) => handleLinkChange(e.target.value)}
           className="block h-12 w-[250px] rounded-full bg-white pl-10 pr-12 text-gray-900 focus:outline-gray-500"
-          placeholder="link or @friendname"
+          placeholder="link or friendname"
           required
         />
         <button className="absolute right-2 bottom-2 top-2 flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium text-white hover:bg-gray-100 focus:outline-none">
@@ -63,11 +97,35 @@ function PasteLink({ next, onSelectReceiver }) {
         </button>
       </div>
       <button
+        disabled={loading}
         onClick={submit}
-        className="gimmesong-primary-font mt-5 h-12 w-[250px] rounded-full bg-black text-white hover:opacity-70"
+        className="gimmesong-primary-font mt-5 inline-flex h-12 w-[250px] items-center justify-center rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-500"
       >
+        {loading && (
+          <svg
+            className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        )}
         NEXT
       </button>
+      <Toaster />
     </div>
   );
 }

@@ -1,11 +1,63 @@
+import { useState, useMemo, useRef } from "react";
+import toast, { Toaster } from "react-hot-toast";
+
 function SignUp() {
+  const [username, setUsername] = useState("");
+  const [available, setAvailable] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const searchDelay = useRef(null);
+
+  const handleUsernameChange = (val) => {
+    setUsername(val);
+
+    if (!val.length >= 2) return;
+    setLoading(true);
+    setError(false);
+
+    clearTimeout(searchDelay.current);
+    searchDelay.current = setTimeout(async () => {
+      try {
+        // mockup promise
+        let user = val === "kithe";
+        if (!user) {
+          setAvailable(true);
+        } else {
+          setError(true);
+          setAvailable(false);
+        }
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+      }
+    }, 500);
+  };
+
+  const isValid = useMemo(
+    () => /^[a-z0-9_\.][a-z0-9_\.]{1,31}$/.test(username),
+    [username]
+  );
+
+  const submit = () => {
+    if (!username) {
+      toast("Please fill out your username", {
+        style: {
+          borderRadius: "25px",
+          background: "#FF6464",
+          color: "#fff",
+        },
+      });
+    }
+  };
+
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6">
+    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
       <div className="flex flex-col items-center justify-center">
         <span className="gimmesong-primary-font text-xl text-gray-600 ">
           Lorem Lorem Lorem Lorem
         </span>
-        <div className="relative mt-4 w-[250px]">
+        <div className="relative mt-4 mb-2.5 w-[250px]">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <svg
               className="h-5 w-5 text-gray-500"
@@ -22,42 +74,84 @@ function SignUp() {
             </svg>
           </div>
           <input
+            value={username}
+            onChange={(e) => handleUsernameChange(e.target.value)}
             type="text"
-            className="block h-12 w-[250px] w-full rounded-full bg-white pl-10 pr-12 text-gray-900 focus:outline-gray-500"
+            className="block h-12 w-[250px] rounded-full bg-white pl-10 pr-12 text-gray-900 focus:outline-gray-500"
             placeholder="yourname"
             required
           />
           <div className="absolute right-2 bottom-2 top-2 flex h-8 w-8 items-center justify-center text-sm font-medium text-white">
-            {/* <svg
-            className="text-gray-400 h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#000000"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg> */}
-            <svg
-              className="h-5 w-5 text-gray-400"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+            {username && (
+              <>
+                {loading ? (
+                  <svg
+                    className="h-5 w-5 animate-spin text-gray-300"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                ) : isValid && available ? (
+                  <svg
+                    className="h-5 w-5 text-[#82CD47]"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                ) : (
+                  <svg
+                    className="h-5 w-5 text-[#FF6464]"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                )}
+              </>
+            )}
           </div>
         </div>
-        <button className="gimmesong-primary-font mt-5 h-12 w-[250px] rounded-full bg-black text-white hover:opacity-70">
+
+        <span className="px-4 text-center text-sm leading-4 text-red-500">
+          {username.length > 0 &&
+            !isValid &&
+            "Username must be at least 2 characters (allow a-z, 0-9, _, .)"}
+          {error && !available && "Username already taken"}
+        </span>
+
+        <button
+          onClick={submit}
+          className="gimmesong-primary-font mt-2.5 h-12 w-[250px] rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600"
+        >
           ENTER
         </button>
+        <Toaster />
       </div>
     </div>
   );
