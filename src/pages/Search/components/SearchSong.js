@@ -4,6 +4,8 @@ import useAudioPlayer from "@hooks/useAudioPlayer";
 import toast, { Toaster } from "react-hot-toast";
 import { durationToStr } from "@utils/audio";
 
+import Music from "@lib/music";
+
 function SearchSong({ next, onSelectSong, receiver }) {
   const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
     useAudioPlayer();
@@ -22,93 +24,96 @@ function SearchSong({ next, onSelectSong, receiver }) {
     if (val.length >= 2) {
       clearTimeout(searchDelay.current);
       searchDelay.current = setTimeout(async () => {
-        let data = [
-          {
-            videoId: "79ucr8WTBIY",
-            title: "โต๊ะริม (Melt)",
-            thumbnails: [
-              {
-                url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w60-h60-l90-rj",
-                width: 60,
-                height: 60,
-              },
-            ],
-            length: "4:08",
-            artistInfo: {
-              artist: [
-                {
-                  text: "NONT TANONT",
-                  browseId: "UC0qrQfKKZnoP03_8s-2n8-g",
-                  pageType: "MUSIC_PAGE_TYPE_ARTIST",
-                },
-              ],
-            },
-          },
-          {
-            videoId: "6-IotY7xluM",
-            title: "Zen Bang Bang",
-            thumbnails: [
-              {
-                url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
-                width: 60,
-                height: 60,
-              },
-            ],
-            length: "4:32",
-            artistInfo: {
-              artist: [
-                {
-                  text: "Indigo",
-                  browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
-                  pageType: "MUSIC_PAGE_TYPE_ARTIST",
-                },
-              ],
-            },
-          },
-          {
-            videoId: "yUZkzYm2d1s",
-            title: "ลาก่อน",
-            thumbnails: [
-              {
-                url: "https://lh3.googleusercontent.com/Ii9HHgmF5Qj7eZp11U_-pdW8bu3EdbEmktooEbOnoI-GVgBCodDDD44ThLugs2F77vknkBrWsfb52M8LDA=w60-h60-l90-rj",
-                width: 60,
-                height: 60,
-              },
-            ],
-            length: "3:09",
-            artistInfo: {
-              artist: [
-                {
-                  text: "YourMOOD",
-                  browseId: "UCFB_-OvPyFi7bPEjUMhSEZg",
-                  pageType: "MUSIC_PAGE_TYPE_ARTIST",
-                },
-              ],
-            },
-          },
-          {
-            videoId: "s8QzkOulL5w",
-            title: "พิจารณา",
-            thumbnails: [
-              {
-                url: "https://lh3.googleusercontent.com/tqN7LrQHQpvwq23XdmETy33awCYTsgXLPzrMpToRIA_i9K1Bx5XdmXCpeizkUrlhSDpDDhv9fLL9vWTh=w60-h60-l90-rj",
-                width: 60,
-                height: 60,
-              },
-            ],
-            length: "4:07",
-            artistInfo: {
-              artist: [
-                {
-                  text: "Musketeers",
-                  browseId: "UCt5x66zBgxyNcVU8R46kItA",
-                  pageType: "MUSIC_PAGE_TYPE_ARTIST",
-                },
-              ],
-            },
-          },
-        ];
-        setResults(data);
+        // let data = [
+        //   {
+        //     videoId: "79ucr8WTBIY",
+        //     title: "โต๊ะริม (Melt)",
+        //     thumbnails: [
+        //       {
+        //         url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w60-h60-l90-rj",
+        //         width: 60,
+        //         height: 60,
+        //       },
+        //     ],
+        //     length: "4:08",
+        //     artistInfo: {
+        //       artist: [
+        //         {
+        //           text: "NONT TANONT",
+        //           browseId: "UC0qrQfKKZnoP03_8s-2n8-g",
+        //           pageType: "MUSIC_PAGE_TYPE_ARTIST",
+        //         },
+        //       ],
+        //     },
+        //   },
+        //   {
+        //     videoId: "6-IotY7xluM",
+        //     title: "Zen Bang Bang",
+        //     thumbnails: [
+        //       {
+        //         url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
+        //         width: 60,
+        //         height: 60,
+        //       },
+        //     ],
+        //     length: "4:32",
+        //     artistInfo: {
+        //       artist: [
+        //         {
+        //           text: "Indigo",
+        //           browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
+        //           pageType: "MUSIC_PAGE_TYPE_ARTIST",
+        //         },
+        //       ],
+        //     },
+        //   },
+        //   {
+        //     videoId: "yUZkzYm2d1s",
+        //     title: "ลาก่อน",
+        //     thumbnails: [
+        //       {
+        //         url: "https://lh3.googleusercontent.com/Ii9HHgmF5Qj7eZp11U_-pdW8bu3EdbEmktooEbOnoI-GVgBCodDDD44ThLugs2F77vknkBrWsfb52M8LDA=w60-h60-l90-rj",
+        //         width: 60,
+        //         height: 60,
+        //       },
+        //     ],
+        //     length: "3:09",
+        //     artistInfo: {
+        //       artist: [
+        //         {
+        //           text: "YourMOOD",
+        //           browseId: "UCFB_-OvPyFi7bPEjUMhSEZg",
+        //           pageType: "MUSIC_PAGE_TYPE_ARTIST",
+        //         },
+        //       ],
+        //     },
+        //   },
+        //   {
+        //     videoId: "s8QzkOulL5w",
+        //     title: "พิจารณา",
+        //     thumbnails: [
+        //       {
+        //         url: "https://lh3.googleusercontent.com/tqN7LrQHQpvwq23XdmETy33awCYTsgXLPzrMpToRIA_i9K1Bx5XdmXCpeizkUrlhSDpDDhv9fLL9vWTh=w60-h60-l90-rj",
+        //         width: 60,
+        //         height: 60,
+        //       },
+        //     ],
+        //     length: "4:07",
+        //     artistInfo: {
+        //       artist: [
+        //         {
+        //           text: "Musketeers",
+        //           browseId: "UCt5x66zBgxyNcVU8R46kItA",
+        //           pageType: "MUSIC_PAGE_TYPE_ARTIST",
+        //         },
+        //       ],
+        //     },
+        //   },
+        // ];
+        let results = await Music.search({
+          text: val,
+        });
+        setResults(results);
       }, 600);
     }
   };
@@ -158,6 +163,10 @@ function SearchSong({ next, onSelectSong, receiver }) {
     }
     onSelectSong(selected);
     next();
+  };
+
+  const handleImgError = (e) => {
+    e.currentTarget.src = "";
   };
 
   return (
@@ -217,6 +226,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
                     className="h-10 w-10 shrink-0 select-none rounded-full object-contain"
                     src={song.thumbnails[0]?.url}
                     alt="thumbnail"
+                    onError={handleImgError}
                   />
                   <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
                     <span className={`truncate text-sm`}>{song.title}</span>
@@ -237,7 +247,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
         {selected && (
           <div
             onClick={() => toggleAudio()}
-            className="mt-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 shadow-sm hover:bg-gray-100"
+            className="mt-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-gray-100 p-3 pr-4 shadow-sm transition duration-150 ease-in-out hover:bg-gray-200"
           >
             <div className="flex items-center overflow-hidden">
               <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-black">
@@ -291,7 +301,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
       </div>
       <button
         onClick={submit}
-        className="gimmesong-primary-font h-12 w-[250px] rounded-full bg-black text-white hover:opacity-70"
+        className="gimmesong-primary-font h-12 w-[250px] rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600"
       >
         NEXT
       </button>

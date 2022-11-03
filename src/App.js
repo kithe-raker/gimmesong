@@ -13,10 +13,12 @@ import Header from "@components/Header";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import ProtectedRoute from "@components/ProtectedRoute";
 
-import useAuth from "@store/auth";
+// import useAuth from "@store/auth";
+import { useLocalStorage } from "@hooks/useLocalStorage";
 
 function App() {
-  const { user, setUser } = useAuth();
+  // const { user, setUser } = useAuth();
+  const [user, setUser] = useLocalStorage("user", null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -25,7 +27,7 @@ function App() {
       // implement get user info here and set only required properties to user object
       const { uid } = data;
 
-      setUser({ uid, username: "" });
+      setUser({ uid, username: "taritinth" });
       setLoading(false);
     });
   }, []);

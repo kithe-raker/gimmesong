@@ -1,7 +1,15 @@
 import React from "react";
 import bg from "@assets/img/gimmesong_gradient_bg.png";
 
+import { useCopyToClipboard } from "usehooks-ts";
+import useAuth from "@store/auth";
+import { useLocalStorage } from "@hooks/useLocalStorage";
+
 function GetLink() {
+  // const { user } = useAuth();
+  const [user, setUser] = useLocalStorage("user", null);
+  const [value, copy] = useCopyToClipboard();
+
   return (
     <div className="relative flex h-48 w-72 items-center justify-center overflow-hidden rounded-3xl">
       <img
@@ -31,10 +39,13 @@ function GetLink() {
           </div>
           <div className="flex h-12 w-full items-center overflow-hidden rounded-full bg-white pl-12 pr-10 text-gray-800">
             <span className="gimmesong-primary-font overflow-x-scroll whitespace-nowrap text-lg">
-              https://gimmesong.link/friendddddddd
+              https://gimmesong.link/{user.username}
             </span>
           </div>
-          <button className="absolute right-2 bottom-2 top-2 flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium text-white hover:bg-gray-100 focus:outline-none">
+          <button
+            onClick={() => copy(`https://gimmesong.link/${user.username}`)}
+            className="absolute right-2 bottom-2 top-2 flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium text-white hover:bg-gray-100 focus:outline-none"
+          >
             <svg
               className="h-5 w-5 text-gray-400"
               xmlns="http://www.w3.org/2000/svg"

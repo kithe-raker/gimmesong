@@ -48,6 +48,10 @@ function PasteLink({ next, onSelectReceiver }) {
     }
   };
 
+  const paste = () => {
+    navigator.clipboard.readText().then((clipText) => setLink(clipText));
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <span className="gimmesong-primary-font text-xl text-gray-600 ">
@@ -80,7 +84,10 @@ function PasteLink({ next, onSelectReceiver }) {
           placeholder="link or friendname"
           required
         />
-        <button className="absolute right-2 bottom-2 top-2 flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium text-white hover:bg-gray-100 focus:outline-none">
+        <button
+          onClick={paste}
+          className="absolute right-2 bottom-2 top-2 flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium text-white hover:bg-gray-100 focus:outline-none"
+        >
           <svg
             className="h-5 w-5 text-gray-400"
             xmlns="http://www.w3.org/2000/svg"
