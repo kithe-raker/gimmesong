@@ -5,7 +5,7 @@ import SearchSong from "./components/SearchSong.js";
 import WriteMessage from "./components/WriteMessage.js";
 
 function Search() {
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(1);
   const [receiver, setReceiver] = useState(null);
   const [song, setSong] = useState(null);
   const [message, setMessage] = useState("");
