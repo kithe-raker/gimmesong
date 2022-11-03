@@ -11,13 +11,22 @@ import MyAccount from "@pages/MyAccount";
 import Header from "@components/Header";
 
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import ProtectedRoute from "@components/ProtectedRoute";
+
+import useAuth from "@store/auth";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const { user, setUser } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      setUser(user);
+    setLoading(true);
+    firebase.auth().onAuthStateChanged((data) => {
+      // implement get user info here and set only required properties to user object
+      const { uid } = data;
+
+      setUser({ uid, username: "" });
+      setLoading(false);
     });
   }, []);
 
@@ -27,12 +36,47 @@ function App() {
 
   let routes = (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/menu" element={<Menu />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute isAllowed={!user} redirectPath="/signup">
+            <Home />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          <ProtectedRoute isAllowed={!user?.username} redirectPath="/menu">
+            <SignUp />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/menu"
+        element={
+          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
+            <Menu />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/search" element={<Search />} />
-      <Route path="/mysongs" element={<MySongs />} />
-      <Route path="/myaccount" element={<MyAccount />} />
+      <Route
+        path="/mysongs"
+        element={
+          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
+            <MySongs />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/myaccount"
+        element={
+          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
+            <MyAccount />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 
