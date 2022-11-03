@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 import useAudioPlayer from "@hooks/useAudioPlayer";
 import toast, { Toaster } from "react-hot-toast";
+import { durationToStr } from "@utils/audio";
 
 function SearchSong({ next, onSelectSong, receiver }) {
   const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
@@ -64,6 +65,48 @@ function SearchSong({ next, onSelectSong, receiver }) {
               ],
             },
           },
+          {
+            videoId: "yUZkzYm2d1s",
+            title: "ลาก่อน",
+            thumbnails: [
+              {
+                url: "https://lh3.googleusercontent.com/Ii9HHgmF5Qj7eZp11U_-pdW8bu3EdbEmktooEbOnoI-GVgBCodDDD44ThLugs2F77vknkBrWsfb52M8LDA=w60-h60-l90-rj",
+                width: 60,
+                height: 60,
+              },
+            ],
+            length: "3:09",
+            artistInfo: {
+              artist: [
+                {
+                  text: "YourMOOD",
+                  browseId: "UCFB_-OvPyFi7bPEjUMhSEZg",
+                  pageType: "MUSIC_PAGE_TYPE_ARTIST",
+                },
+              ],
+            },
+          },
+          {
+            videoId: "s8QzkOulL5w",
+            title: "พิจารณา",
+            thumbnails: [
+              {
+                url: "https://lh3.googleusercontent.com/tqN7LrQHQpvwq23XdmETy33awCYTsgXLPzrMpToRIA_i9K1Bx5XdmXCpeizkUrlhSDpDDhv9fLL9vWTh=w60-h60-l90-rj",
+                width: 60,
+                height: 60,
+              },
+            ],
+            length: "4:07",
+            artistInfo: {
+              artist: [
+                {
+                  text: "Musketeers",
+                  browseId: "UCt5x66zBgxyNcVU8R46kItA",
+                  pageType: "MUSIC_PAGE_TYPE_ARTIST",
+                },
+              ],
+            },
+          },
         ];
         setResults(data);
       }, 600);
@@ -72,7 +115,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
 
   const handleSelectSong = (song) => {
     setSelected(song);
-    handlePlay(song.videoId);
+    if (song.videoId !== selected?.videoId) handlePlay(song.videoId);
   };
 
   const getPlaybackURL = async (videoId) => {
@@ -95,6 +138,10 @@ function SearchSong({ next, onSelectSong, receiver }) {
     // reload audio source when current.src is changed
     reloadAudioSrc();
     setPlaying(true);
+  };
+
+  const toggleAudio = async () => {
+    setPlaying((prev) => !prev);
   };
 
   const submit = () => {
@@ -145,47 +192,95 @@ function SearchSong({ next, onSelectSong, receiver }) {
           required
         />
       </div>
-      <div className="mt-3 h-[calc((64px*4)+50px)] w-full overflow-y-auto overflow-x-hidden rounded-[36px] bg-white p-3">
-        <audio ref={audioRef}>
-          <source src={playbackURL[selected?.videoId]} />
-          Your browser does not support the <code>audio</code> element.
-        </audio>
-        {results.map((song, i) => {
-          let isSelected = selected?.videoId === song?.videoId;
-          return (
-            <div
-              onClick={() => handleSelectSong(song)}
-              key={i}
-              className={`${
-                isSelected
-                  ? "bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0]"
-                  : ""
-              } ${
-                isSelected ? "text-white" : "text-gray-800"
-              } mb-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 hover:bg-gray-100`}
-            >
-              <div className="flex items-center overflow-hidden">
-                <img
-                  className="h-10 w-10 shrink-0 select-none rounded-full object-contain"
-                  src={song.thumbnails[0]?.url}
-                  alt="thumbnail"
-                />
-                <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
-                  <span className={`truncate text-sm`}>{song.title}</span>
-                  <span
-                    className={`truncate text-xs ${
-                      isSelected ? "text-white" : "text-gray-500 "
-                    }`}
-                  >
-                    {song.artistInfo?.artist[0]?.text}
-                  </span>
+      <div className="mt-3 w-full rounded-[36px] bg-white p-3">
+        <div className="h-[calc((64px*3)+22px)] overflow-y-auto overflow-x-hidden ">
+          <audio ref={audioRef}>
+            <source src={playbackURL[selected?.videoId]} />
+            Your browser does not support the <code>audio</code> element.
+          </audio>
+          {results.map((song, i) => {
+            let isSelected = selected?.videoId === song?.videoId;
+            return (
+              <div
+                onClick={() => handleSelectSong(song)}
+                key={i}
+                className={`${
+                  isSelected
+                    ? "bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0]"
+                    : ""
+                } ${
+                  isSelected ? "text-white" : "text-gray-800"
+                } mb-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 last:mb-0 hover:bg-gray-100`}
+              >
+                <div className="flex items-center overflow-hidden">
+                  <img
+                    className="h-10 w-10 shrink-0 select-none rounded-full object-contain"
+                    src={song.thumbnails[0]?.url}
+                    alt="thumbnail"
+                  />
+                  <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
+                    <span className={`truncate text-sm`}>{song.title}</span>
+                    <span
+                      className={`truncate text-xs ${
+                        isSelected ? "text-white" : "text-gray-500 "
+                      }`}
+                    >
+                      {song.artistInfo?.artist[0]?.text}
+                    </span>
+                  </div>
                 </div>
+                <div className="text-xs">{song.length}</div>
               </div>
-              <div className="text-xs">{song.length}</div>
+            );
+          })}
+        </div>
+        {selected && (
+          <div
+            onClick={() => toggleAudio()}
+            className="mt-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 shadow-sm hover:bg-gray-100"
+          >
+            <div className="flex items-center overflow-hidden">
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-black">
+                {!playing ? (
+                  <svg
+                    className="h-4 w-4"
+                    viewBox="0 0 11 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 4.76795C11.3333 5.53775 11.3333 7.46225 10 8.23205L3.25 12.1292C1.91666 12.899 0.249999 11.9367 0.249999 10.3971L0.25 2.60288C0.25 1.06328 1.91667 0.101034 3.25 0.870834L10 4.76795Z"
+                      fill="#FFFFFF"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="h-3 w-3"
+                    viewBox="0 0 11 11"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect width="4" height="11" rx="2" fill="#FFFFFF" />
+                    <rect x="7" width="4" height="11" rx="2" fill="#FFFFFF" />
+                  </svg>
+                )}
+              </div>
+              <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
+                <span className="select-none truncate text-sm">
+                  {selected.title}
+                </span>
+                <span className="select-none truncate text-xs text-gray-500">
+                  {selected.artistInfo?.artist[0]?.text}
+                </span>
+              </div>
             </div>
-          );
-        })}
+            <div className="select-none text-xs">
+              {duration > 0 ? durationToStr(duration) : selected.length}
+            </div>
+          </div>
+        )}
       </div>
+
       <div className="my-4 flex flex-col items-center">
         <span className="gimmesong-primary-font text-sm text-gray-500">
           give this song to
