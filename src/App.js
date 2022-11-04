@@ -89,7 +89,7 @@ function App() {
     <>
       <Router>
         {loading ? (
-          <Loading />
+          <Loading fullScreen />
         ) : (
           <>
             <Header />

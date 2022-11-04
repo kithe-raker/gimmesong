@@ -1,9 +1,13 @@
 import React from "react";
 import { ThreeDots } from "react-loader-spinner";
 
-function Loading() {
+function Loading({ fullScreen }) {
   return (
-    <div className="fixed inset-0 flex h-full w-full items-center justify-center">
+    <div
+      className={`${
+        fullScreen ? "fixed" : "absolute"
+      } inset-0 flex h-full w-full items-center justify-center`}
+    >
       <ThreeDots
         height="60"
         width="60"

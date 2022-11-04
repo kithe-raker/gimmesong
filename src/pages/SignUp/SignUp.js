@@ -31,7 +31,7 @@ function SignUp() {
       } catch (err) {
         console.error(err);
       }
-    }, 500);
+    }, 1000);
   };
 
   const isValid = useMemo(

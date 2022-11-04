@@ -4,6 +4,8 @@ import useAudioPlayer from "@hooks/useAudioPlayer";
 import toast, { Toaster } from "react-hot-toast";
 import { durationToStr } from "@utils/audio";
 
+import Loading from "@components/Loading";
+
 import GimmesongAPI from "@lib/gimme_api";
 
 function SearchSong({ next, onSelectSong, receiver }) {
@@ -13,6 +15,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [playbackURL, setPlaybackURL] = useState({});
   const searchDelay = useRef(null);
@@ -22,6 +25,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
 
     // search song when length of search term longer than 2 characters
     if (val.length >= 2) {
+      setLoading(true);
       clearTimeout(searchDelay.current);
       searchDelay.current = setTimeout(async () => {
         // let data = [
@@ -115,6 +119,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
             text: val,
           });
           setResults(results);
+          setLoading(false);
         } catch (err) {
           toast(err.message, {
             style: {
@@ -125,7 +130,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
           });
           console.error(err);
         }
-      }, 600);
+      }, 1000);
     }
   };
 
@@ -213,47 +218,52 @@ function SearchSong({ next, onSelectSong, receiver }) {
         />
       </div>
       <div className="mt-3 w-full rounded-[36px] bg-white p-3">
-        <div className="h-[calc((64px*3)+22px)] overflow-y-auto overflow-x-hidden ">
+        <div className="relative h-[calc((64px*3)+22px)] overflow-y-auto overflow-x-hidden">
           <audio ref={audioRef}>
             <source src={playbackURL[selected?.videoId]} />
             Your browser does not support the <code>audio</code> element.
           </audio>
-          {results.map((song, i) => {
-            let isSelected = selected?.videoId === song?.videoId;
-            return (
-              <div
-                onClick={() => handleSelectSong(song)}
-                key={i}
-                className={`${
-                  isSelected
-                    ? "bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0]"
-                    : ""
-                } ${
-                  isSelected ? "text-white" : "text-gray-800"
-                } mb-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 last:mb-0 hover:bg-gray-100`}
-              >
-                <div className="flex items-center overflow-hidden">
-                  <img
-                    className="h-10 w-10 shrink-0 select-none rounded-full object-contain"
-                    src={song.thumbnails[0]?.url}
-                    alt="thumbnail"
-                    onError={handleImgError}
-                  />
-                  <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
-                    <span className={`truncate text-sm`}>{song.title}</span>
-                    <span
-                      className={`truncate text-xs ${
-                        isSelected ? "text-white" : "text-gray-500 "
-                      }`}
-                    >
-                      {song.artistInfo?.artist[0]?.text}
-                    </span>
+          {loading ? (
+            <Loading />
+          ) : (
+            results.map((song, i) => {
+              let isSelected = selected?.videoId === song?.videoId;
+              return (
+                <div
+                  onClick={() => handleSelectSong(song)}
+                  key={i}
+                  className={`${
+                    isSelected
+                      ? "bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0]"
+                      : ""
+                  } ${
+                    isSelected ? "text-white" : "text-gray-800"
+                  } mb-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 last:mb-0 hover:bg-gray-100`}
+                >
+                  <div className="flex items-center overflow-hidden">
+                    <img
+                      className="h-10 w-10 shrink-0 select-none rounded-full object-contain"
+                      src={song.thumbnails[0]?.url}
+                      alt="thumbnail"
+                      onError={handleImgError}
+                      referrerpolicy="no-referrer"
+                    />
+                    <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
+                      <span className={`truncate text-sm`}>{song.title}</span>
+                      <span
+                        className={`truncate text-xs ${
+                          isSelected ? "text-white" : "text-gray-500 "
+                        }`}
+                      >
+                        {song.artistInfo?.artist[0]?.text}
+                      </span>
+                    </div>
                   </div>
+                  <div className="text-xs">{song.length}</div>
                 </div>
-                <div className="text-xs">{song.length}</div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
         {selected && (
           <div
