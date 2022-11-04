@@ -145,10 +145,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
     setPlaybackURL((prev) => {
       return {
         ...prev,
-        [videoId]:
-          videoId === "79ucr8WTBIY"
-            ? "https://download.samplelib.com/mp3/sample-12s.mp3"
-            : "https://download.samplelib.com/mp3/sample-15s.mp3",
+        [videoId]: "https://download.samplelib.com/mp3/sample-15s.mp3",
       };
     });
   };

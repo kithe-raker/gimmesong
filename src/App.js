@@ -20,7 +20,7 @@ import GimmesongAPI from "@lib/gimmesong_api";
 
 function App() {
   const { user, setUser } = useSession();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
