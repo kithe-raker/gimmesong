@@ -143,6 +143,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
   const getPlaybackURL = async (videoId) => {
     // implement fetch videoplayback url here, then set to playbackURL object
     // to reuse in next time
+    // Note: check object key before query, if not found query new playbackurl
     setPlaybackURL((prev) => {
       return {
         ...prev,
@@ -150,7 +151,6 @@ function SearchSong({ next, onSelectSong, receiver }) {
       };
     });
   };
-
   const handlePlay = async (videoId) => {
     // get videoplayback url here
     await getPlaybackURL(videoId);

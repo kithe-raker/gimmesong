@@ -342,7 +342,7 @@ function NewReceived({ layout, onLayoutChange }) {
                     className="mr-4 flex h-16 w-[250px] cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 hover:bg-gray-100"
                   >
                     <div className="flex items-center overflow-hidden">
-                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-black">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black">
                         {!playing ? (
                           <svg
                             className="h-4 w-4"

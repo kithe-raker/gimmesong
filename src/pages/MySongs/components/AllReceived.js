@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import useAudioPlayer from "@hooks/useAudioPlayer";
 
 import { durationToStr } from "@utils/audio";
+import GimmesongAPI from "@lib/gimmesong_api";
 
 function AllReceived({ layout, onLayoutChange }) {
   const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
@@ -18,7 +19,9 @@ function AllReceived({ layout, onLayoutChange }) {
 
   const slider = useRef(null);
   const [current, setCurrent] = useState(null);
+
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const [playbackURL, setPlaybackURL] = useState({});
 
@@ -45,42 +48,46 @@ function AllReceived({ layout, onLayoutChange }) {
   const getPlaybackURL = async (videoId) => {
     // implement fetch videoplayback url here, then set to playbackURL object
     // to reuse in next time
+    // Note: check object key before query, if not found query new playbackurl
     setPlaybackURL((prev) => {
       return {
         ...prev,
-        [videoId]:
-          videoId === "79ucr8WTBIY"
-            ? "https://download.samplelib.com/mp3/sample-12s.mp3"
-            : "https://download.samplelib.com/mp3/sample-15s.mp3",
+        [videoId]: "https://download.samplelib.com/mp3/sample-15s.mp3",
       };
     });
   };
 
   const handlePlay = async (id) => {
     // get videoplayback url here
-    const videoId = received[current]?.song?.videoId;
+    const videoId = received[current].content?.song?.videoId;
     await getPlaybackURL(videoId);
 
     // then update played = true to database
-    let updated = received.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            played: true,
-          }
-        : item
-    );
-    setReceived(updated);
-    // reload audio source when current.src is changed
-    reloadAudioSrc();
-    setPlaying(true);
+    try {
+      await GimmesongAPI.playedInbox(id);
+      let updated = received.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              played: true,
+            }
+          : item
+      );
+      setReceived(updated);
+
+      // reload audio source when current.src is changed
+      reloadAudioSrc();
+      setPlaying(true);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const toggleAudio = async () => {
     // when toggle to play played audio, we need to get playback url again to prevent error
     // from play/pause empty source url
 
-    const videoId = received[current]?.song?.videoId;
+    const videoId = received[current].content?.song?.videoId;
     await getPlaybackURL(videoId);
 
     // after current.src is changed, need to reload src before use audio.play()
@@ -119,119 +126,138 @@ function AllReceived({ layout, onLayoutChange }) {
     }
   }, [layout]);
 
-  useEffect(() => {
-    let results = [
-      {
-        id: 1,
-        receiver: "friend",
-        song: {
-          videoId: "79ucr8WTBIY",
-          title: "โต๊ะริม (Melt)",
-          thumbnails: [
-            {
-              url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w60-h60-l90-rj",
-              width: 60,
-              height: 60,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w120-h120-l90-rj",
-              width: 120,
-              height: 120,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w180-h180-l90-rj",
-              width: 180,
-              height: 180,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w226-h226-l90-rj",
-              width: 226,
-              height: 226,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w302-h302-l90-rj",
-              width: 302,
-              height: 302,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w544-h544-l90-rj",
-              width: 544,
-              height: 544,
-            },
-          ],
-          length: "4:08",
-          artistInfo: {
-            artist: [
-              {
-                text: "NONT TANONT",
-                browseId: "UC0qrQfKKZnoP03_8s-2n8-g",
-                pageType: "MUSIC_PAGE_TYPE_ARTIST",
-              },
-            ],
-          },
-        },
-        message:
-          "halo fren 1 โต๊ 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Meltะริม (Melt) โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)",
-        played: false,
-      },
-      {
-        id: 2,
-        receiver: "friend",
-        song: {
-          videoId: "6-IotY7xluM",
-          title: "Zen Bang Bang",
-          thumbnails: [
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
-              width: 60,
-              height: 60,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w120-h120-l90-rj",
-              width: 120,
-              height: 120,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w180-h180-l90-rj",
-              width: 180,
-              height: 180,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w226-h226-l90-rj",
-              width: 226,
-              height: 226,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w302-h302-l90-rj",
-              width: 302,
-              height: 302,
-            },
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w544-h544-l90-rj",
-              width: 544,
-              height: 544,
-            },
-          ],
-          length: "4:32",
-          artistInfo: {
-            artist: [
-              {
-                text: "Indigo",
-                browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
-                pageType: "MUSIC_PAGE_TYPE_ARTIST",
-              },
-            ],
-          },
-        },
-        message: "halo fren 2",
-        played: true,
-      },
-    ];
-    if (results.length > 0) {
+  const fetchAllReceived = async () => {
+    try {
+      setLoading(true);
+      setError(false);
+
+      let results = await GimmesongAPI.queryInbox({ filter: "all" });
       setReceived(results);
+    } catch (err) {
+      setError(true);
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-    setTimeout(() => setLoading(false), 500);
+  };
+
+  useEffect(() => {
+    fetchAllReceived();
   }, []);
+
+  // useEffect(() => {
+  //   // let results = [
+  //   //   {
+  //   //     id: 1,
+  //   //     receiver: "friend",
+  //   //     song: {
+  //   //       videoId: "79ucr8WTBIY",
+  //   //       title: "โต๊ะริม (Melt)",
+  //   //       thumbnails: [
+  //   //         {
+  //   //           url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w60-h60-l90-rj",
+  //   //           width: 60,
+  //   //           height: 60,
+  //   //         },
+  //   //         {
+  //   //           url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w120-h120-l90-rj",
+  //   //           width: 120,
+  //   //           height: 120,
+  //   //         },
+  //   //         {
+  //   //           url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w180-h180-l90-rj",
+  //   //           width: 180,
+  //   //           height: 180,
+  //   //         },
+  //   //         {
+  //   //           url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w226-h226-l90-rj",
+  //   //           width: 226,
+  //   //           height: 226,
+  //   //         },
+  //   //         {
+  //   //           url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w302-h302-l90-rj",
+  //   //           width: 302,
+  //   //           height: 302,
+  //   //         },
+  //   //         {
+  //   //           url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w544-h544-l90-rj",
+  //   //           width: 544,
+  //   //           height: 544,
+  //   //         },
+  //   //       ],
+  //   //       length: "4:08",
+  //   //       artistInfo: {
+  //   //         artist: [
+  //   //           {
+  //   //             text: "NONT TANONT",
+  //   //             browseId: "UC0qrQfKKZnoP03_8s-2n8-g",
+  //   //             pageType: "MUSIC_PAGE_TYPE_ARTIST",
+  //   //           },
+  //   //         ],
+  //   //       },
+  //   //     },
+  //   //     message:
+  //   //       "halo fren 1 โต๊ 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Meltะริม (Melt) โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)",
+  //   //     played: false,
+  //   //   },
+  //   //   {
+  //   //     id: 2,
+  //   //     receiver: "friend",
+  //   //     song: {
+  //   //       videoId: "6-IotY7xluM",
+  //   //       title: "Zen Bang Bang",
+  //   //       thumbnails: [
+  //   //         {
+  //   //           url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
+  //   //           width: 60,
+  //   //           height: 60,
+  //   //         },
+  //   //         {
+  //   //           url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w120-h120-l90-rj",
+  //   //           width: 120,
+  //   //           height: 120,
+  //   //         },
+  //   //         {
+  //   //           url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w180-h180-l90-rj",
+  //   //           width: 180,
+  //   //           height: 180,
+  //   //         },
+  //   //         {
+  //   //           url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w226-h226-l90-rj",
+  //   //           width: 226,
+  //   //           height: 226,
+  //   //         },
+  //   //         {
+  //   //           url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w302-h302-l90-rj",
+  //   //           width: 302,
+  //   //           height: 302,
+  //   //         },
+  //   //         {
+  //   //           url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w544-h544-l90-rj",
+  //   //           width: 544,
+  //   //           height: 544,
+  //   //         },
+  //   //       ],
+  //   //       length: "4:32",
+  //   //       artistInfo: {
+  //   //         artist: [
+  //   //           {
+  //   //             text: "Indigo",
+  //   //             browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
+  //   //             pageType: "MUSIC_PAGE_TYPE_ARTIST",
+  //   //           },
+  //   //         ],
+  //   //       },
+  //   //     },
+  //   //     message: "halo fren 2",
+  //   //     played: true,
+  //   //   },
+  //   // ];
+  //   // if (results.length > 0) {
+  //   //   setReceived(results);
+  //   // }
+  //   // setTimeout(() => setLoading(false), 500);
+  // }, []);
 
   return (
     <>
@@ -272,10 +298,13 @@ function AllReceived({ layout, onLayoutChange }) {
                                 />
                                 {item.played ? (
                                   <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                                    {item.song?.thumbnails?.length > 0 && (
+                                    {item.content?.song?.thumbnails?.length >
+                                      0 && (
                                       <img
                                         className="h-[27%] w-[27%] select-none rounded-full object-contain"
-                                        src={item.song?.thumbnails[0]?.url}
+                                        src={
+                                          item.content?.song?.thumbnails[0]?.url
+                                        }
                                         alt="disc"
                                       />
                                     )}
@@ -293,7 +322,7 @@ function AllReceived({ layout, onLayoutChange }) {
                             </div>
                             {received[current]?.id === item.id && (
                               <span className="gimmesong-secondary-font mt-6 text-center text-lg leading-6 text-gray-700">
-                                {item.message}
+                                {item.content?.message}
                               </span>
                             )}
                           </div>
@@ -330,10 +359,10 @@ function AllReceived({ layout, onLayoutChange }) {
                     />
                     {item.played ? (
                       <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                        {item.song?.thumbnails?.length > 0 && (
+                        {item.content?.song?.thumbnails?.length > 0 && (
                           <img
                             className="h-[27%] w-[27%] select-none rounded-full object-contain"
-                            src={item.song?.thumbnails[0]?.url}
+                            src={item.content?.song?.thumbnails[0]?.url}
                             alt="disc"
                           />
                         )}
@@ -354,7 +383,9 @@ function AllReceived({ layout, onLayoutChange }) {
             {current !== null && (
               <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
                 <audio ref={audioRef}>
-                  <source src={playbackURL[received[current]?.song?.videoId]} />
+                  <source
+                    src={playbackURL[received[current].content?.song?.videoId]}
+                  />
                   Your browser does not support the <code>audio</code> element.
                 </audio>
                 {!received[current].played ? (
@@ -385,7 +416,7 @@ function AllReceived({ layout, onLayoutChange }) {
                     className="mr-4 flex h-16 w-[250px] cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 hover:bg-gray-100"
                   >
                     <div className="flex items-center overflow-hidden">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black">
                         {!playing ? (
                           <svg
                             className="h-4 w-4"
@@ -418,17 +449,20 @@ function AllReceived({ layout, onLayoutChange }) {
                       </div>
                       <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
                         <span className="select-none truncate text-sm">
-                          {received[current].song?.title}
+                          {received[current].content?.song?.title}
                         </span>
                         <span className="select-none truncate text-xs text-gray-500">
-                          {received[current].song?.artistInfo?.artist[0]?.text}
+                          {
+                            received[current].content?.song?.artistInfo
+                              ?.artist[0]?.text
+                          }
                         </span>
                       </div>
                     </div>
                     <div className="select-none text-xs">
                       {duration > 0
                         ? durationToStr(duration)
-                        : received[current].song?.length}
+                        : received[current].content?.song?.length}
                     </div>
                   </div>
                 )}

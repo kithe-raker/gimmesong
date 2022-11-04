@@ -50,6 +50,25 @@ const methods = {
     });
     return success;
   },
+  queryInbox: async function (
+    options = {
+      filter: "all",
+    }
+  ) {
+    const params = getParams(options);
+    const {
+      data: { results },
+    } = await axios.get(`/api/v1/queryinbox?${params}`);
+    return results;
+  },
+  playedInbox: async function (inboxId) {
+    const {
+      data: { success },
+    } = await axios.post(`/api/v1/playsongfrominbox`, {
+      inboxId,
+    });
+    return success;
+  },
 };
 
 export default methods;
