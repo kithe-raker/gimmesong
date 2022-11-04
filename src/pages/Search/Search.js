@@ -40,6 +40,7 @@ function Search() {
               color: "#fff",
             },
           });
+          navigate("/search");
         }
         setLoading(false);
       } catch (err) {
