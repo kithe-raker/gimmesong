@@ -141,16 +141,19 @@ function SearchSong({ next, onSelectSong, receiver }) {
   };
 
   const getPlaybackURL = async (videoId) => {
-    // implement fetch videoplayback url here, then set to playbackURL object
-    // to reuse in next time
-    // Note: check object key before query, if not found query new playbackurl
-    setPlaybackURL((prev) => {
-      return {
-        ...prev,
-        [videoId]: "https://download.samplelib.com/mp3/sample-15s.mp3",
-      };
-    });
+    // check object key before query, if not found will query new playback url
+    if (!playbackURL[videoId]) {
+      // implement fetch playback url here, then set to playbackURL object
+      // to reuse in next time
+      setPlaybackURL((prev) => {
+        return {
+          ...prev,
+          [videoId]: "https://download.samplelib.com/mp3/sample-15s.mp3",
+        };
+      });
+    }
   };
+
   const handlePlay = async (videoId) => {
     // get videoplayback url here
     await getPlaybackURL(videoId);
