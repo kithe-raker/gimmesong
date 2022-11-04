@@ -28,6 +28,9 @@ const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
-export const signOut = async () => await auth.signOut();
+export const signOut = async () => {
+  await auth.signOut();
+  window.location.reload();
+};
 
 export default firebase;
