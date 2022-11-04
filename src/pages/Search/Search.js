@@ -1,14 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import PasteLink from "./components/PasteLink.js";
 import Sent from "./components/Sent.js";
 import SearchSong from "./components/SearchSong.js";
 import WriteMessage from "./components/WriteMessage.js";
 
+import { useParams } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+
+import GimmesongAPI from "@lib/gimmesong_api";
+import Loading from "@components/Loading";
+
 function Search() {
+  const { username } = useParams();
+
   const [currentStep, setCurrentStep] = useState(1);
   const [receiver, setReceiver] = useState(null);
   const [song, setSong] = useState(null);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const checkUserExist = async () => {
+      setLoading(true);
+
+      const isExist = await GimmesongAPI.checkUserExist(username);
+
+      if (isExist) {
+        setCurrentStep(2);
+        setReceiver(username);
+      } else {
+        toast("Username doesn't exist", {
+          style: {
+            borderRadius: "25px",
+            background: "#FF6464",
+            color: "#fff",
+          },
+        });
+      }
+
+      setLoading(false);
+    };
+
+    checkUserExist();
+  }, [username]);
 
   const nextStep = () => {
     setCurrentStep((step) => (step += 1));
@@ -91,7 +125,8 @@ function Search() {
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
       <div className="my-4 w-full max-w-[300px] bg-gray-300 p-5">ADS</div>
-      {render}
+      {loading ? <Loading fullScreens /> : render}
+      <Toaster />
     </div>
   );
 }

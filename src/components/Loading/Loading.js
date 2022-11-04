@@ -6,7 +6,7 @@ function Loading({ fullScreen }) {
     <div
       className={`${
         fullScreen ? "fixed" : "absolute"
-      } inset-0 flex h-full w-full items-center justify-center`}
+      } gimmesong-bg inset-0 z-[99] flex h-full w-full items-center justify-center`}
     >
       <ThreeDots
         height="60"

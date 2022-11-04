@@ -14,8 +14,16 @@ const methods = {
   searchSongs: async function (options = {}) {
     const params = getParams(options);
 
-    const response = await axios.get(`/api/v1/searchsongs?${params}`);
-    return response.data.results;
+    const {
+      data: { results },
+    } = await axios.get(`/api/v1/searchsongs?${params}`);
+    return results;
+  },
+  checkUserExist: async function (username) {
+    const {
+      data: { results },
+    } = await axios.get(`/api/v1/usernameexist?username=${username}`);
+    return results.exists;
   },
 };
 

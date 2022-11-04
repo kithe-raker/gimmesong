@@ -69,6 +69,7 @@ function App() {
         }
       />
       <Route path="/search" element={<Search />} />
+      <Route path="/@:username" element={<Search />} />
       <Route
         path="/mysongs"
         element={
@@ -83,6 +84,14 @@ function App() {
           <ProtectedRoute isAllowed={user?.username} redirectPath="/">
             <MyAccount />
           </ProtectedRoute>
+        }
+      />
+      <Route
+        path="*"
+        element={
+          <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
+            <p>There's nothing here!</p>
+          </div>
         }
       />
     </Routes>

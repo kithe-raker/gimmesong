@@ -6,7 +6,7 @@ import { durationToStr } from "@utils/audio";
 
 import Loading from "@components/Loading";
 
-import GimmesongAPI from "@lib/gimme_api";
+import GimmesongAPI from "@lib/gimmesong_api";
 
 function SearchSong({ next, onSelectSong, receiver }) {
   const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
@@ -246,7 +246,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
                       src={song.thumbnails[0]?.url}
                       alt="thumbnail"
                       onError={handleImgError}
-                      referrerpolicy="no-referrer"
+                      referrerPolicy="no-referrer"
                     />
                     <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
                       <span className={`truncate text-sm`}>{song.title}</span>
@@ -317,7 +317,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
           give this song to
         </span>
         <span className="bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-transparent">
-          gimmesong.link/{receiver}
+          gimmesong.link/@{receiver}
         </span>
       </div>
       <button

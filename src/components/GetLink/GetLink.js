@@ -39,11 +39,11 @@ function GetLink() {
           </div>
           <div className="flex h-12 w-full items-center overflow-hidden rounded-full bg-white pl-12 pr-10 text-gray-800">
             <span className="gimmesong-primary-font overflow-x-scroll whitespace-nowrap text-lg">
-              https://gimmesong.link/{user.username}
+              https://gimmesong.link/@{user.username}
             </span>
           </div>
           <button
-            onClick={() => copy(`https://gimmesong.link/${user.username}`)}
+            onClick={() => copy(`https://gimmesong.link/@${user.username}`)}
             className="absolute right-2 bottom-2 top-2 flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium text-white hover:bg-gray-100 focus:outline-none"
           >
             <svg

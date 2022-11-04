@@ -13,7 +13,7 @@ function WriteMessage({ next, onTypingMessage, receiver, song }) {
     <div className="flex w-full max-w-xs flex-col items-center justify-center">
       <div className="flex h-[360px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
         <span className="mt-3 bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-transparent">
-          gimmesong.link/{receiver}
+          gimmesong.link/@{receiver}
         </span>
         <textarea
           value={message}
