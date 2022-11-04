@@ -56,10 +56,6 @@ function Search() {
     setCurrentStep((step) => (step += 1));
   };
 
-  const sendAnotherSong = () => {
-    navigate(`/@${receiver}`);
-  };
-
   /**
    * @dev below component function will end within the component
    * and only return the final value to parent.
