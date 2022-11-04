@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import GimmesongAPI from "@lib/gimmesong_api";
 
 function PasteLink({ next, onSelectReceiver }) {
   const [link, setLink] = useState("");
@@ -9,7 +10,7 @@ function PasteLink({ next, onSelectReceiver }) {
     setLink(val);
   };
 
-  const submit = () => {
+  const submit = async () => {
     if (!link) {
       toast("Receiver can not be empty", {
         style: {
@@ -23,26 +24,24 @@ function PasteLink({ next, onSelectReceiver }) {
     // implement api & validation logic here
     setLoading(true);
     try {
-      // mockup promise
-      setTimeout(() => {
-        // implement search api here
-        // this just a mock up
-        // if user not empty, go to next step
-        let user = link.length >= 3 ? "kithe" : "";
-        if (user) {
-          onSelectReceiver(user);
-          next();
-        } else {
-          toast("Not found receiver", {
-            style: {
-              borderRadius: "25px",
-              background: "#FF6464",
-              color: "#fff",
-            },
-          });
-        }
-        setLoading(false);
-      }, 1000);
+      let username =
+        link.indexOf("@") === -1 ? link : link.substring(link.indexOf("@") + 1);
+
+      const isExist = await GimmesongAPI.checkUserExist(username);
+
+      if (isExist) {
+        onSelectReceiver(username);
+        next();
+      } else {
+        toast("Not found receiver", {
+          style: {
+            borderRadius: "25px",
+            background: "#FF6464",
+            color: "#fff",
+          },
+        });
+      }
+      setLoading(false);
     } catch (err) {
       console.error(err);
     }
