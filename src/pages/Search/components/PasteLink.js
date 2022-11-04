@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import GimmesongAPI from "@lib/gimmesong_api";
 
+import { useNavigate } from "react-router-dom";
+
 function PasteLink({ next, onSelectReceiver }) {
+  const navigate = useNavigate();
+
   const [link, setLink] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -21,6 +25,7 @@ function PasteLink({ next, onSelectReceiver }) {
       });
       return;
     }
+
     // implement api & validation logic here
     setLoading(true);
     try {
@@ -32,6 +37,7 @@ function PasteLink({ next, onSelectReceiver }) {
       if (isExist) {
         onSelectReceiver(username);
         next();
+        // navigate(`/@${username}`);
       } else {
         toast("Not found receiver", {
           style: {
