@@ -41,7 +41,7 @@ function Search() {
       setLoading(false);
     };
 
-    checkUserExist();
+    if (username) checkUserExist();
   }, [username]);
 
   const nextStep = () => {
