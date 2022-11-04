@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import firebase from "@lib/firebase";
 
 import Home from "@pages/Home";
 import SignUp from "@pages/SignUp";
@@ -9,32 +8,36 @@ import MySongs from "@pages/MySongs";
 import MyAccount from "@pages/MyAccount";
 
 import Header from "@components/Header";
-
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import Loading from "@components/Loading";
 import ProtectedRoute from "@components/ProtectedRoute";
 
-// import useAuth from "@store/auth";
-import { useLocalStorage } from "@hooks/useLocalStorage";
+import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+
+import useSession from "@hooks/useSession";
+import { auth } from "@lib/firebase";
 
 function App() {
-  // const { user, setUser } = useAuth();
-  const [user, setUser] = useLocalStorage("user", null);
+  const { user, setUser } = useSession();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    firebase.auth().onAuthStateChanged((data) => {
-      // implement get user info here and set only required properties to user object
-      const { uid } = data;
+    auth.onAuthStateChanged(async (data) => {
+      if (data) {
+        const token = await auth.currentUser.getIdToken(true);
 
-      setUser({ uid, username: "taritinth" });
+        // implement get user info here and set only required properties to user object
+        const { uid } = data;
+
+        // implement /me here
+
+        setUser({ uid, username: "taritinth", token });
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
   }, []);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   let routes = (
     <Routes>
@@ -85,8 +88,14 @@ function App() {
   return (
     <>
       <Router>
-        <Header />
-        {routes}
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <Header />
+            {routes}
+          </>
+        )}
       </Router>
     </>
   );

@@ -4,7 +4,7 @@ import useAudioPlayer from "@hooks/useAudioPlayer";
 import toast, { Toaster } from "react-hot-toast";
 import { durationToStr } from "@utils/audio";
 
-import Music from "@lib/music";
+import GimmesongAPI from "@lib/gimme_api";
 
 function SearchSong({ next, onSelectSong, receiver }) {
   const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
@@ -110,10 +110,21 @@ function SearchSong({ next, onSelectSong, receiver }) {
         //     },
         //   },
         // ];
-        let results = await Music.search({
-          text: val,
-        });
-        setResults(results);
+        try {
+          let results = await GimmesongAPI.searchSongs({
+            text: val,
+          });
+          setResults(results);
+        } catch (err) {
+          toast(err.message, {
+            style: {
+              borderRadius: "25px",
+              background: "#FF6464",
+              color: "#fff",
+            },
+          });
+          console.error(err);
+        }
       }, 600);
     }
   };

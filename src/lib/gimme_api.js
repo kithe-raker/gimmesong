@@ -11,7 +11,7 @@ function getParams(options) {
 }
 
 const methods = {
-  search: async function (options = {}) {
+  searchSongs: async function (options = {}) {
     const params = getParams(options);
     const url = `${__baseUrl}/api/v1/searchsongs?${params}`;
 

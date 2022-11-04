@@ -2,7 +2,7 @@ import React from "react";
 import bg from "@assets/img/gimmesong_gradient_bg.png";
 
 import { useCopyToClipboard } from "usehooks-ts";
-import useAuth from "@store/auth";
+import useAuth from "@store/user";
 import { useLocalStorage } from "@hooks/useLocalStorage";
 
 function GetLink() {
