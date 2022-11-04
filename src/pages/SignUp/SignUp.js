@@ -56,8 +56,10 @@ function SignUp() {
     }
 
     try {
+      setLoading(true);
       const success = await GimmesongAPI.createProfile(user.uid, username);
       if (success) {
+        setLoading(false);
         window.location.reload();
       }
     } catch (err) {
@@ -160,9 +162,9 @@ function SignUp() {
         </span>
 
         <button
-          disabled={!isValid || !available}
+          disabled={!isValid || !available || loading}
           onClick={submit}
-          className="gimmesong-primary-font mt-2.5 h-12 w-[250px] rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600 disabled:bg-gray-600"
+          className="gimmesong-primary-font mt-2.5 inline-flex h-12 w-[250px] items-center justify-center rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-500"
         >
           ENTER
         </button>
