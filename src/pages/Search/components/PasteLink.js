@@ -41,9 +41,10 @@ function PasteLink({ next, onSelectReceiver }) {
           },
         });
       }
-      setLoading(false);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 

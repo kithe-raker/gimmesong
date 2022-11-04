@@ -42,9 +42,10 @@ function Search() {
           });
           navigate("/search");
         }
-        setLoading(false);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
 

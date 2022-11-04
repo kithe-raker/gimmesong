@@ -32,9 +32,10 @@ function SignUp() {
           setError(true);
           setAvailable(false);
         }
-        setLoading(false);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     }, 1000);
   };
@@ -59,11 +60,12 @@ function SignUp() {
       setLoading(true);
       const success = await GimmesongAPI.createProfile(user.uid, username);
       if (success) {
-        setLoading(false);
         window.location.reload();
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -160,7 +162,6 @@ function SignUp() {
             "Username must be at least 2 characters (allow a-z, 0-9, _, .)"}
           {error && !available && "Username already taken"}
         </span>
-
         <button
           disabled={!isValid || !available || loading}
           onClick={submit}

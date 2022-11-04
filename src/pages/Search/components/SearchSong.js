@@ -119,7 +119,6 @@ function SearchSong({ next, onSelectSong, receiver }) {
             text: val,
           });
           setResults(results);
-          setLoading(false);
         } catch (err) {
           toast(err.message, {
             style: {
@@ -129,6 +128,8 @@ function SearchSong({ next, onSelectSong, receiver }) {
             },
           });
           console.error(err);
+        } finally {
+          setLoading(false);
         }
       }, 1000);
     }

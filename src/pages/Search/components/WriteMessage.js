@@ -20,11 +20,12 @@ function WriteMessage({ next, receiver, song }) {
       const success = await GimmesongAPI.sendSong(receiver, message, song);
       if (success) {
         // if success then go to next step
-        setLoading(false);
         next();
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
