@@ -1,7 +1,13 @@
 import { useState, useMemo, useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import GimmesongAPI from "@lib/gimmesong_api";
+import useSession from "@hooks/useSession";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+  const { user, setUser } = useSession();
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [available, setAvailable] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,9 +25,8 @@ function SignUp() {
     clearTimeout(searchDelay.current);
     searchDelay.current = setTimeout(async () => {
       try {
-        // mockup promise
-        let user = val === "kithe";
-        if (!user) {
+        const isExist = await GimmesongAPI.checkUserExist(val);
+        if (!isExist) {
           setAvailable(true);
         } else {
           setError(true);
@@ -39,7 +44,7 @@ function SignUp() {
     [username]
   );
 
-  const submit = () => {
+  const submit = async () => {
     if (!username) {
       toast("Please fill out your username", {
         style: {
@@ -48,6 +53,15 @@ function SignUp() {
           color: "#fff",
         },
       });
+    }
+
+    try {
+      const success = await GimmesongAPI.createProfile(user.uid, username);
+      if (success) {
+        window.location.reload();
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -146,8 +160,9 @@ function SignUp() {
         </span>
 
         <button
+          disabled={!isValid || !available}
           onClick={submit}
-          className="gimmesong-primary-font mt-2.5 h-12 w-[250px] rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600"
+          className="gimmesong-primary-font mt-2.5 h-12 w-[250px] rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600 disabled:bg-gray-600"
         >
           ENTER
         </button>

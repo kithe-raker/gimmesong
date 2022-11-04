@@ -16,6 +16,8 @@ import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import useSession from "@hooks/useSession";
 import { auth } from "@lib/firebase";
 
+import GimmesongAPI from "@lib/gimmesong_api";
+
 function App() {
   const { user, setUser } = useSession();
   const [loading, setLoading] = useState(false);
@@ -30,8 +32,11 @@ function App() {
         const { uid } = data;
 
         // implement /me here
+        const username = await GimmesongAPI.getUserInfo(uid);
 
-        setUser({ uid, username: "taritinth", token });
+        console.log("username", username);
+
+        setUser({ uid, username, token });
       } else {
         setUser(null);
       }

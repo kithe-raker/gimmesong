@@ -25,6 +25,21 @@ const methods = {
     } = await axios.get(`/api/v1/usernameexist?username=${username}`);
     return results.exists;
   },
+  getUserInfo: async function (uid) {
+    const {
+      data: { results },
+    } = await axios.get(`/api/v1/getusername?uid=${uid}`);
+    return results?.username;
+  },
+  createProfile: async function (uid, username) {
+    const {
+      data: { success },
+    } = await axios.post(`/api/v1/addnewuser`, {
+      uid,
+      username,
+    });
+    return success;
+  },
 };
 
 export default methods;
