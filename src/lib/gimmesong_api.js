@@ -40,6 +40,16 @@ const methods = {
     });
     return success;
   },
+  sendSong: async function (receiver, message, song) {
+    const {
+      data: { success },
+    } = await axios.post(`/api/v1/sendsong`, {
+      recipient: receiver,
+      message,
+      song,
+    });
+    return success;
+  },
 };
 
 export default methods;

@@ -34,8 +34,6 @@ function App() {
         // implement /me here
         const username = await GimmesongAPI.getUserInfo(uid);
 
-        console.log("username", username);
-
         setUser({ uid, username, token });
       } else {
         setUser(null);

@@ -221,7 +221,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
             Your browser does not support the <code>audio</code> element.
           </audio>
           {loading ? (
-            <Loading />
+            <Loading disableBg />
           ) : (
             results.map((song, i) => {
               let isSelected = selected?.videoId === song?.videoId;

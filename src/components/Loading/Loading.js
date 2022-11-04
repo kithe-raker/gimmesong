@@ -1,12 +1,12 @@
 import React from "react";
 import { ThreeDots } from "react-loader-spinner";
 
-function Loading({ fullScreen }) {
+function Loading({ fullScreen, disableBg }) {
   return (
     <div
-      className={`${
-        fullScreen ? "fixed" : "absolute"
-      } gimmesong-bg inset-0 z-[99] flex h-full w-full items-center justify-center`}
+      className={`${fullScreen ? "fixed" : "absolute"} ${
+        !disableBg ? "gimmesong-bg" : ""
+      } inset-0 z-[99] flex h-full w-full items-center justify-center`}
     >
       <ThreeDots
         height="60"

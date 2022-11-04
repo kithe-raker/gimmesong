@@ -1,12 +1,31 @@
 import { useState } from "react";
+import GimmesongAPI from "@lib/gimmesong_api";
 
-function WriteMessage({ next, onTypingMessage, receiver, song }) {
+function WriteMessage({ next, receiver, song }) {
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleMessageChange = (val) => {
     if (val.length > 200) return;
     setMessage(val);
-    onTypingMessage(val);
+    // onTypingMessage(val);
+  };
+
+  const sendSong = async () => {
+    if (!receiver || !song) return;
+
+    // implement send song logic here
+    try {
+      setLoading(true);
+      const success = await GimmesongAPI.sendSong(receiver, message, song);
+      if (success) {
+        // if success then go to next step
+        setLoading(false);
+        next();
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -16,6 +35,7 @@ function WriteMessage({ next, onTypingMessage, receiver, song }) {
           gimmesong.link/@{receiver}
         </span>
         <textarea
+          disabled={loading}
           value={message}
           className="my-auto w-full resize-none text-center outline-none"
           placeholder="“ Write something ”"
@@ -43,10 +63,33 @@ function WriteMessage({ next, onTypingMessage, receiver, song }) {
         </div>
       </div>
       <button
-        onClick={next}
-        className="gimmesong-primary-font mt-5 h-12 w-[250px] rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600"
+        disabled={loading}
+        onClick={sendSong}
+        className="gimmesong-primary-font mt-5 inline-flex h-12 w-[250px] items-center justify-center rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-500"
       >
-        Send
+        {loading && (
+          <svg
+            className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        )}
+        SEND
       </button>
     </div>
   );

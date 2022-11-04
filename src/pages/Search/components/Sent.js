@@ -2,7 +2,13 @@ import React from "react";
 import bg from "@assets/img/gimmesong_gradient_bg.png";
 import disc from "@assets/img/gimmesong_logo.png";
 
-function Sent({ next }) {
+import { useNavigate } from "react-router-dom";
+import useSession from "@hooks/useSession";
+
+function Sent({ receiver }) {
+  const navigate = useNavigate();
+  const { user } = useSession();
+
   return (
     <div className="flex flex-col items-center">
       <div className="relative flex h-48 w-72 flex-col items-center justify-center overflow-hidden rounded-3xl">
@@ -24,9 +30,20 @@ function Sent({ next }) {
       <span className="gimmesong-primary-font mt-4 text-sm">
         Songs have been given 123,456 times.
       </span>
-      <button className="gimmesong-primary-font mt-6 h-12 w-[250px] rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600">
-        Get your own anonymous song!
-      </button>
+      {!user?.username && (
+        <button
+          onClick={() => navigate("/")}
+          className="mt-6 h-12 rounded-full bg-black px-6 text-white transition duration-150 ease-in-out hover:bg-gray-600"
+        >
+          Get your own anonymous song!
+        </button>
+      )}
+      <a
+        href={`/@${receiver}`}
+        className="mt-3 cursor-pointer text-gray-500 underline"
+      >
+        Send another song
+      </a>
     </div>
   );
 }

@@ -10,8 +10,11 @@ import toast, { Toaster } from "react-hot-toast";
 import GimmesongAPI from "@lib/gimmesong_api";
 import Loading from "@components/Loading";
 
+import { useNavigate } from "react-router-dom";
+
 function Search() {
   const { username } = useParams();
+  const navigate = useNavigate();
 
   const [currentStep, setCurrentStep] = useState(1);
   const [receiver, setReceiver] = useState(null);
@@ -19,26 +22,29 @@ function Search() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // if path contain /@:username this effect will run
   useEffect(() => {
     const checkUserExist = async () => {
       setLoading(true);
+      try {
+        const isExist = await GimmesongAPI.checkUserExist(username);
 
-      const isExist = await GimmesongAPI.checkUserExist(username);
-
-      if (isExist) {
-        setCurrentStep(2);
-        setReceiver(username);
-      } else {
-        toast("Username doesn't exist", {
-          style: {
-            borderRadius: "25px",
-            background: "#FF6464",
-            color: "#fff",
-          },
-        });
+        if (isExist) {
+          setCurrentStep(2);
+          setReceiver(username);
+        } else {
+          toast("Username doesn't exist", {
+            style: {
+              borderRadius: "25px",
+              background: "#FF6464",
+              color: "#fff",
+            },
+          });
+        }
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
       }
-
-      setLoading(false);
     };
 
     if (username) checkUserExist();
@@ -48,22 +54,8 @@ function Search() {
     setCurrentStep((step) => (step += 1));
   };
 
-  const sendSong = () => {
-    if (!receiver || !song) return;
-
-    // implement send song logic here
-    const data = {
-      receiver,
-      song,
-      message,
-    };
-
-    // if success then go to next step
-    nextStep();
-  };
-
-  const goSomewhere = () => {
-    console.log("go go go");
+  const sendAnotherSong = () => {
+    navigate(`/@${receiver}`);
   };
 
   /**
@@ -77,10 +69,6 @@ function Search() {
 
   const handleSongChange = (song) => {
     setSong(song);
-  };
-
-  const handleMessageChange = (msg) => {
-    setMessage(msg);
   };
 
   /**
@@ -106,17 +94,10 @@ function Search() {
       );
       break;
     case 3:
-      render = (
-        <WriteMessage
-          receiver={receiver}
-          song={song}
-          onTypingMessage={handleMessageChange}
-          next={sendSong}
-        />
-      );
+      render = <WriteMessage receiver={receiver} song={song} next={nextStep} />;
       break;
     case 4:
-      render = <Sent next={goSomewhere} />;
+      render = <Sent receiver={receiver} />;
       break;
     default:
       break;
