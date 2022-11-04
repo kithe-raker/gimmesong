@@ -12,7 +12,7 @@ function Home() {
       <img className="mt-6 w-60" src={disc} alt="disc" />
       <h1 className="gimmesong-primary-font mt-6 text-5xl">GIMMESONG</h1>
       <span className="gimmesong-primary-font mt-3 text-center text-lg leading-6 text-gray-400">
-        Give a song anonymous to <br />
+        Give a song anonymously to <br />
         someone you&apos;re hiding.
       </span>
       <button
