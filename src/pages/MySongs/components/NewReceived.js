@@ -10,6 +10,7 @@ import EmptySong from "./EmptySong";
 import useAudioPlayer from "@hooks/useAudioPlayer";
 
 import { durationToStr } from "@utils/audio";
+import GimmesongAPI from "@lib/gimmesong_api";
 
 function NewReceived({ layout, onLayoutChange }) {
   const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
@@ -19,7 +20,9 @@ function NewReceived({ layout, onLayoutChange }) {
 
   const slider = useRef(null);
   const [current, setCurrent] = useState(null);
+
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const [playbackURL, setPlaybackURL] = useState({});
 
@@ -44,44 +47,50 @@ function NewReceived({ layout, onLayoutChange }) {
   };
 
   const getPlaybackURL = async (videoId) => {
-    // implement fetch videoplayback url here, then set to playbackURL object
-    // to reuse in next time
-    setPlaybackURL((prev) => {
-      return {
-        ...prev,
-        [videoId]:
-          videoId === "79ucr8WTBIY"
-            ? "https://download.samplelib.com/mp3/sample-12s.mp3"
-            : "https://download.samplelib.com/mp3/sample-15s.mp3",
-      };
-    });
+    // check object key before query, if not found will query new playback url
+    if (!playbackURL[videoId]) {
+      // implement fetch playback url here, then set to playbackURL object
+      // to reuse in next time
+      setPlaybackURL((prev) => {
+        return {
+          ...prev,
+          [videoId]: "https://download.samplelib.com/mp3/sample-15s.mp3",
+        };
+      });
+    }
   };
 
   const handlePlay = async (id) => {
     // get videoplayback url here
-    const videoId = received[current]?.song?.videoId;
+    const videoId = received[current].content?.song?.videoId;
     await getPlaybackURL(videoId);
 
     // then update played = true to database
-    let updated = received.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            played: true,
-          }
-        : item
-    );
-    setReceived(updated);
-    // reload audio source when current.src is changed
-    reloadAudioSrc();
-    setPlaying(true);
+    try {
+      if (!received[current].played) await GimmesongAPI.playedInbox(id);
+      let updated = received.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              played: true,
+            }
+          : item
+      );
+      setReceived(updated);
+
+      // reload audio source when current.src is changed
+      reloadAudioSrc();
+      setPlaying(true);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const toggleAudio = async () => {
     // when toggle to play played audio, we need to get playback url again to prevent error
     // from play/pause empty source url
 
-    const videoId = received[current]?.song?.videoId;
+    const videoId = received[current].content?.song?.videoId;
     await getPlaybackURL(videoId);
 
     // after current.src is changed, need to reload src before use audio.play()
@@ -118,74 +127,96 @@ function NewReceived({ layout, onLayoutChange }) {
     }
   }, [layout]);
 
-  useEffect(() => {
-    let results = [
-      {
-        id: 1,
-        receiver: "friend",
-        song: {
-          videoId: "79ucr8WTBIY",
-          title: "โต๊ะริม (Melt)",
-          thumbnails: [
-            {
-              url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w60-h60-l90-rj",
-              width: 60,
-              height: 60,
-            },
-          ],
-          length: "4:08",
-          artistInfo: {
-            artist: [
-              {
-                text: "NONT TANONT",
-                browseId: "UC0qrQfKKZnoP03_8s-2n8-g",
-                pageType: "MUSIC_PAGE_TYPE_ARTIST",
-              },
-            ],
-          },
-        },
-        message: "halo fren 1",
-        played: false,
-      },
-      {
-        id: 2,
-        receiver: "friend",
-        song: {
-          videoId: "6-IotY7xluM",
-          title: "Zen Bang Bang",
-          thumbnails: [
-            {
-              url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
-              width: 60,
-              height: 60,
-            },
-          ],
-          length: "4:32",
-          artistInfo: {
-            artist: [
-              {
-                text: "Indigo",
-                browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
-                pageType: "MUSIC_PAGE_TYPE_ARTIST",
-              },
-            ],
-          },
-        },
-        message: "halo fren 2",
-        played: false,
-      },
-    ];
+  const fetchInbox = async () => {
+    try {
+      setLoading(true);
+      setError(false);
 
-    // due to default layout of new received page is single
-    // then if results not empty, set current index to first element in arrays
-    // to show music player automatically
-    if (results.length > 0) {
-      setReceived(results);
-      setCurrent(0);
+      let results = await GimmesongAPI.queryInbox({ filter: "new" });
+      if (results.length > 0) {
+        setReceived(results);
+        setCurrent(0);
+      }
+    } catch (err) {
+      setError(true);
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    setTimeout(() => setLoading(false), 500);
+  useEffect(() => {
+    fetchInbox();
   }, []);
+
+  // useEffect(() => {
+  //   let results = [
+  //     {
+  //       id: 1,
+  //       receiver: "friend",
+  //       song: {
+  //         videoId: "79ucr8WTBIY",
+  //         title: "โต๊ะริม (Melt)",
+  //         thumbnails: [
+  //           {
+  //             url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w60-h60-l90-rj",
+  //             width: 60,
+  //             height: 60,
+  //           },
+  //         ],
+  //         length: "4:08",
+  //         artistInfo: {
+  //           artist: [
+  //             {
+  //               text: "NONT TANONT",
+  //               browseId: "UC0qrQfKKZnoP03_8s-2n8-g",
+  //               pageType: "MUSIC_PAGE_TYPE_ARTIST",
+  //             },
+  //           ],
+  //         },
+  //       },
+  //       message: "halo fren 1",
+  //       played: false,
+  //     },
+  //     {
+  //       id: 2,
+  //       receiver: "friend",
+  //       song: {
+  //         videoId: "6-IotY7xluM",
+  //         title: "Zen Bang Bang",
+  //         thumbnails: [
+  //           {
+  //             url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
+  //             width: 60,
+  //             height: 60,
+  //           },
+  //         ],
+  //         length: "4:32",
+  //         artistInfo: {
+  //           artist: [
+  //             {
+  //               text: "Indigo",
+  //               browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
+  //               pageType: "MUSIC_PAGE_TYPE_ARTIST",
+  //             },
+  //           ],
+  //         },
+  //       },
+  //       message: "halo fren 2",
+  //       played: false,
+  //     },
+  //   ];
+
+  //   // due to default layout of new received page is single
+  //   // then if results not empty, set current index to first element in arrays
+  //   // to show music player automatically
+  //   if (results.length > 0) {
+  //     setReceived(results);
+  //     setCurrent(0);
+  //   }
+
+  //   setTimeout(() => setLoading(false), 500);
+  // }, []);
 
   return (
     <>
@@ -226,10 +257,13 @@ function NewReceived({ layout, onLayoutChange }) {
                                 />
                                 {item.played ? (
                                   <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                                    {item.song?.thumbnails?.length > 0 && (
+                                    {item.content?.song?.thumbnails?.length >
+                                      0 && (
                                       <img
                                         className="h-[27%] w-[27%] select-none rounded-full object-contain"
-                                        src={item.song?.thumbnails[0]?.url}
+                                        src={
+                                          item.content?.song?.thumbnails[0]?.url
+                                        }
                                         alt="disc"
                                       />
                                     )}
@@ -247,7 +281,7 @@ function NewReceived({ layout, onLayoutChange }) {
                             </div>
                             {received[current]?.id === item.id && (
                               <span className="gimmesong-secondary-font mt-6 text-center text-lg leading-6 text-gray-700">
-                                {item.message}
+                                {item.content?.message}
                               </span>
                             )}
                           </div>
@@ -284,10 +318,10 @@ function NewReceived({ layout, onLayoutChange }) {
                     />
                     {item.played ? (
                       <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                        {item.song?.thumbnails?.length > 0 && (
+                        {item.content?.song?.thumbnails?.length > 0 && (
                           <img
                             className="h-[27%] w-[27%] select-none rounded-full object-contain"
-                            src={item.song?.thumbnails[0]?.url}
+                            src={item.content?.song?.thumbnails[0]?.url}
                             alt="disc"
                           />
                         )}
@@ -308,7 +342,9 @@ function NewReceived({ layout, onLayoutChange }) {
             {current !== null && (
               <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
                 <audio ref={audioRef}>
-                  <source src={playbackURL[received[current]?.song?.videoId]} />
+                  <source
+                    src={playbackURL[received[current].content?.song?.videoId]}
+                  />
                   Your browser does not support the <code>audio</code> element.
                 </audio>
                 {/* <Audio
@@ -375,17 +411,20 @@ function NewReceived({ layout, onLayoutChange }) {
                       </div>
                       <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
                         <span className="select-none truncate text-sm">
-                          {received[current].song?.title}
+                          {received[current].content?.song?.title}
                         </span>
                         <span className="select-none truncate text-xs text-gray-500">
-                          {received[current].song?.artistInfo?.artist[0]?.text}
+                          {
+                            received[current].content?.song?.artistInfo
+                              ?.artist[0]?.text
+                          }
                         </span>
                       </div>
                     </div>
                     <div className="select-none text-xs">
                       {duration > 0
                         ? durationToStr(duration)
-                        : received[current].song?.length}
+                        : received[current].content?.song?.length}
                     </div>
                   </div>
                 )}

@@ -66,7 +66,7 @@ function AllReceived({ layout, onLayoutChange }) {
 
     // then update played = true to database
     try {
-      await GimmesongAPI.playedInbox(id);
+      if (!received[current].played) await GimmesongAPI.playedInbox(id);
       let updated = received.map((item) =>
         item.id === id
           ? {
@@ -128,13 +128,15 @@ function AllReceived({ layout, onLayoutChange }) {
     }
   }, [layout]);
 
-  const fetchAllReceived = async () => {
+  const fetchInbox = async () => {
     try {
       setLoading(true);
       setError(false);
 
       let results = await GimmesongAPI.queryInbox({ filter: "all" });
-      setReceived(results);
+      if (results.length > 0) {
+        setReceived(results);
+      }
     } catch (err) {
       setError(true);
       console.error(err);
@@ -144,7 +146,7 @@ function AllReceived({ layout, onLayoutChange }) {
   };
 
   useEffect(() => {
-    fetchAllReceived();
+    fetchInbox();
   }, []);
 
   // useEffect(() => {
