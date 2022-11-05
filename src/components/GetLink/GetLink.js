@@ -12,7 +12,7 @@ function GetLink() {
 
   const copyToClipboard = (val) => {
     copy(val);
-    toast("Copied to clipboard!", {
+    toast("Copied!", {
       style: {
         borderRadius: "25px",
         background: "#000",
