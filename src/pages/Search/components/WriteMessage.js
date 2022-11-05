@@ -1,5 +1,6 @@
 import { useState } from "react";
 import GimmesongAPI from "@lib/gimmesong_api";
+import toast, { Toaster } from "react-hot-toast";
 
 function WriteMessage({ next, receiver, song }) {
   const [message, setMessage] = useState("");
@@ -13,6 +14,16 @@ function WriteMessage({ next, receiver, song }) {
 
   const sendSong = async () => {
     if (!receiver || !song) return;
+    if (!message) {
+      toast("Please write me a message 🥹", {
+        style: {
+          borderRadius: "25px",
+          background: "#FF6464",
+          color: "#fff",
+        },
+      });
+      return;
+    }
 
     // implement send song logic here
     try {
@@ -38,7 +49,7 @@ function WriteMessage({ next, receiver, song }) {
         <textarea
           disabled={loading}
           value={message}
-          className="my-auto w-full resize-none text-center outline-none"
+          className="my-auto w-full resize-none px-2 text-center outline-none"
           placeholder="“ Write something ”"
           rows={6}
           onChange={(e) => handleMessageChange(e.target.value)}
@@ -52,6 +63,8 @@ function WriteMessage({ next, receiver, song }) {
               className="h-10 w-10 shrink-0 select-none rounded-full object-contain"
               src={song.thumbnails[0]?.url}
               alt="thumbnail"
+              referrerPolicy="no-referrer"
+              crossOrigin="anonymous"
             />
             <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
               <span className={`truncate text-sm`}>{song.title}</span>
@@ -92,6 +105,7 @@ function WriteMessage({ next, receiver, song }) {
         )}
         SEND
       </button>
+      <Toaster />
     </div>
   );
 }

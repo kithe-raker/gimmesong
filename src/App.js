@@ -23,9 +23,9 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     auth.onAuthStateChanged(async (data) => {
       if (data) {
+        setLoading(true);
         const token = await auth.currentUser.getIdToken(true);
 
         // implement get user info here and set only required properties to user object

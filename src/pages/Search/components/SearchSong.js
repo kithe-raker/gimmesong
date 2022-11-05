@@ -251,9 +251,10 @@ function SearchSong({ next, onSelectSong, receiver }) {
                     <img
                       className="h-10 w-10 shrink-0 select-none rounded-full object-contain"
                       src={song.thumbnails[0]?.url}
-                      alt="thumbnail"
                       onError={handleImgError}
+                      alt="thumbnail"
                       referrerPolicy="no-referrer"
+                      crossOrigin="anonymous"
                     />
                     <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
                       <span className={`truncate text-sm`}>{song.title}</span>
