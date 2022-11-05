@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import { useState, useEffect, useRef } from "react";
 import PasteLink from "./components/PasteLink.js";
 import Sent from "./components/Sent.js";
@@ -51,6 +53,31 @@ function Search() {
 
     if (username) checkUserExist();
   }, [username]);
+
+  useEffect(() => {
+    const testFetch = async () => {
+      const body = {
+        context: {
+          client: {
+            clientName: "IOS",
+            clientVersion: "17.13.3",
+            hl: "en",
+          },
+        },
+        videoId: "0QVHHeRgERA",
+        racyCheckOk: true,
+        contentCheckOk: true,
+      };
+
+      const response = await axios.post(
+        "https://music.youtube.com/youtubei/v1/" +
+          `player?key=AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w`,
+        body
+      );
+      console.log(response);
+    };
+    testFetch();
+  }, []);
 
   const nextStep = () => {
     setCurrentStep((step) => (step += 1));
