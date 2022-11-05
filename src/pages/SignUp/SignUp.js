@@ -72,8 +72,8 @@ function SignUp() {
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
       <div className="flex flex-col items-center justify-center">
-        <span className="gimmesong-primary-font text-xl text-gray-600 ">
-          Lorem Lorem Lorem Lorem
+        <span className="gimmesong-primary-font text-center text-lg text-gray-600">
+          Others will be able to send songs for you by this name.
         </span>
         <div className="relative mt-4 mb-2.5 w-[250px]">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">

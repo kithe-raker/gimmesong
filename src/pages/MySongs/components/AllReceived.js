@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import EmptySong from "./EmptySong";
 import disc from "@assets/img/disc.png";
 import shushingEmoji from "@assets/img/shushing_emoji.png";
@@ -10,8 +10,27 @@ import useAudioPlayer from "@hooks/useAudioPlayer";
 
 import { durationToStr } from "@utils/audio";
 import GimmesongAPI from "@lib/gimmesong_api";
+import * as htmlToImage from "html-to-image";
+
+import { useDisclosure } from "@chakra-ui/react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+  Button,
+} from "@chakra-ui/react";
 
 function AllReceived({ layout, onLayoutChange }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
+
+  const [exportMode, setExportMode] = useState("compact");
+  const exportRef = useRef();
+
   const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
     useAudioPlayer();
 
@@ -36,6 +55,31 @@ function AllReceived({ layout, onLayoutChange }) {
       setCurrent(next);
     },
   };
+
+  const exportImage = (inboxId) => {
+    if (!exportRef.current || !inboxId) return;
+    htmlToPng(exportRef.current, inboxId);
+  };
+
+  const htmlToPng = useCallback(async (element, inboxId) => {
+    if (!element) return;
+
+    const width = element.clientWidth;
+    const height = element.clientHeight;
+
+    htmlToImage
+      .toPng(element, { width, height, pixelRatio: 1 })
+      .then((dataUrl) => {
+        let a = document.createElement("a");
+        a.href = dataUrl;
+        a.download = `inbox-${exportMode}-${inboxId}.png`;
+        a.click();
+      })
+      .catch((e) => {
+        console.error("Oops, something went wrong!", e);
+      })
+      .finally(() => {});
+  }, []);
 
   const handleSelect = (index) => {
     // when user click on music disc,
@@ -309,7 +353,9 @@ function AllReceived({ layout, onLayoutChange }) {
                                         src={
                                           item.content?.song?.thumbnails[0]?.url
                                         }
-                                        alt="disc"
+                                        alt="thumbnail"
+                                        referrerPolicy="no-referrer"
+                                        crossOrigin="anonymous"
                                       />
                                     )}
                                   </div>
@@ -367,7 +413,9 @@ function AllReceived({ layout, onLayoutChange }) {
                           <img
                             className="h-[27%] w-[27%] select-none rounded-full object-contain"
                             src={item.content?.song?.thumbnails[0]?.url}
-                            alt="disc"
+                            alt="thumbnail"
+                            referrerPolicy="no-referrer"
+                            crossOrigin="anonymous"
                           />
                         )}
                       </div>
@@ -470,7 +518,10 @@ function AllReceived({ layout, onLayoutChange }) {
                     </div>
                   </div>
                 )}
-                <button className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm hover:bg-gray-100">
+                <button
+                  onClick={onOpen}
+                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm hover:bg-gray-100"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -489,6 +540,83 @@ function AllReceived({ layout, onLayoutChange }) {
                     <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                   </svg>
                 </button>
+                <div className="h-0 w-0 overflow-hidden">
+                  <div
+                    ref={exportRef}
+                    className="flex w-[960px] flex-col items-center justify-between overflow-hidden rounded-[108px] border border-gray-200 bg-white p-[36px]"
+                  >
+                    <div className="w-full py-[54px] px-[24px] text-center text-[48px] text-gray-800">
+                      i love you i give you this song i love you i give you this
+                      song i love you i give you this song i love you i give you
+                      this song i love you i give you this songi love you i give
+                      you this song i love yo
+                    </div>
+                    <div
+                      className={`pointer-events-none flex h-[192px] w-full items-center justify-between rounded-full bg-white bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] p-[36px] pr-[48px] text-white hover:bg-gray-100`}
+                    >
+                      <div className="flex items-center overflow-hidden">
+                        <img
+                          className="h-[120px] w-[120px] shrink-0 rounded-full object-contain"
+                          src={
+                            received[current].content?.song?.thumbnails[0]?.url
+                          }
+                          alt="thumbnail"
+                          referrerPolicy="no-referrer"
+                          crossOrigin="anonymous"
+                        />
+                        <div className="mx-[30px] flex min-w-0 flex-col">
+                          <span className={`truncate text-[42px]`}>
+                            {received[current].content?.song?.title}
+                          </span>
+                          <span className={`truncate text-[36px] text-white`}>
+                            {
+                              received[current].content?.song?.artistInfo
+                                ?.artist[0]?.text
+                            }
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <AlertDialog
+                  motionPreset="slideInBottom"
+                  leastDestructiveRef={cancelRef}
+                  onClose={onClose}
+                  isOpen={isOpen}
+                  isCentered
+                  size="md"
+                >
+                  <AlertDialogOverlay />
+
+                  <AlertDialogContent borderRadius={25}>
+                    <AlertDialogHeader>Export Image</AlertDialogHeader>
+                    <AlertDialogCloseButton />
+                    <AlertDialogBody></AlertDialogBody>
+                    <AlertDialogFooter>
+                      <Button
+                        borderRadius="25"
+                        ref={cancelRef}
+                        onClick={onClose}
+                        h={42}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={() => exportImage(received[current].id)}
+                        borderRadius="25"
+                        colorScheme="blackAlpha"
+                        bgColor="black"
+                        color="white"
+                        ml={3}
+                        h={42}
+                      >
+                        Export
+                      </Button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             )}
           </>

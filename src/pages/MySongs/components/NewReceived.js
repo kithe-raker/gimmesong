@@ -264,7 +264,9 @@ function NewReceived({ layout, onLayoutChange }) {
                                         src={
                                           item.content?.song?.thumbnails[0]?.url
                                         }
-                                        alt="disc"
+                                        alt="thumbnail"
+                                        referrerPolicy="no-referrer"
+                                        crossOrigin="anonymous"
                                       />
                                     )}
                                   </div>
@@ -322,7 +324,9 @@ function NewReceived({ layout, onLayoutChange }) {
                           <img
                             className="h-[27%] w-[27%] select-none rounded-full object-contain"
                             src={item.content?.song?.thumbnails[0]?.url}
-                            alt="disc"
+                            alt="thumbnail"
+                            referrerPolicy="no-referrer"
+                            crossOrigin="anonymous"
                           />
                         )}
                       </div>
