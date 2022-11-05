@@ -62,9 +62,7 @@ function Menu() {
       </span>
       <GetLink />
       <div className="mt-6 flex w-72 items-center justify-between rounded-full bg-black p-3 pl-8">
-        <span className="gimmesong-primary-font text-white">
-          Give someone a song
-        </span>
+        <span className="text-white">Give someone a song</span>
         <button
           onClick={() => navigate("/search")}
           className="group inline-flex h-[42px] w-[42px] animate-bounce-a-bit items-center justify-center rounded-full bg-white bg-gradient-to-r text-gray-600 transition duration-150 ease-in-out hover:from-[#86C7DF] hover:to-[#CFB6D0] "
