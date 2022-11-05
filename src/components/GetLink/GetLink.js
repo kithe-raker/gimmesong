@@ -1,22 +1,20 @@
 import React from "react";
-import bg from "@assets/img/gimmesong_gradient_bg.png";
+// import bg from "@assets/img/gimmesong_gradient_bg.png";
 
 import { useCopyToClipboard } from "usehooks-ts";
-import useAuth from "@store/user";
-import { useLocalStorage } from "@hooks/useLocalStorage";
+import useSession from "@hooks/useSession";
 
 function GetLink() {
-  // const { user } = useAuth();
-  const [user, setUser] = useLocalStorage("user", null);
+  const { user } = useSession();
   const [value, copy] = useCopyToClipboard();
 
   return (
-    <div className="relative flex h-48 w-72 items-center justify-center overflow-hidden rounded-3xl">
-      <img
+    <div className="relative flex h-48 w-72 items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0]">
+      {/* <img
         className="absolute inset-0 h-full w-full object-cover"
         src={bg}
         alt="background"
-      />
+      /> */}
       <div className="absolute flex flex-col items-center">
         <span className="gimmesong-primary-font text-2xl text-white">
           Share with friends
