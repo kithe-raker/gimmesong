@@ -74,6 +74,8 @@ function AllReceived({ layout, onLayoutChange }) {
         a.href = dataUrl;
         a.download = `inbox-${exportMode}-${inboxId}.png`;
         a.click();
+
+        onClose();
       })
       .catch((e) => {
         console.error("Oops, something went wrong!", e);
