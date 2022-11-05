@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import EmptySong from "./EmptySong";
 import disc from "@assets/img/disc.png";
+import logo from "@assets/img/gimmesong_logo.png";
+
 import shushingEmoji from "@assets/img/shushing_emoji.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -39,6 +41,7 @@ function AllReceived({ layout, onLayoutChange }) {
   const slider = useRef(null);
   const [current, setCurrent] = useState(null);
 
+  const [loadingSong, setLoadingSong] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -106,6 +109,7 @@ function AllReceived({ layout, onLayoutChange }) {
   };
 
   const handlePlay = async (id) => {
+    setLoadingSong(true);
     // get videoplayback url here
     const videoId = received[current].content?.song?.videoId;
     await getPlaybackURL(videoId);
@@ -126,12 +130,15 @@ function AllReceived({ layout, onLayoutChange }) {
       // reload audio source when current.src is changed
       reloadAudioSrc();
       setPlaying(true);
+      setLoadingSong(false);
     } catch (err) {
       console.error(err);
     }
   };
 
   const toggleAudio = async () => {
+    setLoadingSong(true);
+
     // when toggle to play played audio, we need to get playback url again to prevent error
     // from play/pause empty source url
 
@@ -142,6 +149,7 @@ function AllReceived({ layout, onLayoutChange }) {
     // and to prevent reload src on pausing we determine from current audio time not equal zero
     if (curTime === 0) reloadAudioSrc();
     setPlaying((prev) => !prev);
+    setLoadingSong(false);
   };
 
   const handleSwipe = () => {
@@ -373,7 +381,7 @@ function AllReceived({ layout, onLayoutChange }) {
                               </div>
                             </div>
                             {received[current]?.id === item.id && (
-                              <span className="gimmesong-secondary-font mt-6 text-center text-lg leading-6 text-gray-700">
+                              <span className="mt-6 text-center text-xl leading-6 text-gray-700">
                                 {item.content?.message}
                               </span>
                             )}
@@ -547,11 +555,18 @@ function AllReceived({ layout, onLayoutChange }) {
                     ref={exportRef}
                     className="flex w-[960px] flex-col items-center justify-between overflow-hidden rounded-[108px] border border-gray-200 bg-white p-[36px]"
                   >
-                    <div className="w-full py-[54px] px-[24px] text-center text-[48px] text-gray-800">
-                      i love you i give you this song i love you i give you this
-                      song i love you i give you this song i love you i give you
-                      this song i love you i give you this songi love you i give
-                      you this song i love yo
+                    <div className="flex items-center justify-center">
+                      <img
+                        className="mr-[8px] h-[36px] w-[36px]"
+                        src={logo}
+                        alt="disc"
+                      />
+                      <span className="gimmesong-primary-font text-[36px] tracking-wider">
+                        GIMMESONG
+                      </span>
+                    </div>
+                    <div className="flex min-h-[384px] w-full items-center justify-center py-[54px] px-[24px] text-center text-[60px] font-semibold text-gray-800">
+                      {received[current].content?.message}
                     </div>
                     <div
                       className={`pointer-events-none flex h-[192px] w-full items-center justify-between rounded-full bg-white bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] p-[36px] pr-[48px] text-white hover:bg-gray-100`}
