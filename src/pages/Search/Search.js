@@ -5,7 +5,7 @@ import SearchSong from "./components/SearchSong.js";
 import WriteMessage from "./components/WriteMessage.js";
 
 import { useParams } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 import Loading from "@components/Loading";
@@ -105,7 +105,6 @@ function Search() {
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
       <div className="my-4 w-full max-w-[300px] bg-gray-300 p-5">ADS</div>
       {loading ? <Loading fullScreens /> : render}
-      <Toaster />
     </div>
   );
 }

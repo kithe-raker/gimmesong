@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 import useAudioPlayer from "@hooks/useAudioPlayer";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { durationToStr } from "@utils/audio";
 
 import Loading from "@components/Loading";
@@ -334,7 +334,6 @@ function SearchSong({ next, onSelectSong, receiver }) {
       >
         NEXT
       </button>
-      <Toaster />
     </div>
   );
 }

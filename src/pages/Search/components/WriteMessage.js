@@ -1,6 +1,6 @@
 import { useState } from "react";
 import GimmesongAPI from "@lib/gimmesong_api";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 function WriteMessage({ next, receiver, song }) {
   const [message, setMessage] = useState("");
@@ -105,7 +105,6 @@ function WriteMessage({ next, receiver, song }) {
         )}
         SEND
       </button>
-      <Toaster />
     </div>
   );
 }

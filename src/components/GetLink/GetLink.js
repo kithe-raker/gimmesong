@@ -4,7 +4,7 @@ import React from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 import useSession from "@hooks/useSession";
 
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 function GetLink() {
   const { user } = useSession();
@@ -73,7 +73,6 @@ function GetLink() {
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
           </button>
-          <Toaster />
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import GimmesongAPI from "@lib/gimmesong_api";
 import useSession from "@hooks/useSession";
 import { useNavigate } from "react-router-dom";
@@ -169,7 +169,6 @@ function SignUp() {
         >
           ENTER
         </button>
-        <Toaster />
       </div>
     </div>
   );

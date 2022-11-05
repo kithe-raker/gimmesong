@@ -17,6 +17,7 @@ import useSession from "@hooks/useSession";
 import { auth } from "@lib/firebase";
 
 import GimmesongAPI from "@lib/gimmesong_api";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const { user, setUser } = useSession();
@@ -103,6 +104,7 @@ function App() {
   return (
     <>
       <Router>
+        <Toaster />
         {loading ? (
           <Loading fullScreen />
         ) : (

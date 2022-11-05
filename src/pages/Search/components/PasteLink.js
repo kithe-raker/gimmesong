@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import GimmesongAPI from "@lib/gimmesong_api";
 
 import { useNavigate } from "react-router-dom";
@@ -138,7 +138,6 @@ function PasteLink({ next, onSelectReceiver }) {
         )}
         NEXT
       </button>
-      <Toaster />
     </div>
   );
 }
