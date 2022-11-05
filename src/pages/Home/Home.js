@@ -6,7 +6,7 @@ import GimmesongAPI from "@lib/gimmesong_api";
 
 function Home() {
   const [loading, setLoading] = useState(true);
-  const [count, setCount] = useState(true);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const getTotalSentSong = async () => {
