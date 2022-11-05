@@ -4,9 +4,22 @@ import React from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 import useSession from "@hooks/useSession";
 
+import toast, { Toaster } from "react-hot-toast";
+
 function GetLink() {
   const { user } = useSession();
   const [value, copy] = useCopyToClipboard();
+
+  const copyToClipboard = (val) => {
+    copy(val);
+    toast("Copied to clipboard!", {
+      style: {
+        borderRadius: "25px",
+        background: "#000",
+        color: "#fff",
+      },
+    });
+  };
 
   return (
     <div className="relative flex h-48 w-72 items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0]">
@@ -41,7 +54,9 @@ function GetLink() {
             </span>
           </div>
           <button
-            onClick={() => copy(`https://gimmesong.link/@${user.username}`)}
+            onClick={() =>
+              copyToClipboard(`https://gimmesong.link/@${user.username}`)
+            }
             className="absolute right-2 bottom-2 top-2 flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium text-white hover:bg-gray-100 focus:outline-none"
           >
             <svg
@@ -58,6 +73,7 @@ function GetLink() {
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
           </button>
+          <Toaster />
         </div>
       </div>
     </div>
