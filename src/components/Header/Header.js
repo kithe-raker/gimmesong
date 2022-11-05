@@ -110,7 +110,7 @@ function Header() {
           >
             <AlertDialogOverlay />
 
-            <AlertDialogContent borderRadius={25}>
+            <AlertDialogContent borderRadius={25} marginX={4}>
               <AlertDialogHeader>Sign out?</AlertDialogHeader>
               <AlertDialogCloseButton />
               <AlertDialogBody>

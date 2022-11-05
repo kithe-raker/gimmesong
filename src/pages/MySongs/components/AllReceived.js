@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import useAudioPlayer from "@hooks/useAudioPlayer";
+import { useSteps } from "@hooks/useSteps";
 
 import { durationToStr } from "@utils/audio";
 import GimmesongAPI from "@lib/gimmesong_api";
@@ -27,8 +28,16 @@ import {
 } from "@chakra-ui/react";
 
 function AllReceived({ layout, onLayoutChange }) {
+  const { activeStep, setStep, skip, nextStep } = useSteps({
+    totalSteps: 4,
+  });
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
+  const onCloseModal = () => {
+    onClose();
+    setStep(1);
+  };
 
   const [exportMode, setExportMode] = useState("compact");
   const exportRef = useRef();
@@ -159,7 +168,7 @@ function AllReceived({ layout, onLayoutChange }) {
 
   const goTo = (index) => {
     // disable animate true
-    slider.current.slickGoTo(index, true);
+    if (slider.current) slider.current.slickGoTo(index, true);
   };
 
   useEffect(() => {
@@ -621,37 +630,135 @@ function AllReceived({ layout, onLayoutChange }) {
                 <AlertDialog
                   motionPreset="slideInBottom"
                   leastDestructiveRef={cancelRef}
-                  onClose={onClose}
+                  onClose={onCloseModal}
                   isOpen={isOpen}
                   isCentered
                   size="md"
                 >
                   <AlertDialogOverlay />
 
-                  <AlertDialogContent borderRadius={25}>
-                    <AlertDialogHeader>Export Image</AlertDialogHeader>
+                  <AlertDialogContent borderRadius={25} marginX={4}>
+                    <AlertDialogHeader>
+                      How to share a song to ig story
+                    </AlertDialogHeader>
                     <AlertDialogCloseButton />
-                    <AlertDialogBody></AlertDialogBody>
+                    <AlertDialogBody>
+                      {/* <div className="flex">
+                        <div className="flex flex-col items-center">
+                          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gray-100"></div>
+                          <span className="mt-1 text-sm font-semibold">
+                            Widget
+                          </span>
+                        </div>
+                      </div> */}
+                      <div className="flex w-full justify-center">
+                        <div
+                          onClick={() => setStep(1)}
+                          className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
+                            activeStep === 1
+                              ? "bg-black text-white"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          1
+                        </div>
+                        <div
+                          onClick={() => setStep(2)}
+                          className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
+                            activeStep === 2
+                              ? "bg-black text-white"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          2
+                        </div>
+                        <div
+                          onClick={() => setStep(3)}
+                          className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
+                            activeStep === 3
+                              ? "bg-black text-white"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          3
+                        </div>
+                        <div
+                          onClick={() => setStep(4)}
+                          className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
+                            activeStep === 4
+                              ? "bg-black text-white"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          4
+                        </div>
+                      </div>
+                      {activeStep === 1 && (
+                        <div className="mt-3 flex flex-col items-center">
+                          <p className="text-xl">Click on [] button</p>
+                        </div>
+                      )}
+                      {activeStep === 2 && (
+                        <div className="mt-3 flex flex-col items-center"></div>
+                      )}
+                      {activeStep === 3 && (
+                        <div className="mt-3 flex flex-col items-center"></div>
+                      )}
+                      {activeStep === 4 && (
+                        <div className="mt-3 flex flex-col items-center"></div>
+                      )}
+                    </AlertDialogBody>
                     <AlertDialogFooter>
-                      <Button
-                        borderRadius="25"
-                        ref={cancelRef}
-                        onClick={onClose}
-                        h={42}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        onClick={() => exportImage(received[current].id)}
-                        borderRadius="25"
-                        colorScheme="blackAlpha"
-                        bgColor="black"
-                        color="white"
-                        ml={3}
-                        h={42}
-                      >
-                        Export
-                      </Button>
+                      {activeStep !== 4 ? (
+                        <>
+                          <Button
+                            w="full"
+                            borderRadius="25"
+                            ref={cancelRef}
+                            onClick={skip}
+                            h={42}
+                          >
+                            Skip
+                          </Button>
+                          <Button
+                            w="full"
+                            onClick={nextStep}
+                            borderRadius="25"
+                            colorScheme="blackAlpha"
+                            bgColor="black"
+                            color="white"
+                            ml={3}
+                            h={42}
+                          >
+                            Next
+                          </Button>
+                        </>
+                      ) : (
+                        <Button
+                          w="full"
+                          onClick={() => exportImage(received[current].id)}
+                          borderRadius="25"
+                          colorScheme="blackAlpha"
+                          bgColor="black"
+                          color="white"
+                          ml={3}
+                          h={42}
+                        >
+                          <svg
+                            className="mr-2 h-4 w-4 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5" />
+                          </svg>
+                          Export
+                        </Button>
+                      )}
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
