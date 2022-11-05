@@ -69,6 +69,12 @@ const methods = {
     });
     return success;
   },
+  getTotalSongSent: async function () {
+    const {
+      data: { value },
+    } = await axios.get(`/api/v1/totalsongsent`);
+    return value;
+  },
 };
 
 export default methods;
