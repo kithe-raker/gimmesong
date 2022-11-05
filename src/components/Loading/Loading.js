@@ -12,7 +12,7 @@ function Loading({ fullScreen, disableBg }) {
         height="60"
         width="60"
         radius="9"
-        color="#8e79ff"
+        color="#000"
         ariaLabel="three-dots-loading"
         wrapperStyle={{}}
         wrapperClassName=""
