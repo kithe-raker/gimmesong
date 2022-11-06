@@ -1,6 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+
 import disc from "@assets/img/disc.png";
+import logo from "@assets/img/gimmesong_logo.png";
 import shushingEmoji from "@assets/img/shushing_emoji.png";
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -8,11 +11,39 @@ import "slick-carousel/slick/slick-theme.css";
 import EmptySong from "./EmptySong";
 
 import useAudioPlayer from "@hooks/useAudioPlayer";
+import { useSteps } from "@hooks/useSteps";
 
 import { durationToStr } from "@utils/audio";
 import GimmesongAPI from "@lib/gimmesong_api";
+import * as htmlToImage from "html-to-image";
+
+import { useDisclosure } from "@chakra-ui/react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+  Button,
+} from "@chakra-ui/react";
 
 function NewReceived({ layout, onLayoutChange }) {
+  const { activeStep, setStep, skip, nextStep } = useSteps({
+    totalSteps: 4,
+  });
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
+  const onCloseModal = () => {
+    onClose();
+    setStep(1);
+  };
+
+  const [exportMode, setExportMode] = useState("compact");
+  const exportRef = useRef();
+
   const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
     useAudioPlayer();
 
@@ -21,6 +52,7 @@ function NewReceived({ layout, onLayoutChange }) {
   const slider = useRef(null);
   const [current, setCurrent] = useState(null);
 
+  const [loadingSong, setLoadingSong] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -37,6 +69,33 @@ function NewReceived({ layout, onLayoutChange }) {
       setCurrent(next);
     },
   };
+
+  const exportImage = (inboxId) => {
+    if (!exportRef.current || !inboxId) return;
+    htmlToPng(exportRef.current, inboxId);
+  };
+
+  const htmlToPng = useCallback(async (element, inboxId) => {
+    if (!element) return;
+
+    const width = element.clientWidth;
+    const height = element.clientHeight;
+
+    htmlToImage
+      .toPng(element, { width, height, pixelRatio: 1 })
+      .then((dataUrl) => {
+        let a = document.createElement("a");
+        a.href = dataUrl;
+        a.download = `inbox-${exportMode}-${inboxId}.png`;
+        a.click();
+
+        onClose();
+      })
+      .catch((e) => {
+        console.error("Oops, something went wrong!", e);
+      })
+      .finally(() => {});
+  }, []);
 
   const handleSelect = (index) => {
     // when user click on music disc,
@@ -61,6 +120,7 @@ function NewReceived({ layout, onLayoutChange }) {
   };
 
   const handlePlay = async (id) => {
+    setLoadingSong(true);
     // get videoplayback url here
     const videoId = received[current].content?.song?.videoId;
     await getPlaybackURL(videoId);
@@ -81,12 +141,15 @@ function NewReceived({ layout, onLayoutChange }) {
       // reload audio source when current.src is changed
       reloadAudioSrc();
       setPlaying(true);
+      setLoadingSong(false);
     } catch (err) {
       console.error(err);
     }
   };
 
   const toggleAudio = async () => {
+    setLoadingSong(true);
+
     // when toggle to play played audio, we need to get playback url again to prevent error
     // from play/pause empty source url
 
@@ -97,6 +160,7 @@ function NewReceived({ layout, onLayoutChange }) {
     // and to prevent reload src on pausing we determine from current audio time not equal zero
     if (curTime === 0) reloadAudioSrc();
     setPlaying((prev) => !prev);
+    setLoadingSong(false);
   };
 
   const handleSwipe = () => {
@@ -106,7 +170,7 @@ function NewReceived({ layout, onLayoutChange }) {
 
   const goTo = (index) => {
     // disable animate true
-    slider.current.slickGoTo(index, true);
+    if (slider.current) slider.current.slickGoTo(index, true);
   };
 
   useEffect(() => {
@@ -120,7 +184,7 @@ function NewReceived({ layout, onLayoutChange }) {
    */
   useEffect(() => {
     if (layout === "single") {
-      if (received.length > 0 && slider.current) {
+      if (received.length > 0) {
         // use setTimeout to prevent element ref is null
         setTimeout(() => goTo(current), 100);
       }
@@ -303,7 +367,7 @@ function NewReceived({ layout, onLayoutChange }) {
                               </div>
                             </div>
                             {received[current]?.id === item.id && (
-                              <span className="gimmesong-secondary-font mt-6 text-center text-lg leading-6 text-gray-700">
+                              <span className="mt-6 text-center text-xl leading-6 text-gray-700">
                                 {item.content?.message}
                               </span>
                             )}
@@ -317,7 +381,7 @@ function NewReceived({ layout, onLayoutChange }) {
             ) : (
               <div
                 className={`grid max-h-[calc(100vh-24px-104px-42px-24px-24px)] grid-cols-2 gap-4 overflow-y-auto pt-4 ${
-                  current !== null ? "pb-[88px]" : ""
+                  current !== null ? "pb-[120px]" : ""
                 }`}
               >
                 {received.map((item, i) => (
@@ -453,7 +517,10 @@ function NewReceived({ layout, onLayoutChange }) {
                     </div>
                   </div>
                 )}
-                <button className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm hover:bg-gray-100">
+                <button
+                  onClick={onOpen}
+                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm hover:bg-gray-100"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -472,6 +539,186 @@ function NewReceived({ layout, onLayoutChange }) {
                     <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                   </svg>
                 </button>
+                <div className="h-0 w-0 overflow-hidden">
+                  <div
+                    ref={exportRef}
+                    className="flex w-[960px] flex-col items-center justify-between overflow-hidden rounded-[108px] border border-gray-200 bg-white p-[36px]"
+                  >
+                    <div className="flex items-center justify-center">
+                      <img
+                        className="mr-[8px] h-[36px] w-[36px]"
+                        src={logo}
+                        alt="disc"
+                      />
+                      <span className="gimmesong-primary-font text-[36px] tracking-wider">
+                        GIMMESONG
+                      </span>
+                    </div>
+                    <div className="flex min-h-[384px] w-full items-center justify-center py-[54px] px-[24px] text-center text-[60px] font-semibold text-gray-800">
+                      {received[current].content?.message}
+                    </div>
+                    <div
+                      className={`pointer-events-none flex h-[192px] w-full items-center justify-between rounded-full bg-white bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] p-[36px] pr-[48px] text-white hover:bg-gray-100`}
+                    >
+                      <div className="flex items-center overflow-hidden">
+                        <img
+                          className="h-[120px] w-[120px] shrink-0 rounded-full object-contain"
+                          src={
+                            received[current].content?.song?.thumbnails[0]?.url
+                          }
+                          alt="thumbnail"
+                          referrerPolicy="no-referrer"
+                          crossOrigin="anonymous"
+                        />
+                        <div className="mx-[30px] flex min-w-0 flex-col">
+                          <span className={`truncate text-[42px]`}>
+                            {received[current].content?.song?.title}
+                          </span>
+                          <span className={`truncate text-[36px] text-white`}>
+                            {
+                              received[current].content?.song?.artistInfo
+                                ?.artist[0]?.text
+                            }
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <AlertDialog
+                  motionPreset="slideInBottom"
+                  leastDestructiveRef={cancelRef}
+                  onClose={onCloseModal}
+                  isOpen={isOpen}
+                  isCentered
+                  size="md"
+                >
+                  <AlertDialogOverlay />
+
+                  <AlertDialogContent borderRadius={25} marginX={4}>
+                    <AlertDialogHeader>
+                      How to share a song to ig story
+                    </AlertDialogHeader>
+                    <AlertDialogCloseButton />
+                    <AlertDialogBody>
+                      {/* <div className="flex">
+                        <div className="flex flex-col items-center">
+                          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gray-100"></div>
+                          <span className="mt-1 text-sm font-semibold">
+                            Widget
+                          </span>
+                        </div>
+                      </div> */}
+                      <div className="flex w-full justify-center">
+                        <div
+                          onClick={() => setStep(1)}
+                          className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
+                            activeStep === 1
+                              ? "bg-black text-white"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          1
+                        </div>
+                        <div
+                          onClick={() => setStep(2)}
+                          className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
+                            activeStep === 2
+                              ? "bg-black text-white"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          2
+                        </div>
+                        <div
+                          onClick={() => setStep(3)}
+                          className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
+                            activeStep === 3
+                              ? "bg-black text-white"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          3
+                        </div>
+                        <div
+                          onClick={() => setStep(4)}
+                          className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
+                            activeStep === 4
+                              ? "bg-black text-white"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          4
+                        </div>
+                      </div>
+                      {activeStep === 1 && (
+                        <div className="mt-3 flex flex-col items-center">
+                          <p className="text-xl">Click the [] button</p>
+                        </div>
+                      )}
+                      {activeStep === 2 && (
+                        <div className="mt-3 flex flex-col items-center"></div>
+                      )}
+                      {activeStep === 3 && (
+                        <div className="mt-3 flex flex-col items-center"></div>
+                      )}
+                      {activeStep === 4 && (
+                        <div className="mt-3 flex flex-col items-center"></div>
+                      )}
+                    </AlertDialogBody>
+                    <AlertDialogFooter>
+                      {activeStep !== 4 ? (
+                        <>
+                          <Button
+                            w="full"
+                            borderRadius="25"
+                            ref={cancelRef}
+                            onClick={skip}
+                            h={42}
+                          >
+                            Skip
+                          </Button>
+                          <Button
+                            w="full"
+                            onClick={nextStep}
+                            borderRadius="25"
+                            colorScheme="blackAlpha"
+                            bgColor="black"
+                            color="white"
+                            ml={3}
+                            h={42}
+                          >
+                            Next
+                          </Button>
+                        </>
+                      ) : (
+                        <Button
+                          w="full"
+                          onClick={() => exportImage(received[current].id)}
+                          borderRadius="25"
+                          colorScheme="blackAlpha"
+                          bgColor="black"
+                          color="white"
+                          h={42}
+                        >
+                          <svg
+                            className="mr-2 h-4 w-4 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5" />
+                          </svg>
+                          Export
+                        </Button>
+                      )}
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             )}
           </>

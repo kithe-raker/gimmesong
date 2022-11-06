@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import EmptySong from "./EmptySong";
+
 import disc from "@assets/img/disc.png";
 import logo from "@assets/img/gimmesong_logo.png";
-
 import shushingEmoji from "@assets/img/shushing_emoji.png";
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+import EmptySong from "./EmptySong";
 
 import useAudioPlayer from "@hooks/useAudioPlayer";
 import { useSteps } from "@hooks/useSteps";
@@ -182,7 +184,7 @@ function AllReceived({ layout, onLayoutChange }) {
    */
   useEffect(() => {
     if (layout === "single") {
-      if (received.length > 0 && slider.current) {
+      if (received.length > 0) {
         // by default in multiple layout current is null until user click select song
         if (current === null) setCurrent(0);
         // use setTimeout to prevent element ref is null
@@ -425,7 +427,7 @@ function AllReceived({ layout, onLayoutChange }) {
             ) : (
               <div
                 className={`grid max-h-[calc(100vh-24px-104px-42px-24px-24px)] grid-cols-2 gap-4 overflow-y-auto pt-4 ${
-                  current !== null ? "pb-[88px]" : ""
+                  current !== null ? "pb-[120px]" : ""
                 }`}
               >
                 {received.map((item, i) => (
@@ -626,7 +628,6 @@ function AllReceived({ layout, onLayoutChange }) {
                     </div>
                   </div>
                 </div>
-
                 <AlertDialog
                   motionPreset="slideInBottom"
                   leastDestructiveRef={cancelRef}
@@ -741,7 +742,6 @@ function AllReceived({ layout, onLayoutChange }) {
                           colorScheme="blackAlpha"
                           bgColor="black"
                           color="white"
-                          ml={3}
                           h={42}
                         >
                           <svg
