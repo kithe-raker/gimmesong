@@ -41,7 +41,7 @@ function AllReceived({ layout, onLayoutChange }) {
     setStep(1);
   };
 
-  const [exportMode, setExportMode] = useState("compact");
+  const [exportMode, setExportMode] = useState("widget");
   const exportRef = useRef();
 
   const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
@@ -640,19 +640,95 @@ function AllReceived({ layout, onLayoutChange }) {
 
                   <AlertDialogContent borderRadius={25} marginX={4}>
                     <AlertDialogHeader>
-                      How to share a song to ig story
+                      {/* How to share a song to ig story */}
+                      {/* Share image to ig story */}
+                      Export Image
                     </AlertDialogHeader>
                     <AlertDialogCloseButton />
                     <AlertDialogBody>
+                      Get the widget and add to your instagram story manually{" "}
+                      {/* <span className="whitespace-nowrap text-gray-500 underline">
+                        Click to see guide!
+                      </span> */}
                       {/* <div className="flex">
-                        <div className="flex flex-col items-center">
-                          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gray-100"></div>
+                        <div className={`mr-3 flex flex-col items-center`}>
+                          <div
+                            className={`flex h-20 w-20 cursor-pointer items-center justify-center rounded-2xl shadow-md shadow-purple-200 hover:bg-purple-200 ${
+                              exportMode === "widget"
+                                ? "border-2 border-purple-500 bg-purple-200"
+                                : ""
+                            } bg-gray-100`}
+                          >
+                            <svg
+                              className={`h-8 w-8 ${
+                                exportMode === "widget"
+                                  ? "text-purple-500"
+                                  : "text-gray-800"
+                              }`}
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <rect x="3" y="3" width="18" height="18" rx="2" />
+                              <circle cx="8.5" cy="8.5" r="1.5" />
+                              <path d="M20.4 14.5L16 10 4 20" />
+                            </svg>
+                          </div>
                           <span className="mt-1 text-sm font-semibold">
                             Widget
                           </span>
                         </div>
                       </div> */}
-                      <div className="flex w-full justify-center">
+                      {/* <div className="flex flex-col justify-center">
+                        <h2 className="mb-3 text-lg font-medium">
+                          How to share a song to ig story
+                        </h2>
+                        <div
+                          onClick={() => setStep(1)}
+                          className={`my-1.5 mr-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
+                            activeStep === 1
+                              ? "bg-black text-white"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          1
+                        </div>
+                        <div
+                          onClick={() => setStep(2)}
+                          className={`my-1.5 mr-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
+                            activeStep === 2
+                              ? "bg-black text-white"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          2
+                        </div>
+                        <div
+                          onClick={() => setStep(3)}
+                          className={`my-1.5 mr-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
+                            activeStep === 3
+                              ? "bg-black text-white"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          3
+                        </div>
+                        <div
+                          onClick={() => setStep(4)}
+                          className={`my-1.5 mr-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
+                            activeStep === 4
+                              ? "bg-black text-white"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          4
+                        </div>
+                      </div> */}
+                      {/* <div className="flex w-full justify-center">
                         <div
                           onClick={() => setStep(1)}
                           className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
@@ -707,10 +783,41 @@ function AllReceived({ layout, onLayoutChange }) {
                       )}
                       {activeStep === 4 && (
                         <div className="mt-3 flex flex-col items-center"></div>
-                      )}
+                      )} */}
                     </AlertDialogBody>
                     <AlertDialogFooter>
-                      {activeStep !== 4 ? (
+                      <Button
+                        borderRadius="25"
+                        ref={cancelRef}
+                        onClick={onCloseModal}
+                        h={42}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={() => exportImage(received[current].id)}
+                        borderRadius="25"
+                        colorScheme="blackAlpha"
+                        bgColor="black"
+                        color="white"
+                        h={42}
+                        ml={3}
+                      >
+                        <svg
+                          className="mr-2 h-4 w-4 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5" />
+                        </svg>
+                        Export
+                      </Button>
+                      {/* {activeStep !== 4 ? (
                         <>
                           <Button
                             w="full"
@@ -758,7 +865,7 @@ function AllReceived({ layout, onLayoutChange }) {
                           </svg>
                           Export
                         </Button>
-                      )}
+                      )} */}
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
