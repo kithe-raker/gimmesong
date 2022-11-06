@@ -427,7 +427,7 @@ function AllReceived({ layout, onLayoutChange }) {
             ) : (
               <div
                 className={`grid max-h-[calc(100vh-24px-104px-42px-24px-24px)] grid-cols-2 gap-4 overflow-y-auto pt-4 ${
-                  current !== null ? "pb-[120px]" : ""
+                  current !== null ? "pb-[120px]" : "pb-[24px]"
                 }`}
               >
                 {received.map((item, i) => (
