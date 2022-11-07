@@ -31,7 +31,7 @@ function Header() {
         <>
           <button
             onClick={() => navigate("/menu")}
-            className={`group mr-2 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-white shadow-sm hover:opacity-70 ${
+            className={`group mr-2 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-white shadow-sm ${
               location.pathname === "/menu" ? "bg-black" : ""
             }`}
           >
@@ -57,7 +57,7 @@ function Header() {
           </button>
           <button
             onClick={() => navigate("/mysongs")}
-            className={`group mr-2 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-white shadow-sm hover:opacity-70 ${
+            className={`group mr-2 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-white shadow-sm ${
               location.pathname === "/mysongs" ? "bg-black" : ""
             }`}
           >
@@ -83,7 +83,7 @@ function Header() {
           </button>
           <button
             onClick={onOpen}
-            className={`group flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-white shadow-sm hover:opacity-70`}
+            className={`group flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-white shadow-sm`}
           >
             <svg
               className={`text-gray-800`}

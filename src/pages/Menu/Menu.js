@@ -73,10 +73,10 @@ function Menu() {
         <span className="text-white">Give someone a song</span>
         <button
           onClick={() => navigate("/search")}
-          className="group inline-flex h-[42px] w-[42px] animate-bounce-a-bit items-center justify-center rounded-full bg-white bg-gradient-to-r text-gray-600 transition duration-150 ease-in-out hover:from-[#86C7DF] hover:to-[#CFB6D0] "
+          className="group inline-flex h-[42px] w-[42px] animate-bounce-a-bit items-center justify-center rounded-full bg-gradient-to-r from-[#86C7DF] to-[#CFB6D0] transition duration-150 ease-in-out"
         >
           <svg
-            className="h-4 w-4 text-gray-600 group-hover:text-white"
+            className="h-4 w-4 text-white group-hover:text-white"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
