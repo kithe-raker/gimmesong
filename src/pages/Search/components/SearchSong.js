@@ -7,7 +7,6 @@ import { durationToStr } from "@utils/audio";
 import Loading from "@components/Loading";
 
 import GimmesongAPI from "@lib/gimmesong_api";
-import ytm from "@lib/ytm_api";
 
 function SearchSong({ next, onSelectSong, receiver }) {
   const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
@@ -58,10 +57,9 @@ function SearchSong({ next, onSelectSong, receiver }) {
   const getPlaybackURL = async (videoId) => {
     // check object key before query, if not found will query new playback url
     if (!playbackURL[videoId]) {
-      try {
-        // implement fetch playback url here, then set to playbackURL object
-        // to reuse in next time
-        const streamsData = await ytm.getStreamsUrl(videoId);
+      // implement fetch playback url here, then set to playbackURL object
+      // to reuse in next time
+      const streamsData = await GimmesongAPI.getStreamsUrl(videoId);
 
         if (!streamsData.streams[0] || !streamsData.streams[0]?.url)
           throw Error("Unable to play this song");

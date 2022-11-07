@@ -75,6 +75,13 @@ const methods = {
     } = await axios.get(`/api/v1/totalsongsent`);
     return value;
   },
+  getStreamsUrl: async function (id) {
+    const {
+      data: { results },
+    } = await axios.get(`/api/v1/getsongstreams?id=${id}`);
+
+    return results;
+  },
 };
 
 export default methods;
