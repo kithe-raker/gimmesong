@@ -3,6 +3,10 @@ module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
     extend: {
+      screens: {
+        xs: "250px",
+        // => @media (min-width: 250px) { ... }
+      },
       animation: {
         "spin-slow": "spin 3s linear infinite",
         "bounce-a-bit": "bounce-a-bit 1s infinite",
