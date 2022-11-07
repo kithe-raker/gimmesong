@@ -7,14 +7,22 @@ import { durationToStr } from "@utils/audio";
 import Loading from "@components/Loading";
 
 import GimmesongAPI from "@lib/gimmesong_api";
+import ytm from "@lib/ytm_api";
 
 function SearchSong({ next, onSelectSong, receiver }) {
-  const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
-    useAudioPlayer();
+  const {
+    audioRef,
+    playing,
+    loading: loadingAudio,
+    toggleAudio,
+    stopAudio,
+  } = useAudioPlayer();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
   const [selected, setSelected] = useState(null);
+
+  const [loadingStreamingData, setLoadingStreamingData] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [playbackURL, setPlaybackURL] = useState({});
@@ -28,92 +36,6 @@ function SearchSong({ next, onSelectSong, receiver }) {
       setLoading(true);
       clearTimeout(searchDelay.current);
       searchDelay.current = setTimeout(async () => {
-        // let data = [
-        //   {
-        //     videoId: "79ucr8WTBIY",
-        //     title: "โต๊ะริม (Melt)",
-        //     thumbnails: [
-        //       {
-        //         url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w60-h60-l90-rj",
-        //         width: 60,
-        //         height: 60,
-        //       },
-        //     ],
-        //     length: "4:08",
-        //     artistInfo: {
-        //       artist: [
-        //         {
-        //           text: "NONT TANONT",
-        //           browseId: "UC0qrQfKKZnoP03_8s-2n8-g",
-        //           pageType: "MUSIC_PAGE_TYPE_ARTIST",
-        //         },
-        //       ],
-        //     },
-        //   },
-        //   {
-        //     videoId: "6-IotY7xluM",
-        //     title: "Zen Bang Bang",
-        //     thumbnails: [
-        //       {
-        //         url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
-        //         width: 60,
-        //         height: 60,
-        //       },
-        //     ],
-        //     length: "4:32",
-        //     artistInfo: {
-        //       artist: [
-        //         {
-        //           text: "Indigo",
-        //           browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
-        //           pageType: "MUSIC_PAGE_TYPE_ARTIST",
-        //         },
-        //       ],
-        //     },
-        //   },
-        //   {
-        //     videoId: "yUZkzYm2d1s",
-        //     title: "ลาก่อน",
-        //     thumbnails: [
-        //       {
-        //         url: "https://lh3.googleusercontent.com/Ii9HHgmF5Qj7eZp11U_-pdW8bu3EdbEmktooEbOnoI-GVgBCodDDD44ThLugs2F77vknkBrWsfb52M8LDA=w60-h60-l90-rj",
-        //         width: 60,
-        //         height: 60,
-        //       },
-        //     ],
-        //     length: "3:09",
-        //     artistInfo: {
-        //       artist: [
-        //         {
-        //           text: "YourMOOD",
-        //           browseId: "UCFB_-OvPyFi7bPEjUMhSEZg",
-        //           pageType: "MUSIC_PAGE_TYPE_ARTIST",
-        //         },
-        //       ],
-        //     },
-        //   },
-        //   {
-        //     videoId: "s8QzkOulL5w",
-        //     title: "พิจารณา",
-        //     thumbnails: [
-        //       {
-        //         url: "https://lh3.googleusercontent.com/tqN7LrQHQpvwq23XdmETy33awCYTsgXLPzrMpToRIA_i9K1Bx5XdmXCpeizkUrlhSDpDDhv9fLL9vWTh=w60-h60-l90-rj",
-        //         width: 60,
-        //         height: 60,
-        //       },
-        //     ],
-        //     length: "4:07",
-        //     artistInfo: {
-        //       artist: [
-        //         {
-        //           text: "Musketeers",
-        //           browseId: "UCt5x66zBgxyNcVU8R46kItA",
-        //           pageType: "MUSIC_PAGE_TYPE_ARTIST",
-        //         },
-        //       ],
-        //     },
-        //   },
-        // ];
         try {
           let results = await GimmesongAPI.searchSongs({
             text: val,
@@ -137,38 +59,51 @@ function SearchSong({ next, onSelectSong, receiver }) {
 
   const handleSelectSong = (song) => {
     setSelected(song);
-    if (song.videoId !== selected?.videoId) handlePlay(song.videoId);
+    if (song.videoId !== selected?.videoId) {
+      stopAudio();
+      handlePlay(song.videoId);
+    }
   };
 
   const getPlaybackURL = async (videoId) => {
     // check object key before query, if not found will query new playback url
     if (!playbackURL[videoId]) {
-      // implement fetch playback url here, then set to playbackURL object
-      // to reuse in next time
-      const streamsData = await GimmesongAPI.getStreamsUrl(videoId);
+      try {
+        setLoadingStreamingData(true);
+        // implement fetch playback url here, then set to playbackURL object
+        // to reuse in next time
+        const streamsData = await ytm.getStreamsUrl(videoId);
 
-      if (!streamsData.streams[0] || !streamsData.streams[0]?.url)
-        throw Error("Unable to play this song");
+        if (!streamsData.streams[0] || !streamsData.streams[0]?.url)
+          throw Error("Unable to play this song");
 
-      setPlaybackURL((prev) => {
-        return {
-          ...prev,
-          [videoId]: streamsData.streams[0]?.url,
-        };
-      });
+        setPlaybackURL((prev) => {
+          return {
+            ...prev,
+            [videoId]: streamsData.streams[0]?.url,
+          };
+        });
+        setLoadingStreamingData(false);
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 
   const handlePlay = async (videoId) => {
     // get videoplayback url here
     await getPlaybackURL(videoId);
+
+    toggleAudio();
+
     // reload audio source when current.src is changed
-    reloadAudioSrc();
-    setPlaying(true);
+    // reloadAudioSrc();
+    // setPlaying(true);
   };
 
-  const toggleAudio = async () => {
-    setPlaying((prev) => !prev);
+  const toggle = () => {
+    toggleAudio();
+    // setPlaying((prev) => !prev);
   };
 
   const submit = () => {
@@ -225,8 +160,12 @@ function SearchSong({ next, onSelectSong, receiver }) {
       </div>
       <div className="mt-3 w-full rounded-[36px] bg-white p-3">
         <div className="relative h-[calc((64px*3)+22px)] overflow-y-auto overflow-x-hidden">
-          <audio ref={audioRef}>
-            <source src={playbackURL[selected?.videoId]} />
+          <audio
+            ref={audioRef}
+            preload="metadata"
+            src={playbackURL[selected?.videoId]}
+          >
+            {/* <source src={playbackURL[selected?.videoId]} /> */}
             Your browser does not support the <code>audio</code> element.
           </audio>
           {loading ? (
@@ -266,7 +205,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
                       </span>
                     </div>
                   </div>
-                  <div className="text-xs">{song.length}</div>
+                  <div className="text-xs">{/* {song.length} */}</div>
                 </div>
               );
             })
@@ -274,12 +213,33 @@ function SearchSong({ next, onSelectSong, receiver }) {
         </div>
         {selected && (
           <div
-            onClick={() => toggleAudio()}
+            onClick={toggle}
             className="mt-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-gray-100 p-3 pr-4 shadow-sm transition duration-150 ease-in-out hover:bg-gray-200"
           >
             <div className="flex items-center overflow-hidden">
               <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-black">
-                {!playing ? (
+                {loadingStreamingData || loadingAudio ? (
+                  <svg
+                    className="h-4 w-4 animate-spin text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                ) : !playing ? (
                   <svg
                     className="h-4 w-4"
                     viewBox="0 0 11 13"
@@ -313,7 +273,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
               </div>
             </div>
             <div className="select-none text-xs">
-              {duration > 0 ? durationToStr(duration) : selected.length}
+              {/* {duration > 0 ? durationToStr(duration) : selected.length} */}
             </div>
           </div>
         )}

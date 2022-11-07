@@ -30,6 +30,8 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+import ytm from "@lib/ytm_api";
+
 function AllReceived({ layout, onLayoutChange }) {
   const { activeStep, setStep, skip, nextStep } = useSteps({
     totalSteps: 4,
@@ -45,15 +47,20 @@ function AllReceived({ layout, onLayoutChange }) {
   const [exportMode, setExportMode] = useState("widget");
   const exportRef = useRef();
 
-  const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
-    useAudioPlayer();
+  const {
+    audioRef,
+    playing,
+    loading: loadingAudio,
+    toggleAudio,
+    stopAudio,
+  } = useAudioPlayer();
 
   const [received, setReceived] = useState([]);
 
   const slider = useRef(null);
   const [current, setCurrent] = useState(null);
 
-  const [loadingSong, setLoadingSong] = useState(false);
+  const [loadingStreamingData, setLoadingStreamingData] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -112,19 +119,29 @@ function AllReceived({ layout, onLayoutChange }) {
   const getPlaybackURL = async (videoId) => {
     // check object key before query, if not found will query new playback url
     if (!playbackURL[videoId]) {
-      // implement fetch playback url here, then set to playbackURL object
-      // to reuse in next time
-      setPlaybackURL((prev) => {
-        return {
-          ...prev,
-          [videoId]: "https://download.samplelib.com/mp3/sample-15s.mp3",
-        };
-      });
+      try {
+        setLoadingStreamingData(true);
+        // implement fetch playback url here, then set to playbackURL object
+        // to reuse in next time
+        const streamsData = await ytm.getStreamsUrl(videoId);
+
+        if (!streamsData.streams[0] || !streamsData.streams[0]?.url)
+          throw Error("Unable to play this song");
+
+        setPlaybackURL((prev) => {
+          return {
+            ...prev,
+            [videoId]: streamsData.streams[0]?.url,
+          };
+        });
+        setLoadingStreamingData(false);
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 
   const handlePlay = async (id) => {
-    setLoadingSong(true);
     // get videoplayback url here
     const videoId = received[current].content?.song?.videoId;
     await getPlaybackURL(videoId);
@@ -142,34 +159,38 @@ function AllReceived({ layout, onLayoutChange }) {
       );
       setReceived(updated);
 
+      toggleAudio();
+
       // reload audio source when current.src is changed
-      reloadAudioSrc();
-      setPlaying(true);
-      setLoadingSong(false);
+      // reloadAudioSrc();
+      // setPlaying(true);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const toggleAudio = async () => {
-    setLoadingSong(true);
-
+  const toggle = async () => {
     // when toggle to play played audio, we need to get playback url again to prevent error
     // from play/pause empty source url
 
     const videoId = received[current].content?.song?.videoId;
     await getPlaybackURL(videoId);
 
+    // if (curTime === 0) reset();
+
+    toggleAudio();
+    // play();
+
     // after current.src is changed, need to reload src before use audio.play()
     // and to prevent reload src on pausing we determine from current audio time not equal zero
-    if (curTime === 0) reloadAudioSrc();
-    setPlaying((prev) => !prev);
-    setLoadingSong(false);
+    // if (curTime === 0) reloadAudioSrc();
+    // setPlaying((prev) => !prev);
   };
 
   const handleSwipe = () => {
-    setPlaying(false);
-    reloadAudioSrc();
+    // setPlaying(false);
+    // reloadAudioSrc();
+    if (current !== null) stopAudio();
   };
 
   const goTo = (index) => {
@@ -217,120 +238,6 @@ function AllReceived({ layout, onLayoutChange }) {
   useEffect(() => {
     fetchInbox();
   }, []);
-
-  // useEffect(() => {
-  //   // let results = [
-  //   //   {
-  //   //     id: 1,
-  //   //     receiver: "friend",
-  //   //     song: {
-  //   //       videoId: "79ucr8WTBIY",
-  //   //       title: "โต๊ะริม (Melt)",
-  //   //       thumbnails: [
-  //   //         {
-  //   //           url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w60-h60-l90-rj",
-  //   //           width: 60,
-  //   //           height: 60,
-  //   //         },
-  //   //         {
-  //   //           url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w120-h120-l90-rj",
-  //   //           width: 120,
-  //   //           height: 120,
-  //   //         },
-  //   //         {
-  //   //           url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w180-h180-l90-rj",
-  //   //           width: 180,
-  //   //           height: 180,
-  //   //         },
-  //   //         {
-  //   //           url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w226-h226-l90-rj",
-  //   //           width: 226,
-  //   //           height: 226,
-  //   //         },
-  //   //         {
-  //   //           url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w302-h302-l90-rj",
-  //   //           width: 302,
-  //   //           height: 302,
-  //   //         },
-  //   //         {
-  //   //           url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w544-h544-l90-rj",
-  //   //           width: 544,
-  //   //           height: 544,
-  //   //         },
-  //   //       ],
-  //   //       length: "4:08",
-  //   //       artistInfo: {
-  //   //         artist: [
-  //   //           {
-  //   //             text: "NONT TANONT",
-  //   //             browseId: "UC0qrQfKKZnoP03_8s-2n8-g",
-  //   //             pageType: "MUSIC_PAGE_TYPE_ARTIST",
-  //   //           },
-  //   //         ],
-  //   //       },
-  //   //     },
-  //   //     message:
-  //   //       "halo fren 1 โต๊ 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Melt 1 โต๊ะริม (Melt) โต๊ะริม (Meltะริม (Melt) โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)โต๊ะริม (Melt)",
-  //   //     played: false,
-  //   //   },
-  //   //   {
-  //   //     id: 2,
-  //   //     receiver: "friend",
-  //   //     song: {
-  //   //       videoId: "6-IotY7xluM",
-  //   //       title: "Zen Bang Bang",
-  //   //       thumbnails: [
-  //   //         {
-  //   //           url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
-  //   //           width: 60,
-  //   //           height: 60,
-  //   //         },
-  //   //         {
-  //   //           url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w120-h120-l90-rj",
-  //   //           width: 120,
-  //   //           height: 120,
-  //   //         },
-  //   //         {
-  //   //           url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w180-h180-l90-rj",
-  //   //           width: 180,
-  //   //           height: 180,
-  //   //         },
-  //   //         {
-  //   //           url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w226-h226-l90-rj",
-  //   //           width: 226,
-  //   //           height: 226,
-  //   //         },
-  //   //         {
-  //   //           url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w302-h302-l90-rj",
-  //   //           width: 302,
-  //   //           height: 302,
-  //   //         },
-  //   //         {
-  //   //           url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w544-h544-l90-rj",
-  //   //           width: 544,
-  //   //           height: 544,
-  //   //         },
-  //   //       ],
-  //   //       length: "4:32",
-  //   //       artistInfo: {
-  //   //         artist: [
-  //   //           {
-  //   //             text: "Indigo",
-  //   //             browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
-  //   //             pageType: "MUSIC_PAGE_TYPE_ARTIST",
-  //   //           },
-  //   //         ],
-  //   //       },
-  //   //     },
-  //   //     message: "halo fren 2",
-  //   //     played: true,
-  //   //   },
-  //   // ];
-  //   // if (results.length > 0) {
-  //   //   setReceived(results);
-  //   // }
-  //   // setTimeout(() => setLoading(false), 500);
-  // }, []);
 
   return (
     <>
@@ -480,29 +387,58 @@ function AllReceived({ layout, onLayoutChange }) {
             )}
             {current !== null && (
               <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
-                <audio ref={audioRef}>
-                  <source
+                {/* {playbackURL[received[current].content?.song?.videoId] && ( */}
+                <audio
+                  ref={audioRef}
+                  preload="metadata"
+                  src={playbackURL[received[current].content?.song?.videoId]}
+                >
+                  {/* <source
                     src={playbackURL[received[current].content?.song?.videoId]}
-                  />
+                  /> */}
                   Your browser does not support the <code>audio</code> element.
                 </audio>
+                {/* )} */}
                 {!received[current].played ? (
                   <button
                     onClick={() => handlePlay(received[current]?.id)}
-                    className="mr-4 flex h-16 w-[250px] items-center rounded-full bg-white p-3 pr-8 shadow-sm hover:bg-gray-100"
+                    className="mr-4 flex h-16 w-[250px] items-center rounded-full bg-white p-3 pr-8 shadow-sm"
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black">
-                      <svg
-                        className="h-4 w-4"
-                        viewBox="0 0 11 13"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10 4.76795C11.3333 5.53775 11.3333 7.46225 10 8.23205L3.25 12.1292C1.91666 12.899 0.249999 11.9367 0.249999 10.3971L0.25 2.60288C0.25 1.06328 1.91667 0.101034 3.25 0.870834L10 4.76795Z"
-                          fill="#FFFFFF"
-                        />
-                      </svg>
+                      {loadingStreamingData || loadingAudio ? (
+                        <svg
+                          className="h-4 w-4 animate-spin text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                      ) : (
+                        <svg
+                          className="h-4 w-4"
+                          viewBox="0 0 11 13"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M10 4.76795C11.3333 5.53775 11.3333 7.46225 10 8.23205L3.25 12.1292C1.91666 12.899 0.249999 11.9367 0.249999 10.3971L0.25 2.60288C0.25 1.06328 1.91667 0.101034 3.25 0.870834L10 4.76795Z"
+                            fill="#FFFFFF"
+                          />
+                        </svg>
+                      )}
                     </div>
                     <span className="gimmesong-primary-font ml-5 select-none text-xl">
                       Tap to play this song
@@ -510,12 +446,33 @@ function AllReceived({ layout, onLayoutChange }) {
                   </button>
                 ) : (
                   <div
-                    onClick={() => toggleAudio()}
-                    className="mr-4 flex h-16 w-[250px] cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4 hover:bg-gray-100"
+                    onClick={toggle}
+                    className="mr-4 flex h-16 w-[250px] cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4"
                   >
                     <div className="flex items-center overflow-hidden">
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black">
-                        {!playing ? (
+                        {loadingStreamingData || loadingAudio ? (
+                          <svg
+                            className="h-4 w-4 animate-spin text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                        ) : !playing ? (
                           <svg
                             className="h-4 w-4"
                             viewBox="0 0 11 13"
@@ -558,15 +515,15 @@ function AllReceived({ layout, onLayoutChange }) {
                       </div>
                     </div>
                     <div className="select-none text-xs">
-                      {duration > 0
+                      {/* {duration > 0
                         ? durationToStr(duration)
-                        : received[current].content?.song?.length}
+                        : received[current].content?.song?.length} */}
                     </div>
                   </div>
                 )}
                 <button
                   onClick={onOpen}
-                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm hover:bg-gray-100"
+                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

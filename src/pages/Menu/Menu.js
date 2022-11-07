@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 // import menu1 from "@assets/img/menu1.svg";
 // import menu2 from "@assets/img/menu2.svg";
+import logo from "@assets/img/gimmesong_logo.png";
 
 import GetLink from "@components/GetLink";
 
@@ -31,7 +32,14 @@ function Menu() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
-      <h1 className="gimmesong-primary-font mt-2 mb-2 text-5xl">GIMMESONG</h1>
+      <div className="my-2 flex items-center justify-center">
+        <img
+          className="mr-2 h-[46px] w-[46px] shrink-0"
+          src={logo}
+          alt="disc"
+        />
+        <h1 className="gimmesong-primary-font text-5xl">GIMMESONG</h1>{" "}
+      </div>
       <span className="gimmesong-primary-font mb-6">
         Songs have been given{" "}
         {loading ? (

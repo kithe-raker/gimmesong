@@ -114,8 +114,8 @@ function Header() {
               <AlertDialogHeader>Sign out?</AlertDialogHeader>
               <AlertDialogCloseButton />
               <AlertDialogBody>
-                Are you sure you want to sign out? you won't see new received
-                song until you sign in again.
+                Are you sure you want to sign out? you won&apos;t see new
+                received song until you signed in again.
               </AlertDialogBody>
               <AlertDialogFooter>
                 <Button
