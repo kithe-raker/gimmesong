@@ -15,7 +15,8 @@ import { useSteps } from "@hooks/useSteps";
 
 import { durationToStr } from "@utils/audio";
 import GimmesongAPI from "@lib/gimmesong_api";
-import * as htmlToImage from "html-to-image";
+
+import html2canvas from "html2canvas";
 
 import { useDisclosure } from "@chakra-ui/react";
 import {
@@ -81,20 +82,23 @@ function AllReceived({ layout, onLayoutChange }) {
     const width = element.clientWidth;
     const height = element.clientHeight;
 
-    htmlToImage
-      .toPng(element, { width, height, pixelRatio: 1 })
-      .then((dataUrl) => {
-        let a = document.createElement("a");
-        a.href = dataUrl;
-        a.download = `inbox-${exportMode}-${inboxId}.png`;
-        a.click();
+    const canvas = await html2canvas(element, {
+      height,
+      width,
+      backgroundColor: null,
+      useCORS: true,
+    });
 
-        onClose();
-      })
-      .catch((e) => {
-        console.error("Oops, something went wrong!", e);
-      })
-      .finally(() => {});
+    // document.body.appendChild(canvas);
+
+    let a = document.createElement("a");
+    a.download = `inbox-${exportMode}-${inboxId}.png`;
+
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      a.href = url;
+      a.click();
+    });
   }, []);
 
   const handleSelect = (index) => {
