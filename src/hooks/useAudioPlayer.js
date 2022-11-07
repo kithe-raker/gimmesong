@@ -1,14 +1,20 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function useAudioPlayer() {
   const [duration, setDuration] = useState(0);
   const [curTime, setCurTime] = useState(0);
-  const [playing, setPlaying] = useState(false);
+  // const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isReset, setIsReset] = useState(true);
-  const [clickedTime, setClickedTime] = useState(null);
+  // const [clickedTime, setClickedTime] = useState(null);
 
   const audioRef = useRef(null);
+
+  const isPlaying = () => {
+    const audio = audioRef.current;
+    if (!audio) return false;
+    return !audio.paused && !audio.ended;
+  };
 
   const delay = (time) => new Promise((res) => setTimeout(() => res(), time));
 
@@ -29,7 +35,7 @@ function useAudioPlayer() {
     } else if (!audio.paused) {
       audio.pause();
 
-      setPlaying(false);
+      // setPlaying(false);
       setLoading(false);
     }
   };
@@ -48,7 +54,7 @@ function useAudioPlayer() {
       console.log("Audio is playing...");
 
       // setLoading(false);
-      setPlaying(true);
+      // setPlaying(true);
       setIsReset(false);
     } catch (err) {
       console.error("Error occurred when playing: ", err);
@@ -63,7 +69,7 @@ function useAudioPlayer() {
     const audio = audioRef.current;
 
     audio.pause();
-    setPlaying(false);
+    // setPlaying(false);
     setIsReset(true);
   };
 
@@ -119,7 +125,7 @@ function useAudioPlayer() {
     audioRef,
     curTime,
     duration,
-    playing,
+    playing: isPlaying(),
     loading,
     toggleAudio,
     playAudio,
