@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import GimmesongAPI from "@lib/gimmesong_api";
 import { Button } from "@chakra-ui/react";
 
+import useScript from "@hooks/useScript";
+
 function Menu() {
   const navigate = useNavigate();
 

@@ -8,6 +8,7 @@ import Loading from "@components/Loading";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 import ytm from "@lib/ytm_api";
+import useScript from "@hooks/useScript";
 
 function SearchSong({ next, onSelectSong, receiver }) {
   const {
