@@ -77,6 +77,10 @@ function useAudioPlayer() {
     console.log("Loading: ", loading);
   }, [loading]);
 
+  // useEffect(() => {
+  //   console.log(`ed${curTime}/${duration}`);
+  // }, [duration, curTime]);
+
   const setAudioData = () => {
     const audio = audioRef.current;
     setDuration(audio.duration);
