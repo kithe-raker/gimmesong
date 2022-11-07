@@ -5,10 +5,10 @@ import AllReceived from "./components/AllReceived";
 
 function MySongs() {
   const [currentPage, setCurrentPage] = useState("newReceived");
-  const [pageLayout, setPageLayout] = useState("single");
+  const [pageLayout, setPageLayout] = useState("multiple");
 
   useEffect(() => {
-    if (currentPage === "newReceived") setPageLayout("single");
+    if (currentPage === "newReceived") setPageLayout("multiple");
     else if (currentPage === "allReceived") setPageLayout("multiple");
   }, [currentPage]);
 

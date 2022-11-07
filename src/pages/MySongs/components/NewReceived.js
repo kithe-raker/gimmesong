@@ -221,7 +221,7 @@ function NewReceived({ layout, onLayoutChange }) {
       let results = await GimmesongAPI.queryInbox({ filter: "new" });
       if (results.length > 0) {
         setReceived(results);
-        setCurrent(0);
+        // setCurrent(0);
       }
     } catch (err) {
       setError(true);
