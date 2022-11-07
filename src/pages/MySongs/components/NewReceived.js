@@ -29,6 +29,8 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+import ytm from "@lib/ytm_api";
+
 function NewReceived({ layout, onLayoutChange }) {
   const { activeStep, setStep, skip, nextStep } = useSteps({
     totalSteps: 4,
@@ -44,8 +46,7 @@ function NewReceived({ layout, onLayoutChange }) {
   const [exportMode, setExportMode] = useState("compact");
   const exportRef = useRef();
 
-  const { audioRef, duration, curTime, playing, setPlaying, reloadAudioSrc } =
-    useAudioPlayer();
+  const { audioRef, duration, curTime, playing } = useAudioPlayer();
 
   const [received, setReceived] = useState([]);
 
@@ -108,14 +109,23 @@ function NewReceived({ layout, onLayoutChange }) {
   const getPlaybackURL = async (videoId) => {
     // check object key before query, if not found will query new playback url
     if (!playbackURL[videoId]) {
-      // implement fetch playback url here, then set to playbackURL object
-      // to reuse in next time
-      setPlaybackURL((prev) => {
-        return {
-          ...prev,
-          [videoId]: "https://download.samplelib.com/mp3/sample-15s.mp3",
-        };
-      });
+      try {
+        // implement fetch playback url here, then set to playbackURL object
+        // to reuse in next time
+        const streamsData = await ytm.getStreamsUrl(videoId);
+
+        if (!streamsData.streams[0] || !streamsData.streams[0]?.url)
+          throw Error("Unable to play this song");
+
+        setPlaybackURL((prev) => {
+          return {
+            ...prev,
+            [videoId]: streamsData.streams[0]?.url,
+          };
+        });
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 
@@ -139,8 +149,8 @@ function NewReceived({ layout, onLayoutChange }) {
       setReceived(updated);
 
       // reload audio source when current.src is changed
-      reloadAudioSrc();
-      setPlaying(true);
+      // reloadAudioSrc();
+      // setPlaying(true);
       setLoadingSong(false);
     } catch (err) {
       console.error(err);
@@ -158,14 +168,14 @@ function NewReceived({ layout, onLayoutChange }) {
 
     // after current.src is changed, need to reload src before use audio.play()
     // and to prevent reload src on pausing we determine from current audio time not equal zero
-    if (curTime === 0) reloadAudioSrc();
-    setPlaying((prev) => !prev);
+    // if (curTime === 0) reloadAudioSrc();
+    // setPlaying((prev) => !prev);
     setLoadingSong(false);
   };
 
   const handleSwipe = () => {
-    setPlaying(false);
-    reloadAudioSrc();
+    // setPlaying(false);
+    // reloadAudioSrc();
   };
 
   const goTo = (index) => {

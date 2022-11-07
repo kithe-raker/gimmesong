@@ -29,92 +29,6 @@ function SearchSong({ next, onSelectSong, receiver }) {
       setLoading(true);
       clearTimeout(searchDelay.current);
       searchDelay.current = setTimeout(async () => {
-        // let data = [
-        //   {
-        //     videoId: "79ucr8WTBIY",
-        //     title: "โต๊ะริม (Melt)",
-        //     thumbnails: [
-        //       {
-        //         url: "https://lh3.googleusercontent.com/_nWDWWDYKNIhFfaKO4Z5ah-J1V9nLmfdYddF54WgRRCFP-43Z2jDly4WEt8ZEm40ZSjJ05bTmAkmJ3fp=w60-h60-l90-rj",
-        //         width: 60,
-        //         height: 60,
-        //       },
-        //     ],
-        //     length: "4:08",
-        //     artistInfo: {
-        //       artist: [
-        //         {
-        //           text: "NONT TANONT",
-        //           browseId: "UC0qrQfKKZnoP03_8s-2n8-g",
-        //           pageType: "MUSIC_PAGE_TYPE_ARTIST",
-        //         },
-        //       ],
-        //     },
-        //   },
-        //   {
-        //     videoId: "6-IotY7xluM",
-        //     title: "Zen Bang Bang",
-        //     thumbnails: [
-        //       {
-        //         url: "https://lh3.googleusercontent.com/sjox1KDZpkfoI-jS_HyVsxWK1cGJxJLBdz6EYc889sRBtcQFd4_-mXmU4ZGHArJdLf2e2JWJrrpzZ-mZKA=w60-h60-l90-rj",
-        //         width: 60,
-        //         height: 60,
-        //       },
-        //     ],
-        //     length: "4:32",
-        //     artistInfo: {
-        //       artist: [
-        //         {
-        //           text: "Indigo",
-        //           browseId: "UCcWRWFBsm49ty0NvgaBFQ0w",
-        //           pageType: "MUSIC_PAGE_TYPE_ARTIST",
-        //         },
-        //       ],
-        //     },
-        //   },
-        //   {
-        //     videoId: "yUZkzYm2d1s",
-        //     title: "ลาก่อน",
-        //     thumbnails: [
-        //       {
-        //         url: "https://lh3.googleusercontent.com/Ii9HHgmF5Qj7eZp11U_-pdW8bu3EdbEmktooEbOnoI-GVgBCodDDD44ThLugs2F77vknkBrWsfb52M8LDA=w60-h60-l90-rj",
-        //         width: 60,
-        //         height: 60,
-        //       },
-        //     ],
-        //     length: "3:09",
-        //     artistInfo: {
-        //       artist: [
-        //         {
-        //           text: "YourMOOD",
-        //           browseId: "UCFB_-OvPyFi7bPEjUMhSEZg",
-        //           pageType: "MUSIC_PAGE_TYPE_ARTIST",
-        //         },
-        //       ],
-        //     },
-        //   },
-        //   {
-        //     videoId: "s8QzkOulL5w",
-        //     title: "พิจารณา",
-        //     thumbnails: [
-        //       {
-        //         url: "https://lh3.googleusercontent.com/tqN7LrQHQpvwq23XdmETy33awCYTsgXLPzrMpToRIA_i9K1Bx5XdmXCpeizkUrlhSDpDDhv9fLL9vWTh=w60-h60-l90-rj",
-        //         width: 60,
-        //         height: 60,
-        //       },
-        //     ],
-        //     length: "4:07",
-        //     artistInfo: {
-        //       artist: [
-        //         {
-        //           text: "Musketeers",
-        //           browseId: "UCt5x66zBgxyNcVU8R46kItA",
-        //           pageType: "MUSIC_PAGE_TYPE_ARTIST",
-        //         },
-        //       ],
-        //     },
-        //   },
-        // ];
         try {
           let results = await GimmesongAPI.searchSongs({
             text: val,
@@ -144,19 +58,23 @@ function SearchSong({ next, onSelectSong, receiver }) {
   const getPlaybackURL = async (videoId) => {
     // check object key before query, if not found will query new playback url
     if (!playbackURL[videoId]) {
-      // implement fetch playback url here, then set to playbackURL object
-      // to reuse in next time
-      const streamsData = await ytm.getStreamsUrl(videoId);
+      try {
+        // implement fetch playback url here, then set to playbackURL object
+        // to reuse in next time
+        const streamsData = await ytm.getStreamsUrl(videoId);
 
-      if (!streamsData.streams[0] || !streamsData.streams[0]?.url)
-        throw Error("Unable to play this song");
+        if (!streamsData.streams[0] || !streamsData.streams[0]?.url)
+          throw Error("Unable to play this song");
 
-      setPlaybackURL((prev) => {
-        return {
-          ...prev,
-          [videoId]: streamsData.streams[0]?.url,
-        };
-      });
+        setPlaybackURL((prev) => {
+          return {
+            ...prev,
+            [videoId]: streamsData.streams[0]?.url,
+          };
+        });
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 

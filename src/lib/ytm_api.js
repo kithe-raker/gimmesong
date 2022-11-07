@@ -7,7 +7,8 @@ const methods = {
   getStreamsUrl: async function (id) {
     if (!id) throw Error("no song's id provided");
 
-    const response = await _PlaybackUrlRequest(id);
+    // const response = await _PlaybackUrlRequest(id);
+    const response = await fetch(`https://pipedapi.kavin.rocks/streams/${id}`);
 
     if (!response.ok) {
       // Suggestion (check for correctness before using):
@@ -16,20 +17,29 @@ const methods = {
     }
     const data = await response.json();
 
-    if (
-      data &&
-      !data?.streamingData &&
-      data?.playabilityStatus.status === "UNPLAYABLE"
-    ) {
+    // if (
+    //   data &&
+    //   !data?.streamingData &&
+    //   data?.playabilityStatus.status === "UNPLAYABLE"
+    // ) {
+    //   throw Error("Error Unplayable");
+    // }
+
+    if (!data.audioStreams.length > 0) {
       throw Error("Error Unplayable");
     }
 
-    const result = _PlaybackUrlParser(data);
+    const result = _pipedPlaybackUrlParser(data);
     return result;
   },
 };
 
 // ==================== Private function ====================
+
+function _pipedPlaybackUrlParser(data) {
+  const urlArr = data.audioStreams.filter((item) => item.quality === "48 kbps");
+  return { streams: urlArr };
+}
 
 function _PlaybackUrlParser(data) {
   const formats = data?.streamingData?.adaptiveFormats;
