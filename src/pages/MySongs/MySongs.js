@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import NewReceived from "./components/NewReceived";
 import AllReceived from "./components/AllReceived";
+import useScript from "@hooks/useScript";
 
 function MySongs() {
   const [currentPage, setCurrentPage] = useState("newReceived");
@@ -11,6 +12,11 @@ function MySongs() {
     if (currentPage === "newReceived") setPageLayout("multiple");
     else if (currentPage === "allReceived") setPageLayout("multiple");
   }, [currentPage]);
+
+  // Call Socialbar ads
+  useScript(
+    "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
+  );
 
   let render = {
     newReceived: (

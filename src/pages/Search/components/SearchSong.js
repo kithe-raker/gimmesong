@@ -28,6 +28,11 @@ function SearchSong({ next, onSelectSong, receiver }) {
   const [playbackURL, setPlaybackURL] = useState({});
   const searchDelay = useRef(null);
 
+  // Call Socialbar ads
+  useScript(
+    "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
+  );
+
   const handleSearching = (val) => {
     setSearchTerm(val);
 
