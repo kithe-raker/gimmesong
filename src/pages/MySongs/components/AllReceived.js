@@ -157,7 +157,7 @@ function AllReceived({ layout, onLayoutChange }) {
       );
       setReceived(updated);
 
-      toggleAudio(e);
+      toggleAudio();
 
       // reload audio source when current.src is changed
       // reloadAudioSrc();
@@ -167,7 +167,7 @@ function AllReceived({ layout, onLayoutChange }) {
     }
   };
 
-  const toggle = async (e) => {
+  const toggle = async () => {
     // when toggle to play played audio, we need to get playback url again to prevent error
     // from play/pause empty source url
 
@@ -176,7 +176,7 @@ function AllReceived({ layout, onLayoutChange }) {
 
     // if (curTime === 0) reset();
 
-    toggleAudio(e);
+    toggleAudio();
     // play();
 
     // after current.src is changed, need to reload src before use audio.play()
