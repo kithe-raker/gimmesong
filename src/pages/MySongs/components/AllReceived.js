@@ -105,6 +105,7 @@ function AllReceived({ layout, onLayoutChange }) {
       const url = URL.createObjectURL(blob);
       a.href = url;
       a.click();
+      onCloseModal();
     });
   }, []);
 
