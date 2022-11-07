@@ -87,7 +87,7 @@ function useAudioPlayer() {
     console.log("Audio is paused");
   };
 
-  const onEnd = () => {
+  const onEnded = () => {
     console.log("Audio is ended");
   };
 
@@ -99,7 +99,7 @@ function useAudioPlayer() {
     audio.addEventListener("loadeddata", setAudioData);
     audio.addEventListener("timeupdate", setAudioTime);
     audio.addEventListener("pause", onPause);
-    audio.addEventListener("ended", onEnd);
+    audio.addEventListener("ended", onEnded);
 
     // if (clickedTime && clickedTime !== curTime) {
     //   audio.currentTime = clickedTime;
@@ -111,9 +111,9 @@ function useAudioPlayer() {
       audio.removeEventListener("loadeddata", setAudioData);
       audio.removeEventListener("timeupdate", setAudioTime);
       audio.removeEventListener("pause", onPause);
-      audio.removeEventListener("ended", onEnd);
+      audio.removeEventListener("ended", onEnded);
     };
-  }, []);
+  });
 
   return {
     audioRef,
