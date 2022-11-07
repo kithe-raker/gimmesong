@@ -25,9 +25,9 @@ function Search() {
   const [loading, setLoading] = useState(false);
 
   // Call Socialbar ads
-  // useScript(
-  //   "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
-  // );
+  useScript(
+    "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
+  );
 
   // if path contain /@:username this effect will run
   useEffect(() => {
