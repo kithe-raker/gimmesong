@@ -184,7 +184,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
                       </span>
                     </div>
                   </div>
-                  <div className="text-xs">{song.length}</div>
+                  <div className="text-xs">{/* {song.length} */}</div>
                 </div>
               );
             })
@@ -231,7 +231,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
               </div>
             </div>
             <div className="select-none text-xs">
-              {duration > 0 ? durationToStr(duration) : selected.length}
+              {/* {duration > 0 ? durationToStr(duration) : selected.length} */}
             </div>
           </div>
         )}
