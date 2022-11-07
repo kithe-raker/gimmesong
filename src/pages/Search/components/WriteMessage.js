@@ -8,6 +8,7 @@ function WriteMessage({ next, receiver, song }) {
 
   const handleMessageChange = (val) => {
     if (val.length > 200) return;
+    console.log(val);
     setMessage(val);
     // onTypingMessage(val);
   };

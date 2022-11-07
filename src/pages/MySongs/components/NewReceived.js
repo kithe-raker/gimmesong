@@ -44,7 +44,7 @@ function NewReceived({ layout, onLayoutChange }) {
     setStep(1);
   };
 
-  const [exportMode, setExportMode] = useState("compact");
+  const [exportMode, setExportMode] = useState("widget");
   const exportRef = useRef();
 
   const {
@@ -324,7 +324,13 @@ function NewReceived({ layout, onLayoutChange }) {
                               </div>
                             </div>
                             {received[current]?.id === item.id && (
-                              <span className="mt-6 text-center text-xl leading-6 text-gray-700">
+                              <span
+                                style={{
+                                  wordBreak: "break-word",
+                                  whiteSpace: "pre-line",
+                                }}
+                                className="mt-6 w-full text-center text-xl leading-6 text-gray-700"
+                              >
                                 {item.content?.message}
                               </span>
                             )}
@@ -555,13 +561,20 @@ function NewReceived({ layout, onLayoutChange }) {
                         src={logo}
                         alt="disc"
                       />
-                      <span className="gimmesong-primary-font text-[36px] tracking-wider">
+                      <span className="gimmesong-primary-font -mt-[27.5px] text-[36px] tracking-wider">
                         GIMMESONG
                       </span>
                     </div>
-                    <div className="flex min-h-[384px] w-full items-center justify-center py-[54px] px-[24px] text-center text-[60px] font-semibold text-gray-800">
+                    <p
+                      style={{
+                        wordBreak: "break-word",
+                        whiteSpace: "pre-line",
+                        // "-webkit-text-stroke": "0.5px white",
+                      }}
+                      className="flex min-h-[384px] w-full items-center justify-center px-[54px] pt-[54px] pb-[120px] text-center text-[60px] font-semibold text-gray-800"
+                    >
                       {received[current].content?.message}
-                    </div>
+                    </p>
                     <div
                       className={`pointer-events-none flex h-[192px] w-full items-center justify-between rounded-full bg-white bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] p-[36px] pr-[48px] text-white hover:bg-gray-100`}
                     >
@@ -575,11 +588,15 @@ function NewReceived({ layout, onLayoutChange }) {
                           referrerPolicy="no-referrer"
                           crossOrigin="anonymous"
                         />
-                        <div className="mx-[30px] flex min-w-0 flex-col">
-                          <span className={`truncate text-[42px]`}>
+                        <div className="mx-[30px] -mt-[16px] flex min-w-0 flex-col">
+                          <span
+                            className={`-mt-[25px] truncate text-[42px] font-light leading-[2]`}
+                          >
                             {received[current].content?.song?.title}
                           </span>
-                          <span className={`truncate text-[36px] text-white`}>
+                          <span
+                            className={`-mt-[25px] truncate text-[36px] font-light leading-[2] text-white`}
+                          >
                             {
                               received[current].content?.song?.artistInfo
                                 ?.artist[0]?.text
