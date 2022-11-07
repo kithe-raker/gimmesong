@@ -48,11 +48,9 @@ function AllReceived({ layout, onLayoutChange }) {
 
   const {
     audioRef,
-    duration,
     playing,
     loading: loadingAudio,
     toggleAudio,
-    // playAudio,
     stopAudio,
   } = useAudioPlayer();
 
@@ -139,7 +137,7 @@ function AllReceived({ layout, onLayoutChange }) {
     }
   };
 
-  const handlePlay = async (e, id) => {
+  const handlePlay = async (id) => {
     // get videoplayback url here
     const videoId = received[current].content?.song?.videoId;
     await getPlaybackURL(videoId);
@@ -399,21 +397,44 @@ function AllReceived({ layout, onLayoutChange }) {
                 {/* )} */}
                 {!received[current].played ? (
                   <button
-                    onClick={(e) => handlePlay(e, received[current]?.id)}
+                    onClick={() => handlePlay(received[current]?.id)}
                     className="mr-4 flex h-16 w-[250px] items-center rounded-full bg-white p-3 pr-8 shadow-sm"
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black">
-                      <svg
-                        className="h-4 w-4"
-                        viewBox="0 0 11 13"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10 4.76795C11.3333 5.53775 11.3333 7.46225 10 8.23205L3.25 12.1292C1.91666 12.899 0.249999 11.9367 0.249999 10.3971L0.25 2.60288C0.25 1.06328 1.91667 0.101034 3.25 0.870834L10 4.76795Z"
-                          fill="#FFFFFF"
-                        />
-                      </svg>
+                      {loadingStreamingData || loadingAudio ? (
+                        <svg
+                          className="h-4 w-4 animate-spin text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                      ) : (
+                        <svg
+                          className="h-4 w-4"
+                          viewBox="0 0 11 13"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M10 4.76795C11.3333 5.53775 11.3333 7.46225 10 8.23205L3.25 12.1292C1.91666 12.899 0.249999 11.9367 0.249999 10.3971L0.25 2.60288C0.25 1.06328 1.91667 0.101034 3.25 0.870834L10 4.76795Z"
+                            fill="#FFFFFF"
+                          />
+                        </svg>
+                      )}
                     </div>
                     <span className="gimmesong-primary-font ml-5 select-none text-xl">
                       Tap to play this song
@@ -498,7 +519,7 @@ function AllReceived({ layout, onLayoutChange }) {
                 )}
                 <button
                   onClick={onOpen}
-                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm hover:bg-gray-100"
+                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

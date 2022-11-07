@@ -73,7 +73,7 @@ function WriteMessage({ next, receiver, song }) {
               </span>
             </div>
           </div>
-          <div className="text-xs">{song.length}</div>
+          <div className="text-xs">{/* {song.length} */}</div>
         </div>
       </div>
       <button

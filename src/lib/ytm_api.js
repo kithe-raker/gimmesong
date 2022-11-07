@@ -37,8 +37,11 @@ const methods = {
 // ==================== Private function ====================
 
 function _pipedPlaybackUrlParser(data) {
-  const urlArr = data.audioStreams.filter((item) => item.quality === "48 kbps");
-  return { streams: urlArr };
+  const streams = data?.audioStreams;
+  streams.sort((a, b) => (b?.bitrate ?? 0) - (a?.bitrate ?? 0));
+
+  // const urlArr = data.audioStreams.filter((item) => item.quality === "48 kbps");
+  return { streams };
 }
 
 function _PlaybackUrlParser(data) {
