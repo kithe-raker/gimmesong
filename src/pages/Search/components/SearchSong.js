@@ -57,9 +57,10 @@ function SearchSong({ next, onSelectSong, receiver }) {
   const getPlaybackURL = async (videoId) => {
     // check object key before query, if not found will query new playback url
     if (!playbackURL[videoId]) {
-      // implement fetch playback url here, then set to playbackURL object
-      // to reuse in next time
-      const streamsData = await GimmesongAPI.getStreamsUrl(videoId);
+      try {
+        // implement fetch playback url here, then set to playbackURL object
+        // to reuse in next time
+        const streamsData = await GimmesongAPI.getStreamsUrl(videoId);
 
         if (!streamsData.streams[0] || !streamsData.streams[0]?.url)
           throw Error("Unable to play this song");
