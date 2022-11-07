@@ -85,7 +85,6 @@ function useAudioPlayer() {
     const audio = audioRef.current;
     setDuration(audio.duration);
     setCurTime(audio.currentTime);
-    console.log(audio.currentTime);
   };
 
   const setAudioTime = () => {
