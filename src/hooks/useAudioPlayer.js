@@ -137,6 +137,7 @@ function useAudioPlayer() {
   };
 
   const onEnded = () => {
+    setPlaying(false);
     console.log("Audio is ended");
   };
 
