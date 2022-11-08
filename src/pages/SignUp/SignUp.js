@@ -156,10 +156,15 @@ function SignUp() {
           </div>
         </div>
 
-        <span className="px-4 text-center text-sm leading-4 text-red-500">
+        <span
+          style={{
+            whiteSpace: "pre-line",
+          }}
+          className="px-4 text-center text-sm leading-4 text-red-500"
+        >
           {username.length > 0 &&
             !isValid &&
-            "Username must be at least 2 characters (allow a-z, 0-9, _, .)"}
+            "Username must be at least 2 characters\n (allow a-z (lower case), 0-9, _, .)"}
           {error && !available && "Username already taken"}
         </span>
         <button
