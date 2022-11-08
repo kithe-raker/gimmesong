@@ -78,7 +78,7 @@ function Sent({ receiver }) {
       {!user?.username && (
         <button
           onClick={() => navigate("/")}
-          className="mt-6 h-12 rounded-full bg-black px-6 text-white transition duration-150 ease-in-out hover:bg-gray-600"
+          className="mt-6 h-12 animate-bounce rounded-full bg-black px-6 text-white transition duration-150 ease-in-out hover:bg-gray-600"
         >
           Get your own anonymous song!
         </button>
