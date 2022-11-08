@@ -31,6 +31,7 @@ function Search() {
   //   "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
   // );
 
+  // Call Native banner ads
   // useScript(
   //   "//pl17917328.highperformancecpmgate.com/b660ec7b99553839c4654ee4a1292d71/invoke.js",
   //   true,
