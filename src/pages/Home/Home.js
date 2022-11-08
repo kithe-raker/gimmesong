@@ -34,7 +34,7 @@ function Home() {
 
   const onContinueAuthen = () => {
     FromInAppBrowser
-      ? toast("Open in your default browser to continue", {
+      ? toast("Open in your default browser(e.g. Chrome, Safari) to continue", {
           style: {
             borderRadius: "25px",
             background: "#FF6464",
