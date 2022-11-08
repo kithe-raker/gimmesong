@@ -3,10 +3,12 @@ import disc from "@assets/img/gimmesong_logo.png";
 
 import { signInWithGoogle } from "@lib/firebase";
 import GimmesongAPI from "@lib/gimmesong_api";
+import toast from "react-hot-toast";
 
 function Home() {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
+  const [FromInAppBrowser, setFromInAppBrowser] = useState(false);
 
   useEffect(() => {
     const getTotalSentSong = async () => {
@@ -21,7 +23,26 @@ function Home() {
       }
     };
     getTotalSentSong();
+
+    setFromInAppBrowser(
+      navigator.userAgent.includes("FB") ||
+        navigator.userAgent.includes("Instagram") ||
+        navigator.userAgent.includes("Twitter") ||
+        navigator.userAgent.includes("Line")
+    );
   }, []);
+
+  const onContinueAuthen = () => {
+    FromInAppBrowser
+      ? toast("Open in your default browser to continue", {
+          style: {
+            borderRadius: "25px",
+            background: "#FF6464",
+            color: "#fff",
+          },
+        })
+      : signInWithGoogle();
+  };
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
@@ -60,7 +81,7 @@ function Home() {
         someone you&apos;re hiding.
       </span>
       <button
-        onClick={signInWithGoogle}
+        onClick={onContinueAuthen}
         className="mt-12 flex h-12 w-[250px] items-center justify-center rounded-full bg-black font-bold text-white transition duration-150 ease-in-out hover:bg-gray-600"
       >
         <svg
