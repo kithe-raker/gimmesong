@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import { useState, useEffect, useRef } from "react";
 import PasteLink from "./components/PasteLink.js";
 import Sent from "./components/Sent.js";
