@@ -29,25 +29,28 @@ function MySongs() {
 
   return (
     <div className="relative mx-auto flex max-h-screen max-w-md flex-col items-center overflow-hidden py-6 pt-[60px]">
-      <div className="my-5 w-full max-w-[300px] h-[32px] p-5"></div>
-      <div className="flex items-center">
-        <h1
-          onClick={() => setCurrentPage("newReceived")}
-          className={`gimmesong-primary-font cursor-pointer select-none text-4xl text-gray-400 ${
-            currentPage === "newReceived" && "text-gray-900"
-          }`}
-        >
-          NEW
-        </h1>
-        <span className="mx-6 h-5 w-[1px] bg-gray-400"></span>
-        <h1
-          onClick={() => setCurrentPage("allReceived")}
-          className={`gimmesong-primary-font cursor-pointer select-none text-4xl text-gray-400 ${
-            currentPage === "allReceived" && "text-gray-900"
-          }`}
-        >
-          ALL
-        </h1>
+      <div className="my-5 h-[32px] w-full max-w-[300px] p-5"></div>
+      <div className="flex w-full items-center justify-between px-4">
+        <div></div>
+        <div className="flex items-center">
+          <h1
+            onClick={() => setCurrentPage("newReceived")}
+            className={`gimmesong-primary-font cursor-pointer select-none text-4xl text-gray-400 ${
+              currentPage === "newReceived" && "text-gray-900"
+            }`}
+          >
+            NEW
+          </h1>
+          <span className="mx-6 h-5 w-[1px] bg-gray-400"></span>
+          <h1
+            onClick={() => setCurrentPage("allReceived")}
+            className={`gimmesong-primary-font cursor-pointer select-none text-4xl text-gray-400 ${
+              currentPage === "allReceived" && "text-gray-900"
+            }`}
+          >
+            ALL
+          </h1>
+        </div>
         <div className="ml-4 inline-flex rounded-full" role="group">
           <button
             type="button"
