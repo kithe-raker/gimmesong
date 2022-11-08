@@ -311,8 +311,8 @@ function AllReceived({ layout, onLayoutChange }) {
             {layout === "single" ? (
               <>
                 <div
-                  className={`max-h-[calc(100vh-24px-104px-42px-24px-24px)] overflow-hidden overflow-y-auto ${
-                    current !== null ? "pb-[120px]" : ""
+                  className={`max-h-[calc(100vh-24px-72px-42px-24px-24px)] overflow-hidden overflow-y-auto ${
+                    current !== null ? "pb-[120px]" : "pb-[24px]"
                   }`}
                 >
                   <Slider ref={slider} {...settings}>
@@ -384,7 +384,7 @@ function AllReceived({ layout, onLayoutChange }) {
               </>
             ) : (
               <div
-                className={`grid max-h-[calc(100vh-24px-104px-42px-24px-24px)] grid-cols-2 gap-4 overflow-y-auto pt-4 ${
+                className={`grid max-h-[calc(100vh-24px-72px-42px-24px-24px)] grid-cols-2 gap-4 overflow-y-auto pt-4 ${
                   current !== null ? "pb-[120px]" : "pb-[24px]"
                 }`}
               >
