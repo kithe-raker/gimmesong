@@ -8,10 +8,15 @@ import Loading from "@components/Loading";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 import ytm from "@lib/ytm_api";
+import useSession from "@hooks/useSession";
 
 import { StreamingError, PlayerError } from "@lib/error";
+import { useNavigate } from "react-router-dom";
 
 function SearchSong({ next, onSelectSong, receiver }) {
+  const navigate = useNavigate();
+  const { user } = useSession();
+
   const {
     audioRef,
     playing,
@@ -370,6 +375,14 @@ function SearchSong({ next, onSelectSong, receiver }) {
       >
         NEXT
       </button>
+      {!user?.username && (
+        <button
+          onClick={() => navigate("/")}
+          className="mt-6 h-12 animate-bounce rounded-full bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] px-6 text-white transition duration-150 ease-in-out hover:bg-gray-600"
+        >
+          Get your own anonymous song!
+        </button>
+      )}
     </div>
   );
 }
