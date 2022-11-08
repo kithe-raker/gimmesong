@@ -29,7 +29,7 @@ function MySongs() {
 
   return (
     <div className="relative mx-auto flex max-h-screen max-w-md flex-col items-center overflow-hidden py-6 pt-[60px]">
-      <div className="my-5 w-full max-w-[300px] bg-gray-300 p-5">ADS</div>
+      {/* <div className="my-5 w-full max-w-[300px] bg-gray-300 p-5">ADS</div> */}
       <div className="flex items-center">
         <h1
           onClick={() => setCurrentPage("newReceived")}
