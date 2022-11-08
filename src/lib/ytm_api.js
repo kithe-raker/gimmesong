@@ -20,14 +20,6 @@ const methods = {
     }
     const data = await response.json();
 
-    // if (
-    //   data &&
-    //   !data?.streamingData &&
-    //   data?.playabilityStatus.status === "UNPLAYABLE"
-    // ) {
-    //   throw Error("Error Unplayable");
-    // }
-
     if (!data.audioStreams.length > 0) {
       throw new StreamingError({
         code: "INVALID_STREAMING_URL",
@@ -41,13 +33,27 @@ const methods = {
 };
 
 // ==================== Private function ====================
+const _AcceptedAudioFormat = ["audio/mp4", "audio/webm"];
 
+/**
+ *
+ * @param {*} data
+ * @returns {{"audio/mp4":string,"audio/webm":string}}
+ */
 function _pipedPlaybackUrlParser(data) {
+  // descending sort streams data bitrate
   const streams = data?.audioStreams;
   streams.sort((a, b) => (b?.bitrate ?? 0) - (a?.bitrate ?? 0));
 
+  // find highest bitrate in each accepted format
+  const returnedData = {};
+  _AcceptedAudioFormat.forEach((format) => {
+    const match = streams.find((data) => (data?.mimeType ?? "") == format);
+    if (match) returnedData[format] = match.url;
+  });
+
   // const urlArr = data.audioStreams.filter((item) => item.quality === "48 kbps");
-  return { streams };
+  return returnedData;
 }
 
 function _PlaybackUrlParser(data) {
