@@ -1,3 +1,5 @@
+import { StreamingError } from "@lib/error";
+
 const API_BASE_URL = "https://music.youtube.com/youtubei/v1/";
 const API_ORIGIN = "https://music.youtube.com";
 
@@ -11,9 +13,10 @@ const methods = {
     const response = await fetch(`https://pipedapi.kavin.rocks/streams/${id}`);
 
     if (!response.ok) {
-      // Suggestion (check for correctness before using):
-      // return new Response(response.statusText, { status: response.status });
-      throw Error("Video Unavailable");
+      throw new StreamingError({
+        code: "VIDEO_UNAVAILABLE",
+        message: "Video Unavailable",
+      });
     }
     const data = await response.json();
 
@@ -26,7 +29,10 @@ const methods = {
     // }
 
     if (!data.audioStreams.length > 0) {
-      throw Error("Unplayable");
+      throw new StreamingError({
+        code: "INVALID_STREAMING_URL",
+        message: "Unplayable",
+      });
     }
 
     const result = _pipedPlaybackUrlParser(data);

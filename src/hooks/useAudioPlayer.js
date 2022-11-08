@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { PlayerError } from "@lib/error";
 
 function useAudioPlayer() {
   const [duration, setDuration] = useState(0);
@@ -30,8 +31,7 @@ function useAudioPlayer() {
     if (audio.paused && audio.src) {
       console.log("Src is ready!");
       console.log("Start playing audio...");
-
-      playAudio();
+      await playAudio();
     } else if (!audio.paused) {
       audio.pause();
 
@@ -58,6 +58,12 @@ function useAudioPlayer() {
       setIsReset(false);
     } catch (err) {
       console.error("Error occurred when playing: ", err);
+      audio.pause();
+
+      throw new PlayerError({
+        code: "PLAYER_FAILED",
+        message: err.message,
+      });
       // setLoading(false);
     } finally {
       setLoading(false);

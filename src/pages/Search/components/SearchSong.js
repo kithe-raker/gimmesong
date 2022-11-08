@@ -10,6 +10,8 @@ import GimmesongAPI from "@lib/gimmesong_api";
 import ytm from "@lib/ytm_api";
 import useScript from "@hooks/useScript";
 
+import { StreamingError, PlayerError } from "@lib/error";
+
 function SearchSong({ next, onSelectSong, receiver }) {
   const {
     audioRef,
@@ -28,7 +30,6 @@ function SearchSong({ next, onSelectSong, receiver }) {
 
   const [playbackURL, setPlaybackURL] = useState({});
   const searchDelay = useRef(null);
-
 
   const handleSearching = (val) => {
     setSearchTerm(val);
@@ -76,9 +77,6 @@ function SearchSong({ next, onSelectSong, receiver }) {
         // to reuse in next time
         const streamsData = await ytm.getStreamsUrl(videoId);
 
-        if (!streamsData.streams[0] || !streamsData.streams[0]?.url)
-          throw Error("Unable to play this song");
-
         setPlaybackURL((prev) => {
           return {
             ...prev,
@@ -97,18 +95,22 @@ function SearchSong({ next, onSelectSong, receiver }) {
     try {
       // get videoplayback url here
       await getPlaybackURL(videoId);
-      toggleAudio();
+      await toggleAudio();
     } catch (err) {
-      toast(
-        "This song is unplayable, but you can still send it to " + receiver,
-        {
-          style: {
-            borderRadius: "25px",
-            background: "#FF6464",
-            color: "#fff",
-          },
-        }
-      );
+      let msg = "";
+      if (err instanceof StreamingError) {
+        msg =
+          "This song is unplayable, but you can still send it to " + receiver;
+      } else if (err instanceof PlayerError) {
+        msg = "PlayerError: " + err.message;
+      }
+      toast(msg, {
+        style: {
+          borderRadius: "25px",
+          background: "#FF6464",
+          color: "#fff",
+        },
+      });
       console.error(err);
     }
     // reload audio source when current.src is changed
@@ -120,18 +122,22 @@ function SearchSong({ next, onSelectSong, receiver }) {
     try {
       // get videoplayback url here
       await getPlaybackURL(videoId);
-      toggleAudio();
+      await toggleAudio();
     } catch (err) {
-      toast(
-        "This song is unplayable, but you can still send it to " + receiver,
-        {
-          style: {
-            borderRadius: "25px",
-            background: "#FF6464",
-            color: "#fff",
-          },
-        }
-      );
+      let msg = "";
+      if (err instanceof StreamingError) {
+        msg =
+          "This song is unplayable, but you can still send it to " + receiver;
+      } else if (err instanceof PlayerError) {
+        msg = "PlayerError: " + err.message;
+      }
+      toast(msg, {
+        style: {
+          borderRadius: "25px",
+          background: "#FF6464",
+          color: "#fff",
+        },
+      });
       console.error(err);
     }
 
