@@ -63,6 +63,7 @@ function AllReceived({ layout, onLayoutChange }) {
   const [current, setCurrent] = useState(null);
 
   const [loadingStreamingData, setLoadingStreamingData] = useState(false);
+  const [updatingInbox, setUpdatingInbox] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -148,6 +149,7 @@ function AllReceived({ layout, onLayoutChange }) {
       const videoId = received[current].content?.song?.videoId;
       await getPlaybackURL(videoId);
 
+      setUpdatingInbox(true);
       // then update played = true to database
       if (!received[current].played) await GimmesongAPI.playedInbox(id);
       let updated = received.map((item) =>
@@ -158,6 +160,7 @@ function AllReceived({ layout, onLayoutChange }) {
             }
           : item
       );
+      setUpdatingInbox(false);
       setReceived(updated);
 
       // toggle audio player
@@ -457,7 +460,7 @@ function AllReceived({ layout, onLayoutChange }) {
                     className="mr-4 flex h-16 w-[250px] items-center rounded-full bg-white p-3 pr-8 shadow-sm"
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black">
-                      {loadingStreamingData || loadingAudio ? (
+                      {loadingStreamingData || loadingAudio || updatingInbox ? (
                         <svg
                           className="h-4 w-4 animate-spin text-white"
                           xmlns="http://www.w3.org/2000/svg"
