@@ -252,7 +252,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
         {selected && (
           <div
             onClick={() => toggle(selected?.videoId)}
-            className="mt-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-gray-100 p-3 pr-4 shadow-sm transition duration-150 ease-in-out hover:bg-gray-200"
+            className="mt-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-gray-100 p-3 pr-4 shadow-sm transition duration-150 ease-in-out"
           >
             <div className="flex items-center overflow-hidden">
               <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-black">
