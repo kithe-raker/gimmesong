@@ -4,18 +4,21 @@ import { PlayerError } from "@lib/error";
 function useAudioPlayer() {
   const [duration, setDuration] = useState(0);
   const [curTime, setCurTime] = useState(0);
-  // const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isReset, setIsReset] = useState(true);
   // const [clickedTime, setClickedTime] = useState(null);
 
   const audioRef = useRef(null);
 
-  const isPlaying = () => {
-    const audio = audioRef.current;
-    if (!audio) return false;
-    return !audio.paused && !audio.ended;
-  };
+  // const isPlaying = () => {
+  //   const audio = audioRef.current;
+  //   if (!audio) return false;
+
+  //   console.log(!audio.paused && !audio.ended);
+
+  //   return !audio.paused && !audio.ended;
+  // };
 
   const delay = (time) => new Promise((res) => setTimeout(() => res(), time));
 
@@ -27,9 +30,9 @@ function useAudioPlayer() {
 
     const audio = audioRef.current;
 
-    if (audio.paused && !audio.src) await delay(5);
-    if (audio.paused && audio.src) {
-      console.log("Src is ready!");
+    // if (audio.paused) await delay(5);
+    if (audio.paused) {
+      // console.log("Src is ready!");
       console.log("Start playing audio...");
       await playAudio();
     } else if (!audio.paused) {
@@ -44,14 +47,19 @@ function useAudioPlayer() {
     if (!audioRef.current) return;
     const audio = audioRef.current;
 
-    if (isReset) {
-      console.log("audio.load()");
-      audio.load();
-    }
+    // if (isReset) {
+    //   console.log("audio.load()");
+    //   audio.load();
+    // }
+    // if (isReset) {
+    //   console.log("before load", audio);
+    //   loadAudio();
+    //   await delay(10000);
+    // }
+    // console.log("after load", audio);
 
     try {
       await audio.play();
-      console.log("Audio is playing...");
 
       // setLoading(false);
       // setPlaying(true);
@@ -70,18 +78,37 @@ function useAudioPlayer() {
     }
   };
 
+  const loadAudio = () => {
+    if (!audioRef.current) return;
+    const audio = audioRef.current;
+
+    // if (isReset) {
+    console.log("audio.load()");
+    audio.load();
+    // }
+  };
+
   const stopAudio = () => {
     if (!audioRef.current) return;
     const audio = audioRef.current;
 
     audio.pause();
-    // setPlaying(false);
+    audio.currentTime = 0;
     setIsReset(true);
   };
+
+  // const handlePlay = async () => {
+  //   if (isReset) loadAudio();
+  //   await toggleAudio();
+  // };
 
   useEffect(() => {
     console.log("Loading: ", loading);
   }, [loading]);
+
+  useEffect(() => {
+    console.log("isWaitForReset: ", isReset);
+  }, [isReset]);
 
   // useEffect(() => {
   //   console.log(`ed${curTime}/${duration}`);
@@ -98,12 +125,23 @@ function useAudioPlayer() {
     setCurTime(audio.currentTime);
   };
 
+  const onPlaying = () => {
+    setPlaying(true);
+    console.log("Audio is playing");
+  };
+
   const onPause = () => {
+    setPlaying(false);
     console.log("Audio is paused");
   };
 
   const onEnded = () => {
     console.log("Audio is ended");
+  };
+
+  const onCanPlayThrough = async () => {
+    console.log("Audio is ready");
+    await playAudio();
   };
 
   useEffect(() => {
@@ -113,6 +151,8 @@ function useAudioPlayer() {
 
     audio.addEventListener("loadeddata", setAudioData);
     audio.addEventListener("timeupdate", setAudioTime);
+    audio.addEventListener("canplaythrough", onCanPlayThrough);
+    audio.addEventListener("playing", onPlaying);
     audio.addEventListener("pause", onPause);
     audio.addEventListener("ended", onEnded);
 
@@ -125,6 +165,8 @@ function useAudioPlayer() {
     return () => {
       audio.removeEventListener("loadeddata", setAudioData);
       audio.removeEventListener("timeupdate", setAudioTime);
+      audio.removeEventListener("canplaythrough", onCanPlayThrough);
+      audio.removeEventListener("playing", onPlaying);
       audio.removeEventListener("pause", onPause);
       audio.removeEventListener("ended", onEnded);
     };
@@ -134,8 +176,10 @@ function useAudioPlayer() {
     audioRef,
     curTime,
     duration,
-    playing: isPlaying(),
+    // playing: isPlaying(),
+    playing,
     loading,
+    loadAudio,
     toggleAudio,
     playAudio,
     stopAudio,
