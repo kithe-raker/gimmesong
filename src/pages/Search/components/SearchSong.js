@@ -63,7 +63,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
   const handleSelectSong = (song) => {
     setSelected(song);
     if (song.videoId !== selected?.videoId) {
-      stopAudio();
+      if (selected) stopAudio();
       handlePlay(song.videoId);
     }
   };
