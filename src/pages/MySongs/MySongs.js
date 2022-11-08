@@ -29,8 +29,7 @@ function MySongs() {
 
   return (
     <div className="relative mx-auto flex max-h-screen max-w-md flex-col items-center overflow-hidden py-6 pt-[60px]">
-      <div className="my-5 h-[32px] shrink-0"></div>
-      <div className="flex w-full items-center justify-between px-4">
+      <div className="mt-[72px] flex w-full items-center justify-between px-4">
         <div></div>
         <div className="flex items-center">
           <h1
