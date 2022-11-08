@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 
 import { signOut } from "@lib/firebase";
+import logo from "@assets/img/gimmesong_logo.png";
 
 function Header() {
   const { user } = useSession();
@@ -26,9 +27,19 @@ function Header() {
   const cancelRef = useRef();
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-50 mx-auto flex h-[60px] w-full max-w-md items-center justify-end px-2">
+    <header className="fixed top-0 right-0 left-0 z-50 mx-auto flex h-[60px] w-full max-w-md items-center justify-between px-4">
+      <a href="/" className="my-2 flex items-center justify-center">
+        <img
+          className="mr-2 h-[26px] w-[26px] shrink-0"
+          src={logo}
+          alt="disc"
+        />
+        <h1 className="gimmesong-primary-font select-none text-2xl">
+          GIMMESONG
+        </h1>
+      </a>
       {user?.username && (
-        <>
+        <div className="flex items-center">
           <button
             onClick={() => navigate("/menu")}
             className={`group mr-2 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-white shadow-sm ${
@@ -162,7 +173,7 @@ function Header() {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-        </>
+        </div>
       )}
     </header>
   );
