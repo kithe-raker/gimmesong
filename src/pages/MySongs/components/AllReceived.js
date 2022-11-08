@@ -131,7 +131,7 @@ function AllReceived({ layout, onLayoutChange }) {
         setPlaybackURL((prev) => {
           return {
             ...prev,
-            [videoId]: streamsData.streams[0]?.url,
+            [videoId]: streamsData,
           };
         });
       } catch (err) {
@@ -171,15 +171,20 @@ function AllReceived({ layout, onLayoutChange }) {
       if (err instanceof StreamingError) {
         msg = "StreamingError: " + err.message;
       } else if (err instanceof PlayerError) {
-        msg = "PlayerError: " + err.message;
+        if (err.message.includes("denied permission")) {
+        } else {
+          msg = "PlayerError: " + err.message;
+        }
       }
-      toast(msg, {
-        style: {
-          borderRadius: "25px",
-          background: "#FF6464",
-          color: "#fff",
-        },
-      });
+      if (msg) {
+        toast(msg, {
+          style: {
+            borderRadius: "25px",
+            background: "#FF6464",
+            color: "#fff",
+          },
+        });
+      }
       console.error(err);
     }
   };
@@ -205,15 +210,20 @@ function AllReceived({ layout, onLayoutChange }) {
       if (err instanceof StreamingError) {
         msg = "StreamingError: " + err.message;
       } else if (err instanceof PlayerError) {
-        msg = "PlayerError: " + err.message;
+        if (err.message.includes("denied permission")) {
+        } else {
+          msg = "PlayerError: " + err.message;
+        }
       }
-      toast(msg, {
-        style: {
-          borderRadius: "25px",
-          background: "#FF6464",
-          color: "#fff",
-        },
-      });
+      if (msg) {
+        toast(msg, {
+          style: {
+            borderRadius: "25px",
+            background: "#FF6464",
+            color: "#fff",
+          },
+        });
+      }
       console.error(err);
     }
   };
@@ -428,7 +438,12 @@ function AllReceived({ layout, onLayoutChange }) {
                 <audio
                   ref={audioRef}
                   preload="metadata"
-                  src={playbackURL[received[current].content?.song?.videoId]}
+                  src={
+                    playbackURL[received[current].content?.song?.videoId] &&
+                    playbackURL[received[current].content?.song?.videoId][
+                      "audio/mp4"
+                    ]
+                  }
                 >
                   {/* <source
                     src={playbackURL[received[current].content?.song?.videoId]}

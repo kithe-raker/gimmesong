@@ -30,8 +30,11 @@ function useAudioPlayer() {
 
     const audio = audioRef.current;
 
+    if (isReset) loadAudio();
+
     // if (audio.paused) await delay(5);
-    if (audio.paused) {
+    if (audio.paused && !audio.src) await delay(50);
+    if (audio.paused && audio.src) {
       // console.log("Src is ready!");
       console.log("Start playing audio...");
       await playAudio();
@@ -65,9 +68,7 @@ function useAudioPlayer() {
       // setPlaying(true);
       setIsReset(false);
     } catch (err) {
-      console.error("Error occurred when playing: ", err);
       audio.pause();
-
       throw new PlayerError({
         code: "PLAYER_FAILED",
         message: err.message,
@@ -141,7 +142,7 @@ function useAudioPlayer() {
 
   const onCanPlayThrough = async () => {
     console.log("Audio is ready");
-    await playAudio();
+    // await playAudio();
   };
 
   useEffect(() => {

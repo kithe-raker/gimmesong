@@ -80,7 +80,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
         setPlaybackURL((prev) => {
           return {
             ...prev,
-            [videoId]: streamsData.streams[0]?.url,
+            [videoId]: streamsData,
           };
         });
       } catch (err) {
@@ -95,23 +95,28 @@ function SearchSong({ next, onSelectSong, receiver }) {
     try {
       // get videoplayback url here
       await getPlaybackURL(videoId);
-      loadAudio();
-      // await toggleAudio();
+      // loadAudio();
+      await toggleAudio();
     } catch (err) {
       let msg = "";
       if (err instanceof StreamingError) {
         msg =
           "This song is unplayable, but you can still send it to " + receiver;
       } else if (err instanceof PlayerError) {
-        msg = "PlayerError: " + err.message;
+        if (err.message.includes("denied permission")) {
+        } else {
+          msg = "PlayerError: " + err.message;
+        }
       }
-      toast(msg, {
-        style: {
-          borderRadius: "25px",
-          background: "#FF6464",
-          color: "#fff",
-        },
-      });
+      if (msg) {
+        toast(msg, {
+          style: {
+            borderRadius: "25px",
+            background: "#FF6464",
+            color: "#fff",
+          },
+        });
+      }
       console.error(err);
     }
     // reload audio source when current.src is changed
@@ -131,15 +136,21 @@ function SearchSong({ next, onSelectSong, receiver }) {
         msg =
           "This song is unplayable, but you can still send it to " + receiver;
       } else if (err instanceof PlayerError) {
-        msg = "PlayerError: " + err.message;
+        if (err.message.includes("denied permission")) {
+        } else {
+          msg = "PlayerError: " + err.message;
+        }
       }
-      toast(msg, {
-        style: {
-          borderRadius: "25px",
-          background: "#FF6464",
-          color: "#fff",
-        },
-      });
+      if (msg) {
+        toast(msg, {
+          style: {
+            borderRadius: "25px",
+            background: "#FF6464",
+            color: "#fff",
+          },
+        });
+      }
+
       console.error(err);
     }
 
@@ -203,18 +214,33 @@ function SearchSong({ next, onSelectSong, receiver }) {
           <audio
             ref={audioRef}
             preload="metadata"
-            // src={playbackURL[selected?.videoId]}
+            src={
+              playbackURL[selected?.videoId] &&
+              playbackURL[selected?.videoId]["audio/mp4"]
+            }
           >
             {/* <source src={playbackURL[selected?.videoId]} /> */}
             Your browser does not support the <code>audio</code> element.
-            <source
+            {/* {playbackURL[selected?.videoId] &&
+              Object.entries(playbackURL[selected?.videoId]).map(
+                ([mimeType, url]) => {
+                  return (
+                    <source
+                      key={`${selected?.videoId}-${mimeType}`}
+                      src={url}
+                      type={mimeType}
+                    />
+                  );
+                }
+              )} */}
+            {/* <source
               src="https://pipedproxy-bom-2.kavin.rocks/videoplayback?expire=1667909930&ei=yvRpY6_9J6W3rtoPkq626AU&ip=140.238.251.167&id=o-ADfIJGtB7xQB2_a9KUzFBf57Q_dBhQ6B6974MVGWMmMk&itag=251&source=youtube&requiressl=yes&mh=VR&mm=31%2C26&mn=sn-cvh7kn6s%2Csn-h557sn66&ms=au%2Conr&mv=m&mvi=1&pl=25&gcr=in&initcwndbps=3125000&spc=SFxXNj5iNkTMCyKytswiI38aV860xEY&vprv=1&svpuc=1&mime=audio%2Fwebm&gir=yes&clen=4285467&dur=257.601&lmt=1637730360087162&mt=1667887982&fvip=5&keepalive=yes&fexp=24001373%2C24007246&c=ANDROID&txp=5432434&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cgir%2Cclen%2Cdur%2Clmt&sig=AOq0QJ8wRQIgchxTpN8ptRFA8s_KXU8ClCbL-k2e2XnGNHEqrr1wpoECIQDDkEsuf7BE4-OAvN1NaauIPAlCj8t3uIsTv3rrGERUjA%3D%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgK71c6blatF6b5W6gk_yF-9mN48guYDO3g_3kzXDTl2QCIF4DSazjH6HysUBcRNrK0dmJxJLMleScuwcdgE6OEFBB&cpn=gHYtNfymaE_x0DDj&host=rr1---sn-cvh7kn6s.googlevideo.com"
               type="audio/webm"
             />
             <source
               src="https://pipedproxy-bom-2.kavin.rocks/videoplayback?expire=1667909930&ei=yvRpY6_9J6W3rtoPkq626AU&ip=140.238.251.167&id=o-ADfIJGtB7xQB2_a9KUzFBf57Q_dBhQ6B6974MVGWMmMk&itag=140&source=youtube&requiressl=yes&mh=VR&mm=31%2C26&mn=sn-cvh7kn6s%2Csn-h557sn66&ms=au%2Conr&mv=m&mvi=1&pl=25&gcr=in&initcwndbps=3125000&spc=SFxXNj5iNkTMCyKytswiI38aV860xEY&vprv=1&svpuc=1&mime=audio%2Fmp4&gir=yes&clen=4171895&dur=257.578&lmt=1637730379655136&mt=1667887982&fvip=5&keepalive=yes&fexp=24001373%2C24007246&c=ANDROID&txp=5432434&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cgir%2Cclen%2Cdur%2Clmt&sig=AOq0QJ8wRgIhAKBtmSKlmxpUEkmWZemEemogHStDc_yf8OfPiDrPzoo1AiEA_2fAZmKnVHs1SueSiixuiPu5bHumCMS-Q_YJ_aiMdaQ%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgK71c6blatF6b5W6gk_yF-9mN48guYDO3g_3kzXDTl2QCIF4DSazjH6HysUBcRNrK0dmJxJLMleScuwcdgE6OEFBB&cpn=gHYtNfymaE_x0DDj&host=rr1---sn-cvh7kn6s.googlevideo.com"
               type="audio/mp4"
-            />
+            /> */}
           </audio>
           {loading ? (
             <Loading disableBg />
@@ -326,9 +352,9 @@ function SearchSong({ next, onSelectSong, receiver }) {
           </div>
         )}
       </div>
-      <button className="bg-red-400" onClick={loadAudio}>
+      {/* <button className="bg-red-400" onClick={loadAudio}>
         Load
-      </button>
+      </button> */}
 
       <div className="my-4 flex flex-col items-center">
         <span className="gimmesong-primary-font text-sm text-gray-500">
