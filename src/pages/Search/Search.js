@@ -14,6 +14,8 @@ import Loading from "@components/Loading";
 
 import { useNavigate } from "react-router-dom";
 
+import useScript from "@hooks/useScript";
+
 function Search() {
   const { username } = useParams();
   const navigate = useNavigate();
@@ -25,9 +27,15 @@ function Search() {
   const [loading, setLoading] = useState(false);
 
   // Call Socialbar ads
-  useScript(
-    "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
-  );
+  // useScript(
+  //   "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
+  // );
+
+  // useScript(
+  //   "//pl17917328.highperformancecpmgate.com/b660ec7b99553839c4654ee4a1292d71/invoke.js",
+  //   true,
+  //   false
+  // );
 
   // if path contain /@:username this effect will run
   useEffect(() => {
@@ -110,8 +118,13 @@ function Search() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
-      <div className="my-4 w-full max-w-[300px] bg-gray-300 p-5">ADS</div>
+      {/* <div className="my-4 w-full max-w-[300px] bg-gray-300 p-5">ADS</div> */}
       {loading ? <Loading fullScreens /> : render}
+
+      <div
+        className="mt-12"
+        id="container-b660ec7b99553839c4654ee4a1292d71"
+      ></div>
     </div>
   );
 }
