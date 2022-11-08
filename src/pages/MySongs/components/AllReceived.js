@@ -31,6 +31,8 @@ import {
 } from "@chakra-ui/react";
 
 import ytm from "@lib/ytm_api";
+import toast from "react-hot-toast";
+import { StreamingError, PlayerError } from "@lib/error";
 
 function AllReceived({ layout, onLayoutChange }) {
   const { activeStep, setStep, skip, nextStep } = useSteps({
@@ -126,29 +128,27 @@ function AllReceived({ layout, onLayoutChange }) {
         // to reuse in next time
         const streamsData = await ytm.getStreamsUrl(videoId);
 
-        if (!streamsData.streams[0] || !streamsData.streams[0]?.url)
-          throw Error("Unable to play this song");
-
         setPlaybackURL((prev) => {
           return {
             ...prev,
             [videoId]: streamsData.streams[0]?.url,
           };
         });
-        setLoadingStreamingData(false);
       } catch (err) {
-        console.error(err);
+        throw err;
+      } finally {
+        setLoadingStreamingData(false);
       }
     }
   };
 
   const handlePlay = async (id) => {
-    // get videoplayback url here
-    const videoId = received[current].content?.song?.videoId;
-    await getPlaybackURL(videoId);
-
-    // then update played = true to database
     try {
+      // get videoplayback url here
+      const videoId = received[current].content?.song?.videoId;
+      await getPlaybackURL(videoId);
+
+      // then update played = true to database
       if (!received[current].played) await GimmesongAPI.playedInbox(id);
       let updated = received.map((item) =>
         item.id === id
@@ -160,32 +160,62 @@ function AllReceived({ layout, onLayoutChange }) {
       );
       setReceived(updated);
 
-      toggleAudio();
+      // toggle audio player
+      await toggleAudio();
 
       // reload audio source when current.src is changed
       // reloadAudioSrc();
       // setPlaying(true);
     } catch (err) {
+      let msg = "";
+      if (err instanceof StreamingError) {
+        msg = "StreamingError: " + err.message;
+      } else if (err instanceof PlayerError) {
+        msg = "PlayerError: " + err.message;
+      }
+      toast(msg, {
+        style: {
+          borderRadius: "25px",
+          background: "#FF6464",
+          color: "#fff",
+        },
+      });
       console.error(err);
     }
   };
 
   const toggle = async () => {
-    // when toggle to play played audio, we need to get playback url again to prevent error
-    // from play/pause empty source url
+    try {
+      // when toggle to play played audio, we need to get playback url again to prevent error
+      // from play/pause empty source url
 
-    const videoId = received[current].content?.song?.videoId;
-    await getPlaybackURL(videoId);
+      // get videoplayback url here
+      const videoId = received[current].content?.song?.videoId;
+      await getPlaybackURL(videoId);
 
-    // if (curTime === 0) reset();
+      // toggle audio player
+      await toggleAudio();
 
-    toggleAudio();
-    // play();
-
-    // after current.src is changed, need to reload src before use audio.play()
-    // and to prevent reload src on pausing we determine from current audio time not equal zero
-    // if (curTime === 0) reloadAudioSrc();
-    // setPlaying((prev) => !prev);
+      // after current.src is changed, need to reload src before use audio.play()
+      // and to prevent reload src on pausing we determine from current audio time not equal zero
+      // if (curTime === 0) reloadAudioSrc();
+      // setPlaying((prev) => !prev);
+    } catch (err) {
+      let msg = "";
+      if (err instanceof StreamingError) {
+        msg = "StreamingError: " + err.message;
+      } else if (err instanceof PlayerError) {
+        msg = "PlayerError: " + err.message;
+      }
+      toast(msg, {
+        style: {
+          borderRadius: "25px",
+          background: "#FF6464",
+          color: "#fff",
+        },
+      });
+      console.error(err);
+    }
   };
 
   const handleSwipe = () => {

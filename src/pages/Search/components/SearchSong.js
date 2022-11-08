@@ -9,6 +9,8 @@ import Loading from "@components/Loading";
 import GimmesongAPI from "@lib/gimmesong_api";
 import ytm from "@lib/ytm_api";
 
+import { StreamingError, PlayerError } from "@lib/error";
+
 function SearchSong({ next, onSelectSong, receiver }) {
   const {
     audioRef,
@@ -27,7 +29,6 @@ function SearchSong({ next, onSelectSong, receiver }) {
 
   const [playbackURL, setPlaybackURL] = useState({});
   const searchDelay = useRef(null);
-
 
   const handleSearching = (val) => {
     setSearchTerm(val);
@@ -75,35 +76,70 @@ function SearchSong({ next, onSelectSong, receiver }) {
         // to reuse in next time
         const streamsData = await ytm.getStreamsUrl(videoId);
 
-        if (!streamsData.streams[0] || !streamsData.streams[0]?.url)
-          throw Error("Unable to play this song");
-
         setPlaybackURL((prev) => {
           return {
             ...prev,
             [videoId]: streamsData.streams[0]?.url,
           };
         });
-        setLoadingStreamingData(false);
       } catch (err) {
-        console.error(err);
+        throw err;
+      } finally {
+        setLoadingStreamingData(false);
       }
     }
   };
 
   const handlePlay = async (videoId) => {
-    // get videoplayback url here
-    await getPlaybackURL(videoId);
-
-    toggleAudio();
-
+    try {
+      // get videoplayback url here
+      await getPlaybackURL(videoId);
+      await toggleAudio();
+    } catch (err) {
+      let msg = "";
+      if (err instanceof StreamingError) {
+        msg =
+          "This song is unplayable, but you can still send it to " + receiver;
+      } else if (err instanceof PlayerError) {
+        msg = "PlayerError: " + err.message;
+      }
+      toast(msg, {
+        style: {
+          borderRadius: "25px",
+          background: "#FF6464",
+          color: "#fff",
+        },
+      });
+      console.error(err);
+    }
     // reload audio source when current.src is changed
     // reloadAudioSrc();
     // setPlaying(true);
   };
 
-  const toggle = () => {
-    toggleAudio();
+  const toggle = async (videoId) => {
+    try {
+      // get videoplayback url here
+      await getPlaybackURL(videoId);
+      await toggleAudio();
+    } catch (err) {
+      let msg = "";
+      if (err instanceof StreamingError) {
+        msg =
+          "This song is unplayable, but you can still send it to " + receiver;
+      } else if (err instanceof PlayerError) {
+        msg = "PlayerError: " + err.message;
+      }
+      toast(msg, {
+        style: {
+          borderRadius: "25px",
+          background: "#FF6464",
+          color: "#fff",
+        },
+      });
+      console.error(err);
+    }
+
     // setPlaying((prev) => !prev);
   };
 
@@ -214,8 +250,8 @@ function SearchSong({ next, onSelectSong, receiver }) {
         </div>
         {selected && (
           <div
-            onClick={toggle}
-            className="mt-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-gray-100 p-3 pr-4 shadow-sm transition duration-150 ease-in-out hover:bg-gray-200"
+            onClick={() => toggle(selected?.videoId)}
+            className="mt-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-gray-100 p-3 pr-4 shadow-sm transition duration-150 ease-in-out"
           >
             <div className="flex items-center overflow-hidden">
               <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-black">
