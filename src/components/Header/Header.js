@@ -28,7 +28,10 @@ function Header() {
 
   return (
     <header className="fixed top-0 right-0 left-0 z-50 mx-auto flex h-[60px] w-full max-w-md items-center justify-between px-4">
-      <a href="/" className="my-2 flex items-center justify-center">
+      <span
+        onClick={() => navigate("/")}
+        className=" my-2 flex cursor-pointer items-center justify-center"
+      >
         <img
           className="mr-2 h-[26px] w-[26px] shrink-0"
           src={logo}
@@ -37,7 +40,7 @@ function Header() {
         <h1 className="gimmesong-primary-font select-none text-2xl">
           GIMMESONG
         </h1>
-      </a>
+      </span>
       {user?.username && (
         <div className="flex items-center">
           <button
