@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import useSession from "@hooks/useSession";
 
 import GimmesongAPI from "@lib/gimmesong_api";
+import useScript from "@hooks/useScript";
 
 function Sent({ receiver }) {
   const navigate = useNavigate();
@@ -28,6 +29,11 @@ function Sent({ receiver }) {
     };
     getTotalSentSong();
   }, []);
+
+  // Call Socialbar ads
+  useScript(
+    "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
+  );
 
   return (
     <div className="flex flex-col items-center">
