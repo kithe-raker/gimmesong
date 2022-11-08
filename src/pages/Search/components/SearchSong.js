@@ -89,26 +89,56 @@ function SearchSong({ next, onSelectSong, receiver }) {
             [videoId]: streamsData.streams[0]?.url,
           };
         });
-        setLoadingStreamingData(false);
       } catch (err) {
-        console.error(err);
+        throw err;
+      } finally {
+        setLoadingStreamingData(false);
       }
     }
   };
 
   const handlePlay = async (videoId) => {
-    // get videoplayback url here
-    await getPlaybackURL(videoId);
-
-    toggleAudio();
-
+    try {
+      // get videoplayback url here
+      await getPlaybackURL(videoId);
+      toggleAudio();
+    } catch (err) {
+      toast(
+        "This song is unplayable, but you can still send it to " + receiver,
+        {
+          style: {
+            borderRadius: "25px",
+            background: "#FF6464",
+            color: "#fff",
+          },
+        }
+      );
+      console.error(err);
+    }
     // reload audio source when current.src is changed
     // reloadAudioSrc();
     // setPlaying(true);
   };
 
-  const toggle = () => {
-    toggleAudio();
+  const toggle = async (videoId) => {
+    try {
+      // get videoplayback url here
+      await getPlaybackURL(videoId);
+      toggleAudio();
+    } catch (err) {
+      toast(
+        "This song is unplayable, but you can still send it to " + receiver,
+        {
+          style: {
+            borderRadius: "25px",
+            background: "#FF6464",
+            color: "#fff",
+          },
+        }
+      );
+      console.error(err);
+    }
+
     // setPlaying((prev) => !prev);
   };
 
@@ -219,7 +249,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
         </div>
         {selected && (
           <div
-            onClick={toggle}
+            onClick={() => toggle(selected?.videoId)}
             className="mt-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-gray-100 p-3 pr-4 shadow-sm transition duration-150 ease-in-out hover:bg-gray-200"
           >
             <div className="flex items-center overflow-hidden">

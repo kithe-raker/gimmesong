@@ -13,7 +13,7 @@ const methods = {
     if (!response.ok) {
       // Suggestion (check for correctness before using):
       // return new Response(response.statusText, { status: response.status });
-      throw Error("Error Unplayable");
+      throw Error("Video Unavailable");
     }
     const data = await response.json();
 
@@ -26,7 +26,7 @@ const methods = {
     // }
 
     if (!data.audioStreams.length > 0) {
-      throw Error("Error Unplayable");
+      throw Error("Unplayable");
     }
 
     const result = _pipedPlaybackUrlParser(data);
