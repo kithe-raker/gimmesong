@@ -131,6 +131,25 @@ function MySongs() {
           </button>
         </div>
         {/* <button
+          className={`group flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-[#86C7DF] to-[#CFB6D0] shadow-sm`}
+        >
+          <svg
+            className={`text-white`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M2.5 2v6h6M21.5 22v-6h-6" />
+            <path d="M22 11.5A10 10 0 0 0 3.2 7.2M2 12.5a10 10 0 0 0 18.8 4.2" />
+          </svg>
+        </button> */}
+        {/* <button
       type="button"
       className="flex h-[42px] w-[42px] items-center justify-center rounded-full bg-white text-sm font-medium text-gray-500 hover:bg-gray-100"
     >
