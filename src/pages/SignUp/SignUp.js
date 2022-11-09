@@ -9,6 +9,7 @@ function SignUp() {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
+
   const [available, setAvailable] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -40,10 +41,27 @@ function SignUp() {
     }, 1000);
   };
 
-  const isValid = useMemo(
-    () => /^[a-z0-9_\.][a-z0-9_\.]{1,31}$/.test(username),
-    [username]
-  );
+  // const isValid = false;
+  // useMemo(
+  //   () => /^[a-z0-9_\.][a-z0-9_\.]{1,31}$/.test(username),
+  //   [username]
+  // );
+
+  const isNotValid = useMemo(() => {
+    if (/[A-Z]/.test(username)) {
+      return "only allow lowercase(a-z)";
+    }
+    if (!/[a-z0-9_\.]$/.test(username)) {
+      return "only allow _ and .";
+    }
+    if (!/^[a-z0-9_\.][a-z0-9_\.]{1,}$/.test(username)) {
+      return "atleast 2 characters";
+    }
+    if (!/^[a-z0-9_\.]{1,31}$/.test(username)) {
+      return "max 31 characters";
+    }
+    return;
+  }, [username]);
 
   const submit = async () => {
     if (!username) {
@@ -123,7 +141,7 @@ function SignUp() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                ) : isValid && available ? (
+                ) : !isNotValid && available ? (
                   <svg
                     className="h-5 w-5 text-[#82CD47]"
                     xmlns="http://www.w3.org/2000/svg"
@@ -162,13 +180,11 @@ function SignUp() {
           }}
           className="px-4 text-center text-sm leading-4 text-red-500"
         >
-          {username.length > 0 &&
-            !isValid &&
-            "Username must be at least 2 characters\n (allow a-z (lower case), 0-9, _, .)"}
+          {username.length > 0 && isNotValid}
           {error && !available && "Username already taken"}
         </span>
         <button
-          disabled={!isValid || !available || loading}
+          disabled={isNotValid || !available || loading}
           onClick={submit}
           className="gimmesong-primary-font mt-2.5 inline-flex h-12 w-[250px] items-center justify-center rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-500"
         >
