@@ -91,8 +91,10 @@ function AllReceived({ layout, onLayoutChange }) {
 
   const platform = window.navigator.platform;
   console.log(platform);
+
   const isIOSDevice =
     platform.indexOf("iPhone") === 0 || platform.indexOf("iPad") === 0;
+  const isAndroid = platform.indexOf("Android") === 0;
 
   const openInstagram = () => {
     const deeplink = isIOSDevice
@@ -907,7 +909,14 @@ function AllReceived({ layout, onLayoutChange }) {
                       )}
                       {activeStep === 3 && (
                         <div className="mt-3 flex flex-col items-center">
-                          <img src={`story-step3.png`} alt="step3" />
+                          <img
+                            src={`${
+                              isAndroid
+                                ? "story-step3-android.png"
+                                : "story-step3.png"
+                            }`}
+                            alt="step3"
+                          />
                           <div className="mt-2 flex items-center">
                             <div
                               className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
