@@ -5,6 +5,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
 
+import { install } from "ga-gtag";
+
 import "@styles/index.css";
 import "@styles/custom.css";
 
@@ -16,6 +18,9 @@ root.render(
   </ChakraProvider>
   // </React.StrictMode>
 );
+
+// Initialize google analytics
+install("G-VHWW02H931");
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
