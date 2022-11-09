@@ -85,7 +85,6 @@ function NewReceived({ layout, onLayoutChange }) {
   };
 
   const platform = window.navigator.platform;
-  console.log(platform);
 
   const isIOSDevice =
     platform.indexOf("iPhone") === 0 || platform.indexOf("iPad") === 0;
@@ -179,12 +178,8 @@ function NewReceived({ layout, onLayoutChange }) {
     }
   };
 
-  const handlePlay = async (id) => {
+  const handleUpdateInbox = async (id) => {
     try {
-      // get videoplayback url here
-      const videoId = received[current].content?.song?.videoId;
-      await getPlaybackURL(videoId);
-
       setUpdatingInbox(true);
       // then update played = true to database
       if (!received[current].played) await GimmesongAPI.playedInbox(id);
@@ -198,17 +193,26 @@ function NewReceived({ layout, onLayoutChange }) {
       );
       setUpdatingInbox(false);
       setReceived(updated);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handlePlay = async (id) => {
+    await handleUpdateInbox(id);
+
+    try {
+      // get videoplayback url here
+      const videoId = received[current].content?.song?.videoId;
+      await getPlaybackURL(videoId);
 
       // toggle audio player
       await toggleAudio();
-
-      // reload audio source when current.src is changed
-      // reloadAudioSrc();
-      // setPlaying(true);
     } catch (err) {
       let msg = "";
       if (err instanceof StreamingError) {
-        msg = "StreamingError: " + err.message;
+        msg =
+          "Unfortunately, this song is unable to play on our App, Please open it on Youtube instead";
       } else if (err instanceof PlayerError) {
         if (err.message.includes("denied permission")) {
         } else {
@@ -239,15 +243,11 @@ function NewReceived({ layout, onLayoutChange }) {
 
       // toggle audio player
       await toggleAudio();
-
-      // after current.src is changed, need to reload src before use audio.play()
-      // and to prevent reload src on pausing we determine from current audio time not equal zero
-      // if (curTime === 0) reloadAudioSrc();
-      // setPlaying((prev) => !prev);
     } catch (err) {
       let msg = "";
       if (err instanceof StreamingError) {
-        msg = "StreamingError: " + err.message;
+        msg =
+          "Unfortunately, this song is unable to play on our App, Please open it on Youtube instead";
       } else if (err instanceof PlayerError) {
         if (err.message.includes("denied permission")) {
         } else {

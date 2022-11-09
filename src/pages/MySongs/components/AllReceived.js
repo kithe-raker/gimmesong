@@ -90,7 +90,6 @@ function AllReceived({ layout, onLayoutChange }) {
   };
 
   const platform = window.navigator.platform;
-  console.log(platform);
 
   const isIOSDevice =
     platform.indexOf("iPhone") === 0 || platform.indexOf("iPad") === 0;
@@ -218,7 +217,7 @@ function AllReceived({ layout, onLayoutChange }) {
       let msg = "";
       if (err instanceof StreamingError) {
         msg =
-          "This song is unavailable to play on our App, Please click open it on Youtube instead";
+          "Unfortunately, this song is unable to play on our App, Please open it on Youtube instead";
       } else if (err instanceof PlayerError) {
         if (err.message.includes("denied permission")) {
         } else {
@@ -253,7 +252,7 @@ function AllReceived({ layout, onLayoutChange }) {
       let msg = "";
       if (err instanceof StreamingError) {
         msg =
-          "This song is unavailable to play on our App, Please click open it on Youtube instead";
+          "Unfortunately, this song is unable to play on our App, Please open it on Youtube instead";
       } else if (err instanceof PlayerError) {
         if (err.message.includes("denied permission")) {
         } else {
