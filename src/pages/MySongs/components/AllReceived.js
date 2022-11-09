@@ -97,9 +97,7 @@ function AllReceived({ layout, onLayoutChange }) {
   const isAndroid = platform.indexOf("Android") === 0;
 
   const openInstagram = () => {
-    const deeplink = isIOSDevice
-      ? "instagram-stories://share"
-      : "instagram://story-camera";
+    const deeplink = "instagram://story-camera";
     window.location = deeplink;
   };
 
