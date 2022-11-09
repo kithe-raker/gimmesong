@@ -25,6 +25,7 @@ function App() {
 
   useEffect(() => {
     auth.onAuthStateChanged(async (data) => {
+      console.log(data);
       if (data) {
         setLoading(true);
         const token = await auth.currentUser.getIdToken(true);

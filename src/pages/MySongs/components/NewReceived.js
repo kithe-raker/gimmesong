@@ -66,6 +66,8 @@ function NewReceived({ layout, onLayoutChange }) {
   const [current, setCurrent] = useState(null);
 
   const [loadingStreamingData, setLoadingStreamingData] = useState(false);
+  const [streamingError, setStreamingError] = useState(false);
+
   const [updatingInbox, setUpdatingInbox] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -211,8 +213,9 @@ function NewReceived({ layout, onLayoutChange }) {
     } catch (err) {
       let msg = "";
       if (err instanceof StreamingError) {
+        setStreamingError(true);
         msg =
-          "Unfortunately, this song is unable to play on our App, Please open it on Youtube instead";
+          "Unfortunately, this song is unable to play on our App, Please try to open it on Youtube instead";
       } else if (err instanceof PlayerError) {
         if (err.message.includes("denied permission")) {
         } else {
@@ -221,6 +224,7 @@ function NewReceived({ layout, onLayoutChange }) {
       }
       if (msg) {
         toast(msg, {
+          duration: 4000,
           style: {
             borderRadius: "25px",
             background: "#FF6464",
@@ -246,8 +250,9 @@ function NewReceived({ layout, onLayoutChange }) {
     } catch (err) {
       let msg = "";
       if (err instanceof StreamingError) {
+        setStreamingError(true);
         msg =
-          "Unfortunately, this song is unable to play on our App, Please open it on Youtube instead";
+          "Unfortunately, this song is unable to play on our App, Please try to open it on Youtube instead";
       } else if (err instanceof PlayerError) {
         if (err.message.includes("denied permission")) {
         } else {
@@ -256,6 +261,7 @@ function NewReceived({ layout, onLayoutChange }) {
       }
       if (msg) {
         toast(msg, {
+          duration: 4000,
           style: {
             borderRadius: "25px",
             background: "#FF6464",
@@ -270,6 +276,7 @@ function NewReceived({ layout, onLayoutChange }) {
   const handleSwipe = () => {
     // setPlaying(false);
     // reloadAudioSrc();
+    setStreamingError(false);
     if (current !== null) stopAudio();
   };
 
@@ -472,6 +479,50 @@ function NewReceived({ layout, onLayoutChange }) {
             )}
             {current !== null && (
               <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
+                {streamingError && (
+                  <div
+                    className="absolute -mt-[140px] inline-flex animate-bounce rounded-full shadow-sm"
+                    role="group"
+                  >
+                    <a
+                      href={`https://music.youtube.com/watch?v=${received[current].content?.song?.videoId}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`inline-flex rounded-l-full bg-white py-3 px-4 text-sm font-medium text-gray-500`}
+                    >
+                      <svg
+                        className="mr-1.5 h-5 w-5 text-red-500"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12l-6.132 3.54z"
+                        />
+                      </svg>
+                      Open in Youtube Music
+                    </a>
+                    <button
+                      onClick={() => setStreamingError(false)}
+                      type="button"
+                      className={`rounded-r-full border-l bg-white py-3 px-4 text-sm font-medium text-gray-500`}
+                    >
+                      <svg
+                        className="h-5 w-5 text-gray-800"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                  </div>
+                )}
                 <audio
                   ref={audioRef}
                   preload="metadata"
