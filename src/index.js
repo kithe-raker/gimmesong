@@ -19,6 +19,7 @@ root.render(
   // </React.StrictMode>
 );
 
+// Initialize google analytics
 install("G-VHWW02H931");
 
 // If you want to start measuring performance in your app, pass a function
