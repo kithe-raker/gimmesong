@@ -93,10 +93,9 @@ function AllReceived({ layout, onLayoutChange }) {
   };
 
   const openInstagram = () => {
-    const deeplink =
-      platform === "iPhone"
-        ? "instagram-stories://share"
-        : "instagram://story-camera";
+    const deeplink = platform.indexOf("iPhone")
+      ? "instagram-stories://share"
+      : "instagram://story-camera";
     window.location = deeplink;
   };
 
