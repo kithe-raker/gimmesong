@@ -50,9 +50,6 @@ function AllReceived({ layout, onLayoutChange }) {
     setStep(1);
   };
 
-  const platform = window.navigator.platform;
-  console.log(platform);
-
   // const isWindows = platform.indexOf("Win") === 0;
 
   const [exportMode, setExportMode] = useState("widget");
@@ -92,8 +89,13 @@ function AllReceived({ layout, onLayoutChange }) {
     },
   };
 
+  const platform = window.navigator.platform;
+  console.log(platform);
+  const isIOSDevice =
+    platform.indexOf("iPhone") === 0 || platform.indexOf("iPad") === 0;
+
   const openInstagram = () => {
-    const deeplink = platform.indexOf("iPhone")
+    const deeplink = isIOSDevice
       ? "instagram-stories://share"
       : "instagram://story-camera";
     window.location = deeplink;
@@ -434,7 +436,7 @@ function AllReceived({ layout, onLayoutChange }) {
                   <div
                     onClick={() => handleSelect(i)}
                     key={i}
-                    className={`relative aspect-square w-[160px] cursor-pointer ${
+                    className={`relative w-[160px] cursor-pointer pt-[100%] ${
                       received[current]?.id === item.id
                         ? "animate-spin-slow"
                         : ""
@@ -1160,7 +1162,7 @@ function AllReceived({ layout, onLayoutChange }) {
                               </clipPath>
                             </defs>
                           </svg>
-                          Share to instagram!
+                          Share on Instagram!
                         </Button>
                       )}
                     </AlertDialogFooter>

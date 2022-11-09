@@ -273,7 +273,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
                       referrerPolicy="no-referrer"
                       crossOrigin="anonymous"
                     />
-                    <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
+                    <div className="mx-2.5 flex min-w-0 flex-col">
                       <span className={`truncate text-sm`}>{song.title}</span>
                       <span
                         className={`truncate text-xs ${
@@ -284,7 +284,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
                       </span>
                     </div>
                   </div>
-                  <div className="text-xs">{/* {song.length} */}</div>
+                  {/* <div className="text-xs">{song.length}</div> */}
                 </div>
               );
             })
@@ -342,7 +342,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
                   </svg>
                 )}
               </div>
-              <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
+              <div className="mx-2.5 flex min-w-0 flex-col">
                 <span className="select-none truncate text-sm">
                   {selected.title}
                 </span>
@@ -351,9 +351,9 @@ function SearchSong({ next, onSelectSong, receiver }) {
                 </span>
               </div>
             </div>
-            <div className="select-none text-xs">
-              {/* {duration > 0 ? durationToStr(duration) : selected.length} */}
-            </div>
+            {/* <div className="select-none text-xs">
+              {duration > 0 ? durationToStr(duration) : selected.length}
+            </div> */}
           </div>
         )}
       </div>
