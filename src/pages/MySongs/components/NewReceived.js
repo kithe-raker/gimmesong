@@ -94,7 +94,6 @@ function NewReceived({ layout, onLayoutChange }) {
   const openInstagram = () => {
     const deeplink = "instagram://story-camera";
     window.location = deeplink;
-    window.location = deeplink;
   };
 
   const exportImage = (inboxId) => {
