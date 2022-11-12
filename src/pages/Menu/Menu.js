@@ -102,7 +102,7 @@ function Menu() {
         </button>
       </div>
       <div className="mt-8 flex flex-col items-center">
-        <span className="font-light text-gray-400">Connect with us</span>
+        <span className="font-light text-gray-400">Connect w/ us</span>
         <a
           href="https://www.instagram.com/gimmesong_official"
           className="mt-2 flex h-10 items-center justify-center rounded-full border border-gray-200 bg-gray-50 px-5 font-medium text-gray-800 hover:bg-gray-100"
