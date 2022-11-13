@@ -12,7 +12,6 @@ import useSession from "@hooks/useSession";
 
 import { StreamingError, PlayerError } from "@lib/error";
 import { useNavigate } from "react-router-dom";
-import useScript from "@hooks/useScript";
 
 function SearchSong({ next, onSelectSong, receiver }) {
   const navigate = useNavigate();
@@ -65,11 +64,6 @@ function SearchSong({ next, onSelectSong, receiver }) {
       }, 1000);
     }
   };
-
-  // Call Socialbar ads
-  useScript(
-    "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
-  );
 
   const handleSelectSong = (song) => {
     setSelected(song);
