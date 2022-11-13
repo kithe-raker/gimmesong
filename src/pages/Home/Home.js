@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import disc from "@assets/img/gimmesong_logo.png";
 
+import toast from "react-hot-toast";
+
 import { signInWithGoogle } from "@lib/firebase";
 import GimmesongAPI from "@lib/gimmesong_api";
-import toast from "react-hot-toast";
+
+import { accountingNum } from "@utils/number";
 
 function Home() {
   const [loading, setLoading] = useState(true);
@@ -34,13 +37,16 @@ function Home() {
 
   const onContinueAuthen = () => {
     FromInAppBrowser
-      ? toast("Open in your default browser(e.g. Chrome, Safari) to continue", {
-          style: {
-            borderRadius: "25px",
-            background: "#FF6464",
-            color: "#fff",
-          },
-        })
+      ? toast(
+          "Open in your default browser (e.g. Chrome, Safari) to continue",
+          {
+            style: {
+              borderRadius: "25px",
+              background: "#FF6464",
+              color: "#fff",
+            },
+          }
+        )
       : signInWithGoogle();
   };
 
@@ -70,7 +76,12 @@ function Home() {
             ></path>
           </svg>
         ) : (
-          count
+          <span
+            style={{ fontFamily: "initial" }}
+            className="mx-1 text-[0.95em]"
+          >
+            {accountingNum(count)}
+          </span>
         )}{" "}
         times.
       </span>

@@ -1,8 +1,11 @@
 import { useState, useMemo, useRef } from "react";
+
 import toast from "react-hot-toast";
-import GimmesongAPI from "@lib/gimmesong_api";
+
 import useSession from "@hooks/useSession";
 import { useNavigate } from "react-router-dom";
+
+import GimmesongAPI from "@lib/gimmesong_api";
 
 function SignUp() {
   const { user, setUser } = useSession();

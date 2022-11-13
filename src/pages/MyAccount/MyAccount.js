@@ -1,4 +1,3 @@
-import { useState } from "react";
 import GetLink from "@components/GetLink";
 
 import { signOut } from "@lib/firebase";
