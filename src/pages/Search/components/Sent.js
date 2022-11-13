@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import useSession from "@hooks/useSession";
 
 import GimmesongAPI from "@lib/gimmesong_api";
-import useScript from "@hooks/useScript";
+// import useScript from "@hooks/useScript";
 
 function Sent({ receiver }) {
   const navigate = useNavigate();
@@ -31,9 +31,9 @@ function Sent({ receiver }) {
   }, []);
 
   // Call Socialbar ads
-  useScript(
-    "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
-  );
+  // useScript(
+  //   "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
+  // );
 
   return (
     <div className="flex flex-col items-center">
@@ -84,7 +84,7 @@ function Sent({ receiver }) {
       {!user?.username && (
         <button
           onClick={() => navigate("/")}
-          className="mt-6 h-12 animate-bounce rounded-full bg-black px-6 text-white transition duration-150 ease-in-out hover:bg-gray-600"
+          className="mt-6 h-12 rounded-full bg-black px-6 text-white transition duration-150 ease-in-out hover:bg-gray-600"
         >
           Get your own anonymous song!
         </button>
