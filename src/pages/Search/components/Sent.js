@@ -4,8 +4,10 @@ import disc from "@assets/img/gimmesong_logo.png";
 
 import { useNavigate } from "react-router-dom";
 import useSession from "@hooks/useSession";
+import useScript from "@hooks/useScript";
 
 import GimmesongAPI from "@lib/gimmesong_api";
+import { accountingNum } from "@utils/number";
 // import useScript from "@hooks/useScript";
 
 function Sent({ receiver }) {
@@ -77,7 +79,12 @@ function Sent({ receiver }) {
             ></path>
           </svg>
         ) : (
-          count
+          <span
+            style={{ fontFamily: "initial" }}
+            className="mx-1 text-[0.95em]"
+          >
+            {accountingNum(count)}
+          </span>
         )}{" "}
         times.
       </span>

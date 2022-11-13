@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
-import toast from "react-hot-toast";
-import GimmesongAPI from "@lib/gimmesong_api";
+import { useState } from "react";
 
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+
+import GimmesongAPI from "@lib/gimmesong_api";
 
 function PasteLink({ next, onSelectReceiver }) {
   const navigate = useNavigate();
@@ -87,7 +88,7 @@ function PasteLink({ next, onSelectReceiver }) {
           disabled={loading}
           onChange={(e) => handleLinkChange(e.target.value)}
           className="block h-12 w-[250px] rounded-full bg-white pl-10 pr-12 text-gray-900 focus:outline-gray-500"
-          placeholder="link or friendname"
+          placeholder="e.g. https://gimmesong.link/@gimmesong_official"
           required
         />
         <button
