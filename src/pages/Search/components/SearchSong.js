@@ -10,6 +10,7 @@ import useAudioPlayer from "@hooks/useAudioPlayer";
 import { StreamingError, PlayerError } from "@lib/error";
 import GimmesongAPI from "@lib/gimmesong_api";
 import ytm from "@lib/ytm_api";
+import Ads from "@lib/ads";
 
 function SearchSong({ next, onSelectSong, receiver }) {
   const navigate = useNavigate();
@@ -32,6 +33,9 @@ function SearchSong({ next, onSelectSong, receiver }) {
 
   const [playbackURL, setPlaybackURL] = useState({});
   const searchDelay = useRef(null);
+
+  // Call VignetteBanner ads
+  Ads.VignetteBanner();
 
   const handleSearching = (val) => {
     setSearchTerm(val);
