@@ -1,18 +1,19 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+
 import PasteLink from "./components/PasteLink.js";
 import Sent from "./components/Sent.js";
 import SearchSong from "./components/SearchSong.js";
 import WriteMessage from "./components/WriteMessage.js";
 
-import { useParams } from "react-router-dom";
-import toast from "react-hot-toast";
-
-import GimmesongAPI from "@lib/gimmesong_api";
 import Loading from "@components/Loading";
 
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import useScript from "@hooks/useScript";
+
+import GimmesongAPI from "@lib/gimmesong_api";
 
 function Search() {
   const { username } = useParams();
@@ -23,7 +24,6 @@ function Search() {
   const [song, setSong] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
 
   // Call Native banner ads
   useScript(

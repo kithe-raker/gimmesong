@@ -4,10 +4,9 @@ import disc from "@assets/img/gimmesong_logo.png";
 
 import { useNavigate } from "react-router-dom";
 import useSession from "@hooks/useSession";
-
-import GimmesongAPI from "@lib/gimmesong_api";
 import useScript from "@hooks/useScript";
 
+import GimmesongAPI from "@lib/gimmesong_api";
 import { accountingNum } from "@utils/number";
 
 function Sent({ receiver }) {

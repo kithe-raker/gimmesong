@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
-import toast from "react-hot-toast";
-import GimmesongAPI from "@lib/gimmesong_api";
+import { useState } from "react";
 
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+
+import GimmesongAPI from "@lib/gimmesong_api";
 
 function PasteLink({ next, onSelectReceiver }) {
   const navigate = useNavigate();
