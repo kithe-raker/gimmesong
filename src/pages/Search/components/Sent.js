@@ -8,6 +8,8 @@ import useSession from "@hooks/useSession";
 import GimmesongAPI from "@lib/gimmesong_api";
 import useScript from "@hooks/useScript";
 
+import { accountingNum } from "@utils/number";
+
 function Sent({ receiver }) {
   const navigate = useNavigate();
   const { user } = useSession();
@@ -77,7 +79,12 @@ function Sent({ receiver }) {
             ></path>
           </svg>
         ) : (
-          count
+          <span
+            style={{ fontFamily: "initial" }}
+            className="mx-1 text-[0.95em]"
+          >
+            {accountingNum(count)}
+          </span>
         )}{" "}
         times.
       </span>

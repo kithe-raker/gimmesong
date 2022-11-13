@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-// import menu1 from "@assets/img/menu1.svg";
-// import menu2 from "@assets/img/menu2.svg";
 import logo from "@assets/img/gimmesong_logo.png";
 
 import GetLink from "@components/GetLink";
@@ -8,9 +6,7 @@ import GetLink from "@components/GetLink";
 import { useNavigate } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
-import { Button } from "@chakra-ui/react";
-
-import useScript from "@hooks/useScript";
+import { accountingNum } from "@utils/number";
 
 function Menu() {
   const navigate = useNavigate();
@@ -72,7 +68,12 @@ function Menu() {
             ></path>
           </svg>
         ) : (
-          count
+          <span
+            style={{ fontFamily: "initial" }}
+            className="mx-1 text-[0.95em]"
+          >
+            {accountingNum(count)}
+          </span>
         )}{" "}
         times.
       </span>

@@ -5,6 +5,8 @@ import { signInWithGoogle } from "@lib/firebase";
 import GimmesongAPI from "@lib/gimmesong_api";
 import toast from "react-hot-toast";
 
+import { accountingNum } from "@utils/number";
+
 function Home() {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
@@ -70,7 +72,12 @@ function Home() {
             ></path>
           </svg>
         ) : (
-          count
+          <span
+            style={{ fontFamily: "initial" }}
+            className="mx-1 text-[0.95em]"
+          >
+            {accountingNum(count)}
+          </span>
         )}{" "}
         times.
       </span>
