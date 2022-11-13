@@ -36,13 +36,16 @@ function Home() {
 
   const onContinueAuthen = () => {
     FromInAppBrowser
-      ? toast("Open in your default browser(e.g. Chrome, Safari) to continue", {
-          style: {
-            borderRadius: "25px",
-            background: "#FF6464",
-            color: "#fff",
-          },
-        })
+      ? toast(
+          "Open in your default browser (e.g. Chrome, Safari) to continue",
+          {
+            style: {
+              borderRadius: "25px",
+              background: "#FF6464",
+              color: "#fff",
+            },
+          }
+        )
       : signInWithGoogle();
   };
 
