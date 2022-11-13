@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import NewReceived from "./components/NewReceived";
 import AllReceived from "./components/AllReceived";
 
-import useScript from "@hooks/useScript";
+import Ads from "@lib/ads";
 
 function MySongs() {
   const [currentPage, setCurrentPage] = useState("newReceived");
@@ -15,9 +15,7 @@ function MySongs() {
   }, [currentPage]);
 
   // Call Socialbar ads
-  useScript(
-    "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
-  );
+  Ads.SocialBar();
 
   let render = {
     newReceived: (

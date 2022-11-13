@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import toast from "react-hot-toast";
-import useScript from "@hooks/useScript";
 import GimmesongAPI from "@lib/gimmesong_api";
 
 function WriteMessage({ next, receiver, song }) {
@@ -41,11 +40,6 @@ function WriteMessage({ next, receiver, song }) {
       setLoading(false);
     }
   };
-
-  // Call Socialbar ads
-  useScript(
-    "//pl17917006.highperformancecpmgate.com/5f/07/e2/5f07e2967fa096ccf2eaeb77f517ab9b.js"
-  );
 
   return (
     <div className="flex w-full max-w-xs flex-col items-center justify-center">

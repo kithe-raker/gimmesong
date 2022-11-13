@@ -11,9 +11,8 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
-import useScript from "@hooks/useScript";
-
 import GimmesongAPI from "@lib/gimmesong_api";
+import Ads from "@lib/ads.js";
 
 function Search() {
   const { username } = useParams();
@@ -26,11 +25,7 @@ function Search() {
   const [loading, setLoading] = useState(false);
 
   // Call Native banner ads
-  useScript(
-    "//pl17917328.highperformancecpmgate.com/b660ec7b99553839c4654ee4a1292d71/invoke.js",
-    true,
-    false
-  );
+  Ads.NativeBanner();
 
   // if path contain /@:username this effect will run
   useEffect(() => {
