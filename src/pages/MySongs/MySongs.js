@@ -14,8 +14,8 @@ function MySongs() {
     else if (currentPage === "allReceived") setPageLayout("multiple");
   }, [currentPage]);
 
-  // Call Socialbar ads
-  Ads.SocialBar();
+  // Call VignetteBanner ads
+  Ads.VignetteBanner();
 
   let render = {
     newReceived: (
