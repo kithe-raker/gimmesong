@@ -1,17 +1,15 @@
-import { useState, useEffect, useRef } from "react";
-
-import useAudioPlayer from "@hooks/useAudioPlayer";
-import toast from "react-hot-toast";
-import { durationToStr } from "@utils/audio";
+import { useState, useRef } from "react";
 
 import Loading from "@components/Loading";
 
-import GimmesongAPI from "@lib/gimmesong_api";
-import ytm from "@lib/ytm_api";
+import toast from "react-hot-toast";
 import useSession from "@hooks/useSession";
+import { useNavigate } from "react-router-dom";
+import useAudioPlayer from "@hooks/useAudioPlayer";
 
 import { StreamingError, PlayerError } from "@lib/error";
-import { useNavigate } from "react-router-dom";
+import GimmesongAPI from "@lib/gimmesong_api";
+import ytm from "@lib/ytm_api";
 
 function SearchSong({ next, onSelectSong, receiver }) {
   const navigate = useNavigate();
@@ -21,7 +19,6 @@ function SearchSong({ next, onSelectSong, receiver }) {
     audioRef,
     playing,
     loading: loadingAudio,
-    loadAudio,
     toggleAudio,
     stopAudio,
   } = useAudioPlayer();

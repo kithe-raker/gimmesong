@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-// import menu1 from "@assets/img/menu1.svg";
-// import menu2 from "@assets/img/menu2.svg";
 import logo from "@assets/img/gimmesong_logo.png";
 
 import GetLink from "@components/GetLink";
@@ -8,9 +6,7 @@ import GetLink from "@components/GetLink";
 import { useNavigate } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
-import { Button } from "@chakra-ui/react";
-
-import useScript from "@hooks/useScript";
+import { accountingNum } from "@utils/number";
 
 function Menu() {
   const navigate = useNavigate();
@@ -72,7 +68,12 @@ function Menu() {
             ></path>
           </svg>
         ) : (
-          count
+          <span
+            style={{ fontFamily: "initial" }}
+            className="mx-1 text-[0.95em]"
+          >
+            {accountingNum(count)}
+          </span>
         )}{" "}
         times.
       </span>
@@ -102,7 +103,7 @@ function Menu() {
         </button>
       </div>
       <div className="mt-8 flex flex-col items-center">
-        <span className="font-light text-gray-400">Feedback us</span>
+        <span className="font-light text-gray-400">Connect w/ us</span>
         <a
           href="https://www.instagram.com/gimmesong_official"
           className="mt-2 flex h-10 items-center justify-center rounded-full border border-gray-200 bg-gray-50 px-5 font-medium text-gray-800 hover:bg-gray-100"

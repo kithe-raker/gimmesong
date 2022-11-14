@@ -6,6 +6,7 @@ import Menu from "@pages/Menu";
 import Search from "@pages/Search";
 import MySongs from "@pages/MySongs";
 
+import { Toaster } from "react-hot-toast";
 import Header from "@components/Header";
 import Loading from "@components/Loading";
 import ProtectedRoute from "@components/ProtectedRoute";
@@ -13,10 +14,9 @@ import ProtectedRoute from "@components/ProtectedRoute";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 
 import useSession from "@hooks/useSession";
-import { auth } from "@lib/firebase";
 
 import GimmesongAPI from "@lib/gimmesong_api";
-import { Toaster } from "react-hot-toast";
+import { auth } from "@lib/firebase";
 
 function App() {
   const { user, setUser } = useSession();
