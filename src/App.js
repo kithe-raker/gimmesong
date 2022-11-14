@@ -5,7 +5,6 @@ import SignUp from "@pages/SignUp";
 import Menu from "@pages/Menu";
 import Search from "@pages/Search";
 import MySongs from "@pages/MySongs";
-import MyAccount from "@pages/MyAccount";
 
 import Header from "@components/Header";
 import Loading from "@components/Loading";
@@ -83,14 +82,6 @@ function App() {
           </ProtectedRoute>
         }
       />
-      {/* <Route
-        path="/myaccount"
-        element={
-          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
-            <MyAccount />
-          </ProtectedRoute>
-        }
-      /> */}
       <Route
         path="*"
         element={
