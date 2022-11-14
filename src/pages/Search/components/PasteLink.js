@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 
 function PasteLink({ next, onSelectReceiver }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [link, setLink] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,7 +26,6 @@ function PasteLink({ next, onSelectReceiver }) {
       });
       return;
     }
-
     // implement api & validation logic here
     setLoading(true);
     try {
@@ -34,7 +33,6 @@ function PasteLink({ next, onSelectReceiver }) {
         link.indexOf("@") === -1 ? link : link.substring(link.indexOf("@") + 1);
 
       const isExist = await GimmesongAPI.checkUserExist(username);
-
       if (isExist) {
         onSelectReceiver(username);
         next();
@@ -56,6 +54,14 @@ function PasteLink({ next, onSelectReceiver }) {
   };
 
   const paste = () => {
+    if (
+      !(navigator === null || navigator === void 0
+        ? void 0
+        : navigator.clipboard)
+    ) {
+      console.warn("Clipboard not supported");
+      return false;
+    }
     navigator.clipboard.readText().then((clipText) => setLink(clipText));
   };
 

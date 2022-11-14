@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-// import bg from "@assets/img/gimmesong_gradient_bg.png";
 import disc from "@assets/img/gimmesong_logo.png";
 
 import { useNavigate } from "react-router-dom";
@@ -39,11 +38,6 @@ function Sent({ receiver }) {
   return (
     <div className="flex flex-col items-center">
       <div className="relative flex h-48 w-72 flex-col items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0]">
-        {/* <img
-          className="absolute inset-0 h-full w-full object-cover"
-          src={bg}
-          alt="Congrats"
-        /> */}
         <div className="absolute flex w-64 flex-col items-center">
           <h1 className="gimmesong-primary-font mb-[5px] text-3xl text-white">
             Congratulation!

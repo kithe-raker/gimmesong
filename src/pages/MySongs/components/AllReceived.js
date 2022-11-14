@@ -13,11 +13,10 @@ import EmptySong from "./EmptySong";
 import useAudioPlayer from "@hooks/useAudioPlayer";
 import { useSteps } from "@hooks/useSteps";
 
-import { durationToStr } from "@utils/audio";
+// import { durationToStr } from "@utils/audio";
 import GimmesongAPI from "@lib/gimmesong_api";
 
 import html2canvas from "html2canvas";
-import { useNavigate } from "react-router-dom";
 
 import { useDisclosure } from "@chakra-ui/react";
 import {
@@ -37,8 +36,6 @@ import { StreamingError, PlayerError } from "@lib/error";
 import { ThreeDots } from "react-loader-spinner";
 
 function AllReceived({ layout, onLayoutChange }) {
-  const navigate = useNavigate();
-
   const { activeStep, setStep, skip, nextStep } = useSteps({
     totalSteps: 5,
   });
@@ -50,9 +47,7 @@ function AllReceived({ layout, onLayoutChange }) {
     setStep(1);
   };
 
-  // const isWindows = platform.indexOf("Win") === 0;
-
-  const [exportMode, setExportMode] = useState("widget");
+  // const [exportMode, setExportMode] = useState("widget");
   const exportRef = useRef();
   const [exporting, setExporting] = useState(false);
   const [exportedURL, setExportedURL] = useState(null);
@@ -129,16 +124,14 @@ function AllReceived({ layout, onLayoutChange }) {
 
       // document.body.appendChild(canvas);
 
-      let a = document.createElement("a");
-      a.download = `inbox-${exportMode}-${inboxId}.png`;
+      // let a = document.createElement("a");
+      // a.download = `inbox-${exportMode}-${inboxId}.png`;
 
       canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob);
         // a.href = url;
         // a.click();
-
         setExportedURL(url);
-        // onCloseModal();
       });
     } catch (err) {
       toast("Export failed", {
@@ -188,8 +181,9 @@ function AllReceived({ layout, onLayoutChange }) {
   const handleUpdateInbox = async (id) => {
     try {
       setUpdatingInbox(true);
-      // then update played = true to database
+      // update played = true to database
       if (!received[current].played) await GimmesongAPI.playedInbox(id);
+      // set played = true to local variable
       let updated = received.map((item) =>
         item.id === id
           ? {
@@ -279,14 +273,13 @@ function AllReceived({ layout, onLayoutChange }) {
   };
 
   const handleSwipe = () => {
-    // setPlaying(false);
-    // reloadAudioSrc();
+    // always reset streaming error that occurred from previous song
     setStreamingError(false);
     if (current !== null) stopAudio();
   };
 
   const goTo = (index) => {
-    // disable animate true
+    // disable animate = true
     if (slider.current) slider.current.slickGoTo(index, true);
   };
 
@@ -371,7 +364,6 @@ function AllReceived({ layout, onLayoutChange }) {
                       return (
                         <div className="outline-none" key={i}>
                           <div className="flex flex-col items-center justify-center">
-                            {/* <img className="w-72 mt-6" src={disc} alt="disc" /> */}
                             <div className="mt-6 w-[90%]">
                               <div
                                 className={`relative w-full pt-[100%] ${
@@ -529,7 +521,6 @@ function AllReceived({ layout, onLayoutChange }) {
                     </button>
                   </div>
                 )}
-                {/* {playbackURL[received[current].content?.song?.videoId] && ( */}
                 <audio
                   ref={audioRef}
                   preload="metadata"
@@ -540,12 +531,8 @@ function AllReceived({ layout, onLayoutChange }) {
                     ]
                   }
                 >
-                  {/* <source
-                    src={playbackURL[received[current].content?.song?.videoId]}
-                  /> */}
                   Your browser does not support the <code>audio</code> element.
                 </audio>
-                {/* )} */}
                 {!received[current].played ? (
                   <button
                     onClick={() => handlePlay(received[current]?.id)}
@@ -649,7 +636,7 @@ function AllReceived({ layout, onLayoutChange }) {
                           </svg>
                         )}
                       </div>
-                      <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
+                      <div className="mx-2.5 flex min-w-0 flex-col">
                         <span className="select-none truncate text-sm">
                           {received[current].content?.song?.title}
                         </span>
@@ -661,11 +648,11 @@ function AllReceived({ layout, onLayoutChange }) {
                         </span>
                       </div>
                     </div>
-                    <div className="select-none text-xs">
-                      {/* {duration > 0
+                    {/* <div className="select-none text-xs">
+                      {duration > 0
                         ? durationToStr(duration)
-                        : received[current].content?.song?.length} */}
-                    </div>
+                        : received[current].content?.song?.length}
+                    </div> */}
                   </div>
                 )}
                 <button
@@ -760,8 +747,6 @@ function AllReceived({ layout, onLayoutChange }) {
 
                   <AlertDialogContent borderRadius={25} marginX={4}>
                     <AlertDialogHeader>
-                      {/* How to share a song to ig story */}
-                      {/* Share image to ig story */}
                       How to share to your story
                     </AlertDialogHeader>
                     <AlertDialogCloseButton />
@@ -771,131 +756,6 @@ function AllReceived({ layout, onLayoutChange }) {
                       justifyContent={`center`}
                       alignItems={`center`}
                     >
-                      {/* Hold on above image and save to your photo gallery */}
-                      {/* Get the widget and add to your instagram story manually{" "} */}
-                      {/* <span className="whitespace-nowrap text-gray-500 underline">
-                        Click to see guide!
-                      </span> */}
-                      {/* <div className="flex">
-                        <div className={`mr-3 flex flex-col items-center`}>
-                          <div
-                            className={`flex h-20 w-20 cursor-pointer items-center justify-center rounded-2xl shadow-md shadow-purple-200 hover:bg-purple-200 ${
-                              exportMode === "widget"
-                                ? "border-2 border-purple-500 bg-purple-200"
-                                : ""
-                            } bg-gray-100`}
-                          >
-                            <svg
-                              className={`h-8 w-8 ${
-                                exportMode === "widget"
-                                  ? "text-purple-500"
-                                  : "text-gray-800"
-                              }`}
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <rect x="3" y="3" width="18" height="18" rx="2" />
-                              <circle cx="8.5" cy="8.5" r="1.5" />
-                              <path d="M20.4 14.5L16 10 4 20" />
-                            </svg>
-                          </div>
-                          <span className="mt-1 text-sm font-semibold">
-                            Widget
-                          </span>
-                        </div>
-                      </div> */}
-                      {/* <div className="flex flex-col justify-center">
-                        <h2 className="mb-3 text-lg font-medium">
-                          How to share a song to ig story
-                        </h2>
-                        <div
-                          onClick={() => setStep(1)}
-                          className={`my-1.5 mr-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
-                            activeStep === 1
-                              ? "bg-black text-white"
-                              : "bg-gray-200"
-                          }`}
-                        >
-                          1
-                        </div>
-                        <div
-                          onClick={() => setStep(2)}
-                          className={`my-1.5 mr-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
-                            activeStep === 2
-                              ? "bg-black text-white"
-                              : "bg-gray-200"
-                          }`}
-                        >
-                          2
-                        </div>
-                        <div
-                          onClick={() => setStep(3)}
-                          className={`my-1.5 mr-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
-                            activeStep === 3
-                              ? "bg-black text-white"
-                              : "bg-gray-200"
-                          }`}
-                        >
-                          3
-                        </div>
-                        <div
-                          onClick={() => setStep(4)}
-                          className={`my-1.5 mr-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
-                            activeStep === 4
-                              ? "bg-black text-white"
-                              : "bg-gray-200"
-                          }`}
-                        >
-                          4
-                        </div>
-                      </div> */}
-                      {/* <div className="flex w-full justify-center">
-                        <div
-                          onClick={() => setStep(1)}
-                          className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
-                            activeStep === 1
-                              ? "bg-black text-white"
-                              : "bg-gray-200"
-                          }`}
-                        >
-                          1
-                        </div>
-                        <div
-                          onClick={() => setStep(2)}
-                          className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
-                            activeStep === 2
-                              ? "bg-black text-white"
-                              : "bg-gray-200"
-                          }`}
-                        >
-                          2
-                        </div>
-                        <div
-                          onClick={() => setStep(3)}
-                          className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
-                            activeStep === 3
-                              ? "bg-black text-white"
-                              : "bg-gray-200"
-                          }`}
-                        >
-                          3
-                        </div>
-                        <div
-                          onClick={() => setStep(4)}
-                          className={`mx-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${
-                            activeStep === 4
-                              ? "bg-black text-white"
-                              : "bg-gray-200"
-                          }`}
-                        >
-                          4
-                        </div>
-                      </div>*/}
                       {activeStep === 1 && (
                         <div className="mt-3 flex flex-col items-center">
                           <video
@@ -1060,60 +920,6 @@ function AllReceived({ layout, onLayoutChange }) {
                       display={`flex`}
                       justifyContent={`center`}
                     >
-                      {/* <Button
-                        borderRadius="25"
-                        ref={cancelRef}
-                        onClick={onCloseModal}
-                        h={42}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        onClick={() => exportImage(received[current].id)}
-                        borderRadius="25"
-                        colorScheme="blackAlpha"
-                        bgColor="black"
-                        color="white"
-                        h={42}
-                        ml={3}
-                      >
-                        {exporting ? (
-                          <svg
-                            className="mr-2 h-4 w-4 animate-spin text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
-                          </svg>
-                        ) : (
-                          <svg
-                            className="mr-2 h-4 w-4 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5" />
-                          </svg>
-                        )}
-                        Export
-                      </Button> */}
                       {activeStep !== 5 ? (
                         <>
                           <Button
@@ -1144,7 +950,6 @@ function AllReceived({ layout, onLayoutChange }) {
                       ) : (
                         <Button
                           onClick={() => openInstagram()}
-                          // onClick={() => exportImage(received[current].id)}
                           borderRadius="25"
                           bgColor="black"
                           color="white"
@@ -1154,18 +959,6 @@ function AllReceived({ layout, onLayoutChange }) {
                             bg: "#000000",
                           }}
                         >
-                          {/* <svg
-                            className="mr-2 h-4 w-4 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5" />
-                          </svg> */}
                           <svg
                             className="mr-2 h-4 w-4 text-white"
                             viewBox="0 0 180 180"

@@ -10,6 +10,7 @@ import { install } from "ga-gtag";
 import "@styles/index.css";
 import "@styles/custom.css";
 
+// disable console log on production
 if (process.env.NODE_ENV !== "development") console.log = () => {};
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
