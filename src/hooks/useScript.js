@@ -5,10 +5,12 @@ const useScript = ({
   useAsync = false,
   cfasync = true,
   innerHTML = "",
-  disableOnDevelopment,
+  disable,
+  disableInDevMode,
 }) => {
   useEffect(() => {
-    if (disableOnDevelopment && process.env.NODE_ENV === "development") return;
+    if (disable) return;
+    if (disableInDevMode && process.env.NODE_ENV === "development") return;
 
     const script = document.createElement("script");
 
