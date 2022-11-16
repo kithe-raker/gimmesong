@@ -9,7 +9,8 @@ import {
 import { PlayerError } from "@lib/error";
 
 const AudioPlayer = forwardRef((props, ref) => {
-  const { src, onToggle, onLoading, loading, autoPlayAfterSrcChange } = props;
+  const { src, onToggle, onLoading, loadingSource, autoPlayAfterSrcChange } =
+    props;
 
   const [audioSrc, setAudioSrc] = useState("");
   const [duration, setDuration] = useState(0);
@@ -29,7 +30,7 @@ const AudioPlayer = forwardRef((props, ref) => {
     const audio = audioRef.current;
 
     // Play when player is not playing or loading audio source
-    if (!playing && !loading) {
+    if (!playing && !loadingSource) {
       await playPromise();
     } else if (playing) {
       audio.pause();
@@ -117,7 +118,7 @@ const AudioPlayer = forwardRef((props, ref) => {
       await playPromise();
     };
     // Play when player is not loading audio source
-    if (autoPlayAfterSrcChange && !loading) {
+    if (autoPlayAfterSrcChange && !loadingSource) {
       play();
     }
   }, [audioSrc]);

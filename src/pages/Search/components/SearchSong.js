@@ -255,7 +255,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
               onToggle={setPlaying}
               onLoading={setLoadingAudio}
               autoPlayAfterSrcChange
-              loading={loadingStreamingData}
+              loadingSource={loadingStreamingData}
             />
             <div
               onClick={() => handleToggle(selected?.videoId)}

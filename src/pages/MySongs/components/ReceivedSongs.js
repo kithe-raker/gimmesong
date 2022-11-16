@@ -535,7 +535,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   onToggle={setPlaying}
                   onLoading={setLoadingAudio}
                   autoPlayAfterSrcChange={false}
-                  loading={loadingStreamingData}
+                  loadingSource={loadingStreamingData}
                 />
                 {!received[current]?.played ? (
                   <button
