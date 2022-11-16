@@ -35,7 +35,7 @@ function Home() {
     );
   }, []);
 
-  const onContinueAuthen = () => {
+  const handleContinueSignIn = () => {
     FromInAppBrowser
       ? toast(
           "Open in your default browser (e.g. Chrome, Safari) to continue",
@@ -92,7 +92,7 @@ function Home() {
         someone you&apos;re hiding.
       </span>
       <button
-        onClick={onContinueAuthen}
+        onClick={handleContinueSignIn}
         className="mt-12 flex h-12 w-[250px] items-center justify-center rounded-full bg-black font-bold text-white transition duration-150 ease-in-out hover:bg-gray-600"
       >
         <svg
