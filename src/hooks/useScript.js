@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 
-const useScript = (
+const useScript = ({
   url = "",
   useAsync = false,
   cfasync = true,
-  innerHTML = ""
-) => {
+  innerHTML = "",
+  disableOnDevelopment,
+}) => {
   useEffect(() => {
+    if (disableOnDevelopment && process.env.NODE_ENV === "development") return;
+
     const script = document.createElement("script");
 
     if (url) {
