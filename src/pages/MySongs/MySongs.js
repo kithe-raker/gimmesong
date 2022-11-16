@@ -1,30 +1,20 @@
 import { useState, useEffect } from "react";
 
-import NewReceived from "./components/NewReceived";
-import AllReceived from "./components/AllReceived";
+import ReceivedSongs from "./components/ReceivedSongs";
 
 import Ads from "@lib/ads";
 
 function MySongs() {
-  const [currentPage, setCurrentPage] = useState("newReceived");
+  const [currentTab, setCurrentTab] = useState("new");
   const [pageLayout, setPageLayout] = useState("single");
 
   useEffect(() => {
-    if (currentPage === "newReceived") setPageLayout("single");
-    else if (currentPage === "allReceived") setPageLayout("multiple");
-  }, [currentPage]);
+    if (currentTab === "new") setPageLayout("single");
+    else if (currentTab === "all") setPageLayout("multiple");
+  }, [currentTab]);
 
   // Call VignetteBanner ads
   Ads.VignetteBanner();
-
-  let render = {
-    newReceived: (
-      <NewReceived layout={pageLayout} onLayoutChange={setPageLayout} />
-    ),
-    allReceived: (
-      <AllReceived layout={pageLayout} onLayoutChange={setPageLayout} />
-    ),
-  };
 
   return (
     <div className="relative mx-auto flex max-h-screen max-w-md flex-col items-center overflow-hidden py-6 pt-[60px]">
@@ -32,18 +22,18 @@ function MySongs() {
         <div></div>
         <div className="flex items-center">
           <h1
-            onClick={() => setCurrentPage("newReceived")}
+            onClick={() => setCurrentTab("new")}
             className={`gimmesong-primary-font cursor-pointer select-none text-4xl text-gray-400 ${
-              currentPage === "newReceived" && "text-gray-900"
+              currentTab === "new" && "text-gray-900"
             }`}
           >
             NEW
           </h1>
           <span className="mx-6 h-5 w-[1px] bg-gray-400"></span>
           <h1
-            onClick={() => setCurrentPage("allReceived")}
+            onClick={() => setCurrentTab("all")}
             className={`gimmesong-primary-font cursor-pointer select-none text-4xl text-gray-400 ${
-              currentPage === "allReceived" && "text-gray-900"
+              currentTab === "all" && "text-gray-900"
             }`}
           >
             ALL
@@ -130,7 +120,11 @@ function MySongs() {
           </button>
         </div>
       </div>
-      {render[currentPage]}
+      <ReceivedSongs
+        tab={currentTab}
+        layout={pageLayout}
+        onLayoutChange={setPageLayout}
+      />
     </div>
   );
 }

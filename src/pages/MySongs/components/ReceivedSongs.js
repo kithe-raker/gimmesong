@@ -9,8 +9,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import EmptySong from "./EmptySong";
+import AudioPlayer from "@components/AudioPlayer";
 
-import useAudioPlayer from "@hooks/useAudioPlayer";
 import { useSteps } from "@hooks/useSteps";
 
 // import { durationToStr } from "@utils/audio";
@@ -35,7 +35,7 @@ import toast from "react-hot-toast";
 import { StreamingError, PlayerError } from "@lib/error";
 import { ThreeDots } from "react-loader-spinner";
 
-function AllReceived({ layout, onLayoutChange }) {
+function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const { activeStep, setStep, skip, nextStep } = useSteps({
     totalSteps: 5,
   });
@@ -52,13 +52,9 @@ function AllReceived({ layout, onLayoutChange }) {
   const [exporting, setExporting] = useState(false);
   const [exportedURL, setExportedURL] = useState(null);
 
-  const {
-    audioRef,
-    playing,
-    loading: loadingAudio,
-    toggleAudio,
-    stopAudio,
-  } = useAudioPlayer();
+  const audioRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [loadingAudio, setLoadingAudio] = useState(false);
 
   const [received, setReceived] = useState([]);
 
@@ -66,7 +62,7 @@ function AllReceived({ layout, onLayoutChange }) {
   const [current, setCurrent] = useState(null);
 
   const [loadingStreamingData, setLoadingStreamingData] = useState(false);
-  const [streamingError, setStreamingError] = useState(false);
+  const [streamingError, setStreamingError] = useState(null);
 
   const [updatingInbox, setUpdatingInbox] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -147,7 +143,7 @@ function AllReceived({ layout, onLayoutChange }) {
     }
   }, []);
 
-  const handleSelect = (index) => {
+  const handleSelect = async (index) => {
     // when user click on music disc,
     // set current to selected index
     // and change layout to single
@@ -156,12 +152,15 @@ function AllReceived({ layout, onLayoutChange }) {
   };
 
   const getPlaybackURL = async (videoId) => {
+    if (!videoId) return;
+
     // check object key before query, if not found will query new playback url
     if (!playbackURL[videoId]) {
       try {
         setLoadingStreamingData(true);
         // implement fetch playback url here, then set to playbackURL object
         // to reuse in next time
+
         const streamsData = await ytm.getStreamsUrl(videoId);
 
         setPlaybackURL((prev) => {
@@ -182,7 +181,7 @@ function AllReceived({ layout, onLayoutChange }) {
     try {
       setUpdatingInbox(true);
       // update played = true to database
-      if (!received[current].played) await GimmesongAPI.playedInbox(id);
+      await GimmesongAPI.playedInbox(id);
       // set played = true to local variable
       let updated = received.map((item) =>
         item.id === id
@@ -199,24 +198,19 @@ function AllReceived({ layout, onLayoutChange }) {
     }
   };
 
-  const handlePlay = async (id) => {
-    await handleUpdateInbox(id);
+  const handleToggle = async (id) => {
+    if (!received[current].played) await handleUpdateInbox(id);
 
     try {
-      // get videoplayback url here
-      const videoId = received[current].content?.song?.videoId;
-      await getPlaybackURL(videoId);
-
       // toggle audio player
-      await toggleAudio();
+      await audioRef.current.toggle();
     } catch (err) {
       let msg = "";
-      if (err instanceof StreamingError) {
-        setStreamingError(true);
-        msg =
-          "Unfortunately, this song is unable to play on our App, Please try to open it on Youtube instead";
-      } else if (err instanceof PlayerError) {
+      if (err instanceof PlayerError) {
         if (err.message.includes("denied permission")) {
+          msg = ""; // show nothing
+        } else if (err.code === "NO_AUDIO_SOURCE") {
+          msg = ""; // show nothing
         } else {
           msg = "PlayerError: " + err.message;
         }
@@ -235,50 +229,37 @@ function AllReceived({ layout, onLayoutChange }) {
     }
   };
 
-  const toggle = async () => {
-    try {
-      // when toggle to play played audio, we need to get playback url again to prevent error
-      // from play/pause empty source url
-
-      // get videoplayback url here
-      const videoId = received[current].content?.song?.videoId;
-      await getPlaybackURL(videoId);
-
-      // toggle audio player
-      await toggleAudio();
-    } catch (err) {
-      let msg = "";
-      if (err instanceof StreamingError) {
-        setStreamingError(true);
-        msg =
-          "Unfortunately, this song is unable to play on our App, Please try to open it on Youtube instead";
-      } else if (err instanceof PlayerError) {
-        if (err.message.includes("denied permission")) {
-        } else {
-          msg = "PlayerError: " + err.message;
-        }
-      }
-      if (msg) {
-        toast(msg, {
-          duration: 4000,
-          style: {
-            borderRadius: "25px",
-            background: "#FF6464",
-            color: "#fff",
-          },
-        });
-      }
-      console.error(err);
-    }
-  };
-
-  const handleSwipe = () => {
+  const handleSwipe = async () => {
     // always reset streaming error that occurred from previous song
-    setStreamingError(false);
-    if (current !== null) stopAudio();
+    setStreamingError(null);
+    try {
+      // get videoplayback url here
+      const videoId = received[current]?.content?.song?.videoId;
+      await getPlaybackURL(videoId);
+    } catch (err) {
+      let msg = "";
+      if (err instanceof StreamingError) {
+        setStreamingError({
+          id: received[current]?.id,
+        });
+        msg =
+          "Unfortunately, this song is unable to play on our App, Please try to open it on Youtube instead";
+      }
+      if (msg) {
+        toast(msg, {
+          duration: 4000,
+          style: {
+            borderRadius: "25px",
+            background: "#FF6464",
+            color: "#fff",
+          },
+        });
+      }
+      console.error(err);
+    }
   };
 
-  const goTo = (index) => {
+  const sliderGoTo = (index) => {
     // disable animate = true
     if (slider.current) slider.current.slickGoTo(index, true);
   };
@@ -297,8 +278,9 @@ function AllReceived({ layout, onLayoutChange }) {
       if (received.length > 0) {
         // by default in multiple layout current is null until user click select song
         if (current === null) setCurrent(0);
+
         // use setTimeout to prevent element ref is null
-        setTimeout(() => goTo(current), 100);
+        setTimeout(() => sliderGoTo(current), 100);
       }
     }
   }, [layout]);
@@ -308,9 +290,12 @@ function AllReceived({ layout, onLayoutChange }) {
       setLoading(true);
       setError(false);
 
-      let results = await GimmesongAPI.queryInbox({ filter: "all" });
-      if (results.length > 0) {
-        setReceived(results);
+      let filterType = tab;
+      let results = await GimmesongAPI.queryInbox({ filter: filterType });
+
+      setReceived(results);
+      if (tab === "new") {
+        if (results.length > 0) setCurrent(0);
       }
     } catch (err) {
       setError(true);
@@ -321,8 +306,13 @@ function AllReceived({ layout, onLayoutChange }) {
   };
 
   useEffect(() => {
+    if (!tab) return;
+
+    setStreamingError(null);
+    setCurrent(null);
+
     fetchInbox();
-  }, []);
+  }, [tab]);
 
   return (
     <>
@@ -477,7 +467,7 @@ function AllReceived({ layout, onLayoutChange }) {
             )}
             {current !== null && (
               <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
-                {streamingError && (
+                {streamingError?.id == received[current]?.id && (
                   <div
                     className="absolute -mt-[140px] inline-flex animate-bounce rounded-full shadow-sm"
                     role="group"
@@ -501,7 +491,7 @@ function AllReceived({ layout, onLayoutChange }) {
                       Open in Youtube Music
                     </a>
                     <button
-                      onClick={() => setStreamingError(false)}
+                      onClick={() => setStreamingError(null)}
                       type="button"
                       className={`rounded-r-full border-l bg-white py-3 px-4 text-sm font-medium text-gray-500`}
                     >
@@ -521,21 +511,22 @@ function AllReceived({ layout, onLayoutChange }) {
                     </button>
                   </div>
                 )}
-                <audio
+                <AudioPlayer
                   ref={audioRef}
-                  preload="metadata"
                   src={
-                    playbackURL[received[current].content?.song?.videoId] &&
-                    playbackURL[received[current].content?.song?.videoId][
+                    playbackURL[received[current]?.content?.song?.videoId] &&
+                    playbackURL[received[current]?.content?.song?.videoId][
                       "audio/mp4"
                     ]
                   }
-                >
-                  Your browser does not support the <code>audio</code> element.
-                </audio>
-                {!received[current].played ? (
+                  onToggle={setPlaying}
+                  onLoading={setLoadingAudio}
+                  autoPlayAfterSrcChange={false}
+                  loadingSource={loadingStreamingData}
+                />
+                {!received[current]?.played ? (
                   <button
-                    onClick={() => handlePlay(received[current]?.id)}
+                    onClick={() => handleToggle(received[current]?.id)}
                     className="mr-4 flex h-16 w-[250px] items-center rounded-full bg-white p-3 pr-8 shadow-sm"
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black">
@@ -580,7 +571,7 @@ function AllReceived({ layout, onLayoutChange }) {
                   </button>
                 ) : (
                   <div
-                    onClick={toggle}
+                    onClick={() => handleToggle(received[current]?.id)}
                     className="mr-4 flex h-16 w-[250px] cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4"
                   >
                     <div className="flex items-center overflow-hidden">
@@ -638,21 +629,16 @@ function AllReceived({ layout, onLayoutChange }) {
                       </div>
                       <div className="mx-2.5 flex min-w-0 flex-col">
                         <span className="select-none truncate text-sm">
-                          {received[current].content?.song?.title}
+                          {received[current]?.content?.song?.title}
                         </span>
                         <span className="select-none truncate text-xs text-gray-500">
                           {
-                            received[current].content?.song?.artistInfo
+                            received[current]?.content?.song?.artistInfo
                               ?.artist[0]?.text
                           }
                         </span>
                       </div>
                     </div>
-                    {/* <div className="select-none text-xs">
-                      {duration > 0
-                        ? durationToStr(duration)
-                        : received[current].content?.song?.length}
-                    </div> */}
                   </div>
                 )}
                 <button
@@ -700,7 +686,7 @@ function AllReceived({ layout, onLayoutChange }) {
                       }}
                       className="flex min-h-[384px] w-full items-center justify-center px-[54px] pt-[54px] pb-[120px] text-center text-[60px] font-semibold text-gray-800"
                     >
-                      {received[current].content?.message}
+                      {received[current]?.content?.message}
                     </p>
                     <div
                       className={`pointer-events-none flex h-[192px] w-full items-center justify-between rounded-full bg-white bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] p-[36px] pr-[48px] text-white hover:bg-gray-100`}
@@ -709,7 +695,7 @@ function AllReceived({ layout, onLayoutChange }) {
                         <img
                           className="h-[120px] w-[120px] shrink-0 rounded-full object-contain"
                           src={
-                            received[current].content?.song?.thumbnails[0]?.url
+                            received[current]?.content?.song?.thumbnails[0]?.url
                           }
                           alt="thumbnail"
                           referrerPolicy="no-referrer"
@@ -719,13 +705,13 @@ function AllReceived({ layout, onLayoutChange }) {
                           <span
                             className={`-mt-[25px] truncate text-[42px] font-light leading-[2]`}
                           >
-                            {received[current].content?.song?.title}
+                            {received[current]?.content?.song?.title}
                           </span>
                           <span
                             className={`-mt-[25px] truncate text-[36px] font-light leading-[2] text-white`}
                           >
                             {
-                              received[current].content?.song?.artistInfo
+                              received[current]?.content?.song?.artistInfo
                                 ?.artist[0]?.text
                             }
                           </span>
@@ -1030,4 +1016,4 @@ function AllReceived({ layout, onLayoutChange }) {
   );
 }
 
-export default AllReceived;
+export default ReceivedSongs;
