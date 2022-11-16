@@ -5,6 +5,7 @@ import SignUp from "@pages/SignUp";
 import Menu from "@pages/Menu";
 import Search from "@pages/Search";
 import MySongs from "@pages/MySongs";
+import Payment from "@pages/Payment";
 
 import { Toaster } from "react-hot-toast";
 import Header from "@components/Header";
@@ -74,6 +75,7 @@ function App() {
       />
       <Route path="/search" element={<Search />} />
       <Route path="/@:username" element={<Search />} />
+      <Route path="/payment" element={<Payment />} />
       <Route
         path="/mysongs"
         element={
