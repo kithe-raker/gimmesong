@@ -1,11 +1,11 @@
 import { useState, useRef } from "react";
 
 import Loading from "@components/Loading";
+import AudioPlayer from "@components/AudioPlayer";
 
 import toast from "react-hot-toast";
 import useSession from "@hooks/useSession";
 import { useNavigate } from "react-router-dom";
-import useAudioPlayer from "@hooks/useAudioPlayer";
 
 import { StreamingError, PlayerError } from "@lib/error";
 import GimmesongAPI from "@lib/gimmesong_api";
@@ -16,27 +16,24 @@ function SearchSong({ next, onSelectSong, receiver }) {
   const navigate = useNavigate();
   const { user } = useSession();
 
-  const {
-    audioRef,
-    playing,
-    loading: loadingAudio,
-    toggleAudio,
-    stopAudio,
-  } = useAudioPlayer();
-
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
   const [selected, setSelected] = useState(null);
 
   const [loadingStreamingData, setLoadingStreamingData] = useState(false);
+  const [streamingError, setStreamingError] = useState(false);
+
   const [loading, setLoading] = useState(false);
+
+  const audioRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [loadingAudio, setLoadingAudio] = useState(false);
 
   const [playbackURL, setPlaybackURL] = useState({});
   const searchDelay = useRef(null);
 
-  // Call VignetteBanner ads
-  Ads.VignetteBanner();
-
+    // Call VignetteBanner ads
+    Ads.VignetteBanner();
   const handleSearching = (val) => {
     setSearchTerm(val);
 
@@ -66,21 +63,50 @@ function SearchSong({ next, onSelectSong, receiver }) {
     }
   };
 
-  const handleSelectSong = (song) => {
+  const handleSelectSong = async (song) => {
     setSelected(song);
-    if (song.videoId !== selected?.videoId) {
-      if (selected) stopAudio();
-      handlePlay(song.videoId);
+
+    // always reset streaming error that occurred from previous song
+    setStreamingError(false);
+
+    try {
+      // when toggle to play played audio, we need to get playback url again to prevent error
+      // from play/pause empty source url
+
+      // get videoplayback url here
+      const videoId = song.videoId;
+      await getPlaybackURL(videoId);
+    } catch (err) {
+      let msg = "";
+      if (err instanceof StreamingError) {
+        setStreamingError(true);
+        msg =
+          "Unfortunately, this song is unable to play on our App, Please try to open it on Youtube instead";
+      }
+      if (msg) {
+        toast(msg, {
+          duration: 4000,
+          style: {
+            borderRadius: "25px",
+            background: "#FF6464",
+            color: "#fff",
+          },
+        });
+      }
+      console.error(err);
     }
   };
 
   const getPlaybackURL = async (videoId) => {
+    if (!videoId) return;
+
     // check object key before query, if not found will query new playback url
     if (!playbackURL[videoId]) {
       try {
         setLoadingStreamingData(true);
         // implement fetch playback url here, then set to playbackURL object
         // to reuse in next time
+
         const streamsData = await ytm.getStreamsUrl(videoId);
 
         setPlaybackURL((prev) => {
@@ -97,47 +123,16 @@ function SearchSong({ next, onSelectSong, receiver }) {
     }
   };
 
-  const handlePlay = async (videoId) => {
+  const handleToggle = async (videoId) => {
     try {
-      // get videoplayback url here
-      await getPlaybackURL(videoId);
-      await toggleAudio();
+      await audioRef.current.toggle();
     } catch (err) {
       let msg = "";
-      if (err instanceof StreamingError) {
-        msg =
-          "This song is unplayable, but you can still send it to " + receiver;
-      } else if (err instanceof PlayerError) {
+      if (err instanceof PlayerError) {
         if (err.message.includes("denied permission")) {
-        } else {
-          msg = "PlayerError: " + err.message;
-        }
-      }
-      if (msg) {
-        toast(msg, {
-          style: {
-            borderRadius: "25px",
-            background: "#FF6464",
-            color: "#fff",
-          },
-        });
-      }
-      console.error(err);
-    }
-  };
-
-  const toggle = async (videoId) => {
-    try {
-      // get videoplayback url here
-      await getPlaybackURL(videoId);
-      await toggleAudio();
-    } catch (err) {
-      let msg = "";
-      if (err instanceof StreamingError) {
-        msg =
-          "This song is unplayable, but you can still send it to " + receiver;
-      } else if (err instanceof PlayerError) {
-        if (err.message.includes("denied permission")) {
+          msg = ""; // show nothing
+        } else if (err.code === "NO_AUDIO_SOURCE") {
+          msg = ""; // show nothing
         } else {
           msg = "PlayerError: " + err.message;
         }
@@ -209,28 +204,6 @@ function SearchSong({ next, onSelectSong, receiver }) {
       </div>
       <div className="mt-3 w-full rounded-[36px] bg-white p-3">
         <div className="relative h-[calc((64px*3)+22px)] overflow-y-auto overflow-x-hidden">
-          <audio
-            ref={audioRef}
-            preload="metadata"
-            src={
-              playbackURL[selected?.videoId] &&
-              playbackURL[selected?.videoId]["audio/mp4"]
-            }
-          >
-            Your browser does not support the <code>audio</code> element.
-            {/* {playbackURL[selected?.videoId] &&
-              Object.entries(playbackURL[selected?.videoId]).map(
-                ([mimeType, url]) => {
-                  return (
-                    <source
-                      key={`${selected?.videoId}-${mimeType}`}
-                      src={url}
-                      type={mimeType}
-                    />
-                  );
-                }
-              )} */}
-          </audio>
           {loading ? (
             <Loading disableBg />
           ) : (
@@ -275,70 +248,83 @@ function SearchSong({ next, onSelectSong, receiver }) {
           )}
         </div>
         {selected && (
-          <div
-            onClick={() => toggle(selected?.videoId)}
-            className="mt-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-gray-100 p-3 pr-4 shadow-sm transition duration-150 ease-in-out"
-          >
-            <div className="flex items-center overflow-hidden">
-              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-black">
-                {loadingStreamingData || loadingAudio ? (
-                  <svg
-                    className="h-4 w-4 animate-spin text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                ) : !playing ? (
-                  <svg
-                    className="h-4 w-4"
-                    viewBox="0 0 11 13"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M10 4.76795C11.3333 5.53775 11.3333 7.46225 10 8.23205L3.25 12.1292C1.91666 12.899 0.249999 11.9367 0.249999 10.3971L0.25 2.60288C0.25 1.06328 1.91667 0.101034 3.25 0.870834L10 4.76795Z"
-                      fill="#FFFFFF"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    className="h-3 w-3"
-                    viewBox="0 0 11 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect width="4" height="11" rx="2" fill="#FFFFFF" />
-                    <rect x="7" width="4" height="11" rx="2" fill="#FFFFFF" />
-                  </svg>
-                )}
+          <>
+            <AudioPlayer
+              ref={audioRef}
+              src={
+                playbackURL[selected?.videoId] &&
+                playbackURL[selected?.videoId]["audio/mp4"]
+              }
+              onToggle={setPlaying}
+              onLoading={setLoadingAudio}
+              autoPlayAfterSrcChange
+              loading={loadingStreamingData}
+            />
+            <div
+              onClick={() => handleToggle(selected?.videoId)}
+              className="mt-2.5 flex h-16 w-full cursor-pointer items-center justify-between rounded-full bg-gray-100 p-3 pr-4 shadow-sm transition duration-150 ease-in-out"
+            >
+              <div className="flex items-center overflow-hidden">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-black">
+                  {loadingStreamingData || loadingAudio ? (
+                    <svg
+                      className="h-4 w-4 animate-spin text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  ) : !playing ? (
+                    <svg
+                      className="h-4 w-4"
+                      viewBox="0 0 11 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10 4.76795C11.3333 5.53775 11.3333 7.46225 10 8.23205L3.25 12.1292C1.91666 12.899 0.249999 11.9367 0.249999 10.3971L0.25 2.60288C0.25 1.06328 1.91667 0.101034 3.25 0.870834L10 4.76795Z"
+                        fill="#FFFFFF"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="h-3 w-3"
+                      viewBox="0 0 11 11"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect width="4" height="11" rx="2" fill="#FFFFFF" />
+                      <rect x="7" width="4" height="11" rx="2" fill="#FFFFFF" />
+                    </svg>
+                  )}
+                </div>
+                <div className="mx-2.5 flex min-w-0 flex-col">
+                  <span className="select-none truncate text-sm">
+                    {selected.title}
+                  </span>
+                  <span className="select-none truncate text-xs text-gray-500">
+                    {selected.artistInfo?.artist[0]?.text}
+                  </span>
+                </div>
               </div>
-              <div className="mx-2.5 flex min-w-0 flex-col">
-                <span className="select-none truncate text-sm">
-                  {selected.title}
-                </span>
-                <span className="select-none truncate text-xs text-gray-500">
-                  {selected.artistInfo?.artist[0]?.text}
-                </span>
-              </div>
-            </div>
-            {/* <div className="select-none text-xs">
+              {/* <div className="select-none text-xs">
               {duration > 0 ? durationToStr(duration) : selected.length}
             </div> */}
-          </div>
+            </div>
+          </>
         )}
       </div>
       <div className="my-4 flex flex-col items-center">
