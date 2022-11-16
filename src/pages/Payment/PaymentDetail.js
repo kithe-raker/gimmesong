@@ -41,7 +41,7 @@ function PaymentDetail() {
         </div>
         <div className="flex w-full items-center justify-center pt-16">
           <button className="relative w-fit h-fit flex items-center justify-center">
-            <span className="absolute text-white gimmesong-secondary-font h-max w-max text-base">Support for 59</span>
+            <span className="absolute text-white gimmesong-secondary-font h-max w-max text-base">Support for <b>59</b>฿</span>
             <img src={support_btn_bg} />
           </button>
         </div>
