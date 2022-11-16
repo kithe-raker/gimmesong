@@ -62,7 +62,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const [current, setCurrent] = useState(null);
 
   const [loadingStreamingData, setLoadingStreamingData] = useState(false);
-  const [streamingError, setStreamingError] = useState(false);
+  const [streamingError, setStreamingError] = useState(null);
 
   const [updatingInbox, setUpdatingInbox] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -231,7 +231,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
 
   const handleSwipe = async () => {
     // always reset streaming error that occurred from previous song
-    setStreamingError(false);
+    setStreamingError(null);
     try {
       // get videoplayback url here
       const videoId = received[current]?.content?.song?.videoId;
@@ -239,7 +239,9 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     } catch (err) {
       let msg = "";
       if (err instanceof StreamingError) {
-        setStreamingError(true);
+        setStreamingError({
+          id: received[current]?.id,
+        });
         msg =
           "Unfortunately, this song is unable to play on our App, Please try to open it on Youtube instead";
       }
@@ -306,29 +308,14 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   useEffect(() => {
     if (!tab) return;
 
-    setStreamingError(false);
-    // stopAudio();
+    setStreamingError(null);
     setCurrent(null);
-
-    // setTimeout(() => {
-    //   setCurrent(null);
-    // }, 50);
 
     fetchInbox();
   }, [tab]);
 
   return (
     <>
-      {/* <audio
-        ref={audioRef}
-        preload="metadata"
-        src={
-          playbackURL[received[current]?.content?.song?.videoId] &&
-          playbackURL[received[current]?.content?.song?.videoId]["audio/mp4"]
-        }
-      >
-        Your browser does not support the <code>audio</code> element.
-      </audio> */}
       <div className={`relative mt-6 ${layout === "single" ? "w-full" : ""}`}>
         {loading ? (
           <div className="my-12 flex items-center justify-center">
@@ -480,7 +467,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
             )}
             {current !== null && (
               <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
-                {streamingError && (
+                {streamingError?.id == received[current]?.id && (
                   <div
                     className="absolute -mt-[140px] inline-flex animate-bounce rounded-full shadow-sm"
                     role="group"
@@ -504,7 +491,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                       Open in Youtube Music
                     </a>
                     <button
-                      onClick={() => setStreamingError(false)}
+                      onClick={() => setStreamingError(null)}
                       type="button"
                       className={`rounded-r-full border-l bg-white py-3 px-4 text-sm font-medium text-gray-500`}
                     >
