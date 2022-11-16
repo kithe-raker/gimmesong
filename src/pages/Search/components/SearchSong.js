@@ -32,8 +32,8 @@ function SearchSong({ next, onSelectSong, receiver }) {
   const [playbackURL, setPlaybackURL] = useState({});
   const searchDelay = useRef(null);
 
-    // Call VignetteBanner ads
-    Ads.VignetteBanner();
+  // Call VignetteBanner ads
+  Ads.VignetteBanner();
   const handleSearching = (val) => {
     setSearchTerm(val);
 
@@ -70,9 +70,6 @@ function SearchSong({ next, onSelectSong, receiver }) {
     setStreamingError(false);
 
     try {
-      // when toggle to play played audio, we need to get playback url again to prevent error
-      // from play/pause empty source url
-
       // get videoplayback url here
       const videoId = song.videoId;
       await getPlaybackURL(videoId);

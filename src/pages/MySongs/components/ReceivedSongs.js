@@ -232,12 +232,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const handleSwipe = async () => {
     // always reset streaming error that occurred from previous song
     setStreamingError(false);
-    // if (current !== null) stopAudio();
-
     try {
-      // when toggle to play played audio, we need to get playback url again to prevent error
-      // from play/pause empty source url
-
       // get videoplayback url here
       const videoId = received[current]?.content?.song?.videoId;
       await getPlaybackURL(videoId);
