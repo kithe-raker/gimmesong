@@ -3,13 +3,11 @@ import { useState, useMemo, useRef } from "react";
 import toast from "react-hot-toast";
 
 import useSession from "@hooks/useSession";
-import { useNavigate } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 
 function SignUp() {
-  const { user, setUser } = useSession();
-  const navigate = useNavigate();
+  const { user } = useSession();
 
   const [username, setUsername] = useState("");
 
@@ -52,13 +50,13 @@ function SignUp() {
 
   const isNotValid = useMemo(() => {
     if (/[A-Z]/.test(username)) {
-      return "only allow lowercase(a-z)";
+      return "only allow lowercase (a-z)";
     }
     if (!/[a-z0-9_\.]$/.test(username)) {
       return "only allow _ and .";
     }
     if (!/^[a-z0-9_\.][a-z0-9_\.]{1,}$/.test(username)) {
-      return "atleast 2 characters";
+      return "at least 2 characters";
     }
     if (!/^[a-z0-9_\.]{1,31}$/.test(username)) {
       return "max 31 characters";
@@ -176,7 +174,6 @@ function SignUp() {
             )}
           </div>
         </div>
-
         <span
           style={{
             whiteSpace: "pre-line",

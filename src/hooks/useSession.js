@@ -2,7 +2,7 @@ import useUserStore from "@store/user";
 import { useLocalStorage } from "@hooks/useLocalStorage";
 
 const useSession = () => {
-  const { user, setUser: setStoreUser } = useUserStore();
+  const { user: storeUser, setUser: setStoreUser } = useUserStore();
   const [localUser, setLocalUser] = useLocalStorage("user", null);
 
   const setUser = (val) => {
@@ -14,7 +14,7 @@ const useSession = () => {
   // but react component doesn't know that value was updated
   // so, this nullish coalescing will help us to return live state of user object
   return {
-    user: localUser ?? user,
+    user: localUser ?? storeUser,
     setUser,
   };
 };

@@ -10,7 +10,6 @@ function WriteMessage({ next, receiver, song }) {
   const handleMessageChange = (val) => {
     if (val.length > 200) return;
     setMessage(val);
-    // onTypingMessage(val);
   };
 
   const sendSong = async () => {
@@ -25,7 +24,6 @@ function WriteMessage({ next, receiver, song }) {
       });
       return;
     }
-
     // implement send song logic here
     try {
       setLoading(true);
@@ -67,14 +65,14 @@ function WriteMessage({ next, receiver, song }) {
               referrerPolicy="no-referrer"
               crossOrigin="anonymous"
             />
-            <div className="mx-2.5 flex min-w-0 max-w-[150px] flex-col">
+            <div className="mx-2.5 flex min-w-0 flex-col">
               <span className={`truncate text-sm`}>{song.title}</span>
               <span className={`truncate text-xs text-white`}>
                 {song.artistInfo?.artist[0]?.text}
               </span>
             </div>
           </div>
-          <div className="text-xs">{/* {song.length} */}</div>
+          {/* <div className="text-xs">{song.length}</div> */}
         </div>
       </div>
       <button

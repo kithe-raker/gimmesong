@@ -21,7 +21,6 @@ function Search() {
   const [currentStep, setCurrentStep] = useState(1);
   const [receiver, setReceiver] = useState(null);
   const [song, setSong] = useState(null);
-  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Call Native banner ads
@@ -108,9 +107,7 @@ function Search() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
-      {/* <div className="my-4 w-full max-w-[300px] bg-gray-300 p-5">ADS</div> */}
       {loading ? <Loading fullScreens /> : render}
-
       <div
         className="mt-12"
         id="container-b660ec7b99553839c4654ee4a1292d71"

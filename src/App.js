@@ -82,14 +82,6 @@ function App() {
           </ProtectedRoute>
         }
       />
-      {/* <Route
-        path="/myaccount"
-        element={
-          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
-            <MyAccount />
-          </ProtectedRoute>
-        }
-      /> */}
       <Route
         path="*"
         element={
