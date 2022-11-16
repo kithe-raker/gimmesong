@@ -19,6 +19,10 @@ const AudioPlayer = forwardRef((props, ref) => {
 
   const audioRef = useRef(null);
 
+  /**
+   * @dev `useImperativeHandle` allow us to manipulate audio player state from parent component
+   * in this case is toggle (play/pause) an audio.
+   */
   useImperativeHandle(ref, () => ({
     async toggle() {
       await toggleAudio();
@@ -29,7 +33,7 @@ const AudioPlayer = forwardRef((props, ref) => {
     if (!audioRef.current) return;
     const audio = audioRef.current;
 
-    // Play when player is not playing or loading audio source
+    // Play audio when player is not playing or loading audio source
     if (!playing && !loadingSource) {
       await playPromise();
     } else if (playing) {
@@ -96,6 +100,11 @@ const AudioPlayer = forwardRef((props, ref) => {
     console.log("Audio is ended");
   };
 
+  /**
+   * @notice Handle audio src change
+   * @dev when src params was changed, set the new `audioSrc`
+   * and reset audio player and related state
+   */
   useEffect(() => {
     if (src !== audioSrc) {
       setAudioSrc(src);
@@ -113,11 +122,15 @@ const AudioPlayer = forwardRef((props, ref) => {
     }
   }, [src]);
 
+  /**
+   * @notice Handle after `audioSrc` changed
+   * @dev if `autoPlayAfterSrcChange` is enabled, player will autoplay an audio
+   */
   useEffect(() => {
     const play = async () => {
       await playPromise();
     };
-    // Play when player is not loading audio source
+    // Play audio when player is not loading audio source
     if (autoPlayAfterSrcChange && !loadingSource) {
       play();
     }
