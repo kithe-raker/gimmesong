@@ -77,8 +77,8 @@ function Home() {
           </svg>
         ) : (
           <span
-            style={{ fontFamily: "initial" }}
-            className="mx-1 text-[0.95em]"
+            style={{ fontFamily: "serif" }}
+            className="mx-[0.1rem] text-[0.95em]"
           >
             {accountingNum(count)}
           </span>
