@@ -17,8 +17,8 @@ function MySongs() {
   Ads.VignetteBanner();
 
   return (
-    <div className="relative mx-auto flex max-h-screen max-w-md flex-col items-center overflow-hidden py-6 pt-[60px]">
-      <div className="mt-[36px] flex w-full items-center justify-evenly px-4">
+    <div className="relative mx-auto flex max-w-md flex-col items-center py-6 pt-[60px]">
+      <div className="gimmesong-bg sticky top-[60px] z-[49] mt-[36px] flex w-full items-center justify-evenly p-4">
         <div></div>
         <div className="flex items-center">
           <h1

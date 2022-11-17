@@ -9,8 +9,14 @@ import {
 import { PlayerError } from "@lib/error";
 
 const AudioPlayer = forwardRef((props, ref) => {
-  const { src, onToggle, onLoading, loadingSource, autoPlayAfterSrcChange } =
-    props;
+  const {
+    src,
+    onToggle,
+    onLoading,
+    onEnded,
+    loadingSource,
+    autoPlayAfterSrcChange,
+  } = props;
 
   const [audioSrc, setAudioSrc] = useState("");
   const [duration, setDuration] = useState(0);
@@ -70,34 +76,36 @@ const AudioPlayer = forwardRef((props, ref) => {
     }
   };
 
-  const onLoaded = () => {
+  const handleLoaded = () => {
     const audio = audioRef.current;
     setDuration(audio.duration);
     setCurTime(audio.currentTime);
     console.log("Audio is loaded");
   };
 
-  const onTimeUpdate = () => {
+  const handleTimeUpdate = () => {
     const audio = audioRef.current;
     setCurTime(audio.currentTime);
   };
 
-  const onPlaying = () => {
+  const handlePlaying = () => {
     setPlaying(true);
     onToggle(true);
     console.log("Audio is playing");
   };
 
-  const onPause = () => {
+  const handlePause = () => {
     setPlaying(false);
     onToggle(false);
     console.log("Audio is paused");
   };
 
-  const onEnded = () => {
+  const handleEnded = () => {
     setPlaying(false);
     onToggle(false);
     console.log("Audio is ended");
+
+    onEnded && onEnded();
   };
 
   /**
@@ -142,11 +150,11 @@ const AudioPlayer = forwardRef((props, ref) => {
         ref={audioRef}
         preload="metadata"
         src={audioSrc}
-        onLoadedData={onLoaded}
-        onTimeUpdate={onTimeUpdate}
-        onPlaying={onPlaying}
-        onPause={onPause}
-        onEnded={onEnded}
+        onLoadedData={handleLoaded}
+        onTimeUpdate={handleTimeUpdate}
+        onPlaying={handlePlaying}
+        onPause={handlePause}
+        onEnded={handleEnded}
       >
         Your browser does not support the <code>audio</code> element.
       </audio>

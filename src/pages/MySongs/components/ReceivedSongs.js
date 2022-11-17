@@ -229,6 +229,13 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     }
   };
 
+  // const playNextTrack = () => {
+  //   let nextTrackIndex = current != 0 ? current - 1 : 0;
+
+  //   setCurrent(nextTrackIndex);
+  //   if (layout === "single") sliderGoTo(nextTrackIndex);
+  // };
+
   const handleSwipe = async () => {
     // always reset streaming error that occurred from previous song
     setStreamingError(null);
@@ -345,8 +352,8 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
             {layout === "single" ? (
               <>
                 <div
-                  className={`max-h-[calc(100vh-24px-36px-42px-24px-24px)] overflow-hidden overflow-y-auto ${
-                    current !== null ? "pb-[120px]" : "pb-[24px]"
+                  className={`overflow-hidden ${
+                    current !== null ? "pb-[88px]" : "pb-[24px]"
                   }`}
                 >
                   <Slider ref={slider} {...settings}>
@@ -417,8 +424,8 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
               </>
             ) : (
               <div
-                className={`grid max-h-[calc(100vh-24px-36px-42px-24px-24px)] grid-cols-2 gap-4 overflow-y-auto pt-4 ${
-                  current !== null ? "pb-[120px]" : "pb-[24px]"
+                className={`grid grid-cols-2 gap-4 overflow-x-hidden pt-4 ${
+                  current !== null ? "pb-[88px]" : "pb-[24px]"
                 }`}
               >
                 {received.map((item, i) => (
@@ -1009,7 +1016,14 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
             )}
           </>
         ) : (
-          <EmptySong message={`Oops, it seems like no one sent you songs.`} />
+          <EmptySong
+            message={
+              tab === "all"
+                ? `Oops, it seems like no one sent you songs.`
+                : `Oops, you don't have any new received songs at this
+          time.`
+            }
+          />
         )}
       </div>
     </>
