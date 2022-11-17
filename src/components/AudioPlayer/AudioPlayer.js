@@ -76,36 +76,59 @@ const AudioPlayer = forwardRef((props, ref) => {
     }
   };
 
+<<<<<<< HEAD
   const handleLoaded = () => {
+=======
+  const onLoaded = () => {
+>>>>>>> cd3baacc1e927c377619e85ee2cf630fac4e6c9b
     const audio = audioRef.current;
     setDuration(audio.duration);
     setCurTime(audio.currentTime);
     console.log("Audio is loaded");
   };
 
+<<<<<<< HEAD
   const handleTimeUpdate = () => {
+=======
+  const onTimeUpdate = () => {
+>>>>>>> cd3baacc1e927c377619e85ee2cf630fac4e6c9b
     const audio = audioRef.current;
     setCurTime(audio.currentTime);
   };
 
+<<<<<<< HEAD
   const handlePlaying = () => {
+=======
+  const onPlaying = () => {
+>>>>>>> cd3baacc1e927c377619e85ee2cf630fac4e6c9b
     setPlaying(true);
     onToggle(true);
     console.log("Audio is playing");
   };
 
+<<<<<<< HEAD
   const handlePause = () => {
+=======
+  const onPause = () => {
+>>>>>>> cd3baacc1e927c377619e85ee2cf630fac4e6c9b
     setPlaying(false);
     onToggle(false);
     console.log("Audio is paused");
   };
 
+<<<<<<< HEAD
   const handleEnded = () => {
     setPlaying(false);
     onToggle(false);
     console.log("Audio is ended");
 
     onEnded && onEnded();
+=======
+  const onEnded = () => {
+    setPlaying(false);
+    onToggle(false);
+    console.log("Audio is ended");
+>>>>>>> cd3baacc1e927c377619e85ee2cf630fac4e6c9b
   };
 
   /**
@@ -150,11 +173,19 @@ const AudioPlayer = forwardRef((props, ref) => {
         ref={audioRef}
         preload="metadata"
         src={audioSrc}
+<<<<<<< HEAD
         onLoadedData={handleLoaded}
         onTimeUpdate={handleTimeUpdate}
         onPlaying={handlePlaying}
         onPause={handlePause}
         onEnded={handleEnded}
+=======
+        onLoadedData={onLoaded}
+        onTimeUpdate={onTimeUpdate}
+        onPlaying={onPlaying}
+        onPause={onPause}
+        onEnded={onEnded}
+>>>>>>> cd3baacc1e927c377619e85ee2cf630fac4e6c9b
       >
         Your browser does not support the <code>audio</code> element.
       </audio>
