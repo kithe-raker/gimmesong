@@ -352,9 +352,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
             {layout === "single" ? (
               <>
                 <div
-                  className={`max-h-[calc(100vh-24px-36px-42px-24px-24px)] overflow-hidden overflow-y-auto ${
-                    current !== null ? "pb-[120px]" : "pb-[24px]"
-                  }`}
+                  className={`${current !== null ? "pb-[88px]" : "pb-[24px]"}`}
                 >
                   <Slider ref={slider} {...settings}>
                     {received.map((item, i) => {
@@ -424,8 +422,8 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
               </>
             ) : (
               <div
-                className={`grid max-h-[calc(100vh-24px-36px-42px-24px-24px)] grid-cols-2 gap-4 overflow-y-auto pt-4 ${
-                  current !== null ? "pb-[120px]" : "pb-[24px]"
+                className={`grid grid-cols-2 gap-4 overflow-x-hidden pt-4 ${
+                  current !== null ? "pb-[88px]" : "pb-[24px]"
                 }`}
               >
                 {received.map((item, i) => (
