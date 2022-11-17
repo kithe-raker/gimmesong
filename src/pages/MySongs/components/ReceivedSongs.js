@@ -352,7 +352,9 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
             {layout === "single" ? (
               <>
                 <div
-                  className={`${current !== null ? "pb-[88px]" : "pb-[24px]"}`}
+                  className={`overflow-hidden ${
+                    current !== null ? "pb-[88px]" : "pb-[24px]"
+                  }`}
                 >
                   <Slider ref={slider} {...settings}>
                     {received.map((item, i) => {
