@@ -229,6 +229,13 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     }
   };
 
+  // const playNextTrack = () => {
+  //   let nextTrackIndex = current != 0 ? current - 1 : 0;
+
+  //   setCurrent(nextTrackIndex);
+  //   if (layout === "single") sliderGoTo(nextTrackIndex);
+  // };
+
   const handleSwipe = async () => {
     // always reset streaming error that occurred from previous song
     setStreamingError(null);
@@ -1009,7 +1016,14 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
             )}
           </>
         ) : (
-          <EmptySong message={`Oops, it seems like no one sent you songs.`} />
+          <EmptySong
+            message={
+              tab === "all"
+                ? `Oops, it seems like no one sent you songs.`
+                : `Oops, you don't have any new received songs at this
+          time.`
+            }
+          />
         )}
       </div>
     </>
