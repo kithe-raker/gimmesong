@@ -1,5 +1,8 @@
 import { axios } from "@lib/axios";
 
+import { db } from "./firebase";
+import { ref, child, get } from "firebase/database";
+
 function getParams(options) {
   if (!options) return;
 
@@ -70,9 +73,14 @@ const methods = {
     return success;
   },
   getTotalSongSent: async function () {
-    const {
-      data: { value },
-    } = await axios.get(`/api/v1/totalsongsent`);
+    // const {
+    //   data: { value },
+    // } = await axios.get(`/api/v1/totalsongsent`);
+    // return value;
+
+    const dbRef = ref(db);
+    const snapshot = await get(child(dbRef, `total_song_sent`));
+    const value = snapshot.val() ?? 0;
     return value;
   },
   getStreamsUrl: async function (id) {

@@ -42,9 +42,16 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
-  const onCloseModal = () => {
+  const onCloseExportModal = () => {
     onClose();
     setStep(1);
+  };
+
+  const { isOpen: isSessionExpired, onOpen: onSessionExpired } =
+    useDisclosure();
+  const sessionExpiredCancelRef = useRef();
+  const reloadPage = () => {
+    window.location.reload();
   };
 
   // const [exportMode, setExportMode] = useState("widget");
@@ -307,6 +314,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     } catch (err) {
       setError(true);
       console.error(err);
+      if (err.response.status === 403) onSessionExpired();
     } finally {
       setLoading(false);
     }
@@ -730,7 +738,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                 <AlertDialog
                   motionPreset="slideInBottom"
                   leastDestructiveRef={cancelRef}
-                  onClose={onCloseModal}
+                  onClose={onCloseExportModal}
                   isOpen={isOpen}
                   isCentered
                   size="md"
@@ -1026,6 +1034,40 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
           />
         )}
       </div>
+      <AlertDialog
+        isOpen={isSessionExpired}
+        leastDestructiveRef={sessionExpiredCancelRef}
+        onClose={onClose}
+        isCentered
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent borderRadius={25} marginX={4}>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Sorry, Something went wrong
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Your session maybe expired, please try to re-loading this page
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button
+                borderRadius="25"
+                bgColor="black"
+                color="white"
+                h={42}
+                _hover={{ bg: "#000000" }}
+                _active={{
+                  bg: "#000000",
+                }}
+                onClick={reloadPage}
+              >
+                Reload
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </>
   );
 }
