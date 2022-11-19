@@ -1,6 +1,12 @@
 // Import the functions you need from the SDKs you need
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
+// import firebase from "firebase/compat/app";
+// import "firebase/compat/auth";
+
+import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+// Import the functions you need from the SDKs you need
 
 // import { getAnalytics } from "firebase/compat/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -11,6 +17,8 @@ import "firebase/compat/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyCTC2RE8ixJjLE1wc6X6Gjnvplm0l3Jsfo",
   authDomain: "gimmesong-d4f27.firebaseapp.com",
+  databaseURL:
+    "https://gimmesong-d4f27-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "gimmesong-d4f27",
   storageBucket: "gimmesong-d4f27.appspot.com",
   messagingSenderId: "653769201907",
@@ -18,19 +26,23 @@ const firebaseConfig = {
   measurementId: "G-VHWW02H931",
 };
 
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
+const app = initializeApp(firebaseConfig);
 
-export const auth = firebase.auth();
+// Initialize Firebase Database and get a reference to the service
+export const db = getDatabase(app);
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
+// Initialize Firebase Authentication and get a reference to the service
+export const auth = getAuth();
 
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+const provider = new GoogleAuthProvider();
+export const signInWithGoogle = () => signInWithPopup(auth, provider);
 export const signOut = async () => {
   await auth.signOut();
   window.location.reload();
 };
 
-export default firebase;
+export default app;
