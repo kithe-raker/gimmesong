@@ -34,17 +34,6 @@ function MySongs() {
   Ads.VignetteBanner();
 
   return (
-<<<<<<< Updated upstream
-    <div className="relative mx-auto flex max-w-md flex-col items-center py-6 pt-[60px]">
-      <div className="gimmesong-bg sticky top-[60px] z-[49] mt-[36px] flex w-full items-center justify-evenly p-4">
-        <div></div>
-        <div className="flex items-center">
-          <h1
-            onClick={() => setCurrentTab("new")}
-            className={`gimmesong-primary-font cursor-pointer select-none text-4xl text-gray-400 ${
-              currentTab === "new" && "text-gray-900"
-            }`}
-=======
     <div className="relative mx-auto flex max-h-screen max-w-md flex-col items-center overflow-hidden py-6 pt-[60px]">
       <button
         className="flex items-center rounded-full bg-gray-100 px-2 py-2"
@@ -63,13 +52,12 @@ function MySongs() {
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
->>>>>>> Stashed changes
           >
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
           </svg>
         </div>
-        <span className="ml-1 gimmesong-secondary-foont text-xs">@bosoji</span>
+        <span className="gimmesong-secondary-foont ml-1 text-xs">@bosoji</span>
       </button>
       <div className="flex w-full items-center justify-evenly px-4 pt-3">
         <div className="flex flex-col items-center">
@@ -104,25 +92,31 @@ function MySongs() {
             >
               <div className="flex items-center">
                 <svg
-                  width="17"
-                  height="17"
-                  viewBox="0 0 17 17"
-                  fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  width="23"
+                  height="13"
+                  viewBox="0 0 23 13"
+                  fill="none"
+                  className={`${
+                    pageLayout === "single"
+                      ? "text-black"
+                      : "text-white"
+                  }`}
                 >
-                  <circle
-                    cx="8.5"
-                    cy="8.5"
-                    r="7.75"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
+                  <rect
+                    x="5"
+                    width="13"
+                    height="13"
+                    rx="6.5"
+                    fill="currentColor"
                   />
-                  <circle
-                    cx="8.5"
-                    cy="8.5"
-                    r="2.75"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
+                  <path
+                    d="M0 4H0.5C1.88071 4 3 5.11929 3 6.5C3 7.88071 1.88071 9 0.5 9H0V4Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M23 9H22.5C21.1193 9 20 7.88071 20 6.5C20 5.11929 21.1193 4 22.5 4H23V9Z"
+                    fill="currentColor"
                   />
                 </svg>
                 <span className="gimmesong-secondary-font ml-2 text-base">
@@ -141,39 +135,31 @@ function MySongs() {
             >
               <div className="flex items-center">
                 <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 22 22"
-                  fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  width="9"
+                  height="15"
+                  viewBox="0 0 9 15"
+                  fill="none"
                 >
-                  <circle cx="5" cy="5" r="4.5" stroke="currentColor" />
-                  <circle
-                    cx="5.00023"
-                    cy="5.00023"
-                    r="1.55882"
-                    stroke="currentColor"
+                  <rect width="3" height="3" rx="1.5" fill="white" />
+                  <rect y="6" width="3" height="3" rx="1.5" fill="white" />
+                  <rect y="12" width="3" height="3" rx="1.5" fill="white" />
+                  <rect x="6" width="3" height="3" rx="1.5" fill="white" />
+                  <rect
+                    x="6"
+                    y="6"
+                    width="3"
+                    height="3"
+                    rx="1.5"
+                    fill="white"
                   />
-                  <circle cx="17" cy="5" r="4.5" stroke="currentColor" />
-                  <circle
-                    cx="17.0002"
-                    cy="5.00023"
-                    r="1.55882"
-                    stroke="currentColor"
-                  />
-                  <circle cx="5" cy="17" r="4.5" stroke="currentColor" />
-                  <circle
-                    cx="5.00023"
-                    cy="17.0002"
-                    r="1.55882"
-                    stroke="currentColor"
-                  />
-                  <circle cx="17" cy="17" r="4.5" stroke="currentColor" />
-                  <circle
-                    cx="17.0002"
-                    cy="17.0002"
-                    r="1.55882"
-                    stroke="currentColor"
+                  <rect
+                    x="6"
+                    y="12"
+                    width="3"
+                    height="3"
+                    rx="1.5"
+                    fill="white"
                   />
                 </svg>
                 <span className="gimmesong-secondary-font ml-2 text-base">
