@@ -2,7 +2,7 @@ import React from "react";
 
 function Feed() {
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
+    <div className="mx-auto flex max-w-md flex-col items-center py-6 pt-[60px]">
       <div>
         <div className=" flex items-center justify-between">
           <span className="gimmesong-secondary-font text-4xl font-bold">

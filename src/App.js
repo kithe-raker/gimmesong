@@ -6,6 +6,11 @@ import Menu from "@features/Menu";
 import Search from "@features/Search";
 import MySongs from "@features/MySongs";
 
+import Feed from "@features/RequestSongs/Feed";
+import NewRequest from "@features/RequestSongs/NewRequest";
+import ViewRequest from "@features/RequestSongs/ViewRequest";
+import SendSong from "@features/RequestSongs/SendSong";
+
 import { Toaster } from "react-hot-toast";
 import Header from "@components/Header";
 import Loading from "@components/Loading";
@@ -14,6 +19,7 @@ import ProtectedRoute from "@components/ProtectedRoute";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 
 import useSession from "@hooks/useSession";
+import { useLocation } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 import { auth } from "@lib/firebase";
@@ -21,6 +27,8 @@ import { auth } from "@lib/firebase";
 function App() {
   const { user, setUser } = useSession();
   const [loading, setLoading] = useState(true);
+
+  const location = useLocation();
 
   useEffect(() => {
     auth.onAuthStateChanged(async (data) => {
@@ -82,10 +90,10 @@ function App() {
           </ProtectedRoute>
         }
       />
-      <Route path="/request" element={null} />
-      <Route path="/request/:id" element={null} />
-      <Route path="/request/:id/add" element={null} />
-      <Route path="/request/new" element={null} />
+      <Route path="/request" element={<Feed />} />
+      <Route path="/request/:id" element={<ViewRequest />} />
+      <Route path="/request/:id/add" element={<SendSong />} />
+      <Route path="/request/new" element={<NewRequest />} />
       <Route
         path="*"
         element={
@@ -97,19 +105,24 @@ function App() {
     </Routes>
   );
 
+  let disableNavOnRoute = [
+    "/request",
+    "/request/new",
+    "/request/:id",
+    "/request/:id/add",
+  ];
+
   return (
     <>
-      <Router>
-        <Toaster />
-        {loading ? (
-          <Loading fullScreen />
-        ) : (
-          <>
-            <Header />
-            {routes}
-          </>
-        )}
-      </Router>
+      <Toaster />
+      {loading ? (
+        <Loading fullScreen />
+      ) : (
+        <>
+          {!disableNavOnRoute.includes(location.pathname) && <Header />}
+          {routes}
+        </>
+      )}
     </>
   );
 }
