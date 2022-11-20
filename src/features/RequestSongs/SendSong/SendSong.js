@@ -15,7 +15,7 @@ import GimmesongAPI from "@lib/gimmesong_api";
 import Ads from "@lib/ads.js";
 
 function SendSong() {
-  const { username } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -64,10 +64,6 @@ function SendSong() {
    * @dev below component function will end within the component
    * and only return the final value to parent.
    */
-
-  const handleReceiverChange = (user) => {
-    setReceiver(user);
-  };
 
   const handleSongChange = (song) => {
     setSong(song);
