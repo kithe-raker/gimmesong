@@ -82,6 +82,10 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/request" element={null} />
+      <Route path="/request/:id" element={null} />
+      <Route path="/request/:id/add" element={null} />
+      <Route path="/request/new" element={null} />
       <Route
         path="*"
         element={
