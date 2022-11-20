@@ -1043,11 +1043,11 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
         <AlertDialogOverlay>
           <AlertDialogContent borderRadius={25} marginX={4}>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Sorry, Something went wrong
+              Sorry, something went wrong
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Your session maybe expired, please try to re-loading this page
+              Your session has already expired, try refreshing this page.
             </AlertDialogBody>
 
             <AlertDialogFooter>
