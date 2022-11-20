@@ -84,6 +84,13 @@ const methods = {
     const value = snapshot.val() ?? 0;
     return value;
   },
+  getTopChartSongs: async function (id) {
+    const {
+      data: { results },
+    } = await axios.get(`/api/v1/topchartsongs`);
+
+    return results;
+  },
   getStreamsUrl: async function (id) {
     const {
       data: { results },
