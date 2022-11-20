@@ -11,6 +11,12 @@ const methods = {
     } = await axios.get(_requestPath(`linkdetails/${linkId}`));
     return results;
   },
+  GetDetails: async function (langTag, id) {
+    const {
+      data: { results },
+    } = await axios.get(_requestPath(`details/${langTag}/${id}`));
+    return results;
+  },
   GetDetailsByLinkId: async function (linkId) {
     const {
       data: { results },
