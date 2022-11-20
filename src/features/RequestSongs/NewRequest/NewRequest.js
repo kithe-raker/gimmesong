@@ -1,5 +1,7 @@
 import { useState } from "react";
 import useSession from "@hooks/useSession";
+import GimmesongAPI from "@lib/gimmesong_api";
+import LanguageTag from "@lib/languageTag";
 
 function NewRequest() {
   const { user } = useSession();
@@ -13,7 +15,17 @@ function NewRequest() {
     setDescription(val);
   };
 
-  const makeRequest = () => {};
+  const makeRequest = async () => {
+    if (!description) throw "required description";
+
+    const tag = LanguageTag.getPreferenceLanguage();
+    const results = await GimmesongAPI.SongRequest.Create(
+      tag,
+      description,
+      anonymous
+    );
+    console.log(results);
+  };
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">

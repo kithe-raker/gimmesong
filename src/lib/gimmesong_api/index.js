@@ -100,4 +100,6 @@ const methods = {
   },
 };
 
-export default { ...methods, SongRequest };
+const GimmesongAPI = { ...methods, SongRequest };
+
+export default GimmesongAPI;
