@@ -35,7 +35,7 @@ function MySongs() {
 
   return (
     <div className="relative mx-auto flex max-w-md flex-col items-center py-6 pt-[60px]">
-      <button
+      {/* <button
         className="flex items-center rounded-full bg-gray-100 px-2 py-2"
         onClick={() =>
           copyToClipboard(`https://gimmesong.link/@${user.username}`)
@@ -58,8 +58,8 @@ function MySongs() {
           </svg>
         </div>
         <span className="gimmesong-secondary-foont ml-1 text-xs">@bosoji</span>
-      </button>
-      <div className="gimmesong-bg sticky top-[60px] z-[49] mt-[36px] flex w-full items-center justify-evenly p-4">
+      </button> */}
+      <div className="gimmesong-bg sticky top-[60px] z-[49] mt-[24px] flex w-full items-center justify-evenly p-4">
         <div></div>
         <div className="flex items-center">
           <h1
@@ -88,9 +88,9 @@ function MySongs() {
               pageLayout === "single"
                 ? "bg-black text-white"
                 : "bg-white text-black"
-            } py-2 px-4 text-sm font-medium`}
+            } h-10 min-w-[56px] py-2 px-4 text-sm font-medium`}
           >
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="23"
@@ -114,7 +114,7 @@ function MySongs() {
                   fill="currentColor"
                 />
               </svg>
-              <span className="gimmesong-secondary-font ml-2 text-base">
+              <span className="gimmesong-secondary-font ml-2 text-sm">
                 Full
               </span>
             </div>
@@ -126,9 +126,9 @@ function MySongs() {
               pageLayout === "multiple"
                 ? "bg-black text-white"
                 : "bg-white text-black"
-            } py-2 px-4 text-sm font-medium`}
+            } h-10 min-w-[56px] py-2 px-4 text-sm font-medium`}
           >
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="9"
@@ -163,7 +163,7 @@ function MySongs() {
                   fill="currentColor"
                 />
               </svg>
-              <span className="gimmesong-secondary-font ml-2 text-base">
+              <span className="gimmesong-secondary-font ml-2 text-sm">
                 Grid
               </span>
             </div>
