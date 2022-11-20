@@ -29,7 +29,7 @@ function ViewRequest() {
 
   return (
     <div className="relative mx-auto flex max-w-md flex-col items-center py-6 pt-[60px]">
-      <div className="gimmesong-bg fixed top-0 z-50 flex h-16 w-full items-center justify-between px-2.5">
+      <div className="gimmesong-bg fixed top-0 z-50 flex h-16 w-full max-w-md items-center justify-between px-2.5">
         <button className="flex h-9 w-9 items-center justify-center rounded-full border border-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
