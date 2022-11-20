@@ -7,6 +7,8 @@ import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
 import { install } from "ga-gtag";
 
+import { BrowserRouter as Router } from "react-router-dom";
+
 import "@styles/index.css";
 import "@styles/custom.css";
 
@@ -16,9 +18,12 @@ if (process.env.NODE_ENV !== "development") console.log = () => {};
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
-  <ChakraProvider>
-    <App />
-  </ChakraProvider>
+  <Router>
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
+  </Router>
+
   // </React.StrictMode>
 );
 

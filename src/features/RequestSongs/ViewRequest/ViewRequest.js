@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 
-//import back_icon from "@assets/img/back_icon.png";
-
 function ViewRequest() {
   const [pageLayout, setPageLayout] = useState("single");
+
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
+    <div className="relative mx-auto flex max-w-md flex-col items-center py-6 pt-[60px]">
       <div className="mx-6 h-full w-full">
         <div className="flex justify-between">
           <button className="flex h-9 w-9 items-center justify-center rounded-full border-[1.5px] border-black">
