@@ -15,6 +15,7 @@ import { useSteps } from "@hooks/useSteps";
 
 // import { durationToStr } from "@utils/audio";
 import GimmesongAPI from "@lib/gimmesong_api";
+import SongRequestAPI from "@lib/gimmesong_api/song_request";
 
 import html2canvas from "html2canvas";
 
@@ -304,30 +305,28 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
       setLoading(true);
       setError(false);
 
-      let filterType = tab;
-      let results = await GimmesongAPI.queryInbox({ filter: filterType });
+      let results = await SongRequestAPI.QueryRequestItem(
+        "en",
+        "0iDwXJszb4MxTPbulnei",
+        { lastItemId: "", limit: 10 }
+      );
 
       setReceived(results);
-      if (tab === "new") {
-        if (results.length > 0) setCurrent(0);
-      }
+      // if (tab === "new") {
+      //   if (results.length > 0) setCurrent(0);
+      // }
     } catch (err) {
       setError(true);
       console.error(err);
-      if (err.response.status === 403) onSessionExpired();
+      if (err?.response?.status === 403) onSessionExpired();
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!tab) return;
-
-    setStreamingError(null);
-    setCurrent(null);
-
     fetchInbox();
-  }, [tab]);
+  }, []);
 
   return (
     <>
@@ -1024,14 +1023,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
             )}
           </>
         ) : (
-          <EmptySong
-            message={
-              tab === "all"
-                ? `Oops, it seems like no one sent you songs.`
-                : `Oops, you don't have any new received songs at this
-          time.`
-            }
-          />
+          <div>Empty lorem</div>
         )}
       </div>
       <AlertDialog

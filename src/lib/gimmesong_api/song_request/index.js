@@ -59,7 +59,7 @@ const methods = {
       lastItemId,
       limit,
     });
-    return results;
+    return results.contents;
   },
   Create: async function (langTag, message, isAnonymous = true) {
     const {
