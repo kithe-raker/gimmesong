@@ -24,7 +24,7 @@ function NewRequest() {
         <div className="flex w-full flex-col items-center justify-center">
           <div className="flex h-[200px] w-full flex-col rounded-[24px] border border-gray-200 bg-white p-3">
             <span className="w-fit bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text px-2 text-transparent">
-              @vi.masx
+              {!anonymous ? "@vi.masx" : "Anonymous"}
             </span>
             <textarea
               disabled={loading}
@@ -41,12 +41,12 @@ function NewRequest() {
             id="checked-checkbox"
             type="checkbox"
             value={anonymous}
-            onChange={setAnonymous}
+            onChange={(e) => setAnonymous(e.target.checked)}
             class="h-4 w-4 rounded-2xl border-gray-300 bg-gray-100 text-gray-800"
           />
           <label
-            for="checked-checkbox"
-            class="ml-2 text-sm font-medium text-gray-600"
+            htmlFor="checked-checkbox"
+            className="ml-2 text-sm font-medium text-gray-600"
           >
             Make me anonymous
           </label>
