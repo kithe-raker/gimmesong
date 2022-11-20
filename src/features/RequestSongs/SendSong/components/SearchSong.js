@@ -166,7 +166,7 @@ function SendSong({ next, onSelectSong, receiver }) {
   return (
     <div className="flex w-full max-w-xs flex-col items-center justify-center">
       <span className="gimmesong-primary-font text-xl text-gray-600 ">
-        Give me song anonymously!
+        Lorem Lorem Lorem!
       </span>
       <div className="relative mt-3 w-full">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">

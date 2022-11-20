@@ -26,35 +26,33 @@ function SendSong() {
   // Call Native banner ads
   Ads.NativeBanner();
 
-  // if path contain /@:username this effect will run
-  // useEffect(() => {
-  //   const checkUserExist = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const isExist = await GimmesongAPI.checkUserExist(username);
+  useEffect(() => {
+    const checkInboxExist = async () => {
+      setLoading(true);
+      try {
+        // implement api here
+        const isExist = true;
 
-  //       if (isExist) {
-  //         setCurrentStep(2);
-  //         setReceiver(username);
-  //       } else {
-  //         toast("Username doesn't exist", {
-  //           style: {
-  //             borderRadius: "25px",
-  //             background: "#FF6464",
-  //             color: "#fff",
-  //           },
-  //         });
-  //         navigate("/search");
-  //       }
-  //     } catch (err) {
-  //       console.error(err);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+        if (isExist) {
+          setReceiver(id);
+        } else {
+          toast("Inbox doesn't exist", {
+            style: {
+              borderRadius: "25px",
+              background: "#FF6464",
+              color: "#fff",
+            },
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   if (username) checkUserExist();
-  // }, [username]);
+    if (id) checkInboxExist();
+  }, [id]);
 
   const nextStep = () => {
     setCurrentStep((step) => (step += 1));

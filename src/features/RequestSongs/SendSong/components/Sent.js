@@ -75,16 +75,8 @@ function Sent({ receiver }) {
         )}{" "}
         times.
       </span>
-      {!user?.username && (
-        <button
-          onClick={() => navigate("/")}
-          className="mt-6 h-12 rounded-full bg-black px-6 text-white transition duration-150 ease-in-out hover:bg-gray-600"
-        >
-          Get your own anonymous song!
-        </button>
-      )}
       <a
-        href={`/@${receiver}`}
+        href={`/request/${receiver}`}
         className="mt-3 cursor-pointer text-gray-500 underline"
       >
         Send another song

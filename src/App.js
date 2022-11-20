@@ -16,7 +16,7 @@ import Header from "@components/Header";
 import Loading from "@components/Loading";
 import ProtectedRoute from "@components/ProtectedRoute";
 
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import useSession from "@hooks/useSession";
 import { useLocation } from "react-router-dom";
@@ -28,7 +28,7 @@ function App() {
   const { user, setUser } = useSession();
   const [loading, setLoading] = useState(true);
 
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     auth.onAuthStateChanged(async (data) => {
@@ -105,13 +105,6 @@ function App() {
     </Routes>
   );
 
-  let disableNavOnRoute = [
-    "/request",
-    "/request/new",
-    "/request/:id",
-    "/request/:id/add",
-  ];
-
   return (
     <>
       <Toaster />
@@ -119,7 +112,7 @@ function App() {
         <Loading fullScreen />
       ) : (
         <>
-          {!disableNavOnRoute.includes(location.pathname) && <Header />}
+          {!pathname.startsWith("/request") && <Header />}
           {routes}
         </>
       )}
