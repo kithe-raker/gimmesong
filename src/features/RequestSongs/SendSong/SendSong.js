@@ -12,7 +12,7 @@ import GimmesongAPI from "@lib/gimmesong_api";
 import ytm from "@lib/ytm_api";
 import Ads from "@lib/ads";
 
-function SendToRequest({ next, onSelectSong, receiver }) {
+function SendSong({ next, onSelectSong, receiver }) {
   const navigate = useNavigate();
   const { user } = useSession();
 
@@ -351,4 +351,4 @@ function SendToRequest({ next, onSelectSong, receiver }) {
   );
 }
 
-export default SendToRequest;
+export default SendSong;

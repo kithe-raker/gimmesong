@@ -1,7 +1,6 @@
 import React from "react";
-import AddRequest from "@assets/img/add_request.png";
 
-function feed() {
+function Feed() {
   return (
     <div className=" relative mx-6 w-full">
       <div>
@@ -17,9 +16,9 @@ function feed() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="#AEAEAE"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <circle cx="12" cy="12" r="10"></circle>
               <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
@@ -56,4 +55,4 @@ function feed() {
   );
 }
 
-export default feed;
+export default Feed;

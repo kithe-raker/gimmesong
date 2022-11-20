@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 
-import Home from "@pages/Home";
-import SignUp from "@pages/SignUp";
-import Menu from "@pages/Menu";
-import Search from "@pages/Search";
-import MySongs from "@pages/MySongs";
-import RequestSong from "@pages/RequestSong";
+import Home from "@features/Home";
+import SignUp from "@features/SignUp";
+import Menu from "@features/Menu";
+import Search from "@features/Search";
+import MySongs from "@features/MySongs";
 
 import { Toaster } from "react-hot-toast";
 import Header from "@components/Header";
@@ -80,14 +79,6 @@ function App() {
         element={
           <ProtectedRoute isAllowed={user?.username} redirectPath="/">
             <MySongs />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/request"
-        element={
-          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
-            <RequestSong />
           </ProtectedRoute>
         }
       />
