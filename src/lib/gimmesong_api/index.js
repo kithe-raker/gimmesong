@@ -1,6 +1,7 @@
 import { axios } from "@lib/axios";
+import SongRequest from "./song_request";
 
-import { db } from "./firebase";
+import { db } from "../firebase";
 import { ref, child, get } from "firebase/database";
 
 function getParams(options) {
@@ -92,4 +93,4 @@ const methods = {
   },
 };
 
-export default methods;
+export default { ...methods, SongRequest };
