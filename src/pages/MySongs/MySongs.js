@@ -87,7 +87,7 @@ function MySongs() {
               className={`rounded-l-xl ${
                 pageLayout === "single"
                   ? "bg-black text-white"
-                  : "bg-white text-gray-500"
+                  : "bg-white text-black"
               } py-2 px-4 text-sm font-medium`}
             >
               <div className="flex items-center">
@@ -97,11 +97,6 @@ function MySongs() {
                   height="13"
                   viewBox="0 0 23 13"
                   fill="none"
-                  className={`${
-                    pageLayout === "single"
-                      ? "text-black"
-                      : "text-white"
-                  }`}
                 >
                   <rect
                     x="5"
@@ -130,7 +125,7 @@ function MySongs() {
               className={`rounded-r-xl ${
                 pageLayout === "multiple"
                   ? "bg-black text-white"
-                  : "bg-white text-gray-500"
+                  : "bg-white text-black"
               } py-2 px-4 text-sm font-medium`}
             >
               <div className="flex items-center">
@@ -141,17 +136,35 @@ function MySongs() {
                   viewBox="0 0 9 15"
                   fill="none"
                 >
-                  <rect width="3" height="3" rx="1.5" fill="white" />
-                  <rect y="6" width="3" height="3" rx="1.5" fill="white" />
-                  <rect y="12" width="3" height="3" rx="1.5" fill="white" />
-                  <rect x="6" width="3" height="3" rx="1.5" fill="white" />
+                  <rect width="3" height="3" rx="1.5" fill="currentColor" />
+                  <rect
+                    y="6"
+                    width="3"
+                    height="3"
+                    rx="1.5"
+                    fill="currentColor"
+                  />
+                  <rect
+                    y="12"
+                    width="3"
+                    height="3"
+                    rx="1.5"
+                    fill="currentColor"
+                  />
+                  <rect
+                    x="6"
+                    width="3"
+                    height="3"
+                    rx="1.5"
+                    fill="currentColor"
+                  />
                   <rect
                     x="6"
                     y="6"
                     width="3"
                     height="3"
                     rx="1.5"
-                    fill="white"
+                    fill="currentColor"
                   />
                   <rect
                     x="6"
@@ -159,7 +172,7 @@ function MySongs() {
                     width="3"
                     height="3"
                     rx="1.5"
-                    fill="white"
+                    fill="currentColor"
                   />
                 </svg>
                 <span className="gimmesong-secondary-font ml-2 text-base">
