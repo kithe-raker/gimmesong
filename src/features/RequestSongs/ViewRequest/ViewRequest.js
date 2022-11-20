@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 
-//import back_icon from "@assets/img/back_icon.png";
-
 function ViewRequest() {
   const [pageLayout, setPageLayout] = useState("single");
+
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
       <div className="mx-6 h-full w-full">

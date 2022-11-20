@@ -2,7 +2,7 @@ import React from "react";
 
 function NewRequest() {
   return (
-    <div className="h-full w-full">
+    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
       <div className="flex flex-col items-center">
         <span className=" text-center text-8xl">📣</span>
         <span className="gimmesong-primary-font text-center text-3xl">
