@@ -27,7 +27,7 @@ function Header() {
   const cancelRef = useRef();
 
   return (
-    <header className="gimmesong-bg fixed top-0 right-0 left-0 z-50 mx-auto flex h-[60px] w-full max-w-md items-center justify-between px-4">
+    <header className="gimmesong-bg fixed top-0 right-0 left-0 z-50 mx-auto flex h-[60px] w-full max-w-md items-center justify-between px-2.5">
       <span
         onClick={() => navigate("/")}
         className=" my-2 flex cursor-pointer items-center justify-center"
