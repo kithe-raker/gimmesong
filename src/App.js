@@ -91,6 +91,17 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/request/:id" element={""} />
+      <Route path="/request/:id/add" element={""} />
+      <Route
+        path="/request/new"
+        element={
+          <ProtectedRoute
+            isAllowed={user?.username}
+            redirectPath="/"
+          ></ProtectedRoute>
+        }
+      />
       <Route
         path="*"
         element={
