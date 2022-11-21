@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import GimmesongAPI from "@lib/gimmesong_api";
 import Ads from "@lib/ads.js";
 
-function SendSong({ onSongAdded, shareLinkId }) {
+function SendSong({ onSongAdded, shareLinkId, requestId, language }) {
   // const { id } = useParams();
   const navigate = useNavigate();
 
@@ -62,7 +62,7 @@ function SendSong({ onSongAdded, shareLinkId }) {
         <WriteMessage
           receiver={receiver}
           song={song}
-          playListDetails={playListDetails}
+          playListDetails={{ requestId, language }}
           onSongAdded={onSongAdded}
         />
       );

@@ -376,6 +376,8 @@ function ViewRequest() {
                   <SendSong
                     onSongAdded={handleSongAdded}
                     shareLinkId={requestInfo.shareLinkId}
+                    requestId={requestInfo.id}
+                    language={requestInfo.language}
                   />
                 )}
                 {/* Are you sure you want to sign out? you won&apos;t see new received
