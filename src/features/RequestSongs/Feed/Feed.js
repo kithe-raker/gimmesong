@@ -166,7 +166,7 @@ function Feed() {
         )}
       </div>
       <button
-        onClick={() => navigate("/request")}
+        onClick={() => navigate("/request/new")}
         className={`group fixed bottom-4 right-4 flex h-[56px] w-[56px] shrink-0 items-center justify-center rounded-full bg-black shadow-sm`}
       >
         <svg
