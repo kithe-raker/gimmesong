@@ -93,7 +93,14 @@ function App() {
       />
       <Route path="/request" element={<Feed />} />
       <Route path="/playlist/:id" element={<ViewRequest />} />
-      <Route path="/playlist/:id/add" element={<SendSong />} />
+      <Route
+        path="/playlist/:id/add"
+        element={
+          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
+            <SendSong />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/request/new"
         element={
