@@ -88,8 +88,12 @@ function ViewRequest() {
       <span className="bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-center text-2xl font-semibold text-transparent">
         Anonymous
       </span>
-      <span className="mt-1 text-center">
-        K-POP ที่อยากเต้น cover มากที่สุด
+      <span className="mt-1 px-4 text-center font-semibold line-clamp-2">
+        K-POP ที่อยากเต้น cover มากที่สุด K-POP ที่อยากเต้น cover มากที่สุดK-POP
+        ที่อยากเต้น cover มากที่สุดK-POP ที่อยากเต้น cover มากที่สุดK-POP
+        ที่อยากเต้น cover มากที่สุดK-POP ที่อยากเต้น cover มากที่สุดK-POP
+        ที่อยากเต้น cover มากที่สุดK-POP ที่อยากเต้น cover มากที่สุดK-POP
+        ที่อยากเต้น cover มากที่สุดK-POP ที่อยากเต้น cover มากที่สุด
       </span>
       <div className="gimmesong-bg sticky top-[60px] z-[49] mt-2 flex w-full flex-col items-center p-3">
         <div className="inline-flex rounded-full" role="group">

@@ -14,7 +14,7 @@ function WriteMessage({ next, receiver, song }) {
 
   const sendSong = async () => {
     if (!receiver || !song) return;
-    if (!message) {
+    if (!message.trim()) {
       toast("Please write me a message 🥹", {
         style: {
           borderRadius: "25px",
