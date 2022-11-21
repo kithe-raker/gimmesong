@@ -25,6 +25,8 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+import annouce_emoji from "@assets/img/annouce_emoji.png";
+
 function Feed() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
@@ -122,10 +124,14 @@ function Feed() {
     <div className="mx-auto flex w-full max-w-md flex-col items-center py-6 pt-[60px]">
       <div className="mt-4 flex w-full flex-col px-4">
         <div className="flex items-center justify-between">
-          <span className="gimmesong-secondary-font text-2xl font-bold">
-            📣 Songs Request
-          </span>
-          <button className="flex items-center justify-center">
+          <div className="flex items-center">
+            <img className=" mr-2 h-8 w-8" src={annouce_emoji} />
+            <span className="gimmesong-secondary-font text-2xl font-bold">
+              Songs Request
+            </span>
+          </div>
+
+          {/* <button className="flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -141,7 +147,7 @@ function Feed() {
               <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
               <line x1="12" y1="17" x2="12.01" y2="17"></line>
             </svg>
-          </button>
+          </button> */}
         </div>
         <div className="mt-5 flex items-center justify-between">
           <div className="overflow-x-auto">
@@ -274,7 +280,7 @@ function Feed() {
       >
         <AlertDialogOverlay />
         <AlertDialogContent borderRadius={36} marginX={4} py={4}>
-          <AlertDialogHeader>📣 Request Songs</AlertDialogHeader>
+          <AlertDialogHeader><div className="flex items-center"><img className=" mr-1 h-7 w-7" src={annouce_emoji} /> Request Songs</div></AlertDialogHeader>
           <AlertDialogCloseButton />
           <AlertDialogBody>
             {!user?.username ? (
