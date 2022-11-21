@@ -1,18 +1,22 @@
 import { useState, useEffect } from "react";
-import logo from "@assets/img/gimmesong_logo.png";
+import disc from "@assets/img/gimmesong_logo.png";
+import meme_icon from "@assets/img/meme_emoji.png";
+import confuse_icon from "@assets/img/confuse_emoji.png";
 
-import GetLink from "@components/GetLink";
-
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
+import { signInWithGoogle } from "@lib/firebase";
 import GimmesongAPI from "@lib/gimmesong_api";
+
 import { accountingNum } from "@utils/number";
 
-function Menu() {
+function Home() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
+  const [FromInAppBrowser, setFromInAppBrowser] = useState(false);
 
   useEffect(() => {
     const getTotalSentSong = async () => {
@@ -27,19 +31,33 @@ function Menu() {
       }
     };
     getTotalSentSong();
+
+    setFromInAppBrowser(
+      navigator.userAgent.includes("FB") ||
+        navigator.userAgent.includes("Instagram") ||
+        navigator.userAgent.includes("Twitter") ||
+        navigator.userAgent.includes("Line")
+    );
   }, []);
+
+  const handleContinueSignIn = () => {
+    FromInAppBrowser
+      ? toast(
+          "Open in your default browser (e.g. Chrome, Safari) to continue",
+          {
+            style: {
+              borderRadius: "25px",
+              background: "#FF6464",
+              color: "#fff",
+            },
+          }
+        )
+      : signInWithGoogle();
+  };
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
-      <div className="my-2 flex items-center justify-center">
-        <img
-          className="mr-2 h-[46px] w-[46px] shrink-0"
-          src={logo}
-          alt="disc"
-        />
-        <h1 className="gimmesong-primary-font text-5xl">GIMMESONG</h1>{" "}
-      </div>
-      <span className="gimmesong-primary-font mb-6">
+      <span className="gimmesong-primary-font">
         Songs have been given{" "}
         {loading ? (
           <svg
@@ -72,32 +90,44 @@ function Menu() {
         )}{" "}
         times.
       </span>
-      <GetLink />
-      <div className="mt-6 flex w-72 items-center justify-between rounded-full bg-black p-3 pl-8">
-        <span className="text-white">Give someone a song</span>
-        <button
-          onClick={() => navigate("/search")}
-          className="group inline-flex h-[42px] w-[42px] animate-bounce-a-bit items-center justify-center rounded-full bg-gradient-to-r from-[#86C7DF] to-[#CFB6D0] transition duration-150 ease-in-out"
+      <img className="mt-6 w-60" src={disc} alt="disc" />
+      <h1 className="gimmesong-primary-font mt-6 text-5xl">GIMMESONG</h1>
+      <span className="gimmesong-primary-font mt-3 text-center text-lg leading-6 text-gray-400">
+        Give a song anonymously to <br />
+        someone you&apos;re hiding.
+      </span>
+      <button
+        onClick={handleContinueSignIn}
+        className="mt-12 flex h-12 w-[250px] items-center justify-center rounded-full bg-black font-bold text-white transition duration-150 ease-in-out hover:bg-gray-600"
+      >
+        <svg
+          className="mr-3 h-4 w-4 fill-current"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            className="h-4 w-4 text-white group-hover:text-white"
-            width="21"
-            height="21"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-          >
-            <path
-              stroke="currentColor"
-              strokeWidth="1"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.379,19.1403 L12.108,12.5993 L19.467,5.2413 L15.379,19.1403 Z M4.86,8.6213 L18.76,4.5343 L11.401,11.8923 L4.86,8.6213 Z M3.359,8.0213 C2.923,8.1493 2.87,8.7443 3.276,8.9483 L11.128,12.8733 L15.053,20.7243 C15.256,21.1303 15.852,21.0773 15.98,20.6413 L20.98,3.6413 C21.091,3.2623 20.739,2.9093 20.359,3.0213 L3.359,8.0213 Z"
-            />
-          </svg>
+          <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+        </svg>
+        <span>Continue with Google</span>
+      </button>
+      <div className="mt-4 flex">
+        <a
+          className="mr-3 flex items-center rounded-full border px-5 py-2"
+          href="https://twitter.com/gimmesong_link/status/1594650998412566528"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img className="h-[18px] w-[18px]" src={meme_icon} alt="" />
+          <span className="ml-1 font-semibold">MEME</span>
+        </a>
+        <button
+          className="flex items-center rounded-full border px-5 py-2"
+          onClick={() => navigate("/tutorial")}
+        >
+          <img className="h-[18px]" src={confuse_icon} alt="" />
+          <span className="ml-1 font-semibold">How to play</span>
         </button>
       </div>
-      <div className="mt-8 flex flex-col items-center">
+      <div className="mt-12 flex flex-col items-center">
         <span className="font-light text-gray-400">Connect w/ us</span>
         <div className="mt-2 flex">
           <a
@@ -150,8 +180,15 @@ function Menu() {
           </a>
         </div>
       </div>
+
+      <span className="text-xxs mt-4 text-black">
+        by continue you already accept our{" "}
+        <a href="#" className="underline">
+          Term & Policy
+        </a>
+      </span>
     </div>
   );
 }
 
-export default Menu;
+export default Home;

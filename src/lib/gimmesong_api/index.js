@@ -1,6 +1,7 @@
 import { axios } from "@lib/axios";
+import SongRequest from "./song_request";
 
-import { db } from "./firebase";
+import { db } from "../firebase";
 import { ref, child, get } from "firebase/database";
 
 function getParams(options) {
@@ -83,6 +84,13 @@ const methods = {
     const value = snapshot.val() ?? 0;
     return value;
   },
+  getTopChartSongs: async function () {
+    const {
+      data: { results },
+    } = await axios.get(`/api/v1/topchartsongs`);
+
+    return results;
+  },
   getStreamsUrl: async function (id) {
     const {
       data: { results },
@@ -92,4 +100,6 @@ const methods = {
   },
 };
 
-export default methods;
+const GimmesongAPI = { ...methods, SongRequest };
+
+export default GimmesongAPI;

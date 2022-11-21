@@ -3,18 +3,18 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import GimmesongAPI from "@lib/gimmesong_api";
 
-function WriteMessage({ next, receiver, song }) {
+function WriteMessage({ next, receiver, song, playListDetails, onSongAdded }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleMessageChange = (val) => {
-    if (val.length > 200) return;
+    if (val.length > 100) return;
     setMessage(val);
   };
 
   const sendSong = async () => {
     if (!receiver || !song) return;
-    if (!message) {
+    if (!message.trim()) {
       toast("Please write me a message 🥹", {
         style: {
           borderRadius: "25px",
@@ -24,13 +24,28 @@ function WriteMessage({ next, receiver, song }) {
       });
       return;
     }
-    // implement send song logic here
     try {
       setLoading(true);
-      const success = await GimmesongAPI.sendSong(receiver, message, song);
+      // implement api here
+      const success = await GimmesongAPI.SongRequest.AddSong(
+        playListDetails.language,
+        playListDetails.requestId,
+        message.trim(),
+        song
+      );
+
       if (success) {
         // if success then go to next step
-        next();
+        toast("Song Added!", {
+          style: {
+            borderRadius: "25px",
+            background: "#000",
+            color: "#fff",
+          },
+        });
+
+        onSongAdded();
+        // next();
       }
     } catch (err) {
       console.error(err);
@@ -42,9 +57,7 @@ function WriteMessage({ next, receiver, song }) {
   return (
     <div className="flex w-full max-w-xs flex-col items-center justify-center">
       <div className="flex h-[360px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
-        <span className="mt-3 bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-transparent">
-          gimmesong.link/@{receiver}
-        </span>
+        {/* <span className="mt-3">Lorem Lorem</span> */}
         <textarea
           disabled={loading}
           value={message}

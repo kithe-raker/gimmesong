@@ -331,7 +331,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
 
   return (
     <>
-      <div className={`relative mt-6 ${layout === "single" ? "w-full" : ""}`}>
+      <div className={`relative ${layout === "single" ? "w-full" : ""}`}>
         {loading ? (
           <div className="my-12 flex items-center justify-center">
             <svg
