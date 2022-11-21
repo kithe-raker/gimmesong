@@ -42,6 +42,7 @@ function Feed() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [canLoadMore, setCanLoadMore] = useState(true);
 
   const [FromInAppBrowser, setFromInAppBrowser] = useState(false);
 
@@ -99,7 +100,7 @@ function Feed() {
       } else if (filter === "newest") {
         results = await GimmesongAPI.SongRequest.QueryNewest(lang, {
           lastRequestId: items[items.length - 1]?.id,
-          limit: 20,
+          limit: 1,
         });
       } else if (filter === "my_request") {
         results = await GimmesongAPI.SongRequest.QueryUserRequest({
@@ -109,6 +110,7 @@ function Feed() {
       }
       // setItems(results);
       setItems([...items, ...results]);
+      if (results.length === 0) setCanLoadMore(false);
     } catch (err) {
       setError(true);
       console.error(err);
@@ -239,12 +241,14 @@ function Feed() {
                 return <SongRequest key={item.id} data={item} />; //<div key={item.id}>{JSON.stringify(item)}</div>;
               })}
             </div>
-            <button
-              onClick={loadMore}
-              className={`gimmesong-secondary-font mr-1.5 flex h-10 w-fit shrink-0 items-center self-center rounded-full border-[1.5px] border-gray-300 px-3.5 text-xs font-semibold`}
-            >
-              Load more
-            </button>
+            {canLoadMore && (
+              <button
+                onClick={loadMore}
+                className={`gimmesong-secondary-font mr-1.5 flex h-10 w-fit shrink-0 items-center self-center rounded-full border-[1.5px] border-gray-300 px-3.5 text-xs font-semibold`}
+              >
+                Load more
+              </button>
+            )}
           </>
         ) : (
           <Empty
