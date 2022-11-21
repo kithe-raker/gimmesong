@@ -232,7 +232,7 @@ function Feed() {
           </div>
         ) : (
           <Empty
-            title="No playlist yet"
+            title="Oops, What an empty space"
             message="Let's create the world of music together."
           />
         )}
