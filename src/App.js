@@ -125,12 +125,7 @@ function App() {
         <Loading fullScreen />
       ) : (
         <>
-          {/* {(pathname === "/request" ||
-            pathname === "/request/" ||
-            pathname === "/request/new" ||
-            pathname === "/request/new/" ||
-            !pathname === "/tutorial") && <Header />} */}
-          <Header />
+          {pathname !== "/tutorial" && <Header />}
           {routes}
         </>
       )}
