@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 import ReceivedSongs from "./components/ReceivedSongs";
+import Empty from "./components/Empty";
 
 import Ads from "@lib/ads";
 import toast from "react-hot-toast";
@@ -104,7 +105,10 @@ function ViewRequest() {
               </svg>
               <span className="gimmesong-secondary-font ml-1">Share</span>
             </button>
-            <button className="group flex h-[42px] shrink-0 items-center justify-center rounded-full bg-black px-4 text-sm text-white shadow-sm">
+            <button
+              onClick={() => navigate(`/request/${shareLinkId}/add`)}
+              className="group flex h-[42px] shrink-0 items-center justify-center rounded-full bg-black px-4 text-sm text-white shadow-sm"
+            >
               <svg
                 className="mr-1"
                 xmlns="http://www.w3.org/2000/svg"
@@ -262,6 +266,7 @@ function ViewRequest() {
             </div>
           </div>
           <ReceivedSongs
+            shareLinkId={requestInfo.shareLinkId}
             requestId={requestInfo.id}
             language={requestInfo.language}
             layout={pageLayout}
@@ -269,7 +274,10 @@ function ViewRequest() {
           />
         </div>
       ) : (
-        "Playlist is not exist"
+        <Empty
+          title="Not found"
+          message="Playlist that you are looking for may not exist."
+        />
       )}
     </div>
   );

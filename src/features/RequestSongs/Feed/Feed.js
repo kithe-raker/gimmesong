@@ -5,6 +5,8 @@ import useSession from "@hooks/useSession";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 
+import Empty from "./components/Empty";
+
 function Feed() {
   const { user } = useSession();
 
@@ -42,7 +44,7 @@ function Feed() {
           limit: 10,
         });
       }
-      setItems(results);
+      // setItems(results);
     } catch (err) {
       setError(true);
       console.error(err);
@@ -162,7 +164,10 @@ function Feed() {
             })}
           </div>
         ) : (
-          "Empty lorem"
+          <Empty
+            title="No playlist yet"
+            message="Let's create the world of music together."
+          />
         )}
       </div>
       <button

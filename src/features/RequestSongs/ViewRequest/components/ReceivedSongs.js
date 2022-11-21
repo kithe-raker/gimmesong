@@ -8,7 +8,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import EmptySong from "./EmptySong";
+import Empty from "./Empty";
 import AudioPlayer from "@components/AudioPlayer";
 
 import { useSteps } from "@hooks/useSteps";
@@ -35,7 +35,17 @@ import toast from "react-hot-toast";
 import { StreamingError, PlayerError } from "@lib/error";
 import { ThreeDots } from "react-loader-spinner";
 
-function ReceivedSongs({ requestId, language, layout, onLayoutChange }) {
+import { useNavigate } from "react-router-dom";
+
+function ReceivedSongs({
+  shareLinkId,
+  requestId,
+  language,
+  layout,
+  onLayoutChange,
+}) {
+  const navigate = useNavigate();
+
   const { activeStep, setStep, skip, nextStep } = useSteps({
     totalSteps: 5,
   });
@@ -957,7 +967,32 @@ function ReceivedSongs({ requestId, language, layout, onLayoutChange }) {
             )}
           </>
         ) : (
-          <EmptySong />
+          <Empty
+            title="No song yet"
+            message="Let's start sharing the link with someone, or start adding your favorite songs."
+          >
+            <button
+              onClick={() => navigate(`/request/${shareLinkId}/add`)}
+              className="group mt-3 flex h-[42px] shrink-0 items-center justify-center rounded-full bg-black px-4 text-sm text-white shadow-sm"
+            >
+              <svg
+                className="mr-1"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#FFFFFF"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span className="gimmesong-secondary-font ml-1">Songs</span>
+            </button>
+          </Empty>
         )}
       </div>
       <AlertDialog
