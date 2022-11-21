@@ -1,7 +1,10 @@
 import disc from "@assets/img/disc.png";
 import { useNavigate } from "react-router-dom";
+import useSession from "@hooks/useSession";
 
 function SongRequest({ data }) {
+  const { user } = useSession();
+
   const navigate = useNavigate();
 
   const { counter, shareLinkId, isAnonymous, views, message } = data;
@@ -11,7 +14,8 @@ function SongRequest({ data }) {
   recentlyAdded = data.recentlyAdded;
 
   var requesterName = "Anonymous";
-  if (!isAnonymous) requesterName = `@${data.requester.username}`;
+  if (!isAnonymous)
+    requesterName = `@${data.requester.username ?? user?.username}`;
 
   return (
     <div
