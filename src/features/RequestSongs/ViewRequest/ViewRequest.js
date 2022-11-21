@@ -88,7 +88,14 @@ function ViewRequest() {
         </button>
         {requestInfo && (
           <div className="flex">
-            <button className="group mr-1.5 flex h-[42px] shrink-0 items-center justify-center rounded-full bg-white px-4 text-sm shadow-sm">
+            <button
+              className="group mr-1.5 flex h-[42px] shrink-0 items-center justify-center rounded-full bg-white px-4 text-sm shadow-sm"
+              onClick={() => {
+                copyToClipboard(
+                  `https://gimmesong.link/playlist/${shareLinkId}`
+                );
+              }}
+            >
               <svg
                 className="mr-1"
                 xmlns="http://www.w3.org/2000/svg"
