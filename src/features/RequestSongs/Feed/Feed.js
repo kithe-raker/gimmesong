@@ -44,7 +44,7 @@ function Feed() {
           limit: 10,
         });
       }
-      // setItems(results);
+      setItems(results);
     } catch (err) {
       setError(true);
       console.error(err);
