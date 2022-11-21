@@ -5,6 +5,7 @@ import SignUp from "@features/SignUp";
 import Menu from "@features/Menu";
 import Search from "@features/Search";
 import MySongs from "@features/MySongs";
+import Tutorial from "@features/Tutorials";
 
 import Feed from "@features/RequestSongs/Feed";
 import NewRequest from "@features/RequestSongs/NewRequest";
@@ -94,6 +95,9 @@ function App() {
       <Route path="/request/:id" element={<ViewRequest />} />
       <Route path="/request/:id/add" element={<SendSong />} />
       <Route path="/request/new" element={<NewRequest />} />
+
+      <Route path="/tutorial" element={<Tutorial />} />
+
       <Route
         path="*"
         element={
@@ -112,7 +116,7 @@ function App() {
         <Loading fullScreen />
       ) : (
         <>
-          {!pathname.startsWith("/request") && <Header />}
+          {!pathname.startsWith("/request") || !pathname.startsWith("/tutorial") && <Header />}
           {routes}
         </>
       )}
