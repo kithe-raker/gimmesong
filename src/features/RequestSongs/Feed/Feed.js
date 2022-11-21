@@ -100,7 +100,7 @@ function Feed() {
       } else if (filter === "newest") {
         results = await GimmesongAPI.SongRequest.QueryNewest(lang, {
           lastRequestId: items[items.length - 1]?.id,
-          limit: 1,
+          limit: 20,
         });
       } else if (filter === "my_request") {
         results = await GimmesongAPI.SongRequest.QueryUserRequest({
