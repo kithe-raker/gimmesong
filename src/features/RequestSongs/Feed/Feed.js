@@ -38,7 +38,7 @@ function Feed() {
 
   const [items, setItems] = useState([]);
   const [lang, setLang] = useState(tag);
-  const [filter, setFilter] = useState("most_play");
+  const [filter, setFilter] = useState("newest");
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -186,7 +186,7 @@ function Feed() {
               )}
             </div>
           </div>
-          <select
+          {/* <select
             value={lang}
             onChange={(e) => setLang(e.target.value)}
             className="block rounded-full border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
@@ -199,7 +199,7 @@ function Feed() {
             {!preferenceLang.includes(lang) && (
               <option value={lang}>{lang.toUpperCase()}</option>
             )}
-          </select>
+          </select> */}
         </div>
         {loading ? (
           <div className="my-12 flex items-center justify-center">
