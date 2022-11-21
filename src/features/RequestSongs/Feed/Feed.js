@@ -153,16 +153,6 @@ function Feed() {
           <div className="overflow-x-auto">
             <div className="flex">
               <button
-                onClick={() => setFilter("most_play")}
-                className={`${
-                  filter === "most_play"
-                    ? "bg-black text-white"
-                    : "border-[1.5px] border-gray-300"
-                } gimmesong-secondary-font mr-1.5 flex h-10 shrink-0 items-center rounded-full px-3.5 text-xs font-semibold`}
-              >
-                Most play
-              </button>
-              <button
                 onClick={() => setFilter("newest")}
                 className={`${
                   filter === "newest"
@@ -171,6 +161,16 @@ function Feed() {
                 } gimmesong-secondary-font mr-1.5 flex h-10 shrink-0 items-center rounded-full px-3.5 text-xs font-semibold`}
               >
                 Newest
+              </button>
+              <button
+                onClick={() => setFilter("most_play")}
+                className={`${
+                  filter === "most_play"
+                    ? "bg-black text-white"
+                    : "border-[1.5px] border-gray-300"
+                } gimmesong-secondary-font mr-1.5 flex h-10 shrink-0 items-center rounded-full px-3.5 text-xs font-semibold`}
+              >
+                Most play
               </button>
               {user?.username && (
                 <button
@@ -225,7 +225,7 @@ function Feed() {
             </svg>
           </div>
         ) : items.length > 0 ? (
-          <div className="mt-4">
+          <div className="mt-6">
             {items.map((item) => {
               return <SongRequest key={item.id} data={item} />; //<div key={item.id}>{JSON.stringify(item)}</div>;
             })}
