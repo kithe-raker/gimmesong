@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useSession from "@hooks/useSession";
 
 import GimmesongAPI from "@lib/gimmesong_api";
+import SongRequest from "@components/SongRequest";
 
 import Empty from "./components/Empty";
 
@@ -160,7 +161,7 @@ function Feed() {
         ) : items.length > 0 ? (
           <div className="mt-4">
             {items.map((item) => {
-              return <div key={item.id}>{JSON.stringify(item)}</div>;
+              return <SongRequest data={item} />; //<div key={item.id}>{JSON.stringify(item)}</div>;
             })}
           </div>
         ) : (
