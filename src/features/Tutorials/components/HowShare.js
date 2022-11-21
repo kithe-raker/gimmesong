@@ -21,7 +21,7 @@ function HowShare() {
     platform.indexOf("iPhone") === 0 || platform.indexOf("iPad") === 0;
   const isAndroid = platform.indexOf("Android") === 0;
 
-  const { activeStep, setStep, skip, nextStep } = useSteps({
+  const { activeStep, setStep, backStep, nextStep } = useSteps({
     totalSteps: 4,
   });
 
@@ -34,12 +34,12 @@ function HowShare() {
   };
 
   return (
-    <div className="mt-3 flex justify-center">
+    <>
       <button
-        className="w-full rounded-full border px-8 py-4 text-center text-sm font-semibold"
+        className="mt-3 w-full rounded-full border px-8 py-4 text-center font-semibold shadow-md"
         onClick={onOpen}
       >
-        <span>How to share to IG stories?</span>
+        How to share to IG stories?
       </button>
       <AlertDialog
         motionPreset="slideInBottom"
@@ -194,51 +194,82 @@ function HowShare() {
           </AlertDialogBody>
           <AlertDialogFooter display={`flex`} justifyContent={`center`}>
             {activeStep !== 4 ? (
+              activeStep == 1 ? (
+                <>
+                  <Button
+                    w="full"
+                    onClick={nextStep}
+                    borderRadius="25"
+                    bgColor="black"
+                    color="white"
+                    ml={3}
+                    h={42}
+                    _hover={{ bg: "#000000" }}
+                    _active={{
+                      bg: "#000000",
+                    }}
+                  >
+                    Next
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    w="full"
+                    borderRadius="25"
+                    mr={2}
+                    onClick={backStep}
+                    h={42}
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    w="full"
+                    onClick={nextStep}
+                    borderRadius="25"
+                    bgColor="black"
+                    color="white"
+                    h={42}
+                    _hover={{ bg: "#000000" }}
+                    _active={{
+                      bg: "#000000",
+                    }}
+                  >
+                    Next
+                  </Button>
+                </>
+              )
+            ) : (
               <>
                 <Button
                   w="full"
                   borderRadius="25"
-                  ref={cancelRef}
-                  onClick={skip}
+                  mr={2}
+                  onClick={backStep}
                   h={42}
                 >
-                  Skip
+                  Previous
                 </Button>
                 <Button
                   w="full"
-                  onClick={nextStep}
+                  onClick={onCloseExportModal}
                   borderRadius="25"
                   bgColor="black"
                   color="white"
-                  ml={3}
                   h={42}
                   _hover={{ bg: "#000000" }}
                   _active={{
                     bg: "#000000",
                   }}
                 >
-                  Next
+                  Finish!
                 </Button>
               </>
-            ) : (
-              <Button
-                onClick={onCloseExportModal}
-                borderRadius="25"
-                bgColor="black"
-                color="white"
-                h={42}
-                _hover={{ bg: "#000000" }}
-                _active={{
-                  bg: "#000000",
-                }}
-              >
-                Finish!
-              </Button>
             )}
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </>
   );
 }
 

@@ -31,12 +31,12 @@ function WhereSongs() {
   };
 
   return (
-    <div className="mt-3 flex justify-center">
+    <>
       <button
-        className="w-full rounded-full border px-8 py-4 text-center text-sm font-semibold"
+        className="mt-3 w-full rounded-full border px-8 py-4 text-center font-semibold shadow-md"
         onClick={onOpen}
       >
-        <span>Where are my songs that people give to me?</span>
+        Where are my songs that people give to me?
       </button>
       <AlertDialog
         motionPreset="slideInBottom"
@@ -117,7 +117,7 @@ function WhereSongs() {
                 <Button
                   w="full"
                   borderRadius="25"
-                  ref={cancelRef}
+                  mr={2}
                   onClick={backStep}
                   h={42}
                 >
@@ -142,7 +142,7 @@ function WhereSongs() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </>
   );
 }
 

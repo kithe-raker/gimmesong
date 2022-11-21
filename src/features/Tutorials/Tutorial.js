@@ -6,34 +6,36 @@ import WhereSongs from "./components/WhereSongs";
 import HowShare from "./components/HowShare";
 import HowGive from "./components/HowGive";
 
-import Confuse from "@assets/img/confuse_icon.png";
+import Confuse from "@assets/img/confuse_emoji.png";
 
 function Tutorial() {
   const navigate = useNavigate();
   return (
-    <div className="h-full w-full">
-      <button
-        className="fixed top-[18px] left-[18px]"
-        onClick={() => navigate("/")}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="36"
-          height="36"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#000000"
-          strokeWidth="1"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center">
+      <div className="fixed top-0 z-20 mx-auto flex w-full max-w-md items-center py-6 px-5">
+        <button
+          onClick={() => navigate("/")}
+          className="group flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full border"
         >
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 8l-4 4 4 4M16 12H9" />
-        </svg>
-      </button>
+          <svg
+            className="text-gray-600"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 12H6M12 5l-7 7 7 7" />
+          </svg>
+        </button>
+      </div>
       <div className="mx-auto flex h-full w-full max-w-md flex-col items-center justify-center">
-        <img className="h-[60px] w-[60px]" src={Confuse} />
-        <div className="mt-8 flex flex-col px-8">
+        <img className="h-[60px] w-[60px]" src={Confuse} alt="" />
+        <div className="mt-6 flex flex-col px-8">
           <WhereLink />
           <WhereSongs />
           <HowGive />

@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 import GimmesongAPI from "@lib/gimmesong_api";
 import { accountingNum } from "@utils/number";
 
-import meme_icon from "@assets/img/meme_icon.png";
-import confuse_icon from "@assets/img/confuse_icon.png";
+import meme_icon from "@assets/img/meme_emoji.png";
+import confuse_icon from "@assets/img/confuse_emoji.png";
 
 function Menu() {
   const navigate = useNavigate();
@@ -100,27 +100,25 @@ function Menu() {
           </svg>
         </button>
       </div>
-      <div className="flex max-w-[288px] pt-6">
+      <div className="mt-4 flex">
         <a
+          className="mr-3 flex items-center rounded-full border px-5 py-2"
           href="https://twitter.com/gimmesong_link/status/1594650998412566528"
           target="_blank"
+          rel="noreferrer"
         >
-          <div className="flex items-center rounded-full border px-5 py-2">
-            <img className="h-[18px] w-[18px]" src={meme_icon} />
-            <span className="ml-1 font-semibold">MEME</span>
-          </div>
+          <img className="h-[18px] w-[18px]" src={meme_icon} alt="" />
+          <span className="ml-1 font-semibold">MEME</span>
         </a>
-        <div className="ml-4">
-          <button
-            className="flex items-center rounded-full border px-5 py-2"
-            onClick={() => navigate("/tutorial")}
-          >
-            <img className="h-[18px]" src={confuse_icon} />
-            <span className="ml-1 font-semibold">How to play</span>
-          </button>
-        </div>
+        <button
+          className="flex items-center rounded-full border px-5 py-2"
+          onClick={() => navigate("/tutorial")}
+        >
+          <img className="h-[18px]" src={confuse_icon} alt="" />
+          <span className="ml-1 font-semibold">How to play</span>
+        </button>
       </div>
-      <div className="mt-8 flex flex-col items-center">
+      <div className="mt-12 flex flex-col items-center">
         <span className="font-light text-gray-400">Connect w/ us</span>
         <div className="mt-2 flex">
           <a

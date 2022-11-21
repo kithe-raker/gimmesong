@@ -39,12 +39,12 @@ function HowGive() {
   };
 
   return (
-    <div className="mt-3 flex justify-center">
+    <>
       <button
-        className="w-full rounded-full border px-8 py-4 text-center text-sm font-semibold"
+        className="mt-3 w-full rounded-full border px-8 py-4 text-center font-semibold shadow-md"
         onClick={onOpen}
       >
-        <span>How to give a song?</span>
+        How to give someone a song?
       </button>
       <AlertDialog
         motionPreset="slideInBottom"
@@ -154,7 +154,7 @@ function HowGive() {
                   <Button
                     w="full"
                     borderRadius="25"
-                    ref={cancelRef}
+                    mr={2}
                     onClick={backStep}
                     h={42}
                   >
@@ -181,9 +181,9 @@ function HowGive() {
                 <Button
                   w="full"
                   borderRadius="25"
-                  ref={cancelRef}
                   onClick={backStep}
                   h={42}
+                  mr={2}
                 >
                   Previous
                 </Button>
@@ -206,7 +206,7 @@ function HowGive() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </>
   );
 }
 
