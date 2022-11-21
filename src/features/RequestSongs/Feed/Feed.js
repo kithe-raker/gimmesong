@@ -85,29 +85,30 @@ function Feed() {
       : signInWithGoogle();
   };
 
-  const fetchFeed = async () => {
+  const fetchFeed = async (loading = true) => {
     try {
-      setLoading(true);
+      if (loading) setLoading(true);
       setError(false);
 
       let results;
       if (filter === "most_play") {
         results = await GimmesongAPI.SongRequest.QueryMostView(lang, {
-          lastItemId: "",
+          lastRequestId: items[items.length - 1]?.id,
           limit: 20,
         });
       } else if (filter === "newest") {
         results = await GimmesongAPI.SongRequest.QueryNewest(lang, {
-          lastItemId: "",
+          lastRequestId: items[items.length - 1]?.id,
           limit: 20,
         });
       } else if (filter === "my_request") {
         results = await GimmesongAPI.SongRequest.QueryUserRequest({
-          lastItemId: "",
+          lastRequestId: items[items.length - 1]?.id,
           limit: 20,
         });
       }
-      setItems(results);
+      // setItems(results);
+      setItems([...items, ...results]);
     } catch (err) {
       setError(true);
       console.error(err);
@@ -116,13 +117,17 @@ function Feed() {
     }
   };
 
+  const loadMore = () => {
+    fetchFeed(false);
+  };
+
   useEffect(() => {
     fetchFeed();
   }, [filter, lang]);
 
   return (
     <div className="mx-auto flex w-full max-w-md flex-col items-center py-6 pt-[60px]">
-      <div className="mt-4 flex w-full flex-col px-4">
+      <div className="mt-4 flex w-full flex-col px-4 pb-[80px]">
         <div className="flex items-center justify-between">
           <div className="relative flex items-center">
             <img className=" mr-2 h-8 w-8" src={annouce_emoji} />
@@ -228,11 +233,19 @@ function Feed() {
             </svg>
           </div>
         ) : items.length > 0 ? (
-          <div className="mt-6">
-            {items.map((item) => {
-              return <SongRequest key={item.id} data={item} />; //<div key={item.id}>{JSON.stringify(item)}</div>;
-            })}
-          </div>
+          <>
+            <div className="mt-6">
+              {items.map((item) => {
+                return <SongRequest key={item.id} data={item} />; //<div key={item.id}>{JSON.stringify(item)}</div>;
+              })}
+            </div>
+            <button
+              onClick={loadMore}
+              className={`gimmesong-secondary-font mr-1.5 flex h-10 w-fit shrink-0 items-center self-center rounded-full border-[1.5px] border-gray-300 px-3.5 text-xs font-semibold`}
+            >
+              Load more
+            </button>
+          </>
         ) : (
           <Empty
             title="Oops, What an empty space"
