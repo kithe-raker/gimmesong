@@ -100,15 +100,21 @@ function Menu() {
           </svg>
         </button>
       </div>
-      <div className="flex pt-6 max-w-[288px]">
-        <a href="https://google.com/">
+      <div className="flex max-w-[288px] pt-6">
+        <a
+          href="https://twitter.com/gimmesong_link/status/1594650998412566528"
+          target="_blank"
+        >
           <div className="flex items-center rounded-full border px-5 py-2">
             <img className="h-[18px] w-[18px]" src={meme_icon} />
             <span className="ml-1 font-semibold">MEME</span>
           </div>
         </a>
         <div className="ml-4">
-          <button className="flex items-center rounded-full border px-5 py-2" onClick={() => navigate("/tutorial")}>
+          <button
+            className="flex items-center rounded-full border px-5 py-2"
+            onClick={() => navigate("/tutorial")}
+          >
             <img className="h-[18px]" src={confuse_icon} />
             <span className="ml-1 font-semibold">How to play</span>
           </button>

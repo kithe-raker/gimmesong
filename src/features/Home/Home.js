@@ -13,7 +13,7 @@ import { accountingNum } from "@utils/number";
 
 function Home() {
   const navigate = useNavigate();
-  
+
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
   const [FromInAppBrowser, setFromInAppBrowser] = useState(false);
@@ -111,7 +111,10 @@ function Home() {
       </button>
 
       <div className="flex max-w-[288px] pt-6">
-        <a href="https://google.com/">
+        <a
+          href="https://twitter.com/gimmesong_link/status/1594650998412566528"
+          target="_blank"
+        >
           <div className="flex items-center rounded-full border px-5 py-2">
             <img className="h-[18px] w-[18px]" src={meme_icon} />
             <span className="ml-1 font-semibold">MEME</span>
