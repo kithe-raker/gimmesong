@@ -47,6 +47,10 @@ function ViewRequest() {
 
         if (results.exists) {
           setRequestInfo(results.details);
+          GimmesongAPI.SongRequest.IncrementView(
+            results.details.language,
+            results.details.id
+          );
         }
       } catch (err) {
         console.error(err);
