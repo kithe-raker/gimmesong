@@ -59,27 +59,28 @@ function MySongs() {
         </div>
         <span className="gimmesong-secondary-foont ml-1 text-xs">@bosoji</span>
       </button> */}
-      <div className="flex items-center">
-        <h1
-          onClick={() => setCurrentTab("new")}
-          className={`gimmesong-primary-font cursor-pointer select-none text-4xl text-gray-400 ${
-            currentTab === "new" && "text-gray-900"
-          }`}
-        >
-          NEW
-        </h1>
-        <span className="mx-4 h-5 w-[1px] bg-gray-400"></span>
-        <h1
-          onClick={() => setCurrentTab("all")}
-          className={`gimmesong-primary-font cursor-pointer select-none text-4xl text-gray-400 ${
-            currentTab === "all" && "text-gray-900"
-          }`}
-        >
-          ALL
-        </h1>
-      </div>
-      <div className="gimmesong-bg w-ful sticky top-[60px] z-[49] mt-2 flex flex-col items-center p-3">
-        <div className="inline-flex rounded-full" role="group">
+
+      <div className="gimmesong-bg w-ful sticky top-[60px] z-[49] mt-2 flex w-full items-center justify-evenly p-3">
+        <div className="flex items-center">
+          <h1
+            onClick={() => setCurrentTab("new")}
+            className={`gimmesong-primary-font cursor-pointer select-none text-4xl text-gray-400 ${
+              currentTab === "new" && "text-gray-900"
+            }`}
+          >
+            NEW
+          </h1>
+          <span className="mx-4 h-5 w-[1px] bg-gray-400"></span>
+          <h1
+            onClick={() => setCurrentTab("all")}
+            className={`gimmesong-primary-font cursor-pointer select-none text-4xl text-gray-400 ${
+              currentTab === "all" && "text-gray-900"
+            }`}
+          >
+            ALL
+          </h1>
+        </div>
+        <div className="ml-4 inline-flex rounded-full" role="group">
           <button
             type="button"
             onClick={() => setPageLayout("single")}
