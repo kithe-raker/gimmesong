@@ -31,12 +31,12 @@ function WhereLink() {
   };
 
   return (
-    <div className="mt-3 flex justify-center">
+    <>
       <button
-        className="w-full rounded-full border px-8 py-4 text-center text-sm font-semibold"
+        className="mt-3 w-full rounded-full border px-8 py-4 text-center font-semibold shadow-md"
         onClick={onOpen}
       >
-        <span>Where is my gimmesong link fo share with friends?</span>
+        Where is my gimmesong link to share with friends?
       </button>
       <AlertDialog
         motionPreset="slideInBottom"
@@ -141,7 +141,7 @@ function WhereLink() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </>
   );
 }
 

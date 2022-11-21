@@ -34,12 +34,12 @@ function HowShare() {
   };
 
   return (
-    <div className="mt-3 flex justify-center">
+    <>
       <button
-        className="w-full rounded-full border px-8 py-4 text-center text-sm font-semibold"
+        className="mt-3 w-full rounded-full border px-8 py-4 text-center font-semibold shadow-md"
         onClick={onOpen}
       >
-        <span>How to share to IG stories?</span>
+        How to share to IG stories?
       </button>
       <AlertDialog
         motionPreset="slideInBottom"
@@ -269,7 +269,7 @@ function HowShare() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </>
   );
 }
 
