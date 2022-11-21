@@ -19,43 +19,13 @@ function SendSong({ onSongAdded, shareLinkId }) {
   const navigate = useNavigate();
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [receiver, setReceiver] = useState(null);
+  const [receiver, setReceiver] = useState(shareLinkId);
   const [song, setSong] = useState(null);
   const [loading, setLoading] = useState(false);
   const [playListDetails, setplayListDetails] = useState(false);
 
   // Call Native banner ads
   // Ads.NativeBanner();
-
-  useEffect(() => {
-    const checkPlaylistExist = async () => {
-      setLoading(true);
-      try {
-        // implement api here
-        const data = await GimmesongAPI.SongRequest.GetLinkDetails(shareLinkId);
-        setplayListDetails(data.details);
-        const isExist = data.exists;
-
-        if (isExist) {
-          setReceiver(shareLinkId);
-        } else {
-          toast("Playlist doesn't exist", {
-            style: {
-              borderRadius: "25px",
-              background: "#FF6464",
-              color: "#fff",
-            },
-          });
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (shareLinkId) checkPlaylistExist();
-  }, [shareLinkId]);
 
   const nextStep = () => {
     setCurrentStep((step) => (step += 1));
