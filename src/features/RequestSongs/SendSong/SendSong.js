@@ -22,6 +22,7 @@ function SendSong() {
   const [receiver, setReceiver] = useState(null);
   const [song, setSong] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [playListDetails, setplayListDetails] = useState(false);
 
   // Call Native banner ads
   Ads.NativeBanner();
@@ -31,7 +32,9 @@ function SendSong() {
       setLoading(true);
       try {
         // implement api here
-        const isExist = true;
+        const data = await GimmesongAPI.SongRequest.GetLinkDetails(id);
+        setplayListDetails(data.details);
+        const isExist = data.exists;
 
         if (isExist) {
           setReceiver(id);
@@ -85,7 +88,14 @@ function SendSong() {
       );
       break;
     case 2:
-      render = <WriteMessage receiver={receiver} song={song} next={nextStep} />;
+      render = (
+        <WriteMessage
+          receiver={receiver}
+          song={song}
+          next={nextStep}
+          playListDetails={playListDetails}
+        />
+      );
       break;
     case 3:
       render = <Sent receiver={receiver} />;

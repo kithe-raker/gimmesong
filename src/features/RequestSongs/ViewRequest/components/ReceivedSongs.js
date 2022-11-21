@@ -968,7 +968,7 @@ function ReceivedSongs({
           </>
         ) : (
           <Empty
-            title="No song yet"
+            title="Ops,Such an empty playlist"
             message="Let's start sharing the link with someone, or start adding your favorite songs."
           >
             <button
