@@ -280,8 +280,33 @@ function Feed() {
       >
         <AlertDialogOverlay />
         <AlertDialogContent borderRadius={36} marginX={4} py={4}>
-          <AlertDialogHeader><div className="flex items-center"><img className=" mr-1 h-7 w-7" src={annouce_emoji} /> Request Songs</div></AlertDialogHeader>
-          <AlertDialogCloseButton />
+          <div className="flex w-full items-center justify-between py-2 px-6">
+            <div className="flex items-center">
+              <img className=" mr-1 h-7 w-7" src={annouce_emoji} alt="" />
+              <span className="text-xl font-semibold">Request Songs</span>
+            </div>
+            <button
+              onClick={onClose}
+              className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-gray-200"
+            >
+              <svg
+                className="text-gray-600"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
           <AlertDialogBody>
             {!user?.username ? (
               <div className="flex max-w-md flex-col items-center justify-center">

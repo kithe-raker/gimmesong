@@ -25,7 +25,9 @@ import {
   AlertDialogOverlay,
   AlertDialogCloseButton,
   Button,
+  IconButton,
 } from "@chakra-ui/react";
+import { createIcon } from "@chakra-ui/react";
 
 function ViewRequest() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -347,13 +349,38 @@ function ViewRequest() {
             <AlertDialogContent
               borderRadius={36}
               marginX={4}
-              py={4}
+              py={5}
               bgColor="#F9F9F9"
               position="relative"
               overflow="hidden"
             >
-              <AlertDialogHeader>Add song to playlist</AlertDialogHeader>
-              <AlertDialogCloseButton />
+              {/* <AlertDialogHeader>Add song to playlist</AlertDialogHeader>
+              <AlertDialogCloseButton /> */}
+              <div className="flex w-full items-center justify-between py-2 px-6">
+                <span className="text-xl font-semibold">
+                  Add song to playlist
+                </span>
+                <button
+                  onClick={onClose}
+                  className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-gray-200"
+                >
+                  <svg
+                    className="text-gray-600"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
               <AlertDialogBody>
                 {!user?.username ? (
                   <div className="flex max-w-md flex-col items-center justify-center">
