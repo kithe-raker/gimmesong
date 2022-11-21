@@ -116,7 +116,8 @@ function App() {
         <Loading fullScreen />
       ) : (
         <>
-          {!pathname.startsWith("/request") || !pathname.startsWith("/tutorial") && <Header />}
+          {!pathname.startsWith("/request") &&
+            !pathname.startsWith("/tutorial") && <Header />}
           {routes}
         </>
       )}
