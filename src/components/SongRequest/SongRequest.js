@@ -19,7 +19,7 @@ function SongRequest({ data }) {
 
   return (
     <div
-      onClick={() => navigate(`/request/${shareLinkId}`)}
+      onClick={() => navigate(`/playlist/${shareLinkId}`)}
       className="mb-4 flex w-full cursor-pointer flex-col items-center justify-evenly overflow-hidden rounded-3xl bg-white p-4 shadow-md"
     >
       <div className="flex w-full justify-between">

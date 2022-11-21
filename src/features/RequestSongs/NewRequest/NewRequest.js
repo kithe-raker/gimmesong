@@ -42,7 +42,7 @@ function NewRequest() {
         anonymous
       );
 
-      navigate(`/request/${shareLinkId}`);
+      navigate(`/playlist/${shareLinkId}`);
     } catch (err) {
       console.error(err);
     } finally {

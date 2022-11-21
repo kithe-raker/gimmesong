@@ -92,8 +92,8 @@ function App() {
         }
       />
       <Route path="/request" element={<Feed />} />
-      <Route path="/request/:id" element={<ViewRequest />} />
-      <Route path="/request/:id/add" element={<SendSong />} />
+      <Route path="/playlist/:id" element={<ViewRequest />} />
+      <Route path="/playlist/:id/add" element={<SendSong />} />
       <Route
         path="/request/new"
         element={

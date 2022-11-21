@@ -110,7 +110,7 @@ function ViewRequest() {
               <span className="gimmesong-secondary-font ml-1">Share</span>
             </button>
             <button
-              onClick={() => navigate(`/request/${shareLinkId}/add`)}
+              onClick={() => navigate(`/playlist/${shareLinkId}/add`)}
               className="group flex h-[42px] shrink-0 items-center justify-center rounded-full bg-black px-4 text-sm text-white shadow-sm"
             >
               <svg

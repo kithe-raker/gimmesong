@@ -76,7 +76,7 @@ function Sent({ receiver }) {
         times.
       </span>
       <a
-        href={`/request/${receiver}`}
+        href={`/playlist/${receiver}`}
         className="mt-3 cursor-pointer text-gray-500 underline"
       >
         Send another song

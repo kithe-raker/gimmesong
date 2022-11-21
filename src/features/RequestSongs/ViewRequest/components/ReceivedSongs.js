@@ -972,7 +972,7 @@ function ReceivedSongs({
             message="Let's start sharing the link with someone, or start adding your favorite songs."
           >
             <button
-              onClick={() => navigate(`/request/${shareLinkId}/add`)}
+              onClick={() => navigate(`/playlist/${shareLinkId}/add`)}
               className="group mt-3 flex h-[42px] shrink-0 items-center justify-center rounded-full bg-black px-4 text-sm text-white shadow-sm"
             >
               <svg
