@@ -124,10 +124,13 @@ function Feed() {
     <div className="mx-auto flex w-full max-w-md flex-col items-center py-6 pt-[60px]">
       <div className="mt-4 flex w-full flex-col px-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center">
+          <div className="relative flex items-center">
             <img className=" mr-2 h-8 w-8" src={annouce_emoji} />
             <span className="gimmesong-secondary-font text-2xl font-bold">
               Songs Request
+            </span>
+            <span className="ml-2 rounded-lg bg-red-400 px-2 py-[1.5px] text-white">
+              BETA
             </span>
           </div>
 
