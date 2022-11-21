@@ -321,7 +321,7 @@ function ReceivedSongs({
       let results = await GimmesongAPI.SongRequest.QueryRequestItem(
         language,
         requestId,
-        { lastItemId: "", limit: 10 }
+        { lastItemId: "", limit: 100 }
       );
 
       setReceived(results);
