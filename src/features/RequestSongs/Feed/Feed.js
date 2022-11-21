@@ -92,7 +92,7 @@ function Feed() {
                   filter === "most_play"
                     ? "bg-black text-white"
                     : "border-[1.5px] border-gray-300"
-                } gimmesong-secondary-font mr-1.5 flex h-10 shrink-0 items-center rounded-full px-3 text-xs font-semibold`}
+                } gimmesong-secondary-font mr-1.5 flex h-10 shrink-0 items-center rounded-full px-3.5 text-xs font-semibold`}
               >
                 Most play
               </button>
@@ -102,7 +102,7 @@ function Feed() {
                   filter === "newest"
                     ? "bg-black text-white"
                     : "border-[1.5px] border-gray-300"
-                } gimmesong-secondary-font mr-1.5 flex h-10 shrink-0 items-center rounded-full px-3 text-xs font-semibold`}
+                } gimmesong-secondary-font mr-1.5 flex h-10 shrink-0 items-center rounded-full px-3.5 text-xs font-semibold`}
               >
                 Newest
               </button>
@@ -113,7 +113,7 @@ function Feed() {
                     filter === "my_request"
                       ? "bg-black text-white"
                       : "border-[1.5px] border-gray-300"
-                  } gimmesong-secondary-font flex h-10 shrink-0 items-center rounded-full px-3 text-xs font-semibold`}
+                  } gimmesong-secondary-font flex h-10 shrink-0 items-center rounded-full px-3.5 text-xs font-semibold`}
                 >
                   My Request
                 </button>
