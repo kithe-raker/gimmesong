@@ -61,8 +61,8 @@ function Feed() {
     <div className="mx-auto flex w-full max-w-md flex-col items-center py-6 pt-[60px]">
       <div className="mt-4 flex w-full flex-col px-4">
         <div className="flex items-center justify-between">
-          <span className="gimmesong-secondary-font text-3xl font-bold">
-            📣 Songs Request
+          <span className="gimmesong-secondary-font text-2xl font-bold">
+            Songs Request
           </span>
           <button className="flex items-center justify-center">
             <svg
