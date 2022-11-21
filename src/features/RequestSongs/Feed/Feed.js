@@ -6,6 +6,8 @@ import useSession from "@hooks/useSession";
 import GimmesongAPI from "@lib/gimmesong_api";
 import SongRequest from "@components/SongRequest";
 
+import Empty from "./components/Empty";
+
 function Feed() {
   const { user } = useSession();
 
@@ -60,8 +62,8 @@ function Feed() {
     <div className="mx-auto flex w-full max-w-md flex-col items-center py-6 pt-[60px]">
       <div className="mt-4 flex w-full flex-col px-4">
         <div className="flex items-center justify-between">
-          <span className="gimmesong-secondary-font text-3xl font-bold">
-            📣 Songs Request
+          <span className="gimmesong-secondary-font text-2xl font-bold">
+            Songs Request
           </span>
           <button className="flex items-center justify-center">
             <svg
@@ -163,11 +165,14 @@ function Feed() {
             })}
           </div>
         ) : (
-          "Empty lorem"
+          <Empty
+            title="No playlist yet"
+            message="Let's create the world of music together."
+          />
         )}
       </div>
       <button
-        onClick={() => navigate("/request")}
+        onClick={() => navigate("/request/new")}
         className={`group fixed bottom-4 right-4 flex h-[56px] w-[56px] shrink-0 items-center justify-center rounded-full bg-black shadow-sm`}
       >
         <svg
