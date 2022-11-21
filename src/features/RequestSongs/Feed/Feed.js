@@ -94,17 +94,17 @@ function Feed() {
       if (filter === "most_play") {
         results = await GimmesongAPI.SongRequest.QueryMostView(lang, {
           lastItemId: "",
-          limit: 10,
+          limit: 20,
         });
       } else if (filter === "newest") {
         results = await GimmesongAPI.SongRequest.QueryNewest(lang, {
           lastItemId: "",
-          limit: 10,
+          limit: 20,
         });
       } else if (filter === "my_request") {
         results = await GimmesongAPI.SongRequest.QueryUserRequest({
           lastItemId: "",
-          limit: 10,
+          limit: 20,
         });
       }
       setItems(results);
