@@ -93,8 +93,22 @@ function App() {
       />
       <Route path="/request" element={<Feed />} />
       <Route path="/request/:id" element={<ViewRequest />} />
-      <Route path="/request/:id/add" element={<SendSong />} />
-      <Route path="/request/new" element={<NewRequest />} />
+      <Route
+        path="/request/:id/add"
+        element={
+          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
+            <SendSong />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/request/new"
+        element={
+          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
+            <NewRequest />
+          </ProtectedRoute>
+        }
+      />
 
       <Route path="/tutorial" element={<Tutorial />} />
 
@@ -109,6 +123,8 @@ function App() {
     </Routes>
   );
 
+  console.log(pathname);
+
   return (
     <>
       <Toaster />
@@ -116,8 +132,12 @@ function App() {
         <Loading fullScreen />
       ) : (
         <>
-          {!pathname.startsWith("/request") &&
-            !pathname.startsWith("/tutorial") && <Header />}
+          {/* {(pathname === "/request" ||
+            pathname === "/request/" ||
+            pathname === "/request/new" ||
+            pathname === "/request/new/" ||
+            !pathname === "/tutorial") && <Header />} */}
+          <Header />
           {routes}
         </>
       )}

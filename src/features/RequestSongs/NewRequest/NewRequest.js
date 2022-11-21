@@ -3,7 +3,13 @@ import useSession from "@hooks/useSession";
 import GimmesongAPI from "@lib/gimmesong_api";
 import LanguageTag from "@lib/languageTag";
 
+import toast from "react-hot-toast";
+
+import { useNavigate } from "react-router-dom";
+
 function NewRequest() {
+  const navigate = useNavigate();
+
   const { user } = useSession();
 
   const [anonymous, setAnonymous] = useState(false);
@@ -16,15 +22,32 @@ function NewRequest() {
   };
 
   const makeRequest = async () => {
-    if (!description) throw "required description";
+    if (!description.trim()) {
+      toast("Please fill a message", {
+        style: {
+          borderRadius: "25px",
+          background: "#FF6464",
+          color: "#fff",
+        },
+      });
+      return;
+    }
+    try {
+      setLoading(true);
 
-    const tag = LanguageTag.getPreferenceLanguage();
-    const results = await GimmesongAPI.SongRequest.Create(
-      tag,
-      description,
-      anonymous
-    );
-    console.log(results);
+      const tag = LanguageTag.getPreferenceLanguage();
+      const { shareLinkId } = await GimmesongAPI.SongRequest.Create(
+        tag,
+        description,
+        anonymous
+      );
+
+      navigate(`/request/${shareLinkId}`);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,7 +68,7 @@ function NewRequest() {
               disabled={loading}
               value={description}
               className="my-auto w-full resize-none px-2 outline-none"
-              placeholder="Your description"
+              placeholder="Tell something about what kind of song do you like?"
               rows={6}
               onChange={(e) => handleDescChange(e.target.value)}
             />

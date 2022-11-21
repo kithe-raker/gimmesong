@@ -15,7 +15,6 @@ import { useSteps } from "@hooks/useSteps";
 
 // import { durationToStr } from "@utils/audio";
 import GimmesongAPI from "@lib/gimmesong_api";
-import SongRequestAPI from "@lib/gimmesong_api/song_request";
 
 import html2canvas from "html2canvas";
 
@@ -36,7 +35,7 @@ import toast from "react-hot-toast";
 import { StreamingError, PlayerError } from "@lib/error";
 import { ThreeDots } from "react-loader-spinner";
 
-function ReceivedSongs({ tab, layout, onLayoutChange }) {
+function ReceivedSongs({ requestId, language, layout, onLayoutChange }) {
   const { activeStep, setStep, skip, nextStep } = useSteps({
     totalSteps: 5,
   });
@@ -305,9 +304,11 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
       setLoading(true);
       setError(false);
 
-      let results = await SongRequestAPI.QueryRequestItem(
-        "en",
-        "0iDwXJszb4MxTPbulnei",
+      console.log(requestId);
+
+      let results = await GimmesongAPI.SongRequest.QueryRequestItem(
+        language,
+        requestId,
         { lastItemId: "", limit: 10 }
       );
 
@@ -956,7 +957,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
             )}
           </>
         ) : (
-          <div>Empty lorem</div>
+          <EmptySong />
         )}
       </div>
       <AlertDialog

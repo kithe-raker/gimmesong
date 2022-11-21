@@ -27,7 +27,7 @@ function SendSong() {
   Ads.NativeBanner();
 
   useEffect(() => {
-    const checkInboxExist = async () => {
+    const checkPlaylistExist = async () => {
       setLoading(true);
       try {
         // implement api here
@@ -36,7 +36,7 @@ function SendSong() {
         if (isExist) {
           setReceiver(id);
         } else {
-          toast("Inbox doesn't exist", {
+          toast("Playlist doesn't exist", {
             style: {
               borderRadius: "25px",
               background: "#FF6464",
@@ -51,7 +51,7 @@ function SendSong() {
       }
     };
 
-    if (id) checkInboxExist();
+    if (id) checkPlaylistExist();
   }, [id]);
 
   const nextStep = () => {

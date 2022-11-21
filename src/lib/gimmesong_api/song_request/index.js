@@ -31,7 +31,7 @@ const methods = {
       lastRequestId,
       limit,
     });
-    return results;
+    return results.contents;
   },
   QueryNewest: async function (langTag, { lastRequestId = "", limit = 10 }) {
     const {
@@ -41,7 +41,7 @@ const methods = {
       lastRequestId,
       limit,
     });
-    return results;
+    return results.contents;
   },
   QueryUserRequest: async function ({ lastRequestId = "", limit = 10 }) {
     const {
@@ -50,7 +50,7 @@ const methods = {
       lastRequestId,
       limit,
     });
-    return results;
+    return results.contents;
   },
   QueryRequestItem: async function (
     langTag,

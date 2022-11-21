@@ -1,7 +1,7 @@
 import React from "react";
 import GetLink from "@components/GetLink";
 
-function EmptySong({ message }) {
+function EmptySong({ message = "" }) {
   return (
     <div className="mt-6 flex flex-col items-center justify-center">
       <div className="mb-6 flex flex-col items-center justify-center">
@@ -12,7 +12,6 @@ function EmptySong({ message }) {
           Let's start sharing the link with someone.
         </span>
       </div>
-      <GetLink />
     </div>
   );
 }

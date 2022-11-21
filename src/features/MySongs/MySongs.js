@@ -60,7 +60,7 @@ function MySongs() {
         <span className="gimmesong-secondary-foont ml-1 text-xs">@bosoji</span>
       </button> */}
 
-      <div className="gimmesong-bg w-ful sticky top-[60px] z-[49] mt-2 flex w-full items-center justify-evenly p-3">
+      <div className="gimmesong-bg w-ful sticky top-[60px] z-[49] mt-4 flex w-full items-center justify-evenly p-3">
         <div className="flex items-center">
           <h1
             onClick={() => setCurrentTab("new")}
@@ -88,7 +88,7 @@ function MySongs() {
               pageLayout === "single"
                 ? "bg-black text-white"
                 : "bg-white text-black"
-            } h-10 min-w-[56px] py-2 px-4 text-sm font-medium`}
+            } h-[10] min-w-[56px] py-2 px-4 text-sm font-medium`}
           >
             <div className="flex items-center justify-center">
               <svg
