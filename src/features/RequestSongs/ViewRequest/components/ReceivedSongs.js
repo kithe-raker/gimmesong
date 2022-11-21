@@ -38,6 +38,8 @@ import { ThreeDots } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 
 function ReceivedSongs({
+  onOpenAddSong,
+  reload,
   shareLinkId,
   requestId,
   language,
@@ -337,7 +339,7 @@ function ReceivedSongs({
 
   useEffect(() => {
     fetchInbox();
-  }, []);
+  }, [reload]);
 
   return (
     <>
@@ -968,11 +970,11 @@ function ReceivedSongs({
           </>
         ) : (
           <Empty
-            title="Ops,Such an empty playlist"
+            title="Oops, Such an empty playlist"
             message="Let's start sharing the link with someone, or start adding your favorite songs."
           >
             <button
-              onClick={() => navigate(`/playlist/${shareLinkId}/add`)}
+              onClick={onOpenAddSong}
               className="group mt-3 flex h-[42px] shrink-0 items-center justify-center rounded-full bg-black px-4 text-sm text-white shadow-sm"
             >
               <svg

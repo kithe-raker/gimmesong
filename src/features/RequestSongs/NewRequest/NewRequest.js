@@ -51,14 +51,14 @@ function NewRequest() {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
-      <div className="flex flex-col items-center">
+    <div className="flex max-w-md flex-col items-center justify-center">
+      {/* <div className="flex flex-col items-center">
         <span className=" text-center text-8xl">📣</span>
         <span className="gimmesong-primary-font text-center text-3xl">
           Request Songs
         </span>
-      </div>
-      <div className="mt-6 flex w-full max-w-xs flex-col items-center justify-center">
+      </div> */}
+      <div className="flex w-full flex-col items-center justify-center">
         <div className="flex w-full flex-col items-center justify-center">
           <div className="flex h-[200px] w-full flex-col rounded-[24px] border border-gray-200 bg-white p-3">
             <span className="w-fit bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text px-2 text-transparent">
@@ -84,7 +84,7 @@ function NewRequest() {
           />
           <label
             htmlFor="checked-checkbox"
-            className="ml-2 text-sm font-medium text-gray-600"
+            className="gimmesong-secondary-font ml-2 select-none text-sm font-medium text-gray-600"
           >
             Make me anonymous
           </label>

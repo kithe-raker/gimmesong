@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 import useSession from "@hooks/useSession";
 import { useNavigate } from "react-router-dom";
@@ -6,19 +6,37 @@ import { useParams } from "react-router-dom";
 
 import ReceivedSongs from "./components/ReceivedSongs";
 import Empty from "./components/Empty";
+import SendSong from "../SendSong";
 
 import Ads from "@lib/ads";
 import toast from "react-hot-toast";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 
+import { useDisclosure } from "@chakra-ui/react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+  Button,
+} from "@chakra-ui/react";
+
 function ViewRequest() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
+
   const { id: shareLinkId } = useParams();
   const navigate = useNavigate();
 
   const [pageLayout, setPageLayout] = useState("multiple");
   const [loading, setLoading] = useState(false);
   const [requestInfo, setRequestInfo] = useState(null);
+
+  const [reload, setReload] = useState(1);
 
   const { user } = useSession();
   const [value, copy] = useCopyToClipboard();
@@ -61,6 +79,11 @@ function ViewRequest() {
 
     fetchRequestDetails();
   }, [shareLinkId]);
+
+  const handleSongAdded = () => {
+    onClose();
+    setReload((c) => (c += 1));
+  };
 
   // Call VignetteBanner ads
   Ads.VignetteBanner();
@@ -110,7 +133,7 @@ function ViewRequest() {
               <span className="gimmesong-secondary-font ml-1">Share</span>
             </button>
             <button
-              onClick={() => navigate(`/playlist/${shareLinkId}/add`)}
+              onClick={onOpen}
               className="group flex h-[42px] shrink-0 items-center justify-center rounded-full bg-black px-4 text-sm text-white shadow-sm"
             >
               <svg
@@ -270,12 +293,51 @@ function ViewRequest() {
             </div>
           </div>
           <ReceivedSongs
+            onOpenAddSong={onOpen}
+            reload={reload}
             shareLinkId={requestInfo.shareLinkId}
             requestId={requestInfo.id}
             language={requestInfo.language}
             layout={pageLayout}
             onLayoutChange={setPageLayout}
           />
+          <AlertDialog
+            motionPreset="slideInBottom"
+            leastDestructiveRef={cancelRef}
+            onClose={onClose}
+            isOpen={isOpen}
+            isCentered
+            size="md"
+          >
+            <AlertDialogOverlay />
+            <AlertDialogContent
+              borderRadius={36}
+              marginX={4}
+              py={4}
+              bgColor="#F9F9F9"
+              position="relative"
+              overflow="hidden"
+            >
+              <AlertDialogHeader>Add song to playlist</AlertDialogHeader>
+              <AlertDialogCloseButton />
+              <AlertDialogBody>
+                <SendSong
+                  onSongAdded={handleSongAdded}
+                  shareLinkId={requestInfo.shareLinkId}
+                />
+                {/* Are you sure you want to sign out? you won&apos;t see new received
+            song until you signed in again. */}
+              </AlertDialogBody>
+              {/* <AlertDialogFooter>
+            <Button borderRadius="25" ref={cancelRef} onClick={onClose} h={42}>
+              Cancel
+            </Button>
+            <Button borderRadius="25" colorScheme="red" ml={3} h={42}>
+              Sign out
+            </Button>
+          </AlertDialogFooter> */}
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       ) : (
         <Empty

@@ -9,13 +9,13 @@ import Loading from "@components/Loading";
 
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 import Ads from "@lib/ads.js";
 
-function SendSong() {
-  const { id } = useParams();
+function SendSong({ onSongAdded, shareLinkId }) {
+  // const { id } = useParams();
   const navigate = useNavigate();
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -25,19 +25,19 @@ function SendSong() {
   const [playListDetails, setplayListDetails] = useState(false);
 
   // Call Native banner ads
-  Ads.NativeBanner();
+  // Ads.NativeBanner();
 
   useEffect(() => {
     const checkPlaylistExist = async () => {
       setLoading(true);
       try {
         // implement api here
-        const data = await GimmesongAPI.SongRequest.GetLinkDetails(id);
+        const data = await GimmesongAPI.SongRequest.GetLinkDetails(shareLinkId);
         setplayListDetails(data.details);
         const isExist = data.exists;
 
         if (isExist) {
-          setReceiver(id);
+          setReceiver(shareLinkId);
         } else {
           toast("Playlist doesn't exist", {
             style: {
@@ -54,8 +54,8 @@ function SendSong() {
       }
     };
 
-    if (id) checkPlaylistExist();
-  }, [id]);
+    if (shareLinkId) checkPlaylistExist();
+  }, [shareLinkId]);
 
   const nextStep = () => {
     setCurrentStep((step) => (step += 1));
@@ -92,25 +92,25 @@ function SendSong() {
         <WriteMessage
           receiver={receiver}
           song={song}
-          next={nextStep}
           playListDetails={playListDetails}
+          onSongAdded={onSongAdded}
         />
       );
       break;
-    case 3:
-      render = <Sent receiver={receiver} />;
-      break;
+    // case 3:
+    //   render = <Sent receiver={receiver} />;
+    //   break;
     default:
       break;
   }
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
+    <div className="flex max-w-md flex-col items-center justify-center">
       {loading ? <Loading fullScreens /> : render}
-      <div
+      {/* <div
         className="mt-12"
         id="container-b660ec7b99553839c4654ee4a1292d71"
-      ></div>
+      ></div> */}
     </div>
   );
 }

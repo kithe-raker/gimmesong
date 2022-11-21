@@ -3,7 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import GimmesongAPI from "@lib/gimmesong_api";
 
-function WriteMessage({ next, receiver, song, playListDetails }) {
+function WriteMessage({ next, receiver, song, playListDetails, onSongAdded }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -36,7 +36,16 @@ function WriteMessage({ next, receiver, song, playListDetails }) {
 
       if (success) {
         // if success then go to next step
-        next();
+        toast("Song Added!", {
+          style: {
+            borderRadius: "25px",
+            background: "#000",
+            color: "#fff",
+          },
+        });
+
+        onSongAdded();
+        // next();
       }
     } catch (err) {
       console.error(err);
