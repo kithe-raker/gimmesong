@@ -86,30 +86,38 @@ function Feed() {
       : signInWithGoogle();
   };
 
-  const fetchFeed = async (loading = true) => {
+  const fetchFeed = async (loading = true, reset = false) => {
     try {
       if (loading) setLoading(true);
       setError(false);
 
       let results;
+      let lastItem = reset ? null : items[items.length - 1]?.id;
+
       if (filter === "most_play") {
         results = await GimmesongAPI.SongRequest.QueryMostView(lang, {
-          lastRequestId: items[items.length - 1]?.id,
+          lastRequestId: lastItem,
           limit: 20,
         });
       } else if (filter === "newest") {
         results = await GimmesongAPI.SongRequest.QueryNewest(lang, {
-          lastRequestId: items[items.length - 1]?.id,
+          lastRequestId: lastItem,
           limit: 20,
         });
       } else if (filter === "my_request") {
         results = await GimmesongAPI.SongRequest.QueryUserRequest({
-          lastRequestId: items[items.length - 1]?.id,
+          lastRequestId: lastItem,
           limit: 20,
         });
       }
-      // setItems(results);
-      setItems([...items, ...results]);
+
+      if (reset) {
+        setItems(results);
+        setCanLoadMore(true);
+      } else {
+        setItems([...items, ...results]);
+      }
+
       if (results.length === 0) setCanLoadMore(false);
     } catch (err) {
       setError(true);
@@ -124,7 +132,7 @@ function Feed() {
   };
 
   useEffect(() => {
-    fetchFeed();
+    fetchFeed(true, true);
   }, [filter, lang]);
 
   return (
