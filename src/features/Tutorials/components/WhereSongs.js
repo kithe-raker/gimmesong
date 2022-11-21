@@ -117,7 +117,7 @@ function WhereSongs() {
                 <Button
                   w="full"
                   borderRadius="25"
-                  ref={cancelRef}
+                  mr={2}
                   onClick={backStep}
                   h={42}
                 >

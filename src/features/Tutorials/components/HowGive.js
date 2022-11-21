@@ -154,7 +154,7 @@ function HowGive() {
                   <Button
                     w="full"
                     borderRadius="25"
-                    ref={cancelRef}
+                    mr={2}
                     onClick={backStep}
                     h={42}
                   >
@@ -181,9 +181,9 @@ function HowGive() {
                 <Button
                   w="full"
                   borderRadius="25"
-                  ref={cancelRef}
                   onClick={backStep}
                   h={42}
+                  mr={2}
                 >
                   Previous
                 </Button>

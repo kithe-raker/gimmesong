@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 import GimmesongAPI from "@lib/gimmesong_api";
 import { accountingNum } from "@utils/number";
 
-import meme_icon from "@assets/img/meme_icon.png";
-import confuse_icon from "@assets/img/confuse_icon.png";
+import meme_icon from "@assets/img/meme_emoji.png";
+import confuse_icon from "@assets/img/confuse_emoji.png";
 
 function Menu() {
   const navigate = useNavigate();

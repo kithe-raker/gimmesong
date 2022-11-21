@@ -6,7 +6,7 @@ import WhereSongs from "./components/WhereSongs";
 import HowShare from "./components/HowShare";
 import HowGive from "./components/HowGive";
 
-import Confuse from "@assets/img/confuse_icon.png";
+import Confuse from "@assets/img/confuse_emoji.png";
 
 function Tutorial() {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import disc from "@assets/img/gimmesong_logo.png";
-import meme_icon from "@assets/img/meme_icon.png";
-import confuse_icon from "@assets/img/confuse_icon.png";
+import meme_icon from "@assets/img/meme_emoji.png";
+import confuse_icon from "@assets/img/confuse_emoji.png";
 
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
