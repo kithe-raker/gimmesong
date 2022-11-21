@@ -161,7 +161,7 @@ function Feed() {
         ) : items.length > 0 ? (
           <div className="mt-4">
             {items.map((item) => {
-              return <SongRequest data={item} />; //<div key={item.id}>{JSON.stringify(item)}</div>;
+              return <SongRequest key={item.id} data={item} />; //<div key={item.id}>{JSON.stringify(item)}</div>;
             })}
           </div>
         ) : (
