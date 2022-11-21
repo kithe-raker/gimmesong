@@ -708,7 +708,7 @@ function ReceivedSongs({
                             muted
                             playsInline
                             preload="auto"
-                            src={`story-step1.mp4`}
+                            src={`https://gimmesong.link/story-step1.mp4`}
                             autoPlay
                             loop
                           />
@@ -727,7 +727,10 @@ function ReceivedSongs({
                       )}
                       {activeStep === 2 && (
                         <div className="mt-3 flex flex-col items-center">
-                          <img src={`story-step2.png`} alt="step2" />
+                          <img
+                            src={`https://gimmesong.link/story-step2.png`}
+                            alt="step2"
+                          />
                           <div className="mt-2 flex items-center">
                             <div
                               className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
@@ -765,7 +768,7 @@ function ReceivedSongs({
                       {activeStep === 3 && (
                         <div className="mt-3 flex flex-col items-center">
                           <img
-                            src={`${
+                            src={`https://gimmesong.link/${
                               isAndroid
                                 ? "story-step3-android.png"
                                 : "story-step3.png"
@@ -817,7 +820,7 @@ function ReceivedSongs({
                             muted
                             playsInline
                             preload="auto"
-                            src={`story-step4.mp4`}
+                            src={`https://gimmesong.link/story-step4.mp4`}
                             autoPlay
                             loop
                           />
