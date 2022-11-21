@@ -153,7 +153,7 @@ function ViewRequest() {
           </svg>
         </div>
       ) : requestInfo ? (
-        <div className="flex max-w-md flex-col items-center">
+        <div className="flex w-full max-w-md flex-col items-center">
           <span className="mt-2 bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-center text-2xl font-semibold text-transparent">
             {requestInfo.isAnonymous
               ? "Anonymous"
