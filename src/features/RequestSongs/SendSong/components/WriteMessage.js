@@ -3,7 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import GimmesongAPI from "@lib/gimmesong_api";
 
-function WriteMessage({ next, receiver, song, playListDetails, onSongAdded }) {
+function WriteMessage({ next, requiredPayload, onSongAdded, receiver, song }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -28,9 +28,9 @@ function WriteMessage({ next, receiver, song, playListDetails, onSongAdded }) {
       setLoading(true);
       // implement api here
       const success = await GimmesongAPI.SongRequest.AddSong(
-        playListDetails.language,
-        playListDetails.requestId,
-        message.trim(),
+        requiredPayload.language,
+        requiredPayload.id,
+        message,
         song
       );
 
@@ -43,7 +43,6 @@ function WriteMessage({ next, receiver, song, playListDetails, onSongAdded }) {
             color: "#fff",
           },
         });
-
         onSongAdded();
         // next();
       }

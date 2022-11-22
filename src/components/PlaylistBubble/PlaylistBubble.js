@@ -2,20 +2,19 @@ import disc from "@assets/img/disc.png";
 import { useNavigate } from "react-router-dom";
 import useSession from "@hooks/useSession";
 
-function SongRequest({ data }) {
+function PlaylistBubble({ data }) {
   const { user } = useSession();
-
   const navigate = useNavigate();
 
-  const { counter, shareLinkId, isAnonymous, views, message } = data;
-  var createdAt = new Date(data.createdAt._seconds);
-
-  var recentlyAdded = [];
-  recentlyAdded = data.recentlyAdded;
-
-  var requesterName = "Anonymous";
-  if (!isAnonymous)
-    requesterName = `@${data.requester.username ?? user?.username}`;
+  const {
+    counter,
+    shareLinkId,
+    isAnonymous,
+    views,
+    message,
+    recentlyAdded = [],
+  } = data;
+  // let createdAt = new Date(data.createdAt._seconds);
 
   return (
     <div
@@ -25,7 +24,9 @@ function SongRequest({ data }) {
       <div className="flex w-full justify-between">
         <div className="flex flex-col items-start">
           <span className="bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-center text-xs font-semibold text-transparent">
-            {requesterName}
+            {isAnonymous
+              ? "Anonymous"
+              : `@${data.requester.username ?? user?.username}`}
           </span>
           {/* <span className="text-xs text-black">{createdAt.toString()}</span> */}
         </div>
@@ -48,7 +49,7 @@ function SongRequest({ data }) {
       <div className="mt-6 flex w-full justify-between">
         {recentlyAdded.length > 0 ? (
           <div className="flex">
-            {recentlyAdded.map((item, index) => {
+            {recentlyAdded.reverse().map((item, index) => {
               return (
                 <div
                   className={`-ml-5 first:ml-0`}
@@ -76,7 +77,7 @@ function SongRequest({ data }) {
             })}
           </div>
         ) : (
-          <div></div>
+          <div></div> // just for flex between
         )}
         <div className="flex items-center">
           <span className="mr-1.5 flex h-[34px] min-w-[70px] shrink-0 items-center justify-center rounded-full bg-black px-4 text-sm text-white shadow-sm">
@@ -127,4 +128,4 @@ function SongRequest({ data }) {
   );
 }
 
-export default SongRequest;
+export default PlaylistBubble;

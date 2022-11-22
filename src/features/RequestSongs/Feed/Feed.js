@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import LanguageTag from "@lib/languageTag";
+
 import { useNavigate } from "react-router-dom";
 import useSession from "@hooks/useSession";
 
 import GimmesongAPI from "@lib/gimmesong_api";
-import SongRequest from "@components/SongRequest";
+import PlaylistBubble from "@components/PlaylistBubble";
 
 import Empty from "./components/Empty";
 import NewRequest from "../NewRequest";
@@ -12,20 +12,17 @@ import NewRequest from "../NewRequest";
 import toast from "react-hot-toast";
 
 import { signInWithGoogle } from "@lib/firebase";
+import LanguageTag from "@lib/languageTag";
 
 import { useDisclosure } from "@chakra-ui/react";
 import {
   AlertDialog,
   AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
-  AlertDialogCloseButton,
-  Button,
 } from "@chakra-ui/react";
 
-import annouce_emoji from "@assets/img/annouce_emoji.png";
+import annouceEmoji from "@assets/img/annouce_emoji.png";
 
 function Feed() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -140,7 +137,7 @@ function Feed() {
       <div className="mt-4 flex w-full flex-col px-4 pb-[80px]">
         <div className="flex items-center justify-between">
           <div className="relative flex items-center">
-            <img className=" mr-2 h-8 w-8" src={annouce_emoji} />
+            <img className=" mr-2 h-8 w-8" src={annouceEmoji} />
             <span className="gimmesong-secondary-font text-2xl font-bold">
               Songs Request
             </span>
@@ -246,7 +243,7 @@ function Feed() {
           <>
             <div className="mt-6">
               {items.map((item) => {
-                return <SongRequest key={item.id} data={item} />; //<div key={item.id}>{JSON.stringify(item)}</div>;
+                return <PlaylistBubble key={item.id} data={item} />; //<div key={item.id}>{JSON.stringify(item)}</div>;
               })}
             </div>
             {canLoadMore && (
@@ -310,7 +307,7 @@ function Feed() {
         <AlertDialogContent borderRadius={36} marginX={4} py={4}>
           <div className="flex w-full items-center justify-between py-2 px-6">
             <div className="flex items-center">
-              <img className=" mr-1 h-7 w-7" src={annouce_emoji} alt="" />
+              <img className=" mr-1 h-7 w-7" src={annouceEmoji} alt="" />
               <span className="text-xl font-semibold">Request Songs</span>
             </div>
             <button

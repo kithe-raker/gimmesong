@@ -9,7 +9,7 @@ import Tutorial from "@features/Tutorials";
 
 import Feed from "@features/RequestSongs/Feed";
 import NewRequest from "@features/RequestSongs/NewRequest";
-import ViewRequest from "@features/RequestSongs/ViewRequest";
+import ViewPlaylist from "@features/RequestSongs/ViewPlaylist";
 import SendSong from "@features/RequestSongs/SendSong";
 
 import { Toaster } from "react-hot-toast";
@@ -24,6 +24,8 @@ import { useLocation } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 import { auth } from "@lib/firebase";
+
+import PlaylistProvider from "contexts/PlaylistContext";
 
 function App() {
   const { user, setUser } = useSession();
@@ -92,7 +94,14 @@ function App() {
         }
       />
       <Route path="/request" element={<Feed />} />
-      <Route path="/playlist/:id" element={<ViewRequest />} />
+      <Route
+        path="/playlist/:id"
+        element={
+          <PlaylistProvider>
+            <ViewPlaylist />
+          </PlaylistProvider>
+        }
+      />
       {/* <Route
         path="/playlist/:id/add"
         element={

@@ -742,7 +742,6 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   isOpen={isOpen}
                   isCentered
                   size="md"
-                  scrollBehavior="outside"
                 >
                   <AlertDialogOverlay />
 
