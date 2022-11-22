@@ -33,7 +33,7 @@ function Menu() {
   }, []);
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
+    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-[60px] pt-[120px]">
       <div className="my-2 flex items-center justify-center">
         <img
           className="mr-2 h-[46px] w-[46px] shrink-0"
