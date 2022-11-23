@@ -35,6 +35,8 @@ import toast from "react-hot-toast";
 import { StreamingError, PlayerError } from "@lib/error";
 import { ThreeDots } from "react-loader-spinner";
 
+import useDocumentTitle from "@hooks/useDocumentTitle";
+
 function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const { activeStep, setStep, skip, nextStep } = useSteps({
     totalSteps: 5,
@@ -63,7 +65,10 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const [playing, setPlaying] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
 
-  const [received, setReceived] = useState([]);
+  const [items, setItems] = useState([]);
+
+  const [title, setTitle] = useState("");
+  useDocumentTitle(title);
 
   const slider = useRef(null);
   const [current, setCurrent] = useState(null);
@@ -190,7 +195,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
       // update played = true to database
       await GimmesongAPI.playedInbox(id);
       // set played = true to local variable
-      let updated = received.map((item) =>
+      let updated = items.map((item) =>
         item.id === id
           ? {
               ...item,
@@ -199,14 +204,14 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
           : item
       );
       setUpdatingInbox(false);
-      setReceived(updated);
+      setItems(updated);
     } catch (err) {
       console.error(err);
     }
   };
 
   const handleToggle = async (id) => {
-    if (!received[current].played) await handleUpdateInbox(id);
+    if (!items[current].played) await handleUpdateInbox(id);
 
     try {
       // toggle audio player
@@ -244,17 +249,20 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   // };
 
   const handleSwipe = async () => {
+    // set page title to current song title
+    setTitle(items[current]?.content?.song?.title);
+
     // always reset streaming error that occurred from previous song
     setStreamingError(null);
     try {
       // get videoplayback url here
-      const videoId = received[current]?.content?.song?.videoId;
+      const videoId = items[current]?.content?.song?.videoId;
       await getPlaybackURL(videoId);
     } catch (err) {
       let msg = "";
       if (err instanceof StreamingError) {
         setStreamingError({
-          id: received[current]?.id,
+          id: items[current]?.id,
         });
         msg =
           "Unfortunately, this song is unable to play on our App, Please try to open it on Youtube instead";
@@ -289,7 +297,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
    */
   useEffect(() => {
     if (layout === "single") {
-      if (received.length > 0) {
+      if (items.length > 0) {
         // by default in multiple layout current is null until user click select song
         if (current === null) setCurrent(0);
 
@@ -307,7 +315,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
       let filterType = tab;
       let results = await GimmesongAPI.queryInbox({ filter: filterType });
 
-      setReceived(results);
+      setItems(results);
       if (tab === "new") {
         if (results.length > 0) setCurrent(0);
       }
@@ -323,6 +331,9 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   useEffect(() => {
     if (!tab) return;
 
+    // reset page title
+    setTitle("");
+
     setStreamingError(null);
     setCurrent(null);
 
@@ -331,6 +342,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
 
   return (
     <>
+      {/* <Helmet>{title && <title>{title}</title>}</Helmet> */}
       <div className={`relative ${layout === "single" ? "w-full" : ""}`}>
         {loading ? (
           <div className="my-12 flex items-center justify-center">
@@ -355,7 +367,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
               ></path>
             </svg>
           </div>
-        ) : received.length > 0 ? (
+        ) : items.length > 0 ? (
           <>
             {layout === "single" ? (
               <>
@@ -365,18 +377,18 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   }`}
                 >
                   <Slider ref={slider} {...settings}>
-                    {received.map((item, i) => {
+                    {items.map((item, i) => {
                       return (
                         <div className="outline-none" key={i}>
                           <div className="flex flex-col items-center justify-center">
                             <div className="mt-6 w-[90%]">
                               <div
                                 className={`relative w-full pt-[100%] ${
-                                  received[current]?.id === item.id
+                                  items[current]?.id === item.id
                                     ? "animate-spin-slow"
                                     : ""
                                 } ${
-                                  !playing && received[current]?.id === item.id
+                                  !playing && items[current]?.id === item.id
                                     ? "animate-pause"
                                     : ""
                                 }`}
@@ -412,7 +424,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                                 )}
                               </div>
                             </div>
-                            {received[current]?.id === item.id && (
+                            {items[current]?.id === item.id && (
                               <span
                                 style={{
                                   wordBreak: "break-word",
@@ -436,16 +448,14 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   current !== null ? "pb-[88px]" : "pb-[24px]"
                 }`}
               >
-                {received.map((item, i) => (
+                {items.map((item, i) => (
                   <div
                     onClick={() => handleSelect(i)}
                     key={i}
                     className={`relative w-[160px] cursor-pointer pt-[100%] ${
-                      received[current]?.id === item.id
-                        ? "animate-spin-slow"
-                        : ""
+                      items[current]?.id === item.id ? "animate-spin-slow" : ""
                     } ${
-                      !playing && received[current]?.id === item.id
+                      !playing && items[current]?.id === item.id
                         ? "animate-pause"
                         : ""
                     }`}
@@ -482,13 +492,13 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
             )}
             {current !== null && (
               <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
-                {streamingError?.id == received[current]?.id && (
+                {streamingError?.id == items[current]?.id && (
                   <div
                     className="absolute -mt-[140px] inline-flex animate-bounce rounded-full shadow-sm"
                     role="group"
                   >
                     <a
-                      href={`https://music.youtube.com/watch?v=${received[current].content?.song?.videoId}`}
+                      href={`https://music.youtube.com/watch?v=${items[current].content?.song?.videoId}`}
                       target="_blank"
                       rel="noreferrer"
                       className={`inline-flex rounded-l-full bg-white py-3 px-4 text-sm font-medium text-gray-500`}
@@ -529,8 +539,8 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                 <AudioPlayer
                   ref={audioRef}
                   src={
-                    playbackURL[received[current]?.content?.song?.videoId] &&
-                    playbackURL[received[current]?.content?.song?.videoId][
+                    playbackURL[items[current]?.content?.song?.videoId] &&
+                    playbackURL[items[current]?.content?.song?.videoId][
                       "audio/mp4"
                     ]
                   }
@@ -539,9 +549,9 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   autoPlayAfterSrcChange={false}
                   loadingSource={loadingStreamingData}
                 />
-                {!received[current]?.played ? (
+                {!items[current]?.played ? (
                   <button
-                    onClick={() => handleToggle(received[current]?.id)}
+                    onClick={() => handleToggle(items[current]?.id)}
                     className="mr-4 flex h-16 w-[250px] items-center rounded-full bg-white p-3 pr-8 shadow-sm"
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black">
@@ -586,7 +596,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   </button>
                 ) : (
                   <div
-                    onClick={() => handleToggle(received[current]?.id)}
+                    onClick={() => handleToggle(items[current]?.id)}
                     className="mr-4 flex h-16 w-[250px] cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4"
                   >
                     <div className="flex items-center overflow-hidden">
@@ -644,12 +654,12 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                       </div>
                       <div className="mx-2.5 flex min-w-0 flex-col">
                         <span className="select-none truncate text-sm">
-                          {received[current]?.content?.song?.title}
+                          {items[current]?.content?.song?.title}
                         </span>
                         <span className="select-none truncate text-xs text-gray-500">
                           {
-                            received[current]?.content?.song?.artistInfo
-                              ?.artist[0]?.text
+                            items[current]?.content?.song?.artistInfo?.artist[0]
+                              ?.text
                           }
                         </span>
                       </div>
@@ -701,7 +711,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                       }}
                       className="flex min-h-[384px] w-full items-center justify-center px-[54px] pt-[54px] pb-[120px] text-center text-[60px] font-semibold text-gray-800"
                     >
-                      {received[current]?.content?.message}
+                      {items[current]?.content?.message}
                     </p>
                     <div
                       className={`pointer-events-none flex h-[192px] w-full items-center justify-between rounded-full bg-white bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] p-[36px] pr-[48px] text-white hover:bg-gray-100`}
@@ -710,7 +720,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                         <img
                           className="h-[120px] w-[120px] shrink-0 rounded-full object-contain"
                           src={
-                            received[current]?.content?.song?.thumbnails[0]?.url
+                            items[current]?.content?.song?.thumbnails[0]?.url
                           }
                           alt="thumbnail"
                           referrerPolicy="no-referrer"
@@ -720,13 +730,13 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                           <span
                             className={`-mt-[25px] truncate text-[42px] font-light leading-[2]`}
                           >
-                            {received[current]?.content?.song?.title}
+                            {items[current]?.content?.song?.title}
                           </span>
                           <span
                             className={`-mt-[25px] truncate text-[36px] font-light leading-[2] text-white`}
                           >
                             {
-                              received[current]?.content?.song?.artistInfo
+                              items[current]?.content?.song?.artistInfo
                                 ?.artist[0]?.text
                             }
                           </span>

@@ -36,6 +36,8 @@ import { ThreeDots } from "react-loader-spinner";
 
 import { PlaylistContext } from "contexts/PlaylistContext";
 
+import useDocumentTitle from "@hooks/useDocumentTitle";
+
 function ReceivedSongs({ layout, onLayoutChange }) {
   const {
     isLoadingItems,
@@ -68,6 +70,9 @@ function ReceivedSongs({ layout, onLayoutChange }) {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
+
+  const [title, setTitle] = useState("");
+  useDocumentTitle(title);
 
   const slider = useRef(null);
   const [current, setCurrent] = useState(null);
@@ -221,6 +226,9 @@ function ReceivedSongs({ layout, onLayoutChange }) {
   // };
 
   const handleSwipe = async () => {
+    // set page title to current song title
+    setTitle(items[current]?.content?.song?.title);
+
     // always reset streaming error that occurred from previous song
     setStreamingError(null);
     try {
