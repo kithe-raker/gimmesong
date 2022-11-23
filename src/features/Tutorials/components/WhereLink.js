@@ -68,8 +68,24 @@ function WhereLink() {
                     1
                   </div>
                   <p className="text-md">
-                    Click the left button that has <b>send icon</b> on the top
-                    right.
+                    Click
+                    <svg
+                      className={`mx-2 inline`}
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeWidth="1"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.379,19.1403 L12.108,12.5993 L19.467,5.2413 L15.379,19.1403 Z M4.86,8.6213 L18.76,4.5343 L11.401,11.8923 L4.86,8.6213 Z M3.359,8.0213 C2.923,8.1493 2.87,8.7443 3.276,8.9483 L11.128,12.8733 L15.053,20.7243 C15.256,21.1303 15.852,21.0773 15.98,20.6413 L20.98,3.6413 C21.091,3.2623 20.739,2.9093 20.359,3.0213 L3.359,8.0213 Z"
+                      />
+                    </svg>
+                    button on the top right.
                   </p>
                 </div>
               </div>
@@ -84,8 +100,28 @@ function WhereLink() {
                     2
                   </div>
                   <p className="text-md">
-                    You will see the <b>link</b> here! and you can click the{" "}
-                    <b>copy button</b> to copy link.
+                    You will see the <b>link</b> here! and you can click on
+                    <svg
+                      className="mx-2 inline h-5 w-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect
+                        x="9"
+                        y="9"
+                        width="13"
+                        height="13"
+                        rx="2"
+                        ry="2"
+                      ></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    button to copy link.
                   </p>
                 </div>
               </div>

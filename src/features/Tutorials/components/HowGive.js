@@ -58,7 +58,7 @@ function HowGive() {
         <AlertDialogOverlay />
 
         <AlertDialogContent borderRadius={25} marginX={4}>
-          <AlertDialogHeader>How to share to your story</AlertDialogHeader>
+          <AlertDialogHeader>How to give someone a song?</AlertDialogHeader>
           <AlertDialogCloseButton />
           <AlertDialogBody
             display={`flex`}
@@ -76,7 +76,8 @@ function HowGive() {
                     1
                   </div>
                   <p className="text-md">
-                    <b>Click</b> your friend link.
+                    <b>Click</b> the link that your friend shared on social
+                    media.
                   </p>
                 </div>
               </div>
@@ -91,7 +92,8 @@ function HowGive() {
                     2
                   </div>
                   <p className="text-md">
-                    Type the <b>song name</b> that you want and next.
+                    Type to search for the <b>song</b> that you want and click{" "}
+                    <b>Next</b>.
                   </p>
                 </div>
               </div>
@@ -106,7 +108,7 @@ function HowGive() {
                     3
                   </div>
                   <p className="text-md">
-                    Type some <b>text</b> here then send.
+                    <b>Say</b> something to your friend, then click <b>Send</b>.
                   </p>
                 </div>
               </div>
@@ -121,8 +123,9 @@ function HowGive() {
                     4
                   </div>
                   <p className="text-md">
-                    <b>Congratulation</b>! If you want to send another, you can
-                    click the text below.
+                    <b>Congratulation</b>! Your song has been sent to your
+                    friend. If you want to send more, Click on{" "}
+                    <b>Send another song</b>.
                   </p>
                 </div>
               </div>
