@@ -49,10 +49,7 @@ function NewRequest() {
         anonymous
       );
 
-      const { details: newAdded } =
-        await GimmesongAPI.SongRequest.GetDetailsByLinkId(shareLinkId);
-
-      onCreatedRequest(newAdded);
+      onCreatedRequest();
       navigate(`/playlist/${shareLinkId}`);
     } catch (err) {
       console.error(err);

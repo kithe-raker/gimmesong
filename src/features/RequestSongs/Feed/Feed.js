@@ -250,11 +250,13 @@ function Feed() {
         ) : items.length > 0 ? (
           <>
             <div className="mt-6">
-              {items.map((item) => {
-                return <PlaylistBubble key={item.id} data={item} />; //<div key={item.id}>{JSON.stringify(item)}</div>;
+              {items.map((item, index) => {
+                return (
+                  <PlaylistBubble key={`${item.id}-${index}`} data={item} />
+                );
               })}
             </div>
-            {canLoadMore && (
+            {canLoadMore && filter !== "most_play" && (
               <button
                 onClick={loadMore}
                 className={`gimmesong-secondary-font mr-1.5 flex h-10 w-fit shrink-0 items-center self-center rounded-full border-[1.5px] border-gray-300 px-3.5 text-xs font-semibold`}

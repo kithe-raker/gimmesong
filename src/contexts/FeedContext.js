@@ -39,10 +39,16 @@ const FeedProvider = ({ children }) => {
       let results;
       let lastItem = reset ? null : items[items.length - 1]?.id;
 
+      const options = {
+        lastRequestId: lastItem,
+        limit,
+      };
+      console.log(options);
+
       if (filter === "most_play") {
         results = await GimmesongAPI.SongRequest.QueryMostView(lang, {
           lastRequestId: lastItem,
-          limit,
+          limit: 20,
         });
       } else if (filter === "newest") {
         results = await GimmesongAPI.SongRequest.QueryNewest(lang, {
@@ -75,10 +81,14 @@ const FeedProvider = ({ children }) => {
     fetchContent({ loading: false, reset: false });
   };
 
-  const onCreatedRequest = (newAdded) => {
+  const onCreatedRequest = () => {
     setScrollPosition(0);
-    setItems([newAdded, ...items]);
+    fetchContent({ loading: true, reset: true });
   };
+
+  useEffect(() => {
+    console.log(items);
+  }, [items]);
 
   useEffect(() => {
     if (!pathname.startsWith("/request")) return;
