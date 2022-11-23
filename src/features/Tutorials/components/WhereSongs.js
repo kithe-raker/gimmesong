@@ -106,8 +106,8 @@ function WhereSongs() {
                   </div>
                   <p className="text-md">
                     The songs you received will be displayed here. You can click{" "}
-                    <b>NEW</b>, <b>ALL</b> to see new received songs or received
-                    all songs.
+                    <b>NEW</b>, <b>ALL</b> to see new received songs or all
+                    received songs.
                   </p>
                 </div>
               </div>
