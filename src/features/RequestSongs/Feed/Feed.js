@@ -25,6 +25,7 @@ import {
 import annouceEmoji from "@assets/img/annouce_emoji.png";
 
 import { FeedContext } from "contexts/FeedContext";
+import NativeBanner from "@components/Adsense/NativeBanner";
 
 function Feed() {
   const {
@@ -40,6 +41,10 @@ function Feed() {
 
   const navigate = useNavigate();
   const tag = LanguageTag.getPreferenceLanguage();
+
+  // How many feed item per one ads banner
+  const _adsRate = 10;
+  var _feedCounter = 0;
 
   // const [items, setItems] = useState([]);
   // const [lang, setLang] = useState(tag);
@@ -251,7 +256,22 @@ function Feed() {
           <>
             <div className="mt-6">
               {items.map((item) => {
-                return <PlaylistBubble key={`${item.id}`} data={item} />;
+                _feedCounter++;
+                const showAds = _feedCounter >= _adsRate;
+
+                if (showAds) _feedCounter = 0;
+
+                return showAds ? (
+                  <div key={`${item.id}`}>
+                    <div className="mb-4">
+                      <NativeBanner />
+                    </div>
+
+                    <PlaylistBubble data={item} />
+                  </div>
+                ) : (
+                  <PlaylistBubble key={`${item.id}`} data={item} />
+                );
               })}
             </div>
             {canLoadMore && filter !== "most_play" && (
