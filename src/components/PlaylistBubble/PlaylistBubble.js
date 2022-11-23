@@ -16,6 +16,8 @@ function PlaylistBubble({ data }) {
   } = data;
   // let createdAt = new Date(data.createdAt._seconds);
 
+  let _recentlyAdded = [...recentlyAdded];
+
   return (
     <div
       onClick={() => navigate(`/playlist/${shareLinkId}`)}
@@ -47,13 +49,13 @@ function PlaylistBubble({ data }) {
       </div>
       <h4 className="mt-2 w-full line-clamp-1">{message}</h4>
       <div className="mt-6 flex w-full justify-between">
-        {recentlyAdded.length > 0 ? (
+        {_recentlyAdded.length > 0 ? (
           <div className="flex">
-            {recentlyAdded.map((item, index) => {
+            {_recentlyAdded.reverse().map((item, index) => {
               return (
                 <div
                   className={`-ml-5 first:ml-0`}
-                  style={{ zIndex: Math.abs(index - recentlyAdded.length) }}
+                  style={{ zIndex: Math.abs(index - _recentlyAdded.length) }}
                   key={item.itemId}
                 >
                   <div className={`relative w-12 pt-[100%]`}>
