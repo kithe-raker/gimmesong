@@ -77,10 +77,7 @@ const FeedProvider = ({ children }) => {
 
   const onCreatedRequest = (newAdded) => {
     setScrollPosition(0);
-
-    let _items = [...items];
-    _items.unshift(newAdded);
-    setItems(_items);
+    setItems([newAdded, ...items]);
   };
 
   useEffect(() => {
