@@ -8,9 +8,7 @@ import MySongs from "@features/MySongs";
 import Tutorial from "@features/Tutorials";
 
 import Feed from "@features/RequestSongs/Feed";
-import NewRequest from "@features/RequestSongs/NewRequest";
 import ViewPlaylist from "@features/RequestSongs/ViewPlaylist";
-import SendSong from "@features/RequestSongs/SendSong";
 
 import { Toaster } from "react-hot-toast";
 import Header from "@components/Header";

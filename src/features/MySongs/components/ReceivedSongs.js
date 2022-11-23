@@ -37,6 +37,8 @@ import { ThreeDots } from "react-loader-spinner";
 
 import useDocumentTitle from "@hooks/useDocumentTitle";
 
+import { useSessionExpired } from "@hooks/useSessionExpired";
+
 function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const { activeStep, setStep, skip, nextStep } = useSteps({
     totalSteps: 5,
@@ -49,12 +51,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     setStep(1);
   };
 
-  const { isOpen: isSessionExpired, onOpen: onSessionExpired } =
-    useDisclosure();
-  const sessionExpiredCancelRef = useRef();
-  const reloadPage = () => {
-    window.location.reload();
-  };
+  const { open: openSessionExpired, SessionExpired } = useSessionExpired();
 
   // const [exportMode, setExportMode] = useState("widget");
   const exportRef = useRef();
@@ -322,7 +319,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     } catch (err) {
       setError(true);
       console.error(err);
-      if (err.response.status === 403) onSessionExpired();
+      if (err.response.status === 403) openSessionExpired();
     } finally {
       setLoading(false);
     }
@@ -342,7 +339,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
 
   return (
     <>
-      {/* <Helmet>{title && <title>{title}</title>}</Helmet> */}
+      <SessionExpired />
       <div className={`relative ${layout === "single" ? "w-full" : ""}`}>
         {loading ? (
           <div className="my-12 flex items-center justify-center">
@@ -1043,40 +1040,6 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
           />
         )}
       </div>
-      <AlertDialog
-        isOpen={isSessionExpired}
-        leastDestructiveRef={sessionExpiredCancelRef}
-        onClose={onClose}
-        isCentered
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent borderRadius={25} marginX={4}>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Sorry, Something went wrong
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Your session maybe expired, please try to re-loading this page
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button
-                borderRadius="25"
-                bgColor="black"
-                color="white"
-                h={42}
-                _hover={{ bg: "#000000" }}
-                _active={{
-                  bg: "#000000",
-                }}
-                onClick={reloadPage}
-              >
-                Reload
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
     </>
   );
 }

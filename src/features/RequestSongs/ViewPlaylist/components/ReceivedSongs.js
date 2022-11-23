@@ -55,13 +55,6 @@ function ReceivedSongs({ layout, onLayoutChange }) {
     setStep(1);
   };
 
-  const { isOpen: isSessionExpired, onOpen: onSessionExpired } =
-    useDisclosure();
-  const sessionExpiredCancelRef = useRef();
-  const reloadPage = () => {
-    window.location.reload();
-  };
-
   // const [exportMode, setExportMode] = useState("widget");
   const exportRef = useRef();
   const [exporting, setExporting] = useState(false);
@@ -920,40 +913,6 @@ function ReceivedSongs({ layout, onLayoutChange }) {
           </Empty>
         )}
       </div>
-      <AlertDialog
-        isOpen={isSessionExpired}
-        leastDestructiveRef={sessionExpiredCancelRef}
-        onClose={onClose}
-        isCentered
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent borderRadius={25} marginX={4}>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Sorry, Something went wrong
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Your session maybe expired, please try to re-loading this page
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button
-                borderRadius="25"
-                bgColor="black"
-                color="white"
-                h={42}
-                _hover={{ bg: "#000000" }}
-                _active={{
-                  bg: "#000000",
-                }}
-                onClick={reloadPage}
-              >
-                Reload
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
     </>
   );
 }
