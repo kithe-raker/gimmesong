@@ -49,7 +49,7 @@ function PlaylistBubble({ data }) {
       <div className="mt-6 flex w-full justify-between">
         {recentlyAdded.length > 0 ? (
           <div className="flex">
-            {recentlyAdded.reverse().map((item, index) => {
+            {recentlyAdded.map((item, index) => {
               return (
                 <div
                   className={`-ml-5 first:ml-0`}

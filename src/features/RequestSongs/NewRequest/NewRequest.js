@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import useSession from "@hooks/useSession";
 
 import GimmesongAPI from "@lib/gimmesong_api";
@@ -8,7 +8,13 @@ import toast from "react-hot-toast";
 
 import { useNavigate } from "react-router-dom";
 
+import { FeedContext } from "contexts/FeedContext";
+
 function NewRequest() {
+  const {
+    action: { onCreatedRequest },
+  } = useContext(FeedContext);
+
   const navigate = useNavigate();
 
   const { user } = useSession();
@@ -43,6 +49,10 @@ function NewRequest() {
         anonymous
       );
 
+      const { details: newAdded } =
+        await GimmesongAPI.SongRequest.GetDetailsByLinkId(shareLinkId);
+
+      onCreatedRequest(newAdded);
       navigate(`/playlist/${shareLinkId}`);
     } catch (err) {
       console.error(err);

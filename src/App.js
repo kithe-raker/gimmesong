@@ -26,6 +26,7 @@ import GimmesongAPI from "@lib/gimmesong_api";
 import { auth } from "@lib/firebase";
 
 import PlaylistProvider from "contexts/PlaylistContext";
+import FeedProvider from "contexts/FeedContext";
 
 function App() {
   const { user, setUser } = useSession();
@@ -102,25 +103,7 @@ function App() {
           </PlaylistProvider>
         }
       />
-      {/* <Route
-        path="/playlist/:id/add"
-        element={
-          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
-            <SendSong />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/request/new"
-        element={
-          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
-            <NewRequest />
-          </ProtectedRoute>
-        }
-      /> */}
-
       <Route path="/tutorial" element={<Tutorial />} />
-
       <Route
         path="*"
         element={
@@ -136,15 +119,17 @@ function App() {
 
   return (
     <>
-      <Toaster />
-      {loading ? (
-        <Loading fullScreen />
-      ) : (
-        <>
-          {pathname !== "/tutorial" && <Header />}
-          {routes}
-        </>
-      )}
+      <FeedProvider>
+        <Toaster />
+        {loading ? (
+          <Loading fullScreen />
+        ) : (
+          <>
+            {pathname !== "/tutorial" && <Header />}
+            {routes}
+          </>
+        )}
+      </FeedProvider>
     </>
   );
 }

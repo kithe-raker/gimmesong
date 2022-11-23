@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 
 import { useNavigate } from "react-router-dom";
 import useSession from "@hooks/useSession";
@@ -24,7 +24,15 @@ import {
 
 import annouceEmoji from "@assets/img/annouce_emoji.png";
 
+import { FeedContext } from "contexts/FeedContext";
+
 function Feed() {
+  const {
+    isLoading,
+    data: { items, filter, canLoadMore },
+    action: { loadMore, changeFilter },
+  } = useContext(FeedContext);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
@@ -33,13 +41,13 @@ function Feed() {
   const navigate = useNavigate();
   const tag = LanguageTag.getPreferenceLanguage();
 
-  const [items, setItems] = useState([]);
-  const [lang, setLang] = useState(tag);
-  const [filter, setFilter] = useState("newest");
+  // const [items, setItems] = useState([]);
+  // const [lang, setLang] = useState(tag);
+  // const [filter, setFilter] = useState("newest");
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [canLoadMore, setCanLoadMore] = useState(true);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(false);
+  // const [canLoadMore, setCanLoadMore] = useState(true);
 
   const [FromInAppBrowser, setFromInAppBrowser] = useState(false);
 
@@ -83,54 +91,54 @@ function Feed() {
       : signInWithGoogle();
   };
 
-  const fetchFeed = async (loading = true, reset = false) => {
-    try {
-      if (loading) setLoading(true);
-      setError(false);
+  // const fetchFeed = async (loading = true, reset = false) => {
+  //   try {
+  //     if (loading) setLoading(true);
+  //     setError(false);
 
-      let results;
-      let lastItem = reset ? null : items[items.length - 1]?.id;
+  //     let results;
+  //     let lastItem = reset ? null : items[items.length - 1]?.id;
 
-      if (filter === "most_play") {
-        results = await GimmesongAPI.SongRequest.QueryMostView(lang, {
-          lastRequestId: lastItem,
-          limit: 20,
-        });
-      } else if (filter === "newest") {
-        results = await GimmesongAPI.SongRequest.QueryNewest(lang, {
-          lastRequestId: lastItem,
-          limit: 20,
-        });
-      } else if (filter === "my_request") {
-        results = await GimmesongAPI.SongRequest.QueryUserRequest({
-          lastRequestId: lastItem,
-          limit: 20,
-        });
-      }
+  //     if (filter === "most_play") {
+  //       results = await GimmesongAPI.SongRequest.QueryMostView(lang, {
+  //         lastRequestId: lastItem,
+  //         limit: 20,
+  //       });
+  //     } else if (filter === "newest") {
+  //       results = await GimmesongAPI.SongRequest.QueryNewest(lang, {
+  //         lastRequestId: lastItem,
+  //         limit: 20,
+  //       });
+  //     } else if (filter === "my_request") {
+  //       results = await GimmesongAPI.SongRequest.QueryUserRequest({
+  //         lastRequestId: lastItem,
+  //         limit: 20,
+  //       });
+  //     }
 
-      if (reset) {
-        setItems(results);
-        setCanLoadMore(true);
-      } else {
-        setItems([...items, ...results]);
-      }
+  //     if (reset) {
+  //       setItems(results);
+  //       setCanLoadMore(true);
+  //     } else {
+  //       setItems([...items, ...results]);
+  //     }
 
-      if (results.length === 0) setCanLoadMore(false);
-    } catch (err) {
-      setError(true);
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     if (results.length === 0) setCanLoadMore(false);
+  //   } catch (err) {
+  //     setError(true);
+  //     console.error(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const loadMore = () => {
-    fetchFeed(false);
-  };
+  // const loadMore = () => {
+  //   fetchFeed(false);
+  // };
 
-  useEffect(() => {
-    fetchFeed(true, true);
-  }, [filter, lang]);
+  // useEffect(() => {
+  //   fetchFeed(true, true);
+  // }, [filter, lang]);
 
   return (
     <div className="mx-auto flex w-full max-w-md flex-col items-center py-6 pt-[60px]">
@@ -168,7 +176,7 @@ function Feed() {
           <div className="overflow-x-auto">
             <div className="flex">
               <button
-                onClick={() => setFilter("newest")}
+                onClick={() => changeFilter("newest")}
                 className={`${
                   filter === "newest"
                     ? "bg-black text-white"
@@ -178,7 +186,7 @@ function Feed() {
                 Newest
               </button>
               <button
-                onClick={() => setFilter("most_play")}
+                onClick={() => changeFilter("most_play")}
                 className={`${
                   filter === "most_play"
                     ? "bg-black text-white"
@@ -189,7 +197,7 @@ function Feed() {
               </button>
               {user?.username && (
                 <button
-                  onClick={() => setFilter("my_request")}
+                  onClick={() => changeFilter("my_request")}
                   className={`${
                     filter === "my_request"
                       ? "bg-black text-white"
@@ -216,7 +224,7 @@ function Feed() {
             )}
           </select> */}
         </div>
-        {loading ? (
+        {isLoading ? (
           <div className="my-12 flex items-center justify-center">
             <svg
               className="h-8 w-8 animate-spin text-gray-500"
