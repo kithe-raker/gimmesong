@@ -250,10 +250,8 @@ function Feed() {
         ) : items.length > 0 ? (
           <>
             <div className="mt-6">
-              {items.map((item, index) => {
-                return (
-                  <PlaylistBubble key={`${item.id}-${index}`} data={item} />
-                );
+              {items.map((item) => {
+                return <PlaylistBubble key={`${item.id}`} data={item} />;
               })}
             </div>
             {canLoadMore && filter !== "most_play" && (
