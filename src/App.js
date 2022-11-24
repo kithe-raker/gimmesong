@@ -8,9 +8,7 @@ import MySongs from "@features/MySongs";
 import Tutorial from "@features/Tutorials";
 
 import Feed from "@features/RequestSongs/Feed";
-import NewRequest from "@features/RequestSongs/NewRequest";
-import ViewRequest from "@features/RequestSongs/ViewRequest";
-import SendSong from "@features/RequestSongs/SendSong";
+import ViewPlaylist from "@features/RequestSongs/ViewPlaylist";
 
 import { Toaster } from "react-hot-toast";
 import Header from "@components/Header";
@@ -24,6 +22,9 @@ import { useLocation } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 import { auth } from "@lib/firebase";
+
+import PlaylistProvider from "contexts/PlaylistContext";
+import FeedProvider from "contexts/FeedContext";
 
 function App() {
   const { user, setUser } = useSession();
@@ -92,26 +93,15 @@ function App() {
         }
       />
       <Route path="/request" element={<Feed />} />
-      <Route path="/playlist/:id" element={<ViewRequest />} />
-      {/* <Route
-        path="/playlist/:id/add"
+      <Route
+        path="/playlist/:id"
         element={
-          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
-            <SendSong />
-          </ProtectedRoute>
+          <PlaylistProvider>
+            <ViewPlaylist />
+          </PlaylistProvider>
         }
       />
-      <Route
-        path="/request/new"
-        element={
-          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
-            <NewRequest />
-          </ProtectedRoute>
-        }
-      /> */}
-
       <Route path="/tutorial" element={<Tutorial />} />
-
       <Route
         path="*"
         element={
@@ -127,15 +117,17 @@ function App() {
 
   return (
     <>
-      <Toaster />
-      {loading ? (
-        <Loading fullScreen />
-      ) : (
-        <>
-          {pathname !== "/tutorial" && <Header />}
-          {routes}
-        </>
-      )}
+      <FeedProvider>
+        <Toaster />
+        {loading ? (
+          <Loading fullScreen />
+        ) : (
+          <>
+            {pathname !== "/tutorial" && <Header />}
+            {routes}
+          </>
+        )}
+      </FeedProvider>
     </>
   );
 }

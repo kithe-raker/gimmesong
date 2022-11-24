@@ -11,7 +11,7 @@ const LanguageTag = {
     return tag;
   },
   getPreferenceLanguage: function () {
-    return this.validateTag(navigator.language);
+    return "th"; //this.validateTag(navigator.language);
   },
 };
 

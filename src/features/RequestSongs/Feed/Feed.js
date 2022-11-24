@@ -1,63 +1,54 @@
-import { useState, useEffect, useRef } from "react";
-import LanguageTag from "@lib/languageTag";
-import { useNavigate } from "react-router-dom";
-import useSession from "@hooks/useSession";
+import { useState, useEffect, useRef, useContext } from "react";
 
-import GimmesongAPI from "@lib/gimmesong_api";
-import SongRequest from "@components/SongRequest";
-
+import PlaylistBubble from "@components/PlaylistBubble";
 import Empty from "./components/Empty";
 import NewRequest from "../NewRequest";
 
 import toast from "react-hot-toast";
 
 import { signInWithGoogle } from "@lib/firebase";
+import LanguageTag from "@lib/languageTag";
 
 import { useDisclosure } from "@chakra-ui/react";
 import {
   AlertDialog,
   AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
-  AlertDialogCloseButton,
-  Button,
 } from "@chakra-ui/react";
 
-import annouce_emoji from "@assets/img/annouce_emoji.png";
+import annouceEmoji from "@assets/img/annouce_emoji.png";
+
+import { FeedContext } from "contexts/FeedContext";
+import NativeBanner from "@components/Adsense/NativeBanner";
+
+import useSession from "@hooks/useSession";
+import { useLocation } from "react-router-dom";
 
 function Feed() {
+  const {
+    state: { isLoading, hasNext },
+    data: { items, filter },
+    action: { loadMore, changeFilter, fetchContent },
+  } = useContext(FeedContext);
+
+  const { state } = useLocation();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
   const { user } = useSession();
 
-  const navigate = useNavigate();
   const tag = LanguageTag.getPreferenceLanguage();
+  const preferenceLang = ["th", "en"];
 
-  const [items, setItems] = useState([]);
-  const [lang, setLang] = useState(tag);
-  const [filter, setFilter] = useState("most_play");
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  // How many feed item per one ads banner
+  const _adsRate = 10;
+  var _feedCounter = 0;
 
   const [FromInAppBrowser, setFromInAppBrowser] = useState(false);
 
-  const preferenceLang = ["th", "en"];
-
   const handleOpenRequestSong = () => {
-    // if (!user?.username) {
-    //   toast("Please sign in before start requesting songs from others.", {
-    //     style: {
-    //       borderRadius: "25px",
-    //       background: "#FF6464",
-    //       color: "#fff",
-    //     },
-    //   });
-    //   return;
-    // }
     onOpen();
   };
 
@@ -85,52 +76,31 @@ function Feed() {
       : signInWithGoogle();
   };
 
-  const fetchFeed = async () => {
-    try {
-      setLoading(true);
-      setError(false);
-
-      let results;
-      if (filter === "most_play") {
-        results = await GimmesongAPI.SongRequest.QueryMostView(lang, {
-          lastItemId: "",
-          limit: 20,
-        });
-      } else if (filter === "newest") {
-        results = await GimmesongAPI.SongRequest.QueryNewest(lang, {
-          lastItemId: "",
-          limit: 20,
-        });
-      } else if (filter === "my_request") {
-        results = await GimmesongAPI.SongRequest.QueryUserRequest({
-          lastItemId: "",
-          limit: 20,
-        });
-      }
-      setItems(results);
-    } catch (err) {
-      setError(true);
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  /**
+   * @notice To prevents the user's scroll from being reset.
+   * @dev before run this effect, we need to make sure that feed items is empty
+   * and navigate state.reload is true
+   * only thing to make the state.reload is true,
+   * user need to navigate by pressing menu from the navbar.
+   */
   useEffect(() => {
-    fetchFeed();
-  }, [filter, lang]);
+    if (items.length > 0 && !state?.reload) return;
+    fetchContent({ loading: true, reset: true, filter });
+  }, [state]);
 
   return (
     <div className="mx-auto flex w-full max-w-md flex-col items-center py-6 pt-[60px]">
-      <div className="mt-4 flex w-full flex-col px-4">
+      <div className="mt-4 flex w-full flex-col px-4 pb-[80px]">
         <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <img className=" mr-2 h-8 w-8" src={annouce_emoji} />
+          <div className="relative flex items-center">
+            <img className=" mr-2 h-8 w-8" src={annouceEmoji} />
             <span className="gimmesong-secondary-font text-2xl font-bold">
               Songs Request
             </span>
+            <span className="ml-2 rounded-lg bg-red-400 px-2 py-[1.5px] text-white">
+              BETA
+            </span>
           </div>
-
           {/* <button className="flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -153,17 +123,7 @@ function Feed() {
           <div className="overflow-x-auto">
             <div className="flex">
               <button
-                onClick={() => setFilter("most_play")}
-                className={`${
-                  filter === "most_play"
-                    ? "bg-black text-white"
-                    : "border-[1.5px] border-gray-300"
-                } gimmesong-secondary-font mr-1.5 flex h-10 shrink-0 items-center rounded-full px-3.5 text-xs font-semibold`}
-              >
-                Most play
-              </button>
-              <button
-                onClick={() => setFilter("newest")}
+                onClick={() => changeFilter("newest")}
                 className={`${
                   filter === "newest"
                     ? "bg-black text-white"
@@ -172,9 +132,19 @@ function Feed() {
               >
                 Newest
               </button>
+              <button
+                onClick={() => changeFilter("most_play")}
+                className={`${
+                  filter === "most_play"
+                    ? "bg-black text-white"
+                    : "border-[1.5px] border-gray-300"
+                } gimmesong-secondary-font mr-1.5 flex h-10 shrink-0 items-center rounded-full px-3.5 text-xs font-semibold`}
+              >
+                Most play
+              </button>
               {user?.username && (
                 <button
-                  onClick={() => setFilter("my_request")}
+                  onClick={() => changeFilter("my_request")}
                   className={`${
                     filter === "my_request"
                       ? "bg-black text-white"
@@ -186,7 +156,7 @@ function Feed() {
               )}
             </div>
           </div>
-          <select
+          {/* <select
             value={lang}
             onChange={(e) => setLang(e.target.value)}
             className="block rounded-full border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
@@ -199,9 +169,9 @@ function Feed() {
             {!preferenceLang.includes(lang) && (
               <option value={lang}>{lang.toUpperCase()}</option>
             )}
-          </select>
+          </select> */}
         </div>
-        {loading ? (
+        {isLoading ? (
           <div className="my-12 flex items-center justify-center">
             <svg
               className="h-8 w-8 animate-spin text-gray-500"
@@ -225,11 +195,36 @@ function Feed() {
             </svg>
           </div>
         ) : items.length > 0 ? (
-          <div className="mt-4">
-            {items.map((item) => {
-              return <SongRequest key={item.id} data={item} />; //<div key={item.id}>{JSON.stringify(item)}</div>;
-            })}
-          </div>
+          <>
+            <div className="mt-6">
+              {items.map((item) => {
+                _feedCounter++;
+                const showAds = _feedCounter >= _adsRate;
+
+                if (showAds) _feedCounter = 0;
+
+                return showAds ? (
+                  <div key={`${item.id}`}>
+                    <div className="mb-4">
+                      <NativeBanner />
+                    </div>
+
+                    <PlaylistBubble data={item} />
+                  </div>
+                ) : (
+                  <PlaylistBubble key={`${item.id}`} data={item} />
+                );
+              })}
+            </div>
+            {hasNext && filter !== "most_play" && (
+              <button
+                onClick={loadMore}
+                className={`gimmesong-secondary-font mr-1.5 flex h-10 w-fit shrink-0 items-center self-center rounded-full border-[1.5px] border-gray-300 px-3.5 text-xs font-semibold`}
+              >
+                Load more
+              </button>
+            )}
+          </>
         ) : (
           <Empty
             title="Oops, What an empty space"
@@ -282,7 +277,7 @@ function Feed() {
         <AlertDialogContent borderRadius={36} marginX={4} py={4}>
           <div className="flex w-full items-center justify-between py-2 px-6">
             <div className="flex items-center">
-              <img className=" mr-1 h-7 w-7" src={annouce_emoji} alt="" />
+              <img className=" mr-1 h-7 w-7" src={annouceEmoji} alt="" />
               <span className="text-xl font-semibold">Request Songs</span>
             </div>
             <button
