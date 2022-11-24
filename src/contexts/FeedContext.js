@@ -18,8 +18,6 @@ const FeedProvider = ({ children }) => {
 
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  const [initialized, setInitialized] = useState(false);
-
   const [items, setItems] = useState([]);
   const [lang, setLang] = useState(tag);
   const [filter, setFilter] = useState("newest");
@@ -29,21 +27,25 @@ const FeedProvider = ({ children }) => {
   const [isError, setIsError] = useState(false);
 
   const fetchContent = async (options = {}) => {
-    const { loading = true, reset = false, limit = 20 } = options;
+    const {
+      loading = true,
+      reset = false,
+      filter = "newest",
+      limit = 20,
+    } = options;
 
     try {
-      setInitialized(true);
       setIsError(false);
       setIsLoading(loading);
 
       let results;
       let lastItem = reset ? null : items[items.length - 1]?.id;
 
-      const options = {
-        lastRequestId: lastItem,
-        limit,
-      };
-      console.log(options);
+      // const options = {
+      //   lastRequestId: lastItem,
+      //   limit,
+      // };
+      // console.log(options);
 
       if (filter === "most_play") {
         results = await GimmesongAPI.SongRequest.QueryMostView(lang, {
@@ -81,6 +83,11 @@ const FeedProvider = ({ children }) => {
     fetchContent({ loading: false, reset: false });
   };
 
+  const changeFilter = (val) => {
+    setFilter(val);
+    fetchContent({ loading: true, reset: true, filter: val });
+  };
+
   const onCreatedRequest = () => {
     setScrollPosition(0);
     fetchContent({ loading: true, reset: true });
@@ -103,12 +110,6 @@ const FeedProvider = ({ children }) => {
     fetchContent({ loading: true, reset: true });
   }, [pathname]);
 
-  useEffect(() => {
-    if (!initialized) return;
-
-    fetchContent({ loading: true, reset: true });
-  }, [filter, lang]);
-
   const feedStore = {
     isLoading,
     isError,
@@ -118,7 +119,7 @@ const FeedProvider = ({ children }) => {
       canLoadMore,
     },
     action: {
-      changeFilter: setFilter,
+      changeFilter,
       changeLang: setLang,
       loadMore,
       onCreatedRequest,
