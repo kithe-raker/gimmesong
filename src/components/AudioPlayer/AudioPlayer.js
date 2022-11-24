@@ -6,6 +6,9 @@ import {
   useImperativeHandle,
 } from "react";
 
+import { detect } from "detect-browser";
+import { durationToStr } from "@utils/audio";
+
 import { PlayerError } from "@lib/error";
 
 const AudioPlayer = forwardRef((props, ref) => {
@@ -24,6 +27,8 @@ const AudioPlayer = forwardRef((props, ref) => {
   const [playing, setPlaying] = useState(false);
 
   const audioRef = useRef(null);
+
+  const browser = detect();
 
   /**
    * @dev `useImperativeHandle` allow us to manipulate audio player state from parent component
@@ -76,6 +81,19 @@ const AudioPlayer = forwardRef((props, ref) => {
     }
   };
 
+  const stopAudio = () => {
+    if (!audioRef.current) return;
+    const audio = audioRef.current;
+
+    audio.pause();
+    audio.currentTime = 0;
+
+    setPlaying(false);
+
+    onToggle(false);
+    onLoading(false);
+  };
+
   const handleLoaded = () => {
     const audio = audioRef.current;
     setDuration(audio.duration);
@@ -86,6 +104,18 @@ const AudioPlayer = forwardRef((props, ref) => {
   const handleTimeUpdate = () => {
     const audio = audioRef.current;
     setCurTime(audio.currentTime);
+
+    if (browser.os === "iOS" || browser.name === "safari") {
+      if (audio.currentTime >= audio.duration / 2) {
+        console.log(
+          "Audio will force to stop playing at",
+          durationToStr(audio.currentTime)
+        );
+        stopAudio();
+
+        onEnded && onEnded();
+      }
+    }
   };
 
   const handlePlaying = () => {
@@ -116,17 +146,7 @@ const AudioPlayer = forwardRef((props, ref) => {
   useEffect(() => {
     if (src !== audioSrc) {
       setAudioSrc(src);
-
-      if (!audioRef.current) return;
-      const audio = audioRef.current;
-
-      audio.pause();
-      audio.currentTime = 0;
-
-      setPlaying(false);
-
-      onToggle(false);
-      onLoading(false);
+      stopAudio();
     }
   }, [src]);
 
