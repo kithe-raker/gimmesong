@@ -1,28 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-// import PasteLink from "./components/PasteLink.js";
-import Sent from "./components/Sent.js";
 import SearchSong from "./components/SearchSong.js";
 import WriteMessage from "./components/WriteMessage.js";
 
-import Loading from "@components/Loading";
-
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-// import { useParams } from "react-router-dom";
-
-import GimmesongAPI from "@lib/gimmesong_api";
-import Ads from "@lib/ads.js";
-
-function SendSong({ onSongAdded, shareLinkId, requestId, language }) {
-  // const { id } = useParams();
-  const navigate = useNavigate();
-
+function SendSong({ playlistInfo, onSongAdded }) {
   const [currentStep, setCurrentStep] = useState(1);
-  const [receiver, setReceiver] = useState(shareLinkId);
+  const [receiver, setReceiver] = useState(playlistInfo.shareLinkId);
   const [song, setSong] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [playListDetails, setplayListDetails] = useState(false);
 
   // Call Native banner ads
   // Ads.NativeBanner();
@@ -60,10 +44,10 @@ function SendSong({ onSongAdded, shareLinkId, requestId, language }) {
     case 2:
       render = (
         <WriteMessage
+          requiredPayload={playlistInfo}
+          onSongAdded={onSongAdded}
           receiver={receiver}
           song={song}
-          playListDetails={{ requestId, language }}
-          onSongAdded={onSongAdded}
         />
       );
       break;
@@ -76,7 +60,7 @@ function SendSong({ onSongAdded, shareLinkId, requestId, language }) {
 
   return (
     <div className="flex max-w-md flex-col items-center justify-center">
-      {loading ? <Loading fullScreens /> : render}
+      {render}
       {/* <div
         className="mt-12"
         id="container-b660ec7b99553839c4654ee4a1292d71"

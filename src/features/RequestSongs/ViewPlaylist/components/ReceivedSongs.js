@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useContext } from "react";
 
 import disc from "@assets/img/disc.png";
 import logo from "@assets/img/gimmesong_logo.png";
-import shushingEmoji from "@assets/img/shushing_emoji.png";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -10,11 +9,11 @@ import "slick-carousel/slick/slick-theme.css";
 
 import Empty from "./Empty";
 import AudioPlayer from "@components/AudioPlayer";
+import AddSongModal from "./AddSongModal";
 
 import { useSteps } from "@hooks/useSteps";
 
 // import { durationToStr } from "@utils/audio";
-import GimmesongAPI from "@lib/gimmesong_api";
 
 import html2canvas from "html2canvas";
 
@@ -35,18 +34,15 @@ import toast from "react-hot-toast";
 import { StreamingError, PlayerError } from "@lib/error";
 import { ThreeDots } from "react-loader-spinner";
 
-import { useNavigate } from "react-router-dom";
+import { PlaylistContext } from "contexts/PlaylistContext";
 
-function ReceivedSongs({
-  onOpenAddSong,
-  reload,
-  shareLinkId,
-  requestId,
-  language,
-  layout,
-  onLayoutChange,
-}) {
-  const navigate = useNavigate();
+import useDocumentTitle from "@hooks/useDocumentTitle";
+
+function ReceivedSongs({ layout, onLayoutChange }) {
+  const {
+    state: { isLoadingItems },
+    data: { items },
+  } = useContext(PlaylistContext);
 
   const { activeStep, setStep, skip, nextStep } = useSteps({
     totalSteps: 5,
@@ -59,13 +55,6 @@ function ReceivedSongs({
     setStep(1);
   };
 
-  const { isOpen: isSessionExpired, onOpen: onSessionExpired } =
-    useDisclosure();
-  const sessionExpiredCancelRef = useRef();
-  const reloadPage = () => {
-    window.location.reload();
-  };
-
   // const [exportMode, setExportMode] = useState("widget");
   const exportRef = useRef();
   const [exporting, setExporting] = useState(false);
@@ -75,17 +64,14 @@ function ReceivedSongs({
   const [playing, setPlaying] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
 
-  const [received, setReceived] = useState([]);
+  const [title, setTitle] = useState("");
+  useDocumentTitle(title);
 
   const slider = useRef(null);
   const [current, setCurrent] = useState(null);
 
   const [loadingStreamingData, setLoadingStreamingData] = useState(false);
   const [streamingError, setStreamingError] = useState(null);
-
-  const [updatingInbox, setUpdatingInbox] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
   const [playbackURL, setPlaybackURL] = useState({});
 
@@ -196,30 +182,7 @@ function ReceivedSongs({
     }
   };
 
-  const handleUpdateInbox = async (id) => {
-    try {
-      setUpdatingInbox(true);
-      // update played = true to database
-      await GimmesongAPI.playedInbox(id);
-      // set played = true to local variable
-      let updated = received.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              played: true,
-            }
-          : item
-      );
-      setUpdatingInbox(false);
-      setReceived(updated);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const handleToggle = async (id) => {
-    // if (!received[current].played) await handleUpdateInbox(id);
-
     try {
       // toggle audio player
       await audioRef.current.toggle();
@@ -256,17 +219,20 @@ function ReceivedSongs({
   // };
 
   const handleSwipe = async () => {
+    // set page title to current song title
+    setTitle(items[current]?.content?.song?.title);
+
     // always reset streaming error that occurred from previous song
     setStreamingError(null);
     try {
       // get videoplayback url here
-      const videoId = received[current]?.content?.song?.videoId;
+      const videoId = items[current]?.content?.song?.videoId;
       await getPlaybackURL(videoId);
     } catch (err) {
       let msg = "";
       if (err instanceof StreamingError) {
         setStreamingError({
-          id: received[current]?.id,
+          id: items[current]?.id,
         });
         msg =
           "Unfortunately, this song is unable to play on our App, Please try to open it on Youtube instead";
@@ -292,6 +258,10 @@ function ReceivedSongs({
 
   useEffect(() => {
     handleSwipe();
+  }, [items]);
+
+  useEffect(() => {
+    handleSwipe();
   }, [current]);
 
   /**
@@ -301,7 +271,7 @@ function ReceivedSongs({
    */
   useEffect(() => {
     if (layout === "single") {
-      if (received.length > 0) {
+      if (items.length > 0) {
         // by default in multiple layout current is null until user click select song
         if (current === null) setCurrent(0);
 
@@ -311,40 +281,10 @@ function ReceivedSongs({
     }
   }, [layout]);
 
-  const fetchInbox = async () => {
-    try {
-      setLoading(true);
-      setError(false);
-
-      console.log(requestId);
-
-      let results = await GimmesongAPI.SongRequest.QueryRequestItem(
-        language,
-        requestId,
-        { lastItemId: "", limit: 100 }
-      );
-
-      setReceived(results);
-      // if (tab === "new") {
-      //   if (results.length > 0) setCurrent(0);
-      // }
-    } catch (err) {
-      setError(true);
-      console.error(err);
-      if (err?.response?.status === 403) onSessionExpired();
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchInbox();
-  }, [reload]);
-
   return (
     <>
       <div className={`relative ${layout === "single" ? "w-full" : ""}`}>
-        {loading ? (
+        {isLoadingItems ? (
           <div className="my-12 flex items-center justify-center">
             <svg
               className="h-8 w-8 animate-spin text-gray-500"
@@ -367,7 +307,7 @@ function ReceivedSongs({
               ></path>
             </svg>
           </div>
-        ) : received.length > 0 ? (
+        ) : items.length > 0 ? (
           <>
             {layout === "single" ? (
               <>
@@ -377,18 +317,18 @@ function ReceivedSongs({
                   }`}
                 >
                   <Slider ref={slider} {...settings}>
-                    {received.map((item, i) => {
+                    {items.map((item, i) => {
                       return (
                         <div className="outline-none" key={i}>
                           <div className="flex flex-col items-center justify-center">
                             <div className="mt-6 w-[90%]">
                               <div
                                 className={`relative w-full pt-[100%] ${
-                                  received[current]?.id === item.id
+                                  items[current]?.id === item.id
                                     ? "animate-spin-slow"
                                     : ""
                                 } ${
-                                  !playing && received[current]?.id === item.id
+                                  !playing && items[current]?.id === item.id
                                     ? "animate-pause"
                                     : ""
                                 }`}
@@ -414,7 +354,7 @@ function ReceivedSongs({
                                 </div>
                               </div>
                             </div>
-                            {received[current]?.id === item.id && (
+                            {items[current]?.id === item.id && (
                               <span
                                 style={{
                                   wordBreak: "break-word",
@@ -438,16 +378,14 @@ function ReceivedSongs({
                   current !== null ? "pb-[88px]" : "pb-[24px]"
                 }`}
               >
-                {received.map((item, i) => (
+                {items.map((item, i) => (
                   <div
                     onClick={() => handleSelect(i)}
                     key={i}
                     className={`relative w-[160px] cursor-pointer pt-[100%] ${
-                      received[current]?.id === item.id
-                        ? "animate-spin-slow"
-                        : ""
+                      items[current]?.id === item.id ? "animate-spin-slow" : ""
                     } ${
-                      !playing && received[current]?.id === item.id
+                      !playing && items[current]?.id === item.id
                         ? "animate-pause"
                         : ""
                     }`}
@@ -474,13 +412,13 @@ function ReceivedSongs({
             )}
             {current !== null && (
               <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
-                {streamingError?.id == received[current]?.id && (
+                {streamingError?.id == items[current]?.id && (
                   <div
                     className="absolute -mt-[140px] inline-flex animate-bounce rounded-full shadow-sm"
                     role="group"
                   >
                     <a
-                      href={`https://music.youtube.com/watch?v=${received[current].content?.song?.videoId}`}
+                      href={`https://music.youtube.com/watch?v=${items[current].content?.song?.videoId}`}
                       target="_blank"
                       rel="noreferrer"
                       className={`inline-flex rounded-l-full bg-white py-3 px-4 text-sm font-medium text-gray-500`}
@@ -521,8 +459,8 @@ function ReceivedSongs({
                 <AudioPlayer
                   ref={audioRef}
                   src={
-                    playbackURL[received[current]?.content?.song?.videoId] &&
-                    playbackURL[received[current]?.content?.song?.videoId][
+                    playbackURL[items[current]?.content?.song?.videoId] &&
+                    playbackURL[items[current]?.content?.song?.videoId][
                       "audio/mp4"
                     ]
                   }
@@ -532,7 +470,7 @@ function ReceivedSongs({
                   loadingSource={loadingStreamingData}
                 />
                 <div
-                  onClick={() => handleToggle(received[current]?.id)}
+                  onClick={() => handleToggle(items[current]?.id)}
                   className="mr-4 flex h-16 w-[250px] cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4"
                 >
                   <div className="flex items-center overflow-hidden">
@@ -590,12 +528,12 @@ function ReceivedSongs({
                     </div>
                     <div className="mx-2.5 flex min-w-0 flex-col">
                       <span className="select-none truncate text-sm">
-                        {received[current]?.content?.song?.title}
+                        {items[current]?.content?.song?.title}
                       </span>
                       <span className="select-none truncate text-xs text-gray-500">
                         {
-                          received[current]?.content?.song?.artistInfo
-                            ?.artist[0]?.text
+                          items[current]?.content?.song?.artistInfo?.artist[0]
+                            ?.text
                         }
                       </span>
                     </div>
@@ -646,7 +584,7 @@ function ReceivedSongs({
                       }}
                       className="flex min-h-[384px] w-full items-center justify-center px-[54px] pt-[54px] pb-[120px] text-center text-[60px] font-semibold text-gray-800"
                     >
-                      {received[current]?.content?.message}
+                      {items[current]?.content?.message}
                     </p>
                     <div
                       className={`pointer-events-none flex h-[192px] w-full items-center justify-between rounded-full bg-white bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] p-[36px] pr-[48px] text-white hover:bg-gray-100`}
@@ -655,7 +593,7 @@ function ReceivedSongs({
                         <img
                           className="h-[120px] w-[120px] shrink-0 rounded-full object-contain"
                           src={
-                            received[current]?.content?.song?.thumbnails[0]?.url
+                            items[current]?.content?.song?.thumbnails[0]?.url
                           }
                           alt="thumbnail"
                           referrerPolicy="no-referrer"
@@ -665,13 +603,13 @@ function ReceivedSongs({
                           <span
                             className={`-mt-[25px] truncate text-[42px] font-light leading-[2]`}
                           >
-                            {received[current]?.content?.song?.title}
+                            {items[current]?.content?.song?.title}
                           </span>
                           <span
                             className={`-mt-[25px] truncate text-[36px] font-light leading-[2] text-white`}
                           >
                             {
-                              received[current]?.content?.song?.artistInfo
+                              items[current]?.content?.song?.artistInfo
                                 ?.artist[0]?.text
                             }
                           </span>
@@ -687,7 +625,6 @@ function ReceivedSongs({
                   isOpen={isOpen}
                   isCentered
                   size="md"
-                  scrollBehavior="outside"
                 >
                   <AlertDialogOverlay />
 
@@ -976,64 +913,10 @@ function ReceivedSongs({
             title="Oops, Such an empty playlist"
             message="Let's start sharing the link with someone, or start adding your favorite songs."
           >
-            <button
-              onClick={onOpenAddSong}
-              className="group mt-3 flex h-[42px] shrink-0 items-center justify-center rounded-full bg-black px-4 text-sm text-white shadow-sm"
-            >
-              <svg
-                className="mr-1"
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#FFFFFF"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-              <span className="gimmesong-secondary-font ml-1">Songs</span>
-            </button>
+            <AddSongModal className="mt-3" />
           </Empty>
         )}
       </div>
-      <AlertDialog
-        isOpen={isSessionExpired}
-        leastDestructiveRef={sessionExpiredCancelRef}
-        onClose={onClose}
-        isCentered
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent borderRadius={25} marginX={4}>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Sorry, Something went wrong
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Your session maybe expired, please try to re-loading this page
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button
-                borderRadius="25"
-                bgColor="black"
-                color="white"
-                h={42}
-                _hover={{ bg: "#000000" }}
-                _active={{
-                  bg: "#000000",
-                }}
-                onClick={reloadPage}
-              >
-                Reload
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
     </>
   );
 }
