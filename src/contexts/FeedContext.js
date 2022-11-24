@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect } from "react";
 import GimmesongAPI from "@lib/gimmesong_api";
-// import { useParams } from "react-router-dom";
 
 import { useLocation } from "react-router-dom";
 import useScrollPosition from "@hooks/useScrollPosition";
@@ -10,7 +9,6 @@ import LanguageTag from "@lib/languageTag";
 export const FeedContext = createContext();
 
 const FeedProvider = ({ children }) => {
-  // const { id: shareLinkId } = useParams();
   const scrollY = useScrollPosition();
   const { pathname } = useLocation();
 
@@ -21,18 +19,13 @@ const FeedProvider = ({ children }) => {
   const [items, setItems] = useState([]);
   const [lang, setLang] = useState(tag);
   const [filter, setFilter] = useState("newest");
-  const [canLoadMore, setCanLoadMore] = useState(true);
+  const [isHasNext, setIsHasNext] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const fetchContent = async (options = {}) => {
-    const {
-      loading = true,
-      reset = false,
-      filter = "newest",
-      limit = 20,
-    } = options;
+    const { loading = true, reset = false, filter, limit = 20 } = options;
 
     try {
       setIsError(false);
@@ -40,12 +33,6 @@ const FeedProvider = ({ children }) => {
 
       let results;
       let lastItem = reset ? null : items[items.length - 1]?.id;
-
-      // const options = {
-      //   lastRequestId: lastItem,
-      //   limit,
-      // };
-      // console.log(options);
 
       if (filter === "most_play") {
         results = await GimmesongAPI.SongRequest.QueryMostView(lang, {
@@ -66,11 +53,11 @@ const FeedProvider = ({ children }) => {
 
       if (reset) {
         setItems(results);
-        setCanLoadMore(true);
+        setIsHasNext(true);
       } else {
         setItems([...items, ...results]);
       }
-      if (results.length === 0) setCanLoadMore(false);
+      if (results.length === 0) setIsHasNext(false);
     } catch (err) {
       setIsError(true);
       console.error(err);
@@ -103,7 +90,7 @@ const FeedProvider = ({ children }) => {
   };
 
   const loadMore = () => {
-    fetchContent({ loading: false, reset: false });
+    fetchContent({ loading: false, reset: false, filter });
   };
 
   const changeFilter = (val) => {
@@ -113,12 +100,8 @@ const FeedProvider = ({ children }) => {
 
   const onCreatedRequest = () => {
     setScrollPosition(0);
-    fetchContent({ loading: true, reset: true });
+    fetchContent({ loading: true, reset: true, filter });
   };
-
-  useEffect(() => {
-    console.log(items);
-  }, [items]);
 
   useEffect(() => {
     if (!pathname.startsWith("/request")) return;
@@ -128,24 +111,24 @@ const FeedProvider = ({ children }) => {
   useEffect(() => {
     if (!pathname.startsWith("/request")) return;
     window.scrollTo(0, scrollPosition);
-
-    if (items.length > 0) return;
-    fetchContent({ loading: true, reset: true });
   }, [pathname]);
 
   const feedStore = {
-    isLoading,
-    isError,
+    state: {
+      isLoading,
+      isError,
+      isHasNext,
+    },
     data: {
-      filter,
       items,
-      canLoadMore,
+      filter,
     },
     action: {
       changeFilter,
       changeLang: setLang,
       loadMore,
       onCreatedRequest,
+      fetchContent,
       updateFeedItemInfo,
     },
   };

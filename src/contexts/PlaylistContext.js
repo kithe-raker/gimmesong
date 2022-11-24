@@ -71,14 +71,15 @@ const PlaylistProvider = ({ children }) => {
   }, [playlistInfo]);
 
   const playlistStore = {
-    isLoadingInfo,
-    isLoadingItems,
-    isError,
     data: {
       playlistInfo,
       items,
     },
-    state: {},
+    state: {
+      isLoadingInfo,
+      isLoadingItems,
+      isError,
+    },
     action: {
       fetchPlaylistItems,
     },

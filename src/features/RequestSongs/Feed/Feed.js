@@ -1,11 +1,6 @@
 import { useState, useEffect, useRef, useContext } from "react";
 
-import { useNavigate } from "react-router-dom";
-import useSession from "@hooks/useSession";
-
-import GimmesongAPI from "@lib/gimmesong_api";
 import PlaylistBubble from "@components/PlaylistBubble";
-
 import Empty from "./components/Empty";
 import NewRequest from "../NewRequest";
 
@@ -27,48 +22,33 @@ import annouceEmoji from "@assets/img/annouce_emoji.png";
 import { FeedContext } from "contexts/FeedContext";
 import NativeBanner from "@components/Adsense/NativeBanner";
 
+import useSession from "@hooks/useSession";
+import { useLocation } from "react-router-dom";
+
 function Feed() {
   const {
-    isLoading,
-    data: { items, filter, canLoadMore },
-    action: { loadMore, changeFilter },
+    state: { isLoading, isHasNext },
+    data: { items, filter },
+    action: { loadMore, changeFilter, fetchContent },
   } = useContext(FeedContext);
+
+  const { state } = useLocation();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
   const { user } = useSession();
 
-  const navigate = useNavigate();
   const tag = LanguageTag.getPreferenceLanguage();
+  const preferenceLang = ["th", "en"];
 
   // How many feed item per one ads banner
   const _adsRate = 10;
   var _feedCounter = 0;
 
-  // const [items, setItems] = useState([]);
-  // const [lang, setLang] = useState(tag);
-  // const [filter, setFilter] = useState("newest");
-
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(false);
-  // const [canLoadMore, setCanLoadMore] = useState(true);
-
   const [FromInAppBrowser, setFromInAppBrowser] = useState(false);
 
-  const preferenceLang = ["th", "en"];
-
   const handleOpenRequestSong = () => {
-    // if (!user?.username) {
-    //   toast("Please sign in before start requesting songs from others.", {
-    //     style: {
-    //       borderRadius: "25px",
-    //       background: "#FF6464",
-    //       color: "#fff",
-    //     },
-    //   });
-    //   return;
-    // }
     onOpen();
   };
 
@@ -96,54 +76,17 @@ function Feed() {
       : signInWithGoogle();
   };
 
-  // const fetchFeed = async (loading = true, reset = false) => {
-  //   try {
-  //     if (loading) setLoading(true);
-  //     setError(false);
-
-  //     let results;
-  //     let lastItem = reset ? null : items[items.length - 1]?.id;
-
-  //     if (filter === "most_play") {
-  //       results = await GimmesongAPI.SongRequest.QueryMostView(lang, {
-  //         lastRequestId: lastItem,
-  //         limit: 20,
-  //       });
-  //     } else if (filter === "newest") {
-  //       results = await GimmesongAPI.SongRequest.QueryNewest(lang, {
-  //         lastRequestId: lastItem,
-  //         limit: 20,
-  //       });
-  //     } else if (filter === "my_request") {
-  //       results = await GimmesongAPI.SongRequest.QueryUserRequest({
-  //         lastRequestId: lastItem,
-  //         limit: 20,
-  //       });
-  //     }
-
-  //     if (reset) {
-  //       setItems(results);
-  //       setCanLoadMore(true);
-  //     } else {
-  //       setItems([...items, ...results]);
-  //     }
-
-  //     if (results.length === 0) setCanLoadMore(false);
-  //   } catch (err) {
-  //     setError(true);
-  //     console.error(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const loadMore = () => {
-  //   fetchFeed(false);
-  // };
-
-  // useEffect(() => {
-  //   fetchFeed(true, true);
-  // }, [filter, lang]);
+  /**
+   * @notice To prevents the user's scroll from being reset.
+   * @dev before run this effect, we need to make sure that feed items is empty
+   * and navigate state.reload is true
+   * only thing to make the state.reload is true,
+   * user need to navigate by pressing menu from the navbar.
+   */
+  useEffect(() => {
+    if (items.length > 0 && !state?.reload) return;
+    fetchContent({ loading: true, reset: true, filter });
+  }, [state]);
 
   return (
     <div className="mx-auto flex w-full max-w-md flex-col items-center py-6 pt-[60px]">
@@ -158,7 +101,6 @@ function Feed() {
               BETA
             </span>
           </div>
-
           {/* <button className="flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -274,7 +216,7 @@ function Feed() {
                 );
               })}
             </div>
-            {canLoadMore && filter !== "most_play" && (
+            {isHasNext && filter !== "most_play" && (
               <button
                 onClick={loadMore}
                 className={`gimmesong-secondary-font mr-1.5 flex h-10 w-fit shrink-0 items-center self-center rounded-full border-[1.5px] border-gray-300 px-3.5 text-xs font-semibold`}

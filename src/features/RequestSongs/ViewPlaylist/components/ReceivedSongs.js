@@ -40,7 +40,7 @@ import useDocumentTitle from "@hooks/useDocumentTitle";
 
 function ReceivedSongs({ layout, onLayoutChange }) {
   const {
-    isLoadingItems,
+    state: { isLoadingItems },
     data: { items },
   } = useContext(PlaylistContext);
 
