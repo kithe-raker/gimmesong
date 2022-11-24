@@ -34,7 +34,7 @@ function ViewPlaylist() {
   Ads.VignetteBanner();
 
   const {
-    isLoadingInfo,
+    state: { isLoadingInfo },
     data: { playlistInfo },
   } = useContext(PlaylistContext);
 

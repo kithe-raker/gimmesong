@@ -73,7 +73,9 @@ function Header() {
                 </svg>
               </button>
               <button
-                onClick={() => navigate("/request")}
+                onClick={() =>
+                  navigate("/request", { state: { reload: true } })
+                }
                 className={`group mr-1.5 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-white shadow-sm ${
                   location.pathname === "/request" ||
                   location.pathname === "/request/new"

@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
-import SearchSongBanner from "@components/Adsense/SearchSongBanner.js";
+import Ads from "@lib/ads.js";
 
 function Search() {
   const { username } = useParams();
@@ -22,6 +22,9 @@ function Search() {
   const [receiver, setReceiver] = useState(null);
   const [song, setSong] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // Call Native banner ads
+  Ads.NativeBanner();
 
   // if path contain /@:username this effect will run
   useEffect(() => {
@@ -105,9 +108,10 @@ function Search() {
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
       {loading ? <Loading fullScreens /> : render}
-      <div className=" h-8 w-full mt-6">
-        <SearchSongBanner />
-      </div>
+      <div
+        className="mt-12"
+        id="container-b660ec7b99553839c4654ee4a1292d71"
+      ></div>
     </div>
   );
 }
