@@ -27,7 +27,7 @@ import { useLocation } from "react-router-dom";
 
 function Feed() {
   const {
-    state: { isLoading, isHasNext },
+    state: { isLoading, hasNext },
     data: { items, filter },
     action: { loadMore, changeFilter, fetchContent },
   } = useContext(FeedContext);
@@ -216,7 +216,7 @@ function Feed() {
                 );
               })}
             </div>
-            {isHasNext && filter !== "most_play" && (
+            {hasNext && filter !== "most_play" && (
               <button
                 onClick={loadMore}
                 className={`gimmesong-secondary-font mr-1.5 flex h-10 w-fit shrink-0 items-center self-center rounded-full border-[1.5px] border-gray-300 px-3.5 text-xs font-semibold`}

@@ -19,7 +19,7 @@ const FeedProvider = ({ children }) => {
   const [items, setItems] = useState([]);
   const [lang, setLang] = useState(tag);
   const [filter, setFilter] = useState("newest");
-  const [isHasNext, setIsHasNext] = useState(true);
+  const [hasNext, setHasNext] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -53,11 +53,11 @@ const FeedProvider = ({ children }) => {
 
       if (reset) {
         setItems(results);
-        setIsHasNext(true);
+        setHasNext(true);
       } else {
         setItems([...items, ...results]);
       }
-      if (results.length === 0) setIsHasNext(false);
+      if (results.length === 0) setHasNext(false);
     } catch (err) {
       setIsError(true);
       console.error(err);
@@ -117,7 +117,7 @@ const FeedProvider = ({ children }) => {
     state: {
       isLoading,
       isError,
-      isHasNext,
+      hasNext,
     },
     data: {
       items,
