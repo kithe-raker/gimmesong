@@ -78,6 +78,7 @@ const PlaylistProvider = ({ children }) => {
       playlistInfo,
       items,
     },
+    state: {},
     action: {
       fetchPlaylistItems,
     },

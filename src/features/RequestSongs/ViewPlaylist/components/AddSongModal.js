@@ -15,8 +15,13 @@ import toast from "react-hot-toast";
 
 import { signInWithGoogle } from "@lib/firebase";
 import { PlaylistContext } from "contexts/PlaylistContext";
+import { FeedContext } from "contexts/FeedContext";
 
 function AddSongModal({ className }) {
+  const {
+    action: { updateFeedItemInfo },
+  } = useContext(FeedContext);
+
   const {
     data: { playlistInfo },
     action: { fetchPlaylistItems },
@@ -30,6 +35,7 @@ function AddSongModal({ className }) {
 
   const handleSongAdded = async () => {
     onClose();
+    await updateFeedItemInfo(playlistInfo.shareLinkId);
     await fetchPlaylistItems();
   };
 
