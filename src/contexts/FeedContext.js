@@ -79,6 +79,27 @@ const FeedProvider = ({ children }) => {
     }
   };
 
+  const updateFeedItemInfo = async (shareLinkId) => {
+    try {
+      setIsError(false);
+
+      const _playlistInfo = await GimmesongAPI.SongRequest.GetDetailsByLinkId(
+        shareLinkId
+      );
+
+      if (_playlistInfo?.exists) {
+        let _playlist = _playlistInfo.details;
+        let updated = items.map((item) =>
+          item.id === _playlist.id ? { ..._playlist } : item
+        );
+        setItems(updated);
+      }
+    } catch (err) {
+      setIsError(true);
+      console.error(err);
+    }
+  };
+
   const loadMore = () => {
     fetchContent({ loading: false, reset: false });
   };
@@ -123,6 +144,7 @@ const FeedProvider = ({ children }) => {
       changeLang: setLang,
       loadMore,
       onCreatedRequest,
+      updateFeedItemInfo,
     },
   };
 
