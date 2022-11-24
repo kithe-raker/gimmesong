@@ -39,7 +39,7 @@ function Tutorial() {
           <WhereLink />
           <WhereSongs />
           <HowGive />
-          {/* <HowShare /> */}
+          <HowShare />
         </div>
       </div>
     </div>
