@@ -258,6 +258,10 @@ function ReceivedSongs({ layout, onLayoutChange }) {
 
   useEffect(() => {
     handleSwipe();
+  }, [items]);
+
+  useEffect(() => {
+    handleSwipe();
   }, [current]);
 
   /**

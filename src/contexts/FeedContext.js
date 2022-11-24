@@ -80,6 +80,8 @@ const FeedProvider = ({ children }) => {
   };
 
   const updateFeedItemInfo = async (shareLinkId) => {
+    if (items.length === 0) return;
+
     try {
       setIsError(false);
 
