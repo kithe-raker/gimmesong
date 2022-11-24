@@ -12,6 +12,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "@styles/index.css";
 import "@styles/custom.css";
 
+console.log(process.env.APP_ENV);
+
 // disable console log on production
 if (process.env.NODE_ENV !== "development") console.log = () => {};
 
