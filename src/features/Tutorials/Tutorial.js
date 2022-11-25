@@ -7,6 +7,7 @@ import HowShare from "./components/HowShare";
 import HowGive from "./components/HowGive";
 
 import Confuse from "@assets/img/confuse_emoji.png";
+import NewRequest from "./components/NewRequest";
 
 function Tutorial() {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ function Tutorial() {
           <WhereSongs />
           <HowGive />
           <HowShare />
+          <NewRequest />
         </div>
       </div>
     </div>
