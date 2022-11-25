@@ -105,7 +105,7 @@ function Search() {
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
       {loading ? <Loading fullScreens /> : render}
-      <div className=" h-full w-full mt-6">
+      <div className=" relative mt-6 h-full w-full max-w-full">
         <SearchSongBanner />
       </div>
     </div>
