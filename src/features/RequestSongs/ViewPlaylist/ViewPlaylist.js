@@ -114,7 +114,7 @@ function ViewPlaylist() {
                 ? "Anonymous"
                 : `@${playlistInfo.requester.username}`}
             </span>
-            <span className="mt-1 px-4 text-center font-semibold line-clamp-2">
+            <span className="mt-1 max-w-full px-4 text-center font-semibold line-clamp-2">
               {playlistInfo.message}
             </span>
             <div className="mt-2 inline-flex rounded-full" role="group">
