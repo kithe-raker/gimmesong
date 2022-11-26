@@ -37,12 +37,27 @@ import { ThreeDots } from "react-loader-spinner";
 import { PlaylistContext } from "contexts/PlaylistContext";
 
 import useDocumentTitle from "@hooks/useDocumentTitle";
+import useScrollPosition from "@hooks/useScrollPosition";
+import { useInView } from "react-cool-inview";
 
 function ReceivedSongs({ layout, onLayoutChange }) {
   const {
-    state: { isLoadingItems },
+    state: { isLoadingItems, isLoadingMore, hasNext },
     data: { items },
+    action: { fetchPlaylistItems, shouldLoadMore, loadMore },
   } = useContext(PlaylistContext);
+
+  const { observe: loadMoreRef } = useInView({
+    // For better UX, we can grow the root margin so the data will be loaded earlier
+    rootMargin: "50px 0px",
+    // When the last item comes to the viewport
+    onEnter: () => {
+      if (hasNext && !isLoadingMore) loadMore(20);
+    },
+  });
+
+  const scrollY = useScrollPosition();
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   const { activeStep, setStep, skip, nextStep } = useSteps({
     totalSteps: 5,
@@ -218,7 +233,9 @@ function ReceivedSongs({ layout, onLayoutChange }) {
   //   if (layout === "single") sliderGoTo(nextTrackIndex);
   // };
 
-  const handleSwipe = async () => {
+  const handleTrackChange = async () => {
+    if (shouldLoadMore(current, 6) && hasNext && !isLoadingMore) loadMore(6);
+
     // set page title to current song title
     setTitle(items[current]?.content?.song?.title);
 
@@ -257,11 +274,12 @@ function ReceivedSongs({ layout, onLayoutChange }) {
   };
 
   useEffect(() => {
-    handleSwipe();
+    // handleTrackChange();
   }, [items]);
 
   useEffect(() => {
-    handleSwipe();
+    if (current === null) return;
+    handleTrackChange();
   }, [current]);
 
   /**
@@ -270,16 +288,30 @@ function ReceivedSongs({ layout, onLayoutChange }) {
    * then scroll slider to index
    */
   useEffect(() => {
-    if (layout === "single") {
-      if (items.length > 0) {
+    if (items.length > 0) {
+      if (layout === "single") {
         // by default in multiple layout current is null until user click select song
         if (current === null) setCurrent(0);
 
         // use setTimeout to prevent element ref is null
         setTimeout(() => sliderGoTo(current), 100);
+      } else if (layout === "multiple") {
+        window.scrollTo(0, scrollPosition);
+        // if (current === null) return; // do nothing
+        // const el = document.querySelector(`[data-id="${items[current].id}"]`);
+        // el.scrollIntoView({ block: "center" });
       }
     }
   }, [layout]);
+
+  useEffect(() => {
+    fetchPlaylistItems();
+  }, []);
+
+  useEffect(() => {
+    if (layout !== "multiple") return;
+    setScrollPosition(scrollY);
+  }, [scrollY]);
 
   return (
     <>
@@ -319,7 +351,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                   <Slider ref={slider} {...settings}>
                     {items.map((item, i) => {
                       return (
-                        <div className="outline-none" key={i}>
+                        <div className="outline-none" key={item.id}>
                           <div className="flex flex-col items-center justify-center">
                             <div className="mt-6 w-[90%]">
                               <div
@@ -373,43 +405,76 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                 </div>
               </>
             ) : (
-              <div
-                className={`grid grid-cols-2 gap-4 overflow-x-hidden pt-4 ${
-                  current !== null ? "pb-[88px]" : "pb-[24px]"
-                }`}
-              >
-                {items.map((item, i) => (
-                  <div
-                    onClick={() => handleSelect(i)}
-                    key={i}
-                    className={`relative w-[160px] cursor-pointer pt-[100%] ${
-                      items[current]?.id === item.id ? "animate-spin-slow" : ""
-                    } ${
-                      !playing && items[current]?.id === item.id
-                        ? "animate-pause"
-                        : ""
-                    }`}
-                  >
-                    <img
-                      className="absolute inset-0 h-full w-full select-none object-contain"
-                      src={disc}
-                      alt="disc"
-                    />
-                    <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                      {item.content?.song?.thumbnails?.length > 0 && (
-                        <img
-                          className="h-[27%] w-[27%] select-none rounded-full object-contain"
-                          src={item.content?.song?.thumbnails[0]?.url}
-                          alt="thumbnail"
-                          referrerPolicy="no-referrer"
-                          crossOrigin="anonymous"
-                        />
-                      )}
+              <>
+                <div
+                  className={`grid grid-cols-2 gap-4 overflow-x-hidden pt-4`}
+                >
+                  {items.map((item, i) => (
+                    <div
+                      onClick={() => handleSelect(i)}
+                      data-id={item.id}
+                      key={item.id}
+                      className={`relative w-[160px] cursor-pointer pt-[100%] ${
+                        items[current]?.id === item.id
+                          ? "animate-spin-slow"
+                          : ""
+                      } ${
+                        !playing && items[current]?.id === item.id
+                          ? "animate-pause"
+                          : ""
+                      }`}
+                    >
+                      <img
+                        className="absolute inset-0 h-full w-full select-none object-contain"
+                        src={disc}
+                        alt="disc"
+                      />
+                      <div className="absolute inset-0 flex h-full w-full items-center justify-center">
+                        {item.content?.song?.thumbnails?.length > 0 && (
+                          <img
+                            className="h-[27%] w-[27%] select-none rounded-full object-contain"
+                            src={item.content?.song?.thumbnails[0]?.url}
+                            alt="thumbnail"
+                            referrerPolicy="no-referrer"
+                            crossOrigin="anonymous"
+                          />
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+                <div
+                  ref={loadMoreRef}
+                  className={`flex items-center justify-center ${
+                    current !== null ? "pb-[88px]" : "pb-[24px]"
+                  }`}
+                >
+                  {hasNext && (
+                    <svg
+                      className="my-12 h-8 w-8 animate-spin text-gray-500"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  )}
+                </div>
+              </>
             )}
+
             {current !== null && (
               <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
                 {streamingError?.id == items[current]?.id && (

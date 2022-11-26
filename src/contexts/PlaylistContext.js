@@ -1,20 +1,18 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useMemo, useCallback } from "react";
 import GimmesongAPI from "@lib/gimmesong_api";
-import { useParams } from "react-router-dom";
 
 export const PlaylistContext = createContext();
 
 const PlaylistProvider = ({ children }) => {
-  const { id: shareLinkId } = useParams();
-
   const [playlistInfo, setPlaylistInfo] = useState(null);
   const [items, setItems] = useState([]);
 
   const [isLoadingInfo, setIsLoadingInfo] = useState(true);
   const [isLoadingItems, setIsLoadingItems] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  const fetchPlaylistInfo = async () => {
+  const fetchPlaylistInfo = async (shareLinkId) => {
     try {
       setIsLoadingInfo(true);
       setIsError(false);
@@ -40,10 +38,11 @@ const PlaylistProvider = ({ children }) => {
   };
 
   const fetchPlaylistItems = async (options = {}) => {
-    const { reset = true, limit = 100 } = options;
+    const { loading = true, reset = true, limit = 20 } = options;
 
     try {
-      setIsLoadingItems(true);
+      setIsLoadingMore(!reset);
+      setIsLoadingItems(loading);
       setIsError(false);
 
       let _items = await GimmesongAPI.SongRequest.QueryRequestItem(
@@ -51,24 +50,49 @@ const PlaylistProvider = ({ children }) => {
         playlistInfo.id,
         { lastItemId: reset ? null : items[items.length - 1]?.id, limit }
       );
-
-      setItems(_items);
+      if (reset) {
+        setItems(_items);
+      } else {
+        setItems([...items, ..._items]);
+      }
     } catch (err) {
       setIsError(true);
       console.error(err);
     } finally {
+      setIsLoadingMore(false);
       setIsLoadingItems(false);
     }
   };
 
-  useEffect(() => {
-    fetchPlaylistInfo();
-  }, []);
+  const loadMore = (limit) => {
+    fetchPlaylistItems({ loading: false, reset: false, limit });
+  };
 
-  useEffect(() => {
-    if (!playlistInfo) return;
-    fetchPlaylistItems();
-  }, [playlistInfo]);
+  /**
+   * @notice
+   * @dev
+   */
+  const hasNext = useMemo(() => {
+    if (!playlistInfo) return false;
+    const local = items.length - 1;
+    const remote = playlistInfo.counter - 1;
+    return remote > local;
+  }, [items]);
+
+  /**
+   * @notice
+   * @dev
+   * @param {Integer} current current track index
+   * @param {Integer} expectedRemaining
+   */
+  const shouldLoadMore = useCallback(
+    (current, expectedRemaining) => {
+      if (!playlistInfo) return false;
+      const local = items.length - 1;
+      return local - current < expectedRemaining;
+    },
+    [items]
+  );
 
   const playlistStore = {
     data: {
@@ -78,10 +102,15 @@ const PlaylistProvider = ({ children }) => {
     state: {
       isLoadingInfo,
       isLoadingItems,
+      isLoadingMore,
       isError,
+      hasNext,
     },
     action: {
+      fetchPlaylistInfo,
       fetchPlaylistItems,
+      shouldLoadMore,
+      loadMore,
     },
   };
 

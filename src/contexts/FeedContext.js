@@ -9,11 +9,11 @@ import LanguageTag from "@lib/languageTag";
 export const FeedContext = createContext();
 
 const FeedProvider = ({ children }) => {
-  const scrollY = useScrollPosition();
   const { pathname } = useLocation();
 
   const tag = LanguageTag.getPreferenceLanguage();
 
+  const scrollY = useScrollPosition();
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const [items, setItems] = useState([]);
@@ -22,6 +22,7 @@ const FeedProvider = ({ children }) => {
   const [hasNext, setHasNext] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(true);
   const [isError, setIsError] = useState(false);
 
   const fetchContent = async (options = {}) => {
@@ -30,6 +31,7 @@ const FeedProvider = ({ children }) => {
     try {
       setIsError(false);
       setIsLoading(loading);
+      setIsLoadingMore(!reset);
 
       let results;
       let lastItem = reset ? null : items[items.length - 1]?.id;
@@ -63,6 +65,7 @@ const FeedProvider = ({ children }) => {
       console.error(err);
     } finally {
       setIsLoading(false);
+      setIsLoadingMore(false);
     }
   };
 
@@ -89,8 +92,8 @@ const FeedProvider = ({ children }) => {
     }
   };
 
-  const loadMore = () => {
-    fetchContent({ loading: false, reset: false, filter });
+  const loadMore = (limit) => {
+    fetchContent({ loading: false, reset: false, filter, limit });
   };
 
   const changeFilter = (val) => {
@@ -116,6 +119,7 @@ const FeedProvider = ({ children }) => {
   const feedStore = {
     state: {
       isLoading,
+      isLoadingMore,
       isError,
       hasNext,
     },

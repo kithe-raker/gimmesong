@@ -6,10 +6,7 @@ const _apiUrl = {
 };
 
 const instance = axios.create({
-  baseURL:
-    process.env.NODE_ENV !== "development"
-      ? _apiUrl.production
-      : _apiUrl.development,
+  baseURL: "https://gimmesong-api-giculn566q-uc.a.run.app",
 });
 
 const getToken = () => {
