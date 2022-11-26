@@ -6,6 +6,7 @@ import logo from "@assets/img/gimmesong_logo.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "@styles/slick-slider-custom.css";
 
 import Empty from "./Empty";
 import AudioPlayer from "@components/AudioPlayer";
@@ -315,7 +316,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
 
   return (
     <>
-      <div className={`relative ${layout === "single" ? "w-full" : ""}`}>
+      <div className={`relative ${layout === "single" ? "w-full" : ""} h-full`}>
         {isLoadingItems ? (
           <div className="my-12 flex items-center justify-center">
             <svg
@@ -344,14 +345,14 @@ function ReceivedSongs({ layout, onLayoutChange }) {
             {layout === "single" ? (
               <>
                 <div
-                  className={`overflow-hidden ${
+                  className={`h-full overflow-hidden ${
                     current !== null ? "pb-[88px]" : "pb-[24px]"
                   }`}
                 >
                   <Slider ref={slider} {...settings}>
                     {items.map((item, i) => {
                       return (
-                        <div className="outline-none" key={item.id}>
+                        <div className="h-full outline-none" key={item.id}>
                           <div className="flex flex-col items-center justify-center">
                             <div className="mt-6 w-[90%]">
                               <div
@@ -386,17 +387,19 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                                 </div>
                               </div>
                             </div>
-                            {items[current]?.id === item.id && (
-                              <span
-                                style={{
-                                  wordBreak: "break-word",
-                                  whiteSpace: "pre-line",
-                                }}
-                                className="mt-6 w-full text-center text-xl leading-6 text-gray-700"
-                              >
-                                {item.content?.message}
-                              </span>
-                            )}
+                            <span
+                              style={{
+                                wordBreak: "break-word",
+                                whiteSpace: "pre-line",
+                                visibility:
+                                  items[current]?.id === item.id
+                                    ? "visible"
+                                    : "hidden",
+                              }}
+                              className="mt-6 h-[72px] w-full overflow-y-auto text-center text-[20px] leading-[24px] text-gray-700"
+                            >
+                              {item.content?.message}
+                            </span>
                           </div>
                         </div>
                       );

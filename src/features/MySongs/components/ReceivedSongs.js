@@ -7,6 +7,7 @@ import shushingEmoji from "@assets/img/shushing_emoji.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "@styles/slick-slider-custom.css";
 
 import EmptySong from "./EmptySong";
 import AudioPlayer from "@components/AudioPlayer";
@@ -39,6 +40,7 @@ import useDocumentTitle from "@hooks/useDocumentTitle";
 
 import { useSessionExpired } from "@hooks/useSessionExpired";
 import useCounterEffect from "@hooks/useCounterEffect";
+import useScrollPosition from "@hooks/useScrollPosition";
 
 function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const { activeStep, setStep, skip, nextStep } = useSteps({
@@ -59,10 +61,13 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const [exporting, setExporting] = useState(false);
   const [exportedURL, setExportedURL] = useState(null);
 
+  const scrollY = useScrollPosition();
+  const [scrollPosition, setScrollPosition] = useState(0);
+
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
-  const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const [isAutoPlay, setIsAutoPlay] = useState(false);
 
   const {
     counter: upNextCounter,
@@ -320,13 +325,15 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
    * then scroll slider to index
    */
   useEffect(() => {
-    if (layout === "single") {
-      if (items.length > 0) {
+    if (items.length > 0) {
+      if (layout === "single") {
         // by default in multiple layout current is null until user click select song
         if (current === null) setCurrent(0);
 
         // use setTimeout to prevent element ref is null
         setTimeout(() => sliderGoTo(current), 100);
+      } else if (layout === "multiple") {
+        window.scrollTo(0, scrollPosition);
       }
     }
   }, [layout]);
@@ -364,10 +371,15 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     fetchInbox();
   }, [tab]);
 
+  useEffect(() => {
+    if (layout !== "multiple") return;
+    setScrollPosition(scrollY);
+  }, [scrollY]);
+
   return (
     <>
       <SessionExpired />
-      <div className={`relative ${layout === "single" ? "w-full" : ""}`}>
+      <div className={`relative ${layout === "single" ? "w-full" : ""} h-full`}>
         {loading ? (
           <div className="my-12 flex items-center justify-center">
             <svg
@@ -396,14 +408,14 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
             {layout === "single" ? (
               <>
                 <div
-                  className={`overflow-hidden ${
+                  className={`h-full overflow-hidden ${
                     current !== null ? "pb-[88px]" : "pb-[24px]"
                   }`}
                 >
                   <Slider ref={slider} {...settings}>
                     {items.map((item, i) => {
                       return (
-                        <div className="outline-none" key={i}>
+                        <div className="h-full outline-none" key={i}>
                           <div className="flex flex-col items-center justify-center">
                             <div className="mt-6 w-[90%]">
                               <div
@@ -448,17 +460,19 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                                 )}
                               </div>
                             </div>
-                            {items[current]?.id === item.id && (
-                              <span
-                                style={{
-                                  wordBreak: "break-word",
-                                  whiteSpace: "pre-line",
-                                }}
-                                className="mt-6 w-full text-center text-xl leading-6 text-gray-700"
-                              >
-                                {item.content?.message}
-                              </span>
-                            )}
+                            <span
+                              style={{
+                                wordBreak: "break-word",
+                                whiteSpace: "pre-line",
+                                visibility:
+                                  items[current]?.id === item.id
+                                    ? "visible"
+                                    : "hidden",
+                              }}
+                              className="mt-6 h-[72px] w-full overflow-y-auto text-center text-[20px] leading-[24px] text-gray-700"
+                            >
+                              {item.content?.message}
+                            </span>
                           </div>
                         </div>
                       );
@@ -567,7 +581,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   onLoading={setLoadingAudio}
                   onEnded={handleTrackEnded}
                   onError={handlePlayerError}
-                  autoPlayAfterSrcChange={true}
+                  autoPlayAfterSrcChange={isAutoPlay}
                   loadingSource={loadingStreamingData}
                 />
                 {!items[current]?.played ? (

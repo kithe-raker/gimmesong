@@ -46,7 +46,7 @@ function ViewPlaylist() {
   }, []);
 
   return (
-    <div className="relative mx-auto flex max-w-md flex-col items-center py-6 pt-[60px]">
+    <div className="relative mx-auto flex h-full max-w-md flex-col items-center py-6 pt-[60px]">
       <div className="gimmesong-bg fixed top-0 z-50 flex h-16 w-full max-w-md items-center justify-between px-2.5">
         <button
           onClick={() => navigate("/request")}
@@ -103,7 +103,7 @@ function ViewPlaylist() {
       {isLoadingInfo ? (
         <Loading fullScreen />
       ) : playlistInfo ? (
-        <div className="flex w-full max-w-md flex-col items-center">
+        <div className="flex h-full w-full max-w-md flex-col items-center">
           <div className="gimmesong-bg sticky top-[60px] z-[49] flex w-full flex-col items-center p-3">
             <span className="bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-center text-2xl font-semibold text-transparent">
               {playlistInfo.isAnonymous
