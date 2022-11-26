@@ -20,7 +20,7 @@ function SignUp() {
   const handleUsernameChange = (val) => {
     setUsername(val);
 
-    if (isNotValid) return;
+    if (val.length < 2) return;
     setLoading(true);
     setError(false);
 
