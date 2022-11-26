@@ -14,15 +14,30 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import First from "../assets/HowGive/1.png";
-import Second from "../assets/HowGive/2.png";
-import Third from "../assets/HowGive/3.png";
-import Forth from "../assets/HowGive/4.png";
+import pink from "../assets/AppShortcut/icon/pink.png";
+import white from "../assets/AppShortcut/icon/white.png";
 
-function HowGive() {
+import ios1 from "../assets/AppShortcut/ios/1.png";
+import ios2 from "../assets/AppShortcut/ios/2.png";
+import ios3 from "../assets/AppShortcut/ios/3.png";
+import ios4 from "../assets/AppShortcut/ios/4.png";
+import ios5 from "../assets/AppShortcut/ios/5.png";
+import ios6 from "../assets/AppShortcut/ios/6.png";
+import Share from "../assets/AppShortcut/ios/share.png";
+
+import and1 from "../assets/AppShortcut/android/1.png";
+import and2 from "../assets/AppShortcut/android/2.png";
+import and3 from "../assets/AppShortcut/android/3.png";
+
+function AppShortcut() {
+  const platform = window.navigator.platform;
+
+  const isIOSDevice =
+    platform.indexOf("iPhone") === 0 || platform.indexOf("iPad") === 0;
+  const isAndroid = platform.indexOf("Android") === 0;
 
   const { activeStep, setStep, backStep, nextStep } = useSteps({
-    totalSteps: 4,
+    totalSteps: 7,
   });
 
   const cancelRef = useRef();
@@ -39,7 +54,7 @@ function HowGive() {
         className="mt-3 w-full rounded-full border px-8 py-4 text-center font-semibold shadow-md"
         onClick={onOpen}
       >
-        How to give someone a song?
+        How to add app shortcut?
       </button>
       <AlertDialog
         motionPreset="slideInBottom"
@@ -53,7 +68,7 @@ function HowGive() {
         <AlertDialogOverlay />
 
         <AlertDialogContent borderRadius={25} marginX={4}>
-          <AlertDialogHeader>How to give someone a song?</AlertDialogHeader>
+          <AlertDialogHeader>How to add app shortcut?</AlertDialogHeader>
           <AlertDialogCloseButton />
           <AlertDialogBody
             display={`flex`}
@@ -63,23 +78,20 @@ function HowGive() {
           >
             {activeStep === 1 && (
               <div className="mt-3 flex flex-col items-center">
-                <img className="rounded-3xl" src={First} alt="step1" />
+                <img className="rounded-3xl" src={ios1} alt="step1" />
                 <div className="mt-2 flex items-center">
                   <div
                     className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
                   >
                     1
                   </div>
-                  <p className="text-md">
-                    <b>Click</b> the link that your friend shared on social
-                    media.
-                  </p>
+                  <p className="text-md">Open Shortcut app.</p>
                 </div>
               </div>
             )}
             {activeStep === 2 && (
               <div className="mt-3 flex flex-col items-center">
-                <img className="rounded-3xl" src={Second} alt="step2" />
+                <img className="rounded-3xl" src={ios2} alt="step2" />
                 <div className="mt-2 flex items-center">
                   <div
                     className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
@@ -87,15 +99,30 @@ function HowGive() {
                     2
                   </div>
                   <p className="text-md">
-                    Type to search for the <b>song</b> that you want and click{" "}
-                    <b>Next</b>.
+                    Click
+                    <svg
+                      className="mx-2 inline"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#000000"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    button on the top right.
                   </p>
                 </div>
               </div>
             )}
             {activeStep === 3 && (
               <div className="mt-3 flex flex-col items-center">
-                <img className="rounded-3xl" src={Third} alt="step3" />
+                <img className="rounded-3xl" src={ios3} alt="step3" />
                 <div className="mt-2 flex items-center">
                   <div
                     className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
@@ -103,14 +130,14 @@ function HowGive() {
                     3
                   </div>
                   <p className="text-md">
-                    <b>Say</b> something to your friend, then click <b>Send</b>.
+                    Click add action then type "<b>url</b>" in search field.
                   </p>
                 </div>
               </div>
             )}
             {activeStep === 4 && (
               <div className="mt-3 flex flex-col items-center">
-                <img className="rounded-3xl" src={Forth} alt="step4" />
+                <img className="rounded-3xl" src={ios4} alt="step4" />
                 <div className="mt-2 flex items-center">
                   <div
                     className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
@@ -118,9 +145,56 @@ function HowGive() {
                     4
                   </div>
                   <p className="text-md">
-                    <b>Congratulation</b>! Your song has been sent to your
-                    friend. If you want to send more, Click on{" "}
-                    <b>Send another song</b>.
+                    Add <b>url</b> then type "<b>gimmesong.link</b>" in url.
+                    After that add <b>open url</b>.
+                  </p>
+                </div>
+              </div>
+            )}
+            {activeStep === 5 && (
+              <div className="mt-3 flex flex-col items-center">
+                <img src={ios5} alt="step5" />
+                <div className="mt-2 flex items-center">
+                  <div
+                    className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                  >
+                    5
+                  </div>
+                  <p className="text-md">
+                    Click
+                    <img className="mx-1 inline h-[20px]" src={Share} />
+                    button. then click add to home page.
+                  </p>
+                </div>
+              </div>
+            )}
+            {activeStep === 6 && (
+              <div className="mt-3 flex flex-col items-center">
+                <img className="rounded-3xl" src={ios6} alt="step3" />
+                <div className="mt-2 flex items-center">
+                  <div
+                    className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                  >
+                    6
+                  </div>
+                  <p className="text-md">Add icon and name.</p>
+                </div>
+              </div>
+            )}
+            {activeStep === 7 && (
+              <div className="mt-3 flex flex-col items-center">
+                <div className="flex space-x-6">
+                  <img className=" h-36 rounded-3xl" src={white} />
+                  <img className=" h-36 rounded-3xl" src={pink} />
+                </div>
+                <div className="mt-2 flex items-center">
+                  <div
+                    className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                  >
+                    7
+                  </div>
+                  <p className="text-md">
+                    You can select and hold click the image to save app icon.
                   </p>
                 </div>
               </div>
@@ -128,7 +202,7 @@ function HowGive() {
             {}
           </AlertDialogBody>
           <AlertDialogFooter display={`flex`} justifyContent={`center`}>
-            {activeStep !== 4 ? (
+            {activeStep !== 7 ? (
               activeStep == 1 ? (
                 <>
                   <Button
@@ -179,9 +253,9 @@ function HowGive() {
                 <Button
                   w="full"
                   borderRadius="25"
+                  mr={2}
                   onClick={backStep}
                   h={42}
-                  mr={2}
                 >
                   Previous
                 </Button>
@@ -201,11 +275,11 @@ function HowGive() {
                 </Button>
               </>
             )}
-          </AlertDialogFooter>
+          </AlertDialogFooter>{" "}
         </AlertDialogContent>
       </AlertDialog>
     </>
   );
 }
 
-export default HowGive;
+export default AppShortcut;
