@@ -42,10 +42,10 @@ function Tutorial() {
           <WhereLink />
           <WhereSongs />
           <HowGive />
-          <HowShare />
+          {/* <HowShare />
           <NewRequest />
           <ShareRequest />
-          <AddSongToRequest />
+          <AddSongToRequest /> */}
         </div>
       </div>
     </div>
