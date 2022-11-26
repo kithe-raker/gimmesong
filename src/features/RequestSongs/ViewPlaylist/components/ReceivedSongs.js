@@ -380,14 +380,14 @@ function ReceivedSongs({ layout, onLayoutChange }) {
             {layout === "single" ? (
               <>
                 <div
-                  className={`h-full overflow-hidden ${
+                  className={`overflow-hidden ${
                     current !== null ? "pb-[88px]" : "pb-[24px]"
                   }`}
                 >
                   <Slider ref={slider} {...settings}>
                     {items.map((item, i) => {
                       return (
-                        <div className="h-full outline-none" key={item.id}>
+                        <div className="outline-none" key={item.id}>
                           <div className="flex flex-col items-center justify-center">
                             <div className="mt-6 w-[90%]">
                               <div
@@ -422,19 +422,17 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                                 </div>
                               </div>
                             </div>
-                            <span
-                              style={{
-                                wordBreak: "break-word",
-                                whiteSpace: "pre-line",
-                                visibility:
-                                  items[current]?.id === item.id
-                                    ? "visible"
-                                    : "hidden",
-                              }}
-                              className="mt-6 h-[72px] w-full overflow-y-auto text-center text-[20px] leading-[24px] text-gray-700"
-                            >
-                              {item.content?.message}
-                            </span>
+                            {items[current]?.id === item.id && (
+                              <span
+                                style={{
+                                  wordBreak: "break-word",
+                                  whiteSpace: "pre-line",
+                                }}
+                                className="mt-6 w-full text-center text-xl leading-6 text-gray-700"
+                              >
+                                {item.content?.message}
+                              </span>
+                            )}
                           </div>
                         </div>
                       );
