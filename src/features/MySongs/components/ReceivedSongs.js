@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 
 import disc from "@assets/img/disc.png";
 import logo from "@assets/img/gimmesong_logo.png";
@@ -7,6 +7,7 @@ import shushingEmoji from "@assets/img/shushing_emoji.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "@styles/slick-slider-custom.css";
 
 import EmptySong from "./EmptySong";
 import AudioPlayer from "@components/AudioPlayer";
@@ -38,6 +39,8 @@ import { ThreeDots } from "react-loader-spinner";
 import useDocumentTitle from "@hooks/useDocumentTitle";
 
 import { useSessionExpired } from "@hooks/useSessionExpired";
+import useCounterEffect from "@hooks/useCounterEffect";
+import useScrollPosition from "@hooks/useScrollPosition";
 
 function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const { activeStep, setStep, skip, nextStep } = useSteps({
@@ -58,9 +61,19 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const [exporting, setExporting] = useState(false);
   const [exportedURL, setExportedURL] = useState(null);
 
+  const scrollY = useScrollPosition();
+  const [scrollPosition, setScrollPosition] = useState(0);
+
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
+  const [isAutoPlay, setIsAutoPlay] = useState(false);
+
+  const {
+    counter: upNextCounter,
+    callback: upNextCallback,
+    clear: clearUpNextTimer,
+  } = useCounterEffect();
 
   const [items, setItems] = useState([]);
 
@@ -162,16 +175,13 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
 
   const getPlaybackURL = async (videoId) => {
     if (!videoId) return;
-
     // check object key before query, if not found will query new playback url
     if (!playbackURL[videoId]) {
       try {
         setLoadingStreamingData(true);
         // implement fetch playback url here, then set to playbackURL object
         // to reuse in next time
-
         const streamsData = await ytm.getStreamsUrl(videoId);
-
         setPlaybackURL((prev) => {
           return {
             ...prev,
@@ -185,6 +195,14 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
       }
     }
   };
+
+  const getSavedURL = useMemo(() => {
+    const url = playbackURL[items[current]?.content?.song?.videoId];
+    const identifier = `#${items[current]?.id}`;
+
+    if (!url) return;
+    return `${url["audio/mp4"]}${identifier}`;
+  }, [current, playbackURL]);
 
   const handleUpdateInbox = async (id) => {
     try {
@@ -209,48 +227,59 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
 
   const handleToggle = async (id) => {
     if (!items[current].played) await handleUpdateInbox(id);
-
-    try {
-      // toggle audio player
-      await audioRef.current.toggle();
-    } catch (err) {
-      let msg = "";
-      if (err instanceof PlayerError) {
-        if (err.message.includes("denied permission")) {
-          msg = ""; // show nothing
-        } else if (err.code === "NO_AUDIO_SOURCE") {
-          msg = ""; // show nothing
-        } else {
-          msg = "PlayerError: " + err.message;
-        }
-      }
-      if (msg) {
-        toast(msg, {
-          duration: 4000,
-          style: {
-            borderRadius: "25px",
-            background: "#FF6464",
-            color: "#fff",
-          },
-        });
-      }
-      console.error(err);
-    }
+    await audioRef.current.toggle();
   };
 
-  // const playNextTrack = () => {
-  //   let nextTrackIndex = current != 0 ? current - 1 : 0;
+  const handlePlayerError = (err) => {
+    // let msg = "";
+    // if (err instanceof PlayerError) {
+    //   if (err.code === "NO_AUDIO_SOURCE") {
+    //     msg = ""; // show nothing
+    //   } else {
+    //     msg = "PlayerError: " + err.message;
+    //   }
+    // }
+    // if (msg) {
+    //   toast(msg, {
+    //     duration: 4000,
+    //     style: {
+    //       borderRadius: "25px",
+    //       background: "#FF6464",
+    //       color: "#fff",
+    //     },
+    //   });
+    // }
+  };
 
-  //   setCurrent(nextTrackIndex);
-  //   if (layout === "single") sliderGoTo(nextTrackIndex);
-  // };
+  const handleTrackEnded = () => {
+    if (isAutoPlay) upNextCallback(setNextTrack, 3);
+  };
 
-  const handleSwipe = async () => {
+  /**
+   * @notice Handle set next track
+   * @dev before set new current index (next track index)
+   * need to make sure the current index is not the last items in playlist
+   */
+  const setNextTrack = async () => {
+    let nextTrackIndex = current < items.length - 1 ? current + 1 : 0;
+    // let nextTrackIndex = current != 0 ? current - 1 : 0;
+
+    setCurrent(nextTrackIndex);
+    if (layout === "single") sliderGoTo(nextTrackIndex);
+  };
+
+  const handleTrackChange = async () => {
+    if (isAutoPlay) {
+      clearUpNextTimer();
+      if (!items[current]?.played) await handleUpdateInbox(items[current]?.id);
+    }
+
     // set page title to current song title
     setTitle(items[current]?.content?.song?.title);
 
     // always reset streaming error that occurred from previous song
     setStreamingError(null);
+
     try {
       // get videoplayback url here
       const videoId = items[current]?.content?.song?.videoId;
@@ -275,6 +304,8 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
         });
       }
       console.error(err);
+
+      if (isAutoPlay) upNextCallback(setNextTrack, 3);
     }
   };
 
@@ -284,7 +315,8 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   };
 
   useEffect(() => {
-    handleSwipe();
+    if (current === null) return;
+    handleTrackChange();
   }, [current]);
 
   /**
@@ -293,13 +325,15 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
    * then scroll slider to index
    */
   useEffect(() => {
-    if (layout === "single") {
-      if (items.length > 0) {
+    if (items.length > 0) {
+      if (layout === "single") {
         // by default in multiple layout current is null until user click select song
         if (current === null) setCurrent(0);
 
         // use setTimeout to prevent element ref is null
         setTimeout(() => sliderGoTo(current), 100);
+      } else if (layout === "multiple") {
+        window.scrollTo(0, scrollPosition);
       }
     }
   }, [layout]);
@@ -337,10 +371,15 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     fetchInbox();
   }, [tab]);
 
+  useEffect(() => {
+    if (layout !== "multiple") return;
+    setScrollPosition(scrollY);
+  }, [scrollY]);
+
   return (
     <>
       <SessionExpired />
-      <div className={`relative ${layout === "single" ? "w-full" : ""}`}>
+      <div className={`relative ${layout === "single" ? "w-full" : ""} h-full`}>
         {loading ? (
           <div className="my-12 flex items-center justify-center">
             <svg
@@ -369,14 +408,14 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
             {layout === "single" ? (
               <>
                 <div
-                  className={`overflow-hidden ${
+                  className={`h-full overflow-hidden ${
                     current !== null ? "pb-[88px]" : "pb-[24px]"
                   }`}
                 >
                   <Slider ref={slider} {...settings}>
                     {items.map((item, i) => {
                       return (
-                        <div className="outline-none" key={i}>
+                        <div className="h-full outline-none" key={i}>
                           <div className="flex flex-col items-center justify-center">
                             <div className="mt-6 w-[90%]">
                               <div
@@ -421,17 +460,19 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                                 )}
                               </div>
                             </div>
-                            {items[current]?.id === item.id && (
-                              <span
-                                style={{
-                                  wordBreak: "break-word",
-                                  whiteSpace: "pre-line",
-                                }}
-                                className="mt-6 w-full text-center text-xl leading-6 text-gray-700"
-                              >
-                                {item.content?.message}
-                              </span>
-                            )}
+                            <span
+                              style={{
+                                wordBreak: "break-word",
+                                whiteSpace: "pre-line",
+                                visibility:
+                                  items[current]?.id === item.id
+                                    ? "visible"
+                                    : "hidden",
+                              }}
+                              className="mt-6 h-[72px] w-full overflow-y-auto text-center text-[20px] leading-[24px] text-gray-700"
+                            >
+                              {item.content?.message}
+                            </span>
                           </div>
                         </div>
                       );
@@ -489,7 +530,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
             )}
             {current !== null && (
               <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
-                {streamingError?.id == items[current]?.id && (
+                {streamingError?.id === items[current]?.id && (
                   <div
                     className="absolute -mt-[140px] inline-flex animate-bounce rounded-full shadow-sm"
                     role="group"
@@ -535,15 +576,12 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                 )}
                 <AudioPlayer
                   ref={audioRef}
-                  src={
-                    playbackURL[items[current]?.content?.song?.videoId] &&
-                    playbackURL[items[current]?.content?.song?.videoId][
-                      "audio/mp4"
-                    ]
-                  }
+                  src={getSavedURL}
                   onToggle={setPlaying}
                   onLoading={setLoadingAudio}
-                  autoPlayAfterSrcChange={false}
+                  onEnded={handleTrackEnded}
+                  onError={handlePlayerError}
+                  autoPlayAfterSrcChange={isAutoPlay}
                   loadingSource={loadingStreamingData}
                 />
                 {!items[current]?.played ? (
