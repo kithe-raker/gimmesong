@@ -77,11 +77,9 @@ function Feed() {
   };
 
   /**
-   * @notice To prevents the user's scroll from being reset.
-   * @dev before run this effect, we need to make sure that feed items is empty
-   * and navigate state.reload is true
-   * only thing to make the state.reload is true,
-   * user need to navigate by pressing menu from the navbar.
+   * @dev To prevents the user's scroll from being reset.
+   * before run this effect, we need to make sure that feed items is empty and navigate state.reload is true
+   * remember, only thing to make the state.reload true, user need to navigate by pressing menu from the navbar.
    */
   useEffect(() => {
     if (items.length > 0 && !state?.reload) return;
