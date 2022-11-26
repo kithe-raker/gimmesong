@@ -34,7 +34,11 @@ function MySongs() {
   Ads.VignetteBanner();
 
   return (
-    <div className="relative mx-auto flex max-w-md flex-col items-center py-6 pt-[60px]">
+    <div
+      className={`relative mx-auto flex ${
+        pageLayout === "single" ? "h-full" : "min-h-full"
+      } max-w-md flex-col items-center py-6 pt-[60px]`}
+    >
       {/* <button
         className="flex items-center rounded-full bg-gray-100 px-2 py-2"
         onClick={() =>
@@ -60,7 +64,7 @@ function MySongs() {
         <span className="gimmesong-secondary-foont ml-1 text-xs">@bosoji</span>
       </button> */}
 
-      <div className="gimmesong-bg w-ful sticky top-[60px] z-[49] mt-4 flex w-full items-center justify-evenly p-3">
+      <div className="gimmesong-bg sticky top-[60px] z-[49] flex w-full items-center justify-evenly p-3">
         <div className="flex items-center">
           <h1
             onClick={() => setCurrentTab("new")}

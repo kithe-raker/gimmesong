@@ -18,13 +18,17 @@ function SignUp() {
   const searchDelay = useRef(null);
 
   const handleUsernameChange = (val) => {
+    clearTimeout(searchDelay.current);
     setUsername(val);
 
-    if (!val.length >= 2) return;
+    if (val.length < 2) {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setError(false);
 
-    clearTimeout(searchDelay.current);
     searchDelay.current = setTimeout(async () => {
       try {
         const isExist = await GimmesongAPI.checkUserExist(val);

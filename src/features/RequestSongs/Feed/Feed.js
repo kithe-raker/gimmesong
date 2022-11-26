@@ -24,13 +24,23 @@ import NativeBanner from "@components/Adsense/NativeBanner";
 
 import useSession from "@hooks/useSession";
 import { useLocation } from "react-router-dom";
+import { useInView } from "react-cool-inview";
 
 function Feed() {
   const {
-    state: { isLoading, hasNext },
+    state: { isLoading, isLoadingMore, hasNext },
     data: { items, filter },
     action: { loadMore, changeFilter, fetchContent },
   } = useContext(FeedContext);
+
+  const { observe: loadMoreRef } = useInView({
+    // For better UX, we can grow the root margin so the data will be loaded earlier
+    rootMargin: "50px 0px",
+    // When the last item comes to the viewport
+    onEnter: () => {
+      if (hasNext && !isLoadingMore) loadMore(20);
+    },
+  });
 
   const { state } = useLocation();
 
@@ -77,11 +87,9 @@ function Feed() {
   };
 
   /**
-   * @notice To prevents the user's scroll from being reset.
-   * @dev before run this effect, we need to make sure that feed items is empty
-   * and navigate state.reload is true
-   * only thing to make the state.reload is true,
-   * user need to navigate by pressing menu from the navbar.
+   * @dev To prevents the user's scroll from being reset.
+   * before run this effect, we need to make sure that feed items is empty and navigate state.reload is true
+   * remember, only thing to make the state.reload true, user need to navigate by pressing menu from the navbar.
    */
   useEffect(() => {
     if (items.length > 0 && !state?.reload) return;
@@ -216,13 +224,40 @@ function Feed() {
                 );
               })}
             </div>
-            {hasNext && filter !== "most_play" && (
+            {/* {hasNext && filter !== "most_play" && (
               <button
                 onClick={loadMore}
                 className={`gimmesong-secondary-font mr-1.5 flex h-10 w-fit shrink-0 items-center self-center rounded-full border-[1.5px] border-gray-300 px-3.5 text-xs font-semibold`}
               >
                 Load more
               </button>
+            )} */}
+            {hasNext && filter !== "most_play" && (
+              <div
+                ref={loadMoreRef}
+                className={`my-12 flex items-center justify-center`}
+              >
+                <svg
+                  className="h-8 w-8 animate-spin text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </div>
             )}
           </>
         ) : (

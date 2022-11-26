@@ -1,6 +1,7 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import ReceivedSongs from "./components/ReceivedSongs";
 import Empty from "./components/Empty";
@@ -14,6 +15,7 @@ import { PlaylistContext } from "contexts/PlaylistContext";
 
 function ViewPlaylist() {
   const navigate = useNavigate();
+  const { id: shareLinkId } = useParams();
 
   const [pageLayout, setPageLayout] = useState("multiple");
 
@@ -36,10 +38,19 @@ function ViewPlaylist() {
   const {
     state: { isLoadingInfo },
     data: { playlistInfo },
+    action: { fetchPlaylistInfo },
   } = useContext(PlaylistContext);
 
+  useEffect(() => {
+    fetchPlaylistInfo(shareLinkId);
+  }, []);
+
   return (
-    <div className="relative mx-auto flex max-w-md flex-col items-center py-6 pt-[60px]">
+    <div
+      className={`relative mx-auto flex ${
+        pageLayout === "single" ? "h-full" : "min-h-full"
+      } max-w-md flex-col items-center py-6 pt-[60px]`}
+    >
       <div className="gimmesong-bg fixed top-0 z-50 flex h-16 w-full max-w-md items-center justify-between px-2.5">
         <button
           onClick={() => navigate("/request")}
@@ -96,17 +107,17 @@ function ViewPlaylist() {
       {isLoadingInfo ? (
         <Loading fullScreen />
       ) : playlistInfo ? (
-        <div className="flex w-full max-w-md flex-col items-center">
-          <span className="mt-2 bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-center text-2xl font-semibold text-transparent">
-            {playlistInfo.isAnonymous
-              ? "Anonymous"
-              : `@${playlistInfo.requester.username}`}
-          </span>
-          <span className="mt-1 px-4 text-center font-semibold line-clamp-2">
-            {playlistInfo.message}
-          </span>
-          <div className="gimmesong-bg sticky top-[60px] z-[49] mt-2 flex w-full flex-col items-center p-3">
-            <div className="inline-flex rounded-full" role="group">
+        <div className="flex h-full w-full max-w-md flex-col items-center">
+          <div className="gimmesong-bg sticky top-[60px] z-[49] flex w-full flex-col items-center p-3">
+            <span className="bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-center text-2xl font-semibold text-transparent">
+              {playlistInfo.isAnonymous
+                ? "Anonymous"
+                : `@${playlistInfo.requester.username}`}
+            </span>
+            <span className="mt-1 px-4 text-center font-semibold line-clamp-2">
+              {playlistInfo.message}
+            </span>
+            <div className="mt-2 inline-flex rounded-full" role="group">
               <button
                 type="button"
                 onClick={() => setPageLayout("single")}
