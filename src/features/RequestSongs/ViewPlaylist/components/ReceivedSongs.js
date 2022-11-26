@@ -87,7 +87,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
-  const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const [isAutoPlay, setIsAutoPlay] = useState(false);
 
   const {
     counter: upNextCounter,
