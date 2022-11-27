@@ -323,10 +323,12 @@ function ReceivedSongs({ layout, onLayoutChange }) {
       }
       console.error(err);
 
+
       if (playerSetting.autoplay) {
         // upNextCallback(setNextTrack, autoPlayTimer);
         setNextTrack();
       }
+
     }
   };
 
