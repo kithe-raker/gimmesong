@@ -89,7 +89,9 @@ function ReceivedSongs({ layout, onLayoutChange }) {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
-  const [isAutoPlay, setIsAutoPlay] = useLocalStorage("player", false);
+  const [playerSetting, setPlayerSetting] = useLocalStorage("player", {
+    autoplay: false,
+  });
   const [autoPlayTimer, setAutoPlayTimer] = useState(5);
 
   const {
@@ -225,7 +227,9 @@ function ReceivedSongs({ layout, onLayoutChange }) {
   }, [current, playbackURL]);
 
   const handleToggleAutoPlay = (checked) => {
-    setIsAutoPlay(checked);
+    setPlayerSetting({
+      autoplay: checked,
+    });
     toast(checked ? "Autoplay is on" : "Autoplay is off", {
       style: {
         borderRadius: "25px",
@@ -261,7 +265,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
   };
 
   const handleTrackEnded = () => {
-    if (isAutoPlay) upNextCallback(setNextTrack, autoPlayTimer);
+    if (playerSetting.autoplay) upNextCallback(setNextTrack, autoPlayTimer);
   };
 
   const nextTrackIndex = useMemo(
@@ -280,7 +284,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
   };
 
   const handleTrackChange = async () => {
-    if (isAutoPlay) {
+    if (playerSetting.autoplay) {
       clearUpNextTimer();
     }
 
@@ -316,7 +320,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
       }
       console.error(err);
 
-      if (isAutoPlay) upNextCallback(setNextTrack, autoPlayTimer);
+      if (playerSetting.autoplay) upNextCallback(setNextTrack, autoPlayTimer);
     }
   };
 
@@ -577,7 +581,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                       </button>
                     </div>
                   )}
-                  {isAutoPlay && upNextCounter > 0 && (
+                  {playerSetting.autoplay && upNextCounter > 0 && (
                     <div
                       className="mt-2 inline-flex rounded-full shadow-sm"
                       role="group"
@@ -640,7 +644,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                     onLoading={setLoadingAudio}
                     onEnded={handleTrackEnded}
                     onError={handlePlayerError}
-                    autoPlayAfterSrcChange={isAutoPlay}
+                    autoPlayAfterSrcChange={playerSetting.autoplay}
                     loadingSource={loadingStreamingData}
                   />
                   <div className="mr-2 flex h-16 w-[280px] shrink-0 items-center justify-between rounded-full bg-white p-3 pl-5 pr-4">
@@ -743,7 +747,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                       </svg>
                     </button>
                     <Switch
-                      isChecked={isAutoPlay}
+                      isChecked={playerSetting.autoplay}
                       onChange={(e) => handleToggleAutoPlay(e.target.checked)}
                     />
                     {/* </div> */}
