@@ -64,7 +64,7 @@ function MySongs() {
         <span className="gimmesong-secondary-foont ml-1 text-xs">@bosoji</span>
       </button> */}
 
-      <div className="gimmesong-bg sticky top-[60px] z-[49] mt-4 flex w-full items-center justify-evenly p-3">
+      <div className="gimmesong-bg sticky top-[60px] z-[49] flex w-full items-center justify-evenly p-3 pt-6">
         <div className="flex items-center">
           <h1
             onClick={() => setCurrentTab("new")}
