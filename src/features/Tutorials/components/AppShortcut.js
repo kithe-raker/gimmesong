@@ -33,7 +33,7 @@ function AppShortcut() {
   const platform = window.navigator.platform;
 
   const isIOSDevice =
-    platform.indexOf("iPhone") === 0 || platform.indexOf("iPad") === 0;
+    platform.indexOf("iPhone") === 0 || platform.indexOf("iPad") === 0 || platform.indexOf("Mac") === 0;
   const isAndroid = platform.indexOf("Android") === 0;
 
   const { activeStep, setStep, backStep, nextStep } = useSteps({
@@ -66,7 +66,7 @@ function AppShortcut() {
         scrollBehavior="outside"
       >
         <AlertDialogOverlay />
-        {isAndroid ? (
+        {isIOSDevice ? (
           <>
             <AlertDialogContent borderRadius={25} marginX={4}>
               <AlertDialogHeader>How to add app shortcut?</AlertDialogHeader>
