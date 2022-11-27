@@ -265,7 +265,10 @@ function ReceivedSongs({ layout, onLayoutChange }) {
   };
 
   const handleTrackEnded = () => {
-    if (playerSetting.autoplay) upNextCallback(setNextTrack, autoPlayTimer);
+    if (playerSetting.autoplay) {
+      // upNextCallback(setNextTrack, autoPlayTimer);
+      setNextTrack();
+    }
   };
 
   const nextTrackIndex = useMemo(
@@ -320,7 +323,12 @@ function ReceivedSongs({ layout, onLayoutChange }) {
       }
       console.error(err);
 
-      if (playerSetting.autoplay) upNextCallback(setNextTrack, autoPlayTimer);
+
+      if (playerSetting.autoplay) {
+        // upNextCallback(setNextTrack, autoPlayTimer);
+        setNextTrack();
+      }
+
     }
   };
 
