@@ -466,7 +466,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                                   wordBreak: "break-word",
                                   whiteSpace: "pre-line",
                                 }}
-                                className="mt-6 w-full text-center text-xl leading-6 text-gray-700"
+                                className="my-6 w-full text-center text-xl leading-6 text-gray-700"
                               >
                                 {item.content?.message}
                               </span>

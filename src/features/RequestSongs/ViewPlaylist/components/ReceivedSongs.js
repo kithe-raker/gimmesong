@@ -309,8 +309,11 @@ function ReceivedSongs({ layout, onLayoutChange }) {
     if (slider.current) slider.current.slickGoTo(index, true);
   };
 
+  // do when added new song
   useEffect(() => {
-    // handleTrackChange();
+    if (layout === "single") {
+      setTimeout(() => sliderGoTo(0), 100);
+    }
   }, [items]);
 
   useEffect(() => {
@@ -428,7 +431,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                                   wordBreak: "break-word",
                                   whiteSpace: "pre-line",
                                 }}
-                                className="mt-6 w-full text-center text-xl leading-6 text-gray-700"
+                                className="my-6 w-full text-center text-xl leading-6 text-gray-700"
                               >
                                 {item.content?.message}
                               </span>
