@@ -47,7 +47,7 @@ function Tutorial() {
           <NewRequest />
           <ShareRequest />
           <AddSongToRequest /> */}
-          <AppShortcut/>
+          {/* <AppShortcut/> */}
         </div>
       </div>
     </div>
