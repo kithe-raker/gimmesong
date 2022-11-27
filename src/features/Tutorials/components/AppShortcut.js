@@ -66,217 +66,370 @@ function AppShortcut() {
         scrollBehavior="outside"
       >
         <AlertDialogOverlay />
-
-        <AlertDialogContent borderRadius={25} marginX={4}>
-          <AlertDialogHeader>How to add app shortcut?</AlertDialogHeader>
-          <AlertDialogCloseButton />
-          <AlertDialogBody
-            display={`flex`}
-            flexDirection={`column`}
-            justifyContent={`center`}
-            alignItems={`center`}
-          >
-            {activeStep === 1 && (
-              <div className="mt-3 flex flex-col items-center">
-                <img className="rounded-3xl" src={ios1} alt="step1" />
-                <div className="mt-2 flex items-center">
-                  <div
-                    className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
-                  >
-                    1
+        {isAndroid ? (
+          <>
+            <AlertDialogContent borderRadius={25} marginX={4}>
+              <AlertDialogHeader>How to add app shortcut?</AlertDialogHeader>
+              <AlertDialogCloseButton />
+              <AlertDialogBody
+                display={`flex`}
+                flexDirection={`column`}
+                justifyContent={`center`}
+                alignItems={`center`}
+              >
+                {activeStep === 1 && (
+                  <div className="mt-3 flex flex-col items-center">
+                    <img className="rounded-3xl" src={ios1} alt="step1" />
+                    <div className="mt-2 flex items-center">
+                      <div
+                        className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                      >
+                        1
+                      </div>
+                      <p className="text-md">Open Shortcut app.</p>
+                    </div>
                   </div>
-                  <p className="text-md">Open Shortcut app.</p>
-                </div>
-              </div>
-            )}
-            {activeStep === 2 && (
-              <div className="mt-3 flex flex-col items-center">
-                <img className="rounded-3xl" src={ios2} alt="step2" />
-                <div className="mt-2 flex items-center">
-                  <div
-                    className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
-                  >
-                    2
+                )}
+                {activeStep === 2 && (
+                  <div className="mt-3 flex flex-col items-center">
+                    <img className="rounded-3xl" src={ios2} alt="step2" />
+                    <div className="mt-2 flex items-center">
+                      <div
+                        className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                      >
+                        2
+                      </div>
+                      <p className="text-md">
+                        Click
+                        <svg
+                          className="mx-2 inline"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#000000"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <line x1="12" y1="5" x2="12" y2="19"></line>
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        button on the top right.
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-md">
-                    Click
-                    <svg
-                      className="mx-2 inline"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#000000"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                )}
+                {activeStep === 3 && (
+                  <div className="mt-3 flex flex-col items-center">
+                    <img className="rounded-3xl" src={ios3} alt="step3" />
+                    <div className="mt-2 flex items-center">
+                      <div
+                        className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                      >
+                        3
+                      </div>
+                      <p className="text-md">
+                        Click add action then type "<b>url</b>" in search field.
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {activeStep === 4 && (
+                  <div className="mt-3 flex flex-col items-center">
+                    <img className="rounded-3xl" src={ios4} alt="step4" />
+                    <div className="mt-2 flex items-center">
+                      <div
+                        className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                      >
+                        4
+                      </div>
+                      <p className="text-md">
+                        Add <b>url</b> then type "<b>gimmesong.link</b>" in url.
+                        After that add <b>open url</b>.
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {activeStep === 5 && (
+                  <div className="mt-3 flex flex-col items-center">
+                    <img src={ios5} alt="step5" />
+                    <div className="mt-2 flex items-center">
+                      <div
+                        className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                      >
+                        5
+                      </div>
+                      <p className="text-md">
+                        Click
+                        <img className="mx-1 inline h-[20px]" src={Share} />
+                        button. then click add to home page.
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {activeStep === 6 && (
+                  <div className="mt-3 flex flex-col items-center">
+                    <img className="rounded-3xl" src={ios6} alt="step3" />
+                    <div className="mt-2 flex items-center">
+                      <div
+                        className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                      >
+                        6
+                      </div>
+                      <p className="text-md">Add icon and name.</p>
+                    </div>
+                  </div>
+                )}
+                {activeStep === 7 && (
+                  <div className="mt-3 flex flex-col items-center">
+                    <div className="flex space-x-6">
+                      <img className=" h-36 rounded-3xl" src={white} />
+                      <img className=" h-36 rounded-3xl" src={pink} />
+                    </div>
+                    <div className="mt-2 flex items-center">
+                      <div
+                        className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                      >
+                        7
+                      </div>
+                      <p className="text-md">
+                        You can select and hold click the image to save app
+                        icon.
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {}
+              </AlertDialogBody>
+              <AlertDialogFooter display={`flex`} justifyContent={`center`}>
+                {activeStep !== 7 ? (
+                  activeStep == 1 ? (
+                    <>
+                      <Button
+                        w="full"
+                        onClick={nextStep}
+                        borderRadius="25"
+                        bgColor="black"
+                        color="white"
+                        ml={3}
+                        h={42}
+                        _hover={{ bg: "#000000" }}
+                        _active={{
+                          bg: "#000000",
+                        }}
+                      >
+                        Next
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        w="full"
+                        borderRadius="25"
+                        mr={2}
+                        onClick={backStep}
+                        h={42}
+                      >
+                        Previous
+                      </Button>
+                      <Button
+                        w="full"
+                        onClick={nextStep}
+                        borderRadius="25"
+                        bgColor="black"
+                        color="white"
+                        h={42}
+                        _hover={{ bg: "#000000" }}
+                        _active={{
+                          bg: "#000000",
+                        }}
+                      >
+                        Next
+                      </Button>
+                    </>
+                  )
+                ) : (
+                  <>
+                    <Button
+                      w="full"
+                      borderRadius="25"
+                      mr={2}
+                      onClick={backStep}
+                      h={42}
                     >
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                    button on the top right.
-                  </p>
-                </div>
-              </div>
-            )}
-            {activeStep === 3 && (
-              <div className="mt-3 flex flex-col items-center">
-                <img className="rounded-3xl" src={ios3} alt="step3" />
-                <div className="mt-2 flex items-center">
-                  <div
-                    className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
-                  >
-                    3
+                      Previous
+                    </Button>
+                    <Button
+                      w="full"
+                      onClick={onCloseExportModal}
+                      borderRadius="25"
+                      bgColor="black"
+                      color="white"
+                      h={42}
+                      _hover={{ bg: "#000000" }}
+                      _active={{
+                        bg: "#000000",
+                      }}
+                    >
+                      Finish!
+                    </Button>
+                  </>
+                )}
+              </AlertDialogFooter>{" "}
+            </AlertDialogContent>
+          </>
+        ) : (
+          <>
+            <AlertDialogContent borderRadius={25} marginX={4}>
+              <AlertDialogHeader>How to add app shortcut?</AlertDialogHeader>
+              <AlertDialogCloseButton />
+              <AlertDialogBody
+                display={`flex`}
+                flexDirection={`column`}
+                justifyContent={`center`}
+                alignItems={`center`}
+              >
+                {activeStep === 1 && (
+                  <div className="mt-3 flex flex-col items-center">
+                    <img className="rounded-3xl" src={and1} alt="step1" />
+                    <div className="mt-2 flex items-center">
+                      <div
+                        className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                      >
+                        1
+                      </div>
+                      <p className="text-md">Click</p>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#000000"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="12" cy="5" r="1"></circle>
+                        <circle cx="12" cy="19" r="1"></circle>
+                      </svg>
+                      <p className="text-md">button on top right.</p>
+                    </div>
                   </div>
-                  <p className="text-md">
-                    Click add action then type "<b>url</b>" in search field.
-                  </p>
-                </div>
-              </div>
-            )}
-            {activeStep === 4 && (
-              <div className="mt-3 flex flex-col items-center">
-                <img className="rounded-3xl" src={ios4} alt="step4" />
-                <div className="mt-2 flex items-center">
-                  <div
-                    className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
-                  >
-                    4
+                )}
+                {activeStep === 2 && (
+                  <div className="mt-3 flex flex-col items-center">
+                    <img className="rounded-3xl" src={and2} alt="step2" />
+                    <div className="mt-2 flex items-center">
+                      <div
+                        className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                      >
+                        2
+                      </div>
+                      <p className="text-md">
+                        Click <b>Add to Home screen</b> button.
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-md">
-                    Add <b>url</b> then type "<b>gimmesong.link</b>" in url.
-                    After that add <b>open url</b>.
-                  </p>
-                </div>
-              </div>
-            )}
-            {activeStep === 5 && (
-              <div className="mt-3 flex flex-col items-center">
-                <img src={ios5} alt="step5" />
-                <div className="mt-2 flex items-center">
-                  <div
-                    className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
-                  >
-                    5
+                )}
+                {activeStep === 3 && (
+                  <div className="mt-3 flex flex-col items-center">
+                    <img className="rounded-3xl" src={and3} alt="step3" />
+                    <div className="mt-2 flex items-center">
+                      <div
+                        className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
+                      >
+                        3
+                      </div>
+                      <p className="text-md">
+                        Click <b>Add</b> button and FINISH! 
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-md">
-                    Click
-                    <img className="mx-1 inline h-[20px]" src={Share} />
-                    button. then click add to home page.
-                  </p>
-                </div>
-              </div>
-            )}
-            {activeStep === 6 && (
-              <div className="mt-3 flex flex-col items-center">
-                <img className="rounded-3xl" src={ios6} alt="step3" />
-                <div className="mt-2 flex items-center">
-                  <div
-                    className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
-                  >
-                    6
-                  </div>
-                  <p className="text-md">Add icon and name.</p>
-                </div>
-              </div>
-            )}
-            {activeStep === 7 && (
-              <div className="mt-3 flex flex-col items-center">
-                <div className="flex space-x-6">
-                  <img className=" h-36 rounded-3xl" src={white} />
-                  <img className=" h-36 rounded-3xl" src={pink} />
-                </div>
-                <div className="mt-2 flex items-center">
-                  <div
-                    className={`mr-3 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-black text-white`}
-                  >
-                    7
-                  </div>
-                  <p className="text-md">
-                    You can select and hold click the image to save app icon.
-                  </p>
-                </div>
-              </div>
-            )}
-            {}
-          </AlertDialogBody>
-          <AlertDialogFooter display={`flex`} justifyContent={`center`}>
-            {activeStep !== 7 ? (
-              activeStep == 1 ? (
-                <>
-                  <Button
-                    w="full"
-                    onClick={nextStep}
-                    borderRadius="25"
-                    bgColor="black"
-                    color="white"
-                    ml={3}
-                    h={42}
-                    _hover={{ bg: "#000000" }}
-                    _active={{
-                      bg: "#000000",
-                    }}
-                  >
-                    Next
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    w="full"
-                    borderRadius="25"
-                    mr={2}
-                    onClick={backStep}
-                    h={42}
-                  >
-                    Previous
-                  </Button>
-                  <Button
-                    w="full"
-                    onClick={nextStep}
-                    borderRadius="25"
-                    bgColor="black"
-                    color="white"
-                    h={42}
-                    _hover={{ bg: "#000000" }}
-                    _active={{
-                      bg: "#000000",
-                    }}
-                  >
-                    Next
-                  </Button>
-                </>
-              )
-            ) : (
-              <>
-                <Button
-                  w="full"
-                  borderRadius="25"
-                  mr={2}
-                  onClick={backStep}
-                  h={42}
-                >
-                  Previous
-                </Button>
-                <Button
-                  w="full"
-                  onClick={onCloseExportModal}
-                  borderRadius="25"
-                  bgColor="black"
-                  color="white"
-                  h={42}
-                  _hover={{ bg: "#000000" }}
-                  _active={{
-                    bg: "#000000",
-                  }}
-                >
-                  Finish!
-                </Button>
-              </>
-            )}
-          </AlertDialogFooter>{" "}
-        </AlertDialogContent>
+                )}
+                {}
+              </AlertDialogBody>
+              <AlertDialogFooter display={`flex`} justifyContent={`center`}>
+                {activeStep !== 3 ? (
+                  activeStep == 1 ? (
+                    <>
+                      <Button
+                        w="full"
+                        onClick={nextStep}
+                        borderRadius="25"
+                        bgColor="black"
+                        color="white"
+                        ml={3}
+                        h={42}
+                        _hover={{ bg: "#000000" }}
+                        _active={{
+                          bg: "#000000",
+                        }}
+                      >
+                        Next
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        w="full"
+                        borderRadius="25"
+                        mr={2}
+                        onClick={backStep}
+                        h={42}
+                      >
+                        Previous
+                      </Button>
+                      <Button
+                        w="full"
+                        onClick={nextStep}
+                        borderRadius="25"
+                        bgColor="black"
+                        color="white"
+                        h={42}
+                        _hover={{ bg: "#000000" }}
+                        _active={{
+                          bg: "#000000",
+                        }}
+                      >
+                        Next
+                      </Button>
+                    </>
+                  )
+                ) : (
+                  <>
+                    <Button
+                      w="full"
+                      borderRadius="25"
+                      mr={2}
+                      onClick={backStep}
+                      h={42}
+                    >
+                      Previous
+                    </Button>
+                    <Button
+                      w="full"
+                      onClick={onCloseExportModal}
+                      borderRadius="25"
+                      bgColor="black"
+                      color="white"
+                      h={42}
+                      _hover={{ bg: "#000000" }}
+                      _active={{
+                        bg: "#000000",
+                      }}
+                    >
+                      Finish!
+                    </Button>
+                  </>
+                )}
+              </AlertDialogFooter>{" "}
+            </AlertDialogContent>
+          </>
+        )}
       </AlertDialog>
     </>
   );
