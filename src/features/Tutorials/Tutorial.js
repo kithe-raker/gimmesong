@@ -10,6 +10,7 @@ import Confuse from "@assets/img/confuse_emoji.png";
 import NewRequest from "./components/NewRequest";
 import ShareRequest from "./components/ShareRequest";
 import AddSongToRequest from "./components/AddSongToRequest";
+import AppShortcut from "./components/AppShortcut";
 
 function Tutorial() {
   const navigate = useNavigate();
@@ -46,6 +47,7 @@ function Tutorial() {
           <NewRequest />
           <ShareRequest />
           <AddSongToRequest /> */}
+          {/* <AppShortcut/> */}
         </div>
       </div>
     </div>

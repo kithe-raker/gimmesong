@@ -108,15 +108,17 @@ function ViewPlaylist() {
         <Loading fullScreen />
       ) : playlistInfo ? (
         <div className="flex w-full max-w-md flex-col items-center">
-          <span className="mt-2 bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-center text-2xl font-semibold text-transparent">
-            {playlistInfo.isAnonymous
-              ? "Anonymous"
-              : `@${playlistInfo.requester.username}`}
-          </span>
-          <span className="mt-1 max-w-full px-4 text-center font-semibold line-clamp-2">
-            {playlistInfo.message}
-          </span>
-          <div className="gimmesong-bg sticky top-[60px] z-[49] flex w-full flex-col items-center p-3">
+          <div className="mt-2 flex flex-col">
+            <span className="bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-center text-2xl font-semibold text-transparent">
+              {playlistInfo.isAnonymous
+                ? "Anonymous"
+                : `@${playlistInfo.requester.username}`}
+            </span>
+            <span className="mt-1 max-w-full px-4 text-center font-semibold line-clamp-2">
+              {playlistInfo.message}
+            </span>
+          </div>
+          <div className="gimmesong-bg sticky top-[60px] z-[49] mt-4 flex w-full flex-col items-center p-3">
             <div className="inline-flex rounded-full" role="group">
               <button
                 type="button"

@@ -20,11 +20,6 @@ import Third from "../assets/HowGive/3.png";
 import Forth from "../assets/HowGive/4.png";
 
 function HowGive() {
-  const platform = window.navigator.platform;
-
-  const isIOSDevice =
-    platform.indexOf("iPhone") === 0 || platform.indexOf("iPad") === 0;
-  const isAndroid = platform.indexOf("Android") === 0;
 
   const { activeStep, setStep, backStep, nextStep } = useSteps({
     totalSteps: 4,
