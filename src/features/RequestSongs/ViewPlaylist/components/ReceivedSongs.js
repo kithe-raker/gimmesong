@@ -35,6 +35,7 @@ import {
   AlertDialogOverlay,
   AlertDialogCloseButton,
   Button,
+  Switch,
 } from "@chakra-ui/react";
 
 import ytm from "@lib/ytm_api";
@@ -48,6 +49,7 @@ import useDocumentTitle from "@hooks/useDocumentTitle";
 import useScrollPosition from "@hooks/useScrollPosition";
 import { useInView } from "react-cool-inview";
 import useCounterEffect from "@hooks/useCounterEffect";
+import { useLocalStorage } from "@hooks/useLocalStorage";
 
 function ReceivedSongs({ layout, onLayoutChange }) {
   const {
@@ -87,7 +89,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
-  const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const [isAutoPlay, setIsAutoPlay] = useLocalStorage("player", false);
   const [autoPlayTimer, setAutoPlayTimer] = useState(5);
 
   const {
@@ -221,6 +223,17 @@ function ReceivedSongs({ layout, onLayoutChange }) {
     if (!url) return;
     return `${url["audio/mp4"]}${identifier}`;
   }, [current, playbackURL]);
+
+  const handleToggleAutoPlay = (checked) => {
+    setIsAutoPlay(checked);
+    toast(checked ? "Autoplay is on" : "Autoplay is off", {
+      style: {
+        borderRadius: "25px",
+        background: "#000",
+        color: "#fff",
+      },
+    });
+  };
 
   const handleToggle = async (id) => {
     await audioRef.current.toggle();
@@ -630,65 +643,11 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                     autoPlayAfterSrcChange={isAutoPlay}
                     loadingSource={loadingStreamingData}
                   />
-                  <div
-                    onClick={() => handleToggle(items[current]?.id)}
-                    className="mr-4 flex h-16 w-[250px] cursor-pointer items-center justify-between rounded-full bg-white p-3 pr-4"
-                  >
-                    <div className="flex items-center overflow-hidden">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black">
-                        {loadingStreamingData || loadingAudio ? (
-                          <svg
-                            className="h-4 w-4 animate-spin text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
-                          </svg>
-                        ) : !playing ? (
-                          <svg
-                            className="h-4 w-4"
-                            viewBox="0 0 11 13"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M10 4.76795C11.3333 5.53775 11.3333 7.46225 10 8.23205L3.25 12.1292C1.91666 12.899 0.249999 11.9367 0.249999 10.3971L0.25 2.60288C0.25 1.06328 1.91667 0.101034 3.25 0.870834L10 4.76795Z"
-                              fill="#FFFFFF"
-                            />
-                          </svg>
-                        ) : (
-                          <svg
-                            className="h-3 w-3"
-                            viewBox="0 0 11 11"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <rect width="4" height="11" rx="2" fill="#FFFFFF" />
-                            <rect
-                              x="7"
-                              width="4"
-                              height="11"
-                              rx="2"
-                              fill="#FFFFFF"
-                            />
-                          </svg>
-                        )}
-                      </div>
-                      <div className="mx-2.5 flex min-w-0 flex-col">
-                        <span className="select-none truncate text-sm">
+                  <div className="mr-2 flex h-16 w-[280px] shrink-0 items-center justify-between rounded-full bg-white p-3 pl-5 pr-4">
+                    {/* <div className="flex items-center overflow-hidden"> */}
+                    <div className="flex-1 overflow-hidden">
+                      <div className="mr-2.5 flex min-w-0 flex-col">
+                        <span className="select-none truncate text-sm font-medium">
                           {items[current]?.content?.song?.title}
                         </span>
                         <span className="select-none truncate text-xs text-gray-500">
@@ -699,6 +658,95 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                         </span>
                       </div>
                     </div>
+                    <button
+                      onClick={() => handleToggle(items[current]?.id)}
+                      className="rounded-ful mr-2.5 flex h-7 w-7 shrink-0 items-center justify-center"
+                    >
+                      {loadingStreamingData || loadingAudio ? (
+                        <svg
+                          className="h-4 w-4 animate-spin text-black"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                      ) : !playing ? (
+                        <svg
+                          className="h-4 w-4 text-black"
+                          viewBox="0 0 11 13"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M10 4.76795C11.3333 5.53775 11.3333 7.46225 10 8.23205L3.25 12.1292C1.91666 12.899 0.249999 11.9367 0.249999 10.3971L0.25 2.60288C0.25 1.06328 1.91667 0.101034 3.25 0.870834L10 4.76795Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          className="h-3 w-3 text-black"
+                          viewBox="0 0 11 11"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="4"
+                            height="11"
+                            rx="2"
+                            fill="currentColor"
+                          />
+                          <rect
+                            x="7"
+                            width="4"
+                            height="11"
+                            rx="2"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      )}
+                    </button>
+                    <button
+                      onClick={() => setNextTrack()}
+                      className="rounded-ful mr-2.5 flex h-7 w-7 shrink-0 items-center justify-center"
+                    >
+                      <svg
+                        className="h-4 w-4"
+                        viewBox="0 0 19 18"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          x="14.9888"
+                          y="1.43457"
+                          width="3.28191"
+                          height="14.7686"
+                          rx="1.64096"
+                          fill="black"
+                        />
+                        <path
+                          d="M11.9888 7.08709C13.3221 7.85689 13.3221 9.78139 11.9888 10.5512L3.22016 15.6137C1.88683 16.3835 0.220161 15.4213 0.220161 13.8817L0.220161 3.75658C0.220161 2.21698 1.88683 1.25473 3.22016 2.02453L11.9888 7.08709Z"
+                          fill="black"
+                        />
+                      </svg>
+                    </button>
+                    <Switch
+                      isChecked={isAutoPlay}
+                      onChange={(e) => handleToggleAutoPlay(e.target.checked)}
+                    />
+                    {/* </div> */}
                   </div>
                   <button
                     onClick={exportImage}
