@@ -1,9 +1,13 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import disc from "@assets/img/gimmesong_logo.png";
 import meme_icon from "@assets/img/meme_emoji.png";
 import confuse_icon from "@assets/img/confuse_emoji.png";
+import hand from "@assets/img/hand_emoji.png";
 
-import toast from "react-hot-toast";
+import google from "@assets/img/googleLogo.png";
+import safari from "@assets/img/safariLogo.png";
+import samsung from "@assets/img/samsungInternet.png";
+
 import { useNavigate } from "react-router-dom";
 
 import { signInWithGoogle } from "@lib/firebase";
@@ -13,12 +17,28 @@ import { accountingNum } from "@utils/number";
 
 import ConnectWithUs from "@components/ConnectWithUs";
 
+import { useDisclosure } from "@chakra-ui/react";
+
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+  Button,
+} from "@chakra-ui/react";
+
 function Home() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
   const [FromInAppBrowser, setFromInAppBrowser] = useState(false);
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = useRef()
 
   useEffect(() => {
     const getTotalSentSong = async () => {
@@ -36,29 +56,59 @@ function Home() {
 
     setFromInAppBrowser(
       navigator.userAgent.includes("FB") ||
-        navigator.userAgent.includes("Instagram") ||
-        navigator.userAgent.includes("Twitter") ||
-        navigator.userAgent.includes("Line")
+      navigator.userAgent.includes("Instagram") ||
+      navigator.userAgent.includes("Twitter") ||
+      navigator.userAgent.includes("Line")
     );
   }, []);
 
+
   const handleContinueSignIn = () => {
     FromInAppBrowser
-      ? toast(
-          "Open in your default browser (e.g. Chrome, Safari) to continue",
-          {
-            style: {
-              borderRadius: "25px",
-              background: "#FF6464",
-              color: "#fff",
-            },
-          }
-        )
+      ? onOpen()
+
       : signInWithGoogle();
   };
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-[60px] pt-[80px]">
+      <AlertDialog
+        motionPreset='slideInBottom'
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+        isOpen={isOpen}
+        isCentered
+        size="md"
+        scrollBehavior="outside"
+      >
+        <AlertDialogOverlay />
+
+        <AlertDialogContent borderRadius={25} marginX={4}>
+          <AlertDialogHeader></AlertDialogHeader>
+          <AlertDialogCloseButton />
+          <AlertDialogBody>
+            <div className="flex items-center">
+              <img className=" h-20 mr-2" src={hand} />
+              <div className="flex flex-col">
+                <span>
+                  Welcome to <b>Gimmesong</b>.
+                  Please open in default browser.
+                </span>
+                <div className="flex mx-2 mt-3">
+                  <img className=" h-8 mr-3" src={google} />
+                  <img className=" h-8 mr-3" src={safari} />
+                  <img className=" h-8 mr-3" src={samsung} />
+                </div>
+              </div>
+            </div>
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            {/* <Button colorScheme='red' ml={3}>
+              Yes
+            </Button> */}
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <span className="gimmesong-primary-font">
         Songs have been given{" "}
         {loading ? (
