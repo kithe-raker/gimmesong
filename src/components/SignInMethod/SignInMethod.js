@@ -90,23 +90,23 @@ function SignInMethod({ className }) {
           >
             {activeStep === 1 && (
               <div className="flex items-center">
-                <img className=" mr-4 h-20" src={hand} />
+                <img className=" mr-4 h-20" src={hand} alt=""/>
                 <div className="flex flex-col">
                   <span>
                     Welcome to <b>Gimmesong</b>. Please open in default browser.
                   </span>
                   <div className="mx-2 mt-3 flex">
-                    <img className=" mr-3 h-8" src={google} />
-                    <img className=" mr-3 h-8" src={safari} />
-                    <img className=" mr-3 h-8" src={samsung} />
+                    <img className=" mr-3 h-8" src={google} alt=""/>
+                    <img className=" mr-3 h-8" src={safari} alt=""/>
+                    <img className=" mr-3 h-8" src={samsung} alt=""/>
                   </div>
                 </div>
               </div>
             )}
             {activeStep === 2 && (
               <div className="relative flex items-center justify-center ">
-                <img className="absolute h-64 rounded-xl" src={howGif} />
-                <img className=" h-72 rounded-xl" src={gifBg} />
+                <img className="absolute h-64 rounded-xl" src={howGif} alt=""/>
+                <img className=" h-72 rounded-xl" src={gifBg} alt=""/>
               </div>
             )}
           </AlertDialogBody>

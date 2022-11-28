@@ -664,7 +664,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   </div>
                 )}
                 <button
-                  onClick={exportImage}
+                  onClick={exportImage} //งับ
                   className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm"
                 >
                   <svg
