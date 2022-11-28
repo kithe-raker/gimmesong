@@ -103,7 +103,7 @@ function AddSongModal({ className }) {
             {!user?.username ? (
               <div className="flex max-w-md flex-col items-center justify-center">
                 Please sign in before add song to playlist.
-                <SignInMethod className="mt-6"/>
+                <SignInMethod className="mt-4" />
               </div>
             ) : (
               <SendSong

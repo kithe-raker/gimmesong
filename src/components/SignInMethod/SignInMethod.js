@@ -9,8 +9,7 @@ import google from "@assets/img/googleLogo.png";
 import safari from "@assets/img/safariLogo.png";
 import samsung from "@assets/img/samsungInternet.png";
 
-import howGif from "@assets/img/how-browser.gif";
-import gifBg from "@assets/img/gifBg.png";
+import howToOpenBrowser from "@assets/img/how-browser.mp4";
 
 import { useDisclosure } from "@chakra-ui/react";
 
@@ -26,15 +25,21 @@ import {
 } from "@chakra-ui/react";
 
 function SignInMethod({ className }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen,
+    onOpen: openInAppDetected,
+    onClose: closeInAppDetected,
+  } = useDisclosure();
   const cancelRef = useRef();
 
-  const [FromInAppBrowser, setFromInAppBrowser] = useState(false);
+  const [fromInAppBrowser, setFromInAppBrowser] = useState(false);
 
   const handleContinueSignIn = () => {
-    FromInAppBrowser ? onOpen() : signInWithGoogle();
+    fromInAppBrowser ? openInAppDetected() : signInWithGoogle();
   };
+
   useEffect(() => {
+    openInAppDetected();
     setFromInAppBrowser(
       navigator.userAgent.includes("FB") ||
         navigator.userAgent.includes("Instagram") ||
@@ -47,8 +52,8 @@ function SignInMethod({ className }) {
     totalSteps: 2,
   });
 
-  const onCloseExportModal = () => {
-    onClose();
+  const handleCloseInAppDetected = () => {
+    closeInAppDetected();
     setStep(1);
   };
 
@@ -56,7 +61,7 @@ function SignInMethod({ className }) {
     <>
       <button
         onClick={handleContinueSignIn}
-        className={`mt-12 flex h-12 w-[260px] items-center justify-center rounded-full bg-black font-bold text-white transition duration-150 ease-in-out hover:bg-gray-600 ${className}`}
+        className={`flex h-12 w-[260px] items-center justify-center rounded-full bg-black font-bold text-white transition duration-150 ease-in-out hover:bg-gray-600 ${className}`}
       >
         <svg
           className="mr-3 h-4 w-4 fill-current"
@@ -71,7 +76,7 @@ function SignInMethod({ className }) {
       <AlertDialog
         motionPreset="slideInBottom"
         leastDestructiveRef={cancelRef}
-        onClose={onCloseExportModal}
+        onClose={handleCloseInAppDetected}
         isOpen={isOpen}
         isCentered
         size="md"
@@ -90,57 +95,73 @@ function SignInMethod({ className }) {
           >
             {activeStep === 1 && (
               <div className="flex items-center">
-                <img className=" mr-4 h-20" src={hand} />
+                <img className="mr-4 h-20" src={hand} alt="" />
                 <div className="flex flex-col">
                   <span>
-                    Welcome to <b>Gimmesong</b>. Please open in default browser.
+                    Welcome to <b>Gimmesong</b>.<br /> To continue sign in,
+                    Please open in your default browser.
                   </span>
-                  <div className="mx-2 mt-3 flex">
-                    <img className=" mr-3 h-8" src={google} />
-                    <img className=" mr-3 h-8" src={safari} />
-                    <img className=" mr-3 h-8" src={samsung} />
+                  <div className="mt-3 flex">
+                    <div className="mr-3 flex flex-col items-center">
+                      <img className="h-8" src={google} alt="chrome" />
+                      <span className="mt-[2px] text-xs">Chrome</span>
+                    </div>
+                    <div className="mr-3 flex flex-col items-center">
+                      <img className="h-8" src={safari} alt="chrome" />
+                      <span className="mt-[2px] text-xs">Safari</span>
+                    </div>
+                    <div className="mr-3 flex flex-col items-center">
+                      <img className="h-8" src={samsung} alt="chrome" />
+                      <span className="mt-[2px] text-xs">Samsung</span>
+                    </div>
                   </div>
                 </div>
               </div>
             )}
             {activeStep === 2 && (
               <div className="relative flex items-center justify-center ">
-                <img className="absolute h-64 rounded-xl" src={howGif} />
-                <img className=" h-72 rounded-xl" src={gifBg} />
+                <video
+                  muted
+                  playsInline
+                  preload="auto"
+                  src={howToOpenBrowser}
+                  autoPlay
+                  loop
+                />
               </div>
             )}
           </AlertDialogBody>
           <AlertDialogFooter display={`flex`} justifyContent={`center`}>
             {activeStep !== 2 ? (
               <Button
-              w="full"
-              onClick={nextStep}
-              borderRadius="25"
-              bgColor="black"
-              color="white"
-              h={42}
-              _hover={{ bg: "#000000" }}
-              _active={{
-                bg: "#000000",
-              }}
-            >
-              See how?
-            </Button>
+                w="full"
+                onClick={nextStep}
+                borderRadius="25"
+                bgColor="black"
+                color="white"
+                h={42}
+                _hover={{ bg: "#000000" }}
+                _active={{
+                  bg: "#000000",
+                }}
+              >
+                See how?
+              </Button>
             ) : (
               <Button
-                    w="full"
-                    onClick={backStep}
-                    borderRadius="25"
-                    bgColor="black"
-                    color="white"
-                    h={42}
-                    _hover={{ bg: "#000000" }}
-                    _active={{
-                      bg: "#000000",
-                    }}
-                  >
-                    Back
-                  </Button>
+                w="full"
+                onClick={handleCloseInAppDetected}
+                borderRadius="25"
+                bgColor="black"
+                color="white"
+                h={42}
+                _hover={{ bg: "#000000" }}
+                _active={{
+                  bg: "#000000",
+                }}
+              >
+                Got it!
+              </Button>
             )}
           </AlertDialogFooter>
         </AlertDialogContent>

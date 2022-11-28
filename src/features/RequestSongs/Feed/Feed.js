@@ -313,7 +313,7 @@ function Feed() {
             {!user?.username ? (
               <div className="flex max-w-md flex-col items-center justify-center">
                 Please sign in before start requesting songs from others.
-                <SignInMethod className="mt-6" />
+                <SignInMethod className="mt-4" />
               </div>
             ) : (
               <NewRequest />

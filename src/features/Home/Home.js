@@ -12,8 +12,6 @@ import { accountingNum } from "@utils/number";
 
 import ConnectWithUs from "@components/ConnectWithUs";
 
-
-
 function Home() {
   const navigate = useNavigate();
 
@@ -77,7 +75,7 @@ function Home() {
         Give a song anonymously to <br />
         someone you&apos;re hiding.
       </span>
-      <SignInMethod />
+      <SignInMethod className="mt-12" />
 
       <div className="mt-4 flex">
         <a
