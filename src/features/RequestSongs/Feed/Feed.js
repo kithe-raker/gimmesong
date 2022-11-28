@@ -21,7 +21,7 @@ import NativeBanner from "@components/Adsense/NativeBanner";
 
 import useSession from "@hooks/useSession";
 import { useLocation } from "react-router-dom";
-import SignInButton from "@components/SignInMethod";
+import SignInMethod from "@components/SignInMethod";
 
 function Feed() {
   const {
@@ -278,7 +278,7 @@ function Feed() {
             {!user?.username ? (
               <div className="flex max-w-md flex-col items-center justify-center">
                 Please sign in before start requesting songs from others.
-                <SignInButton/>
+                <SignInMethod className="mt-6"/>
               </div>
             ) : (
               <NewRequest />

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import disc from "@assets/img/gimmesong_logo.png";
 import meme_icon from "@assets/img/meme_emoji.png";
 import confuse_icon from "@assets/img/confuse_emoji.png";
-import SignInButton from "@components/SignInMethod";
+import SignInMethod from "@components/SignInMethod";
 
 import { useNavigate } from "react-router-dom";
 
@@ -77,7 +77,7 @@ function Home() {
         Give a song anonymously to <br />
         someone you&apos;re hiding.
       </span>
-      <SignInButton />
+      <SignInMethod />
 
       <div className="mt-4 flex">
         <a

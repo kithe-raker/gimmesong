@@ -13,7 +13,7 @@ import SendSong from "@features/RequestSongs/SendSong";
 
 import { PlaylistContext } from "contexts/PlaylistContext";
 import { FeedContext } from "contexts/FeedContext";
-import SignInButton from "@components/SignInMethod";
+import SignInMethod from "@components/SignInMethod";
 
 function AddSongModal({ className }) {
   const {
@@ -103,7 +103,7 @@ function AddSongModal({ className }) {
             {!user?.username ? (
               <div className="flex max-w-md flex-col items-center justify-center">
                 Please sign in before add song to playlist.
-                <SignInButton className="mt-6"/>
+                <SignInMethod className="mt-6"/>
               </div>
             ) : (
               <SendSong
