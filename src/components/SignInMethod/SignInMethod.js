@@ -39,7 +39,6 @@ function SignInMethod({ className }) {
   };
 
   useEffect(() => {
-    openInAppDetected();
     setFromInAppBrowser(
       navigator.userAgent.includes("FB") ||
         navigator.userAgent.includes("Instagram") ||

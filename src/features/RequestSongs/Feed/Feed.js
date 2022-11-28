@@ -73,7 +73,7 @@ function Feed() {
       <div className="mt-4 flex w-full flex-col px-4 pb-[80px]">
         <div className="flex items-center justify-between">
           <div className="relative flex items-center">
-            <img className=" mr-2 h-8 w-8" src={annouceEmoji} />
+            <img className=" mr-2 h-8 w-8" src={annouceEmoji} alt="" />
             <span className="gimmesong-secondary-font text-2xl font-bold">
               Songs Request
             </span>
