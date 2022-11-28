@@ -43,8 +43,8 @@ function Tutorial() {
           <WhereLink />
           <WhereSongs />
           <HowGive />
-          {/* <HowShare />
-          <NewRequest />
+          {/*<HowShare />
+           <NewRequest />
           <ShareRequest />
           <AddSongToRequest /> */}
           {/* <AppShortcut/> */}

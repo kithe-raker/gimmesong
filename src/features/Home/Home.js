@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import disc from "@assets/img/gimmesong_logo.png";
 import meme_icon from "@assets/img/meme_emoji.png";
 import confuse_icon from "@assets/img/confuse_emoji.png";
+import SignInMethod from "@components/SignInMethod";
 
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-import { signInWithGoogle } from "@lib/firebase";
 import GimmesongAPI from "@lib/gimmesong_api";
 
 import { accountingNum } from "@utils/number";
@@ -18,7 +17,7 @@ function Home() {
 
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
-  const [FromInAppBrowser, setFromInAppBrowser] = useState(false);
+  const [] = useState(false);
 
   useEffect(() => {
     const getTotalSentSong = async () => {
@@ -33,29 +32,7 @@ function Home() {
       }
     };
     getTotalSentSong();
-
-    setFromInAppBrowser(
-      navigator.userAgent.includes("FB") ||
-        navigator.userAgent.includes("Instagram") ||
-        navigator.userAgent.includes("Twitter") ||
-        navigator.userAgent.includes("Line")
-    );
   }, []);
-
-  const handleContinueSignIn = () => {
-    FromInAppBrowser
-      ? toast(
-          "Open in your default browser (e.g. Chrome, Safari) to continue",
-          {
-            style: {
-              borderRadius: "25px",
-              background: "#FF6464",
-              color: "#fff",
-            },
-          }
-        )
-      : signInWithGoogle();
-  };
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-[60px] pt-[80px]">
@@ -98,19 +75,7 @@ function Home() {
         Give a song anonymously to <br />
         someone you&apos;re hiding.
       </span>
-      <button
-        onClick={handleContinueSignIn}
-        className="mt-12 flex h-12 w-[260px] items-center justify-center rounded-full bg-black font-bold text-white transition duration-150 ease-in-out hover:bg-gray-600"
-      >
-        <svg
-          className="mr-3 h-4 w-4 fill-current"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
-        </svg>
-        <span>Continue with Google</span>
-      </button>
+      <SignInMethod className="mt-12" />
 
       <div className="mt-4 flex">
         <a
