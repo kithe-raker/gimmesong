@@ -7,7 +7,7 @@ import {
   useMemo,
 } from "react";
 
-import disc from "@assets/img/disc.png";
+import disc from "@assets/img/disc.webp";
 import logo from "@assets/img/gimmesong_logo.png";
 
 import Slider from "react-slick";
@@ -323,12 +323,10 @@ function ReceivedSongs({ layout, onLayoutChange }) {
       }
       console.error(err);
 
-
       if (playerSetting.autoplay) {
         // upNextCallback(setNextTrack, autoPlayTimer);
         setNextTrack();
       }
-
     }
   };
 
@@ -659,7 +657,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                     {/* <div className="flex items-center overflow-hidden"> */}
                     <div className="flex-1 overflow-hidden">
                       <div className="mr-2.5 flex min-w-0 flex-col">
-                        <span className="select-none truncate text-sm font-medium">
+                        <span className="select-none truncate text-sm">
                           {items[current]?.content?.song?.title}
                         </span>
                         <span className="select-none truncate text-xs text-gray-500">
