@@ -1,4 +1,4 @@
-import disc from "@assets/img/disc.png";
+import disc from "@assets/img/disc.webp";
 import { useNavigate } from "react-router-dom";
 import useSession from "@hooks/useSession";
 

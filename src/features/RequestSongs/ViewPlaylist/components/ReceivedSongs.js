@@ -7,7 +7,7 @@ import {
   useMemo,
 } from "react";
 
-import disc from "@assets/img/disc.png";
+import disc from "@assets/img/disc.webp";
 import logo from "@assets/img/gimmesong_logo.png";
 
 import Slider from "react-slick";
