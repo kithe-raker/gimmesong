@@ -16,6 +16,7 @@ const AudioPlayer = forwardRef((props, ref) => {
     src,
     onToggle,
     onLoading,
+    onError,
     onEnded,
     loadingSource,
     autoPlayAfterSrcChange,
@@ -55,10 +56,12 @@ const AudioPlayer = forwardRef((props, ref) => {
   const playPromise = async () => {
     if (!audioRef.current) return;
     if (!audioSrc) {
-      throw new PlayerError({
+      let error = new PlayerError({
         code: "NO_AUDIO_SOURCE",
         message: "No audio source",
       });
+      onError && onError(error);
+      throw error;
     }
 
     const audio = audioRef.current;
@@ -70,10 +73,12 @@ const AudioPlayer = forwardRef((props, ref) => {
       playPromise
         .then(() => {})
         .catch((err) => {
-          throw new PlayerError({
+          let error = new PlayerError({
             code: "PLAYER_FAILED",
             message: err.message,
           });
+          onError && onError(error);
+          throw error;
         })
         .finally(() => {
           onLoading(false);
@@ -159,7 +164,7 @@ const AudioPlayer = forwardRef((props, ref) => {
       await playPromise();
     };
     // Play audio when player is not loading audio source
-    if (autoPlayAfterSrcChange && !loadingSource) {
+    if (autoPlayAfterSrcChange && !loadingSource && audioSrc) {
       play();
     }
   }, [audioSrc]);
