@@ -719,7 +719,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                       {/* <div className="flex items-center overflow-hidden"> */}
                       <div className="flex-1 overflow-hidden">
                         <div className="mr-2.5 flex min-w-0 flex-col">
-                          <span className="select-none truncate text-sm font-medium">
+                          <span className="select-none truncate text-sm">
                             {items[current]?.content?.song?.title}
                           </span>
                           <span className="select-none truncate text-xs text-gray-500">
