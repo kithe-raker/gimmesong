@@ -1,44 +1,25 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import disc from "@assets/img/gimmesong_logo.png";
 import meme_icon from "@assets/img/meme_emoji.png";
 import confuse_icon from "@assets/img/confuse_emoji.png";
-import hand from "@assets/img/hand_emoji.png";
-
-import google from "@assets/img/googleLogo.png";
-import safari from "@assets/img/safariLogo.png";
-import samsung from "@assets/img/samsungInternet.png";
+import SignInButton from "@components/SignInMethod";
 
 import { useNavigate } from "react-router-dom";
 
-import { signInWithGoogle } from "@lib/firebase";
 import GimmesongAPI from "@lib/gimmesong_api";
 
 import { accountingNum } from "@utils/number";
 
 import ConnectWithUs from "@components/ConnectWithUs";
 
-import { useDisclosure } from "@chakra-ui/react";
 
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
-  Button,
-} from "@chakra-ui/react";
 
 function Home() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
-  const [FromInAppBrowser, setFromInAppBrowser] = useState(false);
-
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const cancelRef = useRef()
+  const [] = useState(false);
 
   useEffect(() => {
     const getTotalSentSong = async () => {
@@ -53,62 +34,10 @@ function Home() {
       }
     };
     getTotalSentSong();
-
-    setFromInAppBrowser(
-      navigator.userAgent.includes("FB") ||
-      navigator.userAgent.includes("Instagram") ||
-      navigator.userAgent.includes("Twitter") ||
-      navigator.userAgent.includes("Line")
-    );
   }, []);
-
-
-  const handleContinueSignIn = () => {
-    FromInAppBrowser
-      ? onOpen()
-
-      : signInWithGoogle();
-  };
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-[60px] pt-[80px]">
-      <AlertDialog
-        motionPreset='slideInBottom'
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        isOpen={isOpen}
-        isCentered
-        size="md"
-        scrollBehavior="outside"
-      >
-        <AlertDialogOverlay />
-
-        <AlertDialogContent borderRadius={25} marginX={4}>
-          <AlertDialogHeader></AlertDialogHeader>
-          <AlertDialogCloseButton />
-          <AlertDialogBody>
-            <div className="flex items-center">
-              <img className=" h-20 mr-2" src={hand} />
-              <div className="flex flex-col">
-                <span>
-                  Welcome to <b>Gimmesong</b>.
-                  Please open in default browser.
-                </span>
-                <div className="flex mx-2 mt-3">
-                  <img className=" h-8 mr-3" src={google} />
-                  <img className=" h-8 mr-3" src={safari} />
-                  <img className=" h-8 mr-3" src={samsung} />
-                </div>
-              </div>
-            </div>
-          </AlertDialogBody>
-          <AlertDialogFooter>
-            {/* <Button colorScheme='red' ml={3}>
-              Yes
-            </Button> */}
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
       <span className="gimmesong-primary-font">
         Songs have been given{" "}
         {loading ? (
@@ -148,19 +77,7 @@ function Home() {
         Give a song anonymously to <br />
         someone you&apos;re hiding.
       </span>
-      <button
-        onClick={handleContinueSignIn}
-        className="mt-12 flex h-12 w-[260px] items-center justify-center rounded-full bg-black font-bold text-white transition duration-150 ease-in-out hover:bg-gray-600"
-      >
-        <svg
-          className="mr-3 h-4 w-4 fill-current"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
-        </svg>
-        <span>Continue with Google</span>
-      </button>
+      <SignInButton />
 
       <div className="mt-4 flex">
         <a

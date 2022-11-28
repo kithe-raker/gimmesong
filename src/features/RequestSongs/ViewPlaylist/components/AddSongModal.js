@@ -11,11 +11,9 @@ import {
 
 import SendSong from "@features/RequestSongs/SendSong";
 
-import toast from "react-hot-toast";
-
-import { signInWithGoogle } from "@lib/firebase";
 import { PlaylistContext } from "contexts/PlaylistContext";
 import { FeedContext } from "contexts/FeedContext";
+import SignInButton from "@components/SignInMethod";
 
 function AddSongModal({ className }) {
   const {
@@ -29,7 +27,6 @@ function AddSongModal({ className }) {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
-  const [FromInAppBrowser, setFromInAppBrowser] = useState(false);
 
   const { user } = useSession();
 
@@ -37,30 +34,6 @@ function AddSongModal({ className }) {
     onClose();
     await updateFeedItemInfo(playlistInfo.shareLinkId);
     await fetchPlaylistItems();
-  };
-
-  useEffect(() => {
-    setFromInAppBrowser(
-      navigator.userAgent.includes("FB") ||
-        navigator.userAgent.includes("Instagram") ||
-        navigator.userAgent.includes("Twitter") ||
-        navigator.userAgent.includes("Line")
-    );
-  }, []);
-
-  const handleContinueSignIn = () => {
-    FromInAppBrowser
-      ? toast(
-          "Open in your default browser (e.g. Chrome, Safari) to continue",
-          {
-            style: {
-              borderRadius: "25px",
-              background: "#FF6464",
-              color: "#fff",
-            },
-          }
-        )
-      : signInWithGoogle();
   };
 
   return (
@@ -130,19 +103,7 @@ function AddSongModal({ className }) {
             {!user?.username ? (
               <div className="flex max-w-md flex-col items-center justify-center">
                 Please sign in before add song to playlist.
-                <button
-                  onClick={handleContinueSignIn}
-                  className="mt-4 flex h-12 w-[250px] items-center justify-center rounded-full bg-black font-bold text-white transition duration-150 ease-in-out hover:bg-gray-600"
-                >
-                  <svg
-                    className="mr-3 h-4 w-4 fill-current"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
-                  </svg>
-                  <span>Continue with Google</span>
-                </button>
+                <SignInButton className="mt-6"/>
               </div>
             ) : (
               <SendSong
