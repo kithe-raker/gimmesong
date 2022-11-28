@@ -37,7 +37,7 @@ import toast from "react-hot-toast";
 import { StreamingError, PlayerError } from "@lib/error";
 import { ThreeDots } from "react-loader-spinner";
 
-import useDocumentTitle from "@hooks/useDocumentTitle";
+// import useDocumentTitle from "@hooks/useDocumentTitle";
 
 import { useSessionExpired } from "@hooks/useSessionExpired";
 import useCounterEffect from "@hooks/useCounterEffect";
@@ -72,7 +72,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const [playerSetting, setPlayerSetting] = useLocalStorage("player", {
     autoplay: false,
   });
-  const [autoPlayTimer, setAutoPlayTimer] = useState(5);
+  // const [autoPlayTimer, setAutoPlayTimer] = useState(5);
 
   const {
     counter: upNextCounter,
@@ -82,8 +82,8 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
 
   const [items, setItems] = useState([]);
 
-  const [title, setTitle] = useState("");
-  useDocumentTitle(title);
+  // const [title, setTitle] = useState("");
+  // useDocumentTitle(title);
 
   const slider = useRef(null);
   const [current, setCurrent] = useState(null);
@@ -300,8 +300,22 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     }
 
     // set page title to current song title
-    setTitle(items[current]?.content?.song?.title);
+    // setTitle(items[current]?.content?.song?.title);
 
+    // set info about the current playback state
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: items[current]?.content?.song?.title,
+        artist: items[current]?.content?.song?.artistInfo?.artist[0]?.text,
+        artwork: [
+          {
+            src: items[current].content?.song?.thumbnails[
+              items[current].content?.song?.thumbnails.length - 1
+            ]?.url,
+          },
+        ],
+      });
+    }
     // always reset streaming error that occurred from previous song
     setStreamingError(null);
 
@@ -391,7 +405,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     if (!tab) return;
 
     // reset page title
-    setTitle("");
+    // setTitle("");
 
     setStreamingError(null);
     setCurrent(null);
