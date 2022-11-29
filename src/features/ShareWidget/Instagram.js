@@ -4,7 +4,7 @@ import { Button } from "@chakra-ui/react";
 import { ThreeDots } from "react-loader-spinner";
 
 import { useSteps } from "@hooks/useSteps";
-import { useImageExporter } from "@hooks/useImageExporterr";
+import { useImageExporter } from "@hooks/useImageExporter";
 
 const Instagram = ({ content }) => {
   const { exportedURL, exportRefCallback } = useImageExporter();
