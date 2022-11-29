@@ -1,89 +1,25 @@
-import { useState, useRef, useCallback, useContext, useMemo } from "react";
-
 import logo from "@assets/img/gimmesong_logo.png";
 
+import { Button } from "@chakra-ui/react";
 import { ThreeDots } from "react-loader-spinner";
 
 import { useSteps } from "@hooks/useSteps";
-
-import html2canvas from "html2canvas";
-import toast from "react-hot-toast";
-
-import { Button } from "@chakra-ui/react";
+import { useImageExporter } from "@hooks/useImageExporterr";
 
 const Instagram = ({ content }) => {
+  const { exportedURL, exportRefCallback } = useImageExporter();
+
   const { activeStep, setStep, skip, nextStep } = useSteps({
     totalSteps: 5,
   });
 
-  // const [exportMode, setExportMode] = useState("widget");
-  const exportRef = useRef();
-  const [exporting, setExporting] = useState(false);
-  const [exportedURL, setExportedURL] = useState(null);
-
   const platform = window.navigator.platform;
-
-  const isIOSDevice =
-    platform.indexOf("iPhone") === 0 || platform.indexOf("iPad") === 0;
   const isAndroid = platform.indexOf("Android") === 0;
 
   const openInstagram = () => {
     const deeplink = "instagram://story-camera";
     window.location = deeplink;
   };
-
-  const exportImage = (element) => {
-    if (!exportRef.current) return;
-    if (exporting) return;
-    htmlToPng(element);
-  };
-
-  const exportRefCallback = useCallback((node) => {
-    exportRef.current = node;
-    exportImage(node);
-  }, []);
-
-  const htmlToPng = useCallback(async (element, inboxId) => {
-    if (!element) return;
-
-    try {
-      setExportedURL(null);
-      setExporting(true);
-
-      const width = element.clientWidth;
-      const height = element.clientHeight;
-
-      const canvas = await html2canvas(element, {
-        height,
-        width,
-        backgroundColor: null,
-        useCORS: true,
-      });
-
-      // document.body.appendChild(canvas);
-
-      // let a = document.createElement("a");
-      // a.download = `inbox-${exportMode}-${inboxId}.png`;
-
-      canvas.toBlob((blob) => {
-        const url = URL.createObjectURL(blob);
-        // a.href = url;
-        // a.click();
-        setExportedURL(url);
-      });
-    } catch (err) {
-      toast("Export failed", {
-        style: {
-          borderRadius: "25px",
-          background: "#FF6464",
-          color: "#fff",
-        },
-      });
-      console.error(err);
-    } finally {
-      setExporting(false);
-    }
-  }, []);
 
   return (
     <>

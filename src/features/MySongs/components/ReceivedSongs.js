@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 
 import disc from "@assets/img/disc.webp";
-import logo from "@assets/img/gimmesong_logo.png";
 import shushingEmoji from "@assets/img/shushing_emoji.png";
 
 import Slider from "react-slick";
@@ -12,30 +11,14 @@ import "@styles/slick-slider-custom.css";
 import EmptySong from "./EmptySong";
 import AudioPlayer from "@components/AudioPlayer";
 
-import { useSteps } from "@hooks/useSteps";
-
 // import { durationToStr } from "@utils/audio";
 import GimmesongAPI from "@lib/gimmesong_api";
 
-import html2canvas from "html2canvas";
-
-import { useDisclosure } from "@chakra-ui/react";
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
-  Button,
-  Switch,
-} from "@chakra-ui/react";
+import { Switch } from "@chakra-ui/react";
 
 import ytm from "@lib/ytm_api";
 import toast from "react-hot-toast";
 import { StreamingError, PlayerError } from "@lib/error";
-import { ThreeDots } from "react-loader-spinner";
 
 // import useDocumentTitle from "@hooks/useDocumentTitle";
 
@@ -49,23 +32,7 @@ import { useShareDialog } from "@hooks/useShareDialog";
 function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const { openShareDialog, ShareDialog } = useShareDialog();
 
-  const { activeStep, setStep, skip, nextStep } = useSteps({
-    totalSteps: 5,
-  });
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef();
-  const onCloseExportModal = () => {
-    onClose();
-    setStep(1);
-  };
-
   const { open: openSessionExpired, SessionExpired } = useSessionExpired();
-
-  // const [exportMode, setExportMode] = useState("widget");
-  const exportRef = useRef();
-  const [exporting, setExporting] = useState(false);
-  const [exportedURL, setExportedURL] = useState(null);
 
   const scrollY = useScrollPosition();
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -112,67 +79,6 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
       setCurrent(next);
     },
   };
-
-  const platform = window.navigator.platform;
-
-  const isIOSDevice =
-    platform.indexOf("iPhone") === 0 || platform.indexOf("iPad") === 0;
-  const isAndroid = platform.indexOf("Android") === 0;
-
-  const openInstagram = () => {
-    const deeplink = "instagram://story-camera";
-    window.location = deeplink;
-  };
-
-  const exportImage = (inboxId) => {
-    if (!exportRef.current || !inboxId) return;
-    if (exporting) return;
-
-    setExportedURL(null);
-    onOpen();
-    htmlToPng(exportRef.current, inboxId);
-  };
-
-  const htmlToPng = useCallback(async (element, inboxId) => {
-    if (!element) return;
-
-    try {
-      setExporting(true);
-
-      const width = element.clientWidth;
-      const height = element.clientHeight;
-
-      const canvas = await html2canvas(element, {
-        height,
-        width,
-        backgroundColor: null,
-        useCORS: true,
-      });
-
-      // document.body.appendChild(canvas);
-
-      // let a = document.createElement("a");
-      // a.download = `inbox-${exportMode}-${inboxId}.png`;
-
-      canvas.toBlob((blob) => {
-        const url = URL.createObjectURL(blob);
-        // a.href = url;
-        // a.click();
-        setExportedURL(url);
-      });
-    } catch (err) {
-      toast("Export failed", {
-        style: {
-          borderRadius: "25px",
-          background: "#FF6464",
-          color: "#fff",
-        },
-      });
-      console.error(err);
-    } finally {
-      setExporting(false);
-    }
-  }, []);
 
   const handleSelect = async (index) => {
     // when user click on music disc,
