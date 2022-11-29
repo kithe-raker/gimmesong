@@ -8,6 +8,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   AlertDialogCloseButton,
+  AlertDialogFooter,
 } from "@chakra-ui/react";
 
 import Instagram from "@features/ShareWidget/Instagram";
@@ -48,6 +49,7 @@ export const useShareDialog = () => {
               >
                 <Instagram content={content} />
               </AlertDialogBody>
+              {/* <AlertDialogFooter></AlertDialogFooter> */}
             </AlertDialogContent>
           </AlertDialog>
         </>
