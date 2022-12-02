@@ -21,17 +21,19 @@ export const useShareDialog = () => {
     totalSteps: 3, //1:select 2:IG 3:Twitter
   });
 
+  const [share, setShare] = useState("menu");
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
   const closeShareDialog = () => {
     onClose();
-    setStep(1);
+    setShare("menu");
   };
 
   const openShareDialog = () => {
     onOpen();
-    setStep(1);
+    setShare("menu");
   };
 
   const ShareDialog = useCallback(
@@ -57,11 +59,11 @@ export const useShareDialog = () => {
                 alignItems={`center`}
               >
                 {/* select */}
-                {activeStep === 3 && (
-                  <div className="mb-6 flex flex-col items-center">
+                {share === "menu" && (
+                  <div className="mb-6 flex w-full flex-col items-center">
                     <button
-                      className="mb-4 flex items-center text-xl"
-                      onClick={setStep(2)}
+                      className="mb-2 flex w-full items-center justify-center rounded-full border py-3 text-xl"
+                      onClick={() => setShare("instagram")}
                     >
                       <svg
                         className="mr-2"
@@ -76,8 +78,8 @@ export const useShareDialog = () => {
                       Instagram
                     </button>
                     <button
-                      className="flex items-center text-xl"
-                      // onClick={setStep(3)}
+                      className="flex w-full items-center justify-center rounded-full border py-3 text-xl"
+                      onClick={()=>setShare("twitter")}
                     >
                       <svg
                         className="mr-2"
@@ -94,9 +96,9 @@ export const useShareDialog = () => {
                   </div>
                 )}
                 {/* Instagram */}
-                {activeStep === 2 && <Instagram content={content} />}
+                {share === "instagram" && <Instagram content={content} />}
                 {/* Twitter */}
-                {activeStep === 1 && <Twitter content={content}/>}
+                {share === "twitter" && <Twitter content={content} />}
               </AlertDialogBody>
               {/* <AlertDialogFooter></AlertDialogFooter> */}
             </AlertDialogContent>
@@ -104,7 +106,7 @@ export const useShareDialog = () => {
         </>
       );
     },
-    [isOpen]
+    [isOpen, share]
   );
 
   return { openShareDialog, ShareDialog };
