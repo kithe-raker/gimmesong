@@ -1,10 +1,10 @@
-import { useEffect, useRef, useContext } from "react";
+import { useEffect, useRef, useContext, useState } from "react";
 
 import PlaylistBubble from "@components/PlaylistBubble";
 import Empty from "./components/Empty";
 import NewRequest from "../NewRequest";
 
-import LanguageTag from "@lib/languageTag";
+// import LanguageTag from "@lib/languageTag";
 
 import { useDisclosure } from "@chakra-ui/react";
 import {
@@ -12,16 +12,33 @@ import {
   AlertDialogBody,
   AlertDialogContent,
   AlertDialogOverlay,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  Button,
 } from "@chakra-ui/react";
+
+// import {
+//   Menu,
+//   MenuButton,
+//   MenuList,
+//   MenuItem,
+//   MenuItemOption,
+//   MenuGroup,
+//   MenuOptionGroup,
+//   MenuDivider,
+//   Button,
+// } from "@chakra-ui/react";
+
+// import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import annouceEmoji from "@assets/img/annouce_emoji.png";
 
+import SignInMethod from "@components/SignInMethod";
 import { FeedContext } from "contexts/FeedContext";
 import NativeBanner from "@components/Adsense/NativeBanner";
 
 import useSession from "@hooks/useSession";
 import { useLocation } from "react-router-dom";
-import SignInMethod from "@components/SignInMethod";
 import { useInView } from "react-cool-inview";
 
 function Feed() {
@@ -42,20 +59,36 @@ function Feed() {
 
   const { state } = useLocation();
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenRequestSong,
+    onOpen: openRequestSong,
+    onClose: closeRequestSong,
+  } = useDisclosure();
   const cancelRef = useRef();
+
+  const {
+    isOpen: isOpenSelectLang,
+    onOpen: openSelectLang,
+    onClose: closeSelectLang,
+  } = useDisclosure();
+  const cancelSelectLangRef = useRef();
 
   const { user } = useSession();
 
-  const tag = LanguageTag.getPreferenceLanguage();
-  const preferenceLang = ["th", "en"];
+  // const tag = LanguageTag.getPreferenceLanguage();
+  // const preferenceLang = ["th", "en"];
 
   // How many feed item per one ads banner
   const _adsRate = 10;
   var _feedCounter = 0;
 
   const handleOpenRequestSong = () => {
-    onOpen();
+    openRequestSong();
+  };
+
+  const handleSelectLang = async (lang) => {
+    // changeLang(lang);
+    closeSelectLang();
   };
 
   /**
@@ -64,9 +97,15 @@ function Feed() {
    * remember, only thing to make the state.reload true, user need to navigate by pressing menu from the navbar.
    */
   useEffect(() => {
+    // if (!preferences?.feed?.lang) return;
     if (items.length > 0 && !state?.reload) return;
     fetchContent({ loading: true, reset: true, filter });
   }, [state]);
+
+  useEffect(() => {
+    // if (preferences?.feed?.lang) return;
+    openSelectLang();
+  }, []);
 
   return (
     <div className="mx-auto flex w-full max-w-md flex-col items-center py-6 pt-[60px]">
@@ -150,6 +189,28 @@ function Feed() {
               <option value={lang}>{lang.toUpperCase()}</option>
             )}
           </select> */}
+          {/* <Menu>
+            <MenuButton
+              px={4}
+              py={2}
+              transition="all 0.2s"
+              borderRadius="md"
+              borderWidth="1px"
+              _hover={{ bg: "gray.50" }}
+              _expanded={{ bg: "gray.100" }}
+              _focus={{ boxShadow: "outline" }}
+            >
+              File <ChevronDownIcon />
+            </MenuButton>
+            <MenuList>
+              <MenuItem minH="48px">
+                <span>Fluffybuns the Destroyer</span>
+              </MenuItem>
+              <MenuItem minH="40px">
+                <span>Simon the pensive</span>
+              </MenuItem>
+            </MenuList>
+          </Menu> */}
         </div>
         {isLoading ? (
           <div className="my-12 flex items-center justify-center">
@@ -188,7 +249,6 @@ function Feed() {
                     <div className="mb-4">
                       <NativeBanner />
                     </div>
-
                     <PlaylistBubble data={item} />
                   </div>
                 ) : (
@@ -271,12 +331,11 @@ function Feed() {
           </svg>
         </button>
       </div>
-
       <AlertDialog
         motionPreset="slideInBottom"
         leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        isOpen={isOpen}
+        onClose={closeRequestSong}
+        isOpen={isOpenRequestSong}
         isCentered
         size="md"
       >
@@ -288,7 +347,7 @@ function Feed() {
               <span className="text-xl font-semibold">Request Songs</span>
             </div>
             <button
-              onClick={onClose}
+              onClick={closeRequestSong}
               className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-gray-200"
             >
               <svg
@@ -329,6 +388,37 @@ function Feed() {
               Sign out
             </Button>
           </AlertDialogFooter> */}
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog
+        motionPreset="slideInBottom"
+        leastDestructiveRef={cancelSelectLangRef}
+        isOpen={isOpenSelectLang}
+        isCentered
+        size="md"
+      >
+        <AlertDialogOverlay />
+        <AlertDialogContent borderRadius={36} marginX={4} py={4}>
+          <AlertDialogHeader>Choose language for your feed</AlertDialogHeader>
+          <AlertDialogBody>
+            <button
+              onClick={() => handleSelectLang("th")}
+              className="inline-flex h-12 w-full items-center justify-center rounded-full border bg-white text-black outline-none transition duration-150 ease-in-out hover:bg-gray-100"
+            >
+              ภาษาไทย
+            </button>
+            <button
+              onClick={() => handleSelectLang("en")}
+              className="mt-2 inline-flex h-12 w-full items-center justify-center rounded-full border bg-white text-black outline-none transition duration-150 ease-in-out hover:bg-gray-100"
+            >
+              English
+            </button>
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <span className="w-full text-center text-xs">
+              This will help us deliver content more relevant to your language.
+            </span>
+          </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     </div>
