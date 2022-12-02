@@ -33,6 +33,7 @@ function NewRequest() {
   };
 
   const makeRequest = async () => {
+    if (loading) return;
     if (!description.trim()) {
       toast("Please fill a message", {
         style: {
