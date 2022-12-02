@@ -17,6 +17,7 @@ function WriteMessage({ next, requiredPayload, onSongAdded, receiver, song }) {
   };
 
   const sendSong = async () => {
+    if (loading) return;
     if (!receiver || !song) return;
     if (!message.trim()) {
       toast("Please write me a message 🥹", {
