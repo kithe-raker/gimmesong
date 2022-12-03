@@ -1,6 +1,7 @@
 import logo from "@assets/img/gimmesong_logo.png";
 import disc from "@assets/img/disc.webp";
 
+import { ThreeDots } from "react-loader-spinner";
 import useSession from "@hooks/useSession";
 import { useImageExporter } from "@hooks/useImageExporter";
 import { Button } from "@chakra-ui/react";
@@ -33,9 +34,7 @@ const Twitter = ({ content }) => {
                 />
               </div>
               <div className="ml-[32px] flex min-w-0 flex-col ">
-                <span
-                  className={`truncate text-[44px] font-bold leading-[2] `}
-                >
+                <span className={`truncate text-[44px] font-bold leading-[2] `}>
                   {content.song.title}
                 </span>
                 <span
@@ -53,7 +52,7 @@ const Twitter = ({ content }) => {
                 whiteSpace: "pre-line",
                 // "-webkit-text-stroke": "0.5px white",
               }}
-              className=" text-[54px] font-bold  text-black pr-[120px] italic"
+              className=" pr-[120px] text-[54px]  font-bold italic text-black"
             >
               {content.message}
             </p>
@@ -75,10 +74,25 @@ const Twitter = ({ content }) => {
           </div>
         </div>
       </div>
-      <img className="w-full" src={exportedURL} alt={`inbox-widget`} />
+      <div className="mt-3 flex flex-col items-center">
+        {exportedURL ? (
+          <img className="w-full" src={exportedURL} alt={`inbox-widget`} />
+        ) : (
+          <ThreeDots
+            height="60"
+            width="60"
+            radius="9"
+            color="#8583D6"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />
+        )}
+      </div>
       <Button
         marginTop={4}
-        onClick={() => navigator.share(exportedURL)}
+        onClick={() => navigator.share({ exportedURL })}
         borderRadius="25"
         bgColor="black"
         color="white"
