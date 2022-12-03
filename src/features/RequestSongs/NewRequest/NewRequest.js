@@ -16,7 +16,7 @@ function NewRequest() {
   const { open: openSessionExpired, SessionExpired } = useSessionExpired();
 
   const {
-    action: { onCreatedRequest },
+    action: { onRequestCreated },
   } = useContext(FeedContext);
 
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ function NewRequest() {
         anonymous
       );
 
-      onCreatedRequest();
+      onRequestCreated();
       navigate(`/playlist/${shareLinkId}`);
     } catch (err) {
       console.error(err);
