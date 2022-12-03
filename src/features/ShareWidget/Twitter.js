@@ -12,17 +12,16 @@ const Twitter = ({ content }) => {
 
   const shareImage = async () => {
 
-    if (navigator.canShare({ files:[exportedFile] })) {
+    if (navigator.canShare({ files: [exportedFile] })) {
       try {
         await navigator.share({
-          files:[exportedFile],
-          title: 'test title',
-          text: 'test text'
+          files: [exportedFile],
+          title: 'image'
         })
       } catch (err) {
         console.error(err)
       }
-    } else{
+    } else {
       console.log("cannot");
     }
   }
