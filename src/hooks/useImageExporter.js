@@ -8,6 +8,7 @@ export const useImageExporter = () => {
   const exportRef = useRef();
   const [exporting, setExporting] = useState(false);
   const [exportedURL, setExportedURL] = useState(null);
+  const [exportedFile, setExportedFile] = useState(null);
 
   const exportImage = (element) => {
     if (!exportRef.current) return;
@@ -25,6 +26,7 @@ export const useImageExporter = () => {
 
     try {
       setExportedURL(null);
+      setExportedFile(null);
       setExporting(true);
 
       const width = element.clientWidth;
@@ -44,9 +46,11 @@ export const useImageExporter = () => {
 
       canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob);
+        const file = new File([blob], 'image.png', { type: "image/png" });
         // a.href = url;
         // a.click();
         setExportedURL(url);
+        setExportedFile(file);
       });
     } catch (err) {
       toast("Export failed", {
@@ -62,5 +66,5 @@ export const useImageExporter = () => {
     }
   };
 
-  return { exportRefCallback, exportImage, exportedURL };
+  return { exportRefCallback, exportImage, exportedURL, exportedFile };
 };

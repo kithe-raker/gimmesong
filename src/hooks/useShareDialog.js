@@ -1,7 +1,5 @@
 import { useState, useCallback, useRef } from "react";
 
-import { useSteps } from "@hooks/useSteps";
-
 import { useDisclosure } from "@chakra-ui/react";
 import {
   AlertDialog,
@@ -17,9 +15,6 @@ import Instagram from "@features/ShareWidget/Instagram";
 import Twitter from "@features/ShareWidget/Twitter";
 
 export const useShareDialog = () => {
-  const { activeStep, setStep, backStep, nextStep } = useSteps({
-    totalSteps: 3, //1:select 2:IG 3:Twitter
-  });
 
   const [share, setShare] = useState("menu");
 

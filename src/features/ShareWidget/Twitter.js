@@ -7,7 +7,7 @@ import { useImageExporter } from "@hooks/useImageExporter";
 import { Button } from "@chakra-ui/react";
 
 const Twitter = ({ content }) => {
-  const { exportedURL, exportRefCallback } = useImageExporter();
+  const { exportedURL, exportedFile, exportRefCallback } = useImageExporter();
   const { user } = useSession();
   
   const output = document.getElementById('output')
@@ -33,6 +33,23 @@ const shareImage = async () => {
   }
 }
 
+  const shareImage = async () => {
+
+    if (navigator.canShare({ files: [exportedFile] })) {
+      try {
+        await navigator.share({
+          files: [exportedFile],
+          title: 'image'
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    } else {
+      console.log("cannot");
+    }
+  }
+
+
   return (
     <>
       <div className="h-0 w-0 overflow-hidden">
@@ -42,7 +59,7 @@ const shareImage = async () => {
         >
           <div>
             <div className="flex items-center">
-              <div className="relative mt-[40px] flex h-[180px] w-[180px] items-center justify-center">
+              <div className="relative mt-[40px] flex h-[180px] w-[180px] items-center justify-center shrink-0">
                 <img
                   className="absolute inset-0 h-full w-full select-none object-contain"
                   src={disc}
@@ -115,7 +132,7 @@ const shareImage = async () => {
       </div>
       <Button
         marginTop={4}
-        onClick={() => navigator.share(shareImage)}
+        onClick={() => shareImage()}
         borderRadius="25"
         bgColor="black"
         color="white"
