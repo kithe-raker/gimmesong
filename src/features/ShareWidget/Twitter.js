@@ -9,29 +9,6 @@ import { Button } from "@chakra-ui/react";
 const Twitter = ({ content }) => {
   const { exportedURL, exportedFile, exportRefCallback } = useImageExporter();
   const { user } = useSession();
-  
-  const output = document.getElementById('output')
-
-const shareImage = async () => {
-  if (!navigator.canShare) {
-    output.textContent = `Your browser doesn't support the Web Share API.`
-    return
-  }
-
-  if (navigator.canShare({exportedURL})) {
-    try {
-      await navigator.share({
-        exportedURL,
-        title: 'Images',
-      })
-      output.textContent = 'Shared!'
-    } catch (error) {
-      output.textContent = `Error: ${error.message}`
-    }
-  } else {
-    output.textContent = `Your system doesn't support sharing these files.`
-  }
-}
 
   const shareImage = async () => {
 
