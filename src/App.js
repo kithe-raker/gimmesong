@@ -1,26 +1,36 @@
 import { useState, useEffect } from "react";
 
-import Home from "@pages/Home";
-import SignUp from "@pages/SignUp";
-import Menu from "@pages/Menu";
-import Search from "@pages/Search";
-import MySongs from "@pages/MySongs";
+import Home from "@features/Home";
+import SignUp from "@features/SignUp";
+import Menu from "@features/Menu";
+import Search from "@features/Search";
+import MySongs from "@features/MySongs";
+import Tutorial from "@features/Tutorials";
+
+import Feed from "@features/RequestSongs/Feed";
+import ViewPlaylist from "@features/RequestSongs/ViewPlaylist";
 
 import { Toaster } from "react-hot-toast";
 import Header from "@components/Header";
 import Loading from "@components/Loading";
 import ProtectedRoute from "@components/ProtectedRoute";
 
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import useSession from "@hooks/useSession";
+import { useLocation } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 import { auth } from "@lib/firebase";
 
+import PlaylistProvider from "contexts/PlaylistContext";
+import FeedProvider from "contexts/FeedContext";
+
 function App() {
   const { user, setUser } = useSession();
   const [loading, setLoading] = useState(true);
+
+  const { pathname } = useLocation();
 
   useEffect(() => {
     auth.onAuthStateChanged(async (data) => {
@@ -82,6 +92,16 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/request" element={<Feed />} />
+      <Route
+        path="/playlist/:id"
+        element={
+          <PlaylistProvider>
+            <ViewPlaylist />
+          </PlaylistProvider>
+        }
+      />
+      <Route path="/tutorial" element={<Tutorial />} />
       <Route
         path="*"
         element={
@@ -93,19 +113,21 @@ function App() {
     </Routes>
   );
 
+  console.log(pathname);
+
   return (
     <>
-      <Router>
+      <FeedProvider>
         <Toaster />
         {loading ? (
           <Loading fullScreen />
         ) : (
           <>
-            <Header />
+            {pathname !== "/tutorial" && <Header />}
             {routes}
           </>
         )}
-      </Router>
+      </FeedProvider>
     </>
   );
 }

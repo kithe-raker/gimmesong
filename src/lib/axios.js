@@ -1,7 +1,15 @@
 import axios from "axios";
 
+const _apiUrl = {
+  development: "https://gimmesong-api-develop-giculn566q-uc.a.run.app",
+  production: "https://gimmesong-api-giculn566q-uc.a.run.app",
+};
+
 const instance = axios.create({
-  baseURL: "https://gimmesong-api-giculn566q-uc.a.run.app",
+  baseURL:
+    process.env.NODE_ENV !== "development"
+      ? _apiUrl.production
+      : _apiUrl.development,
 });
 
 const getToken = () => {
