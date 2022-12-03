@@ -110,7 +110,7 @@ const Twitter = ({ content }) => {
       </div>
       <Button
         marginTop={4}
-        onClick={() => shareImage}
+        onClick={() => shareImage()}
         borderRadius="25"
         bgColor="black"
         color="white"
