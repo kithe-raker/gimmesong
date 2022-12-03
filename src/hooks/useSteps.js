@@ -7,13 +7,9 @@ export const useSteps = ({ initialStep, totalSteps }) => {
     setActiveStep((prev) => (prev += 1));
   };
 
-  const backStep = () => {
-    setActiveStep((prev) => (prev -= 1));
-  };
-
   const skip = () => {
     setActiveStep(totalSteps);
   };
 
-  return { nextStep, backStep, skip, activeStep, setStep: setActiveStep };
+  return { nextStep, skip, activeStep, setStep: setActiveStep };
 };

@@ -5,34 +5,20 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import { ChakraProvider } from "@chakra-ui/react";
-import { extendTheme } from "@chakra-ui/react";
-import { switchTheme } from "@theme/switch.chakra";
-
 import { install } from "ga-gtag";
-
-import { BrowserRouter as Router } from "react-router-dom";
 
 import "@styles/index.css";
 import "@styles/custom.css";
 
-console.log(process.env.REACT_APP_ENV);
-
 // disable console log on production
 if (process.env.NODE_ENV !== "development") console.log = () => {};
-
-const theme = extendTheme({
-  components: { Switch: switchTheme },
-});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
-  <Router>
-    <ChakraProvider theme={theme}>
-      <App />
-    </ChakraProvider>
-  </Router>
-
+  <ChakraProvider>
+    <App />
+  </ChakraProvider>
   // </React.StrictMode>
 );
 
