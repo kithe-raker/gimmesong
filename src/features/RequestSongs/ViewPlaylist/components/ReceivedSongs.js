@@ -17,7 +17,7 @@ import "@styles/slick-slider-custom.css";
 
 import Empty from "./Empty";
 import AudioPlayer from "@components/AudioPlayer";
-import AddSongModal from "./AddSongModal";
+import AddSong from "@features/RequestSongs/AddSong";
 
 import { useSteps } from "@hooks/useSteps";
 
@@ -1166,7 +1166,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
             title="Oops, Such an empty playlist"
             message="Let's start sharing the link with someone, or start adding your favorite songs."
           >
-            <AddSongModal className="mt-3" />
+            <AddSong className="mt-3" />
           </Empty>
         )}
       </div>
