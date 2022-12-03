@@ -7,15 +7,17 @@ import { useImageExporter } from "@hooks/useImageExporter";
 import { Button } from "@chakra-ui/react";
 
 const Twitter = ({ content }) => {
-  const { exportedURL, exportImage, exportedBlob, exportRefCallback } = useImageExporter();
+  const { exportedURL, exportedBlob, exportRefCallback } = useImageExporter();
   const { user } = useSession();
+
+  const { file } = new File([exportedBlob], 'image.png', { type: "image/png" });
 
   const shareImage = async () => {
 
-    if (navigator.canShare({ files:[exportedBlob] })) {
+    if (navigator.canShare({ file })) {
       try {
         await navigator.share({
-          files:[exportedBlob],
+          file,
           title: 'test title',
           text: 'test text'
         })
