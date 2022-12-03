@@ -8,6 +8,7 @@ export const useImageExporter = () => {
   const exportRef = useRef();
   const [exporting, setExporting] = useState(false);
   const [exportedURL, setExportedURL] = useState(null);
+  const [exportedBlob, setExportedBlob] = useState(null);
 
   const exportImage = (element) => {
     if (!exportRef.current) return;
@@ -25,6 +26,7 @@ export const useImageExporter = () => {
 
     try {
       setExportedURL(null);
+      setExportedBlob(null);
       setExporting(true);
 
       const width = element.clientWidth;
@@ -47,6 +49,7 @@ export const useImageExporter = () => {
         // a.href = url;
         // a.click();
         setExportedURL(url);
+        setExportedBlob(blob);
       });
     } catch (err) {
       toast("Export failed", {
@@ -62,5 +65,5 @@ export const useImageExporter = () => {
     }
   };
 
-  return { exportRefCallback, exportImage, exportedURL };
+  return { exportRefCallback, exportImage, exportedURL, exportedBlob };
 };

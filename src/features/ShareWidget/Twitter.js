@@ -7,31 +7,26 @@ import { useImageExporter } from "@hooks/useImageExporter";
 import { Button } from "@chakra-ui/react";
 
 const Twitter = ({ content }) => {
-  const { exportedURL, exportRefCallback } = useImageExporter();
+  const { exportedURL, exportImage, exportedBlob, exportRefCallback } = useImageExporter();
   const { user } = useSession();
-  
-  const output = document.getElementById('output')
 
-const shareImage = async () => {
-  if (!navigator.canShare) {
-    output.textContent = `Your browser doesn't support the Web Share API.`
-    return
-  }
+  const shareImage = async () => {
 
-  if (navigator.canShare({exportedURL})) {
-    try {
-      await navigator.share({
-        exportedURL,
-        title: 'Images',
-      })
-      output.textContent = 'Shared!'
-    } catch (error) {
-      output.textContent = `Error: ${error.message}`
+    if (navigator.canShare({ files:[exportedBlob] })) {
+      try {
+        await navigator.share({
+          files:[exportedBlob],
+          title: 'test title',
+          text: 'test text'
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    } else{
+      console.log("cannot");
     }
-  } else {
-    output.textContent = `Your system doesn't support sharing these files.`
   }
-}
+
 
   return (
     <>
@@ -42,7 +37,7 @@ const shareImage = async () => {
         >
           <div>
             <div className="flex items-center">
-              <div className="relative mt-[40px] flex h-[180px] w-[180px] items-center justify-center">
+              <div className="relative mt-[40px] flex h-[180px] w-[180px] items-center justify-center shrink-0">
                 <img
                   className="absolute inset-0 h-full w-full select-none object-contain"
                   src={disc}
@@ -115,7 +110,7 @@ const shareImage = async () => {
       </div>
       <Button
         marginTop={4}
-        onClick={() => navigator.share(shareImage)}
+        onClick={() => shareImage()}
         borderRadius="25"
         bgColor="black"
         color="white"
