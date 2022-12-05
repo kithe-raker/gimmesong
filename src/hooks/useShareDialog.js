@@ -32,7 +32,7 @@ export const useShareDialog = () => {
   };
 
   const ShareDialog = useCallback(
-    ({ content }) => {
+    ({ content, showLink }) => {
       return (
         <>
           <AlertDialog
@@ -93,7 +93,7 @@ export const useShareDialog = () => {
                 {/* Instagram */}
                 {share === "instagram" && <Instagram content={content} />}
                 {/* Twitter */}
-                {share === "twitter" && <Twitter content={content} />}
+                {share === "twitter" && <Twitter content={content} showLink={showLink} />}
               </AlertDialogBody>
               {/* <AlertDialogFooter></AlertDialogFooter> */}
             </AlertDialogContent>

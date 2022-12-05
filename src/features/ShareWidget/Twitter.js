@@ -6,7 +6,7 @@ import useSession from "@hooks/useSession";
 import { useImageExporter } from "@hooks/useImageExporter";
 import { Button } from "@chakra-ui/react";
 
-const Twitter = ({ content }) => {
+const Twitter = ({ content, showLink }) => {
   const { exportedURL, exportedFile, exportRefCallback } = useImageExporter();
   const { user } = useSession();
 
@@ -85,9 +85,10 @@ const Twitter = ({ content }) => {
                 GIMMESONG
               </span>
             </div>
+            {showLink == true?
             <span className="-mt-[20px]  text-[36px] text-gray-300">
               gimmesong.link/@{user.username}
-            </span>
+            </span>:<></>}
           </div>
         </div>
       </div>
