@@ -768,6 +768,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                     </svg>
                   </button>
                   <ShareDialog
+                    showLink={true}
                     content={{
                       song: {
                         title: items[current]?.content?.song?.title,
