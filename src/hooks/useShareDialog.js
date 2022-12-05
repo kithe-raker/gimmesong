@@ -15,7 +15,6 @@ import Instagram from "@features/ShareWidget/Instagram";
 import Twitter from "@features/ShareWidget/Twitter";
 
 export const useShareDialog = () => {
-
   const [share, setShare] = useState("menu");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,7 +31,7 @@ export const useShareDialog = () => {
   };
 
   const ShareDialog = useCallback(
-    ({ content, showLink }) => {
+    ({ content, isMysong }) => {
       return (
         <>
           <AlertDialog
@@ -74,7 +73,7 @@ export const useShareDialog = () => {
                     </button>
                     <button
                       className="flex w-full items-center justify-center rounded-full border py-3 text-xl"
-                      onClick={()=>setShare("twitter")}
+                      onClick={() => setShare("twitter")}
                     >
                       <svg
                         className="mr-2"
@@ -93,7 +92,9 @@ export const useShareDialog = () => {
                 {/* Instagram */}
                 {share === "instagram" && <Instagram content={content} />}
                 {/* Twitter */}
-                {share === "twitter" && <Twitter content={content} showLink={showLink} />}
+                {share === "twitter" && (
+                  <Twitter content={content} isMysong={isMysong} />
+                )}
               </AlertDialogBody>
               {/* <AlertDialogFooter></AlertDialogFooter> */}
             </AlertDialogContent>

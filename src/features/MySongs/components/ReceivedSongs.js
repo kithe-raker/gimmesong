@@ -769,6 +769,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                     </svg>
                   </button>
                   <ShareDialog
+                    isMysong={true}
                     content={{
                       song: {
                         title: items[current]?.content?.song?.title,
