@@ -6,7 +6,7 @@ import useSession from "@hooks/useSession";
 import { useImageExporter } from "@hooks/useImageExporter";
 import { Button } from "@chakra-ui/react";
 
-const Twitter = ({ content, showLink }) => {
+const Twitter = ({ content, isMysong }) => {
   const { exportedURL, exportedFile, exportRefCallback } = useImageExporter();
   const { user } = useSession();
 
@@ -15,7 +15,8 @@ const Twitter = ({ content, showLink }) => {
       try {
         await navigator.share({
           files: [exportedFile],
-          title: "image",
+          url: isMysong ? `gimmesong.link/${user.username}` : `gimmesong.link/`,
+          text: "#gimmsong #gimmesonglink",
         });
       } catch (err) {
         console.error(err);
@@ -83,7 +84,7 @@ const Twitter = ({ content, showLink }) => {
                 GIMMESONG
               </span>
             </div>
-            {showLink === true && (
+            {isMysong && (
               <span className="-mt-[20px]  text-[36px] text-gray-300">
                 gimmesong.link/@{user.username}
               </span>
