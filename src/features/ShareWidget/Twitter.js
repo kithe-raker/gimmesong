@@ -15,7 +15,7 @@ const Twitter = ({ content, isMysong }) => {
       try {
         await navigator.share({
           files: [exportedFile],
-          url: isMysong ? `gimmesong.link/${user.username}` : `gimmesong.link/`,
+          url:isMysong?`@${user.username}`:'',
           text: "#gimmsong #gimmesonglink",
         });
       } catch (err) {
