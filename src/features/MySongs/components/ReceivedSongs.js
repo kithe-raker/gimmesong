@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 
 import disc from "@assets/img/disc.webp";
+import logo from "@assets/img/gimmesong_logo.png";
 import shushingEmoji from "@assets/img/shushing_emoji.png";
 
 import Slider from "react-slick";
