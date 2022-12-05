@@ -25,7 +25,6 @@ const Twitter = ({ content, showLink }) => {
     }
   };
 
-
   return (
     <>
       <div className="h-0 w-0 overflow-hidden">
@@ -76,20 +75,18 @@ const Twitter = ({ content, showLink }) => {
           <div className="flex flex-col">
             <div className="flex items-center">
               <img
-                className="mr-[10px] mt-[36px] h-[40px] w-[40px]"
+                className="mr-[10px] mt-[29px] h-[36px] w-[36px]"
                 src={logo}
                 alt="disc"
               />
-              <span className="gimmesong-primary-font text-[40px] tracking-wider">
+              <span className="gimmesong-primary-font text-[36px] tracking-wider">
                 GIMMESONG
               </span>
             </div>
-            {showLink == true ? (
+            {showLink === true && (
               <span className="-mt-[20px]  text-[36px] text-gray-300">
                 gimmesong.link/@{user.username}
               </span>
-            ) : (
-              <></>
             )}
           </div>
         </div>
