@@ -15,7 +15,7 @@ const Twitter = ({ content, isMysong }) => {
       try {
         await navigator.share({
           files: [exportedFile],
-          url:isMysong?`@${user.username}`:'',
+          url: isMysong ? `@${user.username}` : "",
           text: "#gimmsong #gimmesonglink",
         });
       } catch (err) {
@@ -92,9 +92,13 @@ const Twitter = ({ content, isMysong }) => {
           </div>
         </div>
       </div>
-      <div className="mt-3 flex flex-col items-center">
+      <div className="mt-3 flex flex-col items-center rounded-3xl border">
         {exportedURL ? (
-          <img className="w-full" src={exportedURL} alt={`inbox-widget`} />
+          <img
+            className="w-full rounded-3xl"
+            src={exportedURL}
+            alt={`inbox-widget`}
+          />
         ) : (
           <ThreeDots
             height="60"
