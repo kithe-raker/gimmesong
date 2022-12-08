@@ -58,9 +58,7 @@ function App() {
       <Route
         path="/"
         element={
-          <ProtectedRoute isAllowed={!user} redirectPath="/signup">
             <Home />
-          </ProtectedRoute>
         }
       />
       <Route
