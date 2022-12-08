@@ -12,12 +12,16 @@ import { accountingNum } from "@utils/number";
 
 import ConnectWithUs from "@components/ConnectWithUs";
 
+import MySongs from "@features/MySongs";
+import useSession from "@hooks/useSession";
+
 function Home() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
   const [currentTab, setCurrentTab] = useState("CLUB");
+  const { user } = useSession();
   const [] = useState(false); // <-- I assume I can safely delete this?
 
   useEffect(() => {
@@ -37,28 +41,53 @@ function Home() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-[60px] pt-[80px]">
-      <div className="mb-4 flex flex-row items-center justify-center px-10 font-bold">
-        <button
-          className={`flex w-48 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
-            currentTab === "CLUB"
-              ? "bg-black text-white hover:bg-gray-600"
-              : "text-black hover:bg-gray-300"
-          }`}
-          onClick={() => setCurrentTab("CLUB")}
-        >
-          <span>Club</span>
-        </button>
-        <button
-          className={`flex w-48 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out hover:bg-gray-600 ${
-            currentTab === "MYSONGS"
-              ? "bg-black text-white hover:bg-gray-600"
-              : "text-black hover:bg-gray-300"
-          }`}
-          onClick={() => setCurrentTab("MYSONGS")}
-        >
-          <span>My Songs</span>
-        </button>
+      <div className="gimmesong-bg fixed top-14 z-50">
+        <div className="mb-2 flex flex-row items-center justify-center px-10 font-bold">
+          <button
+            className={`flex w-48 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
+              currentTab === "CLUB"
+                ? "bg-black text-white hover:bg-gray-600"
+                : "text-black hover:bg-gray-300"
+            }`}
+            onClick={() => setCurrentTab("CLUB")}
+          >
+            <span>Club</span>
+          </button>
+          <button
+            className={`flex w-48 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out hover:bg-gray-600 ${
+              currentTab === "MYSONGS"
+                ? "bg-black text-white hover:bg-gray-600"
+                : "text-black hover:bg-gray-300"
+            }`}
+            onClick={() => setCurrentTab("MYSONGS")}
+          >
+            <span>My Songs</span>
+          </button>
+        </div>
       </div>
+
+      {currentTab === "CLUB" ? (
+        //club tab
+        <></>
+      ) : currentTab === "MYSONGS" ? (
+        // mysong tab
+        user ? (
+          <MySongs />
+        ) : (
+          <div className="mx-auto mt-14 flex max-w-md flex-col items-center justify-center rounded-2xl bg-white px-12 py-4">
+            <img className="mt-6 w-60" src={disc} alt="disc" />
+            <h1 className="gimmesong-primary-font mt-6 text-5xl">Sign In</h1>
+            <span className="mt-3 text-center text-lg leading-6 text-gray-400">
+              Connect with other by <br />
+              giving songs
+            </span>
+            <SignInMethod className="mt-12" />
+          </div>
+        )
+      ) : (
+        <span>Something went wrong</span>
+      )}
+      {/*
       <span className="gimmesong-primary-font">
         Songs have been given{" "}
         {loading ? (
@@ -124,7 +153,7 @@ function Home() {
         <a href="#" className="underline">
           Term & Policy
         </a>
-      </span>
+        </span>*/}
     </div>
   );
 }
