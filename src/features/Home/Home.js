@@ -17,7 +17,8 @@ function Home() {
 
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
-  const [] = useState(false);
+  const [currentTab, setCurrentTab] = useState("CLUB");
+  const [] = useState(false); // <-- I assume I can safely delete this?
 
   useEffect(() => {
     const getTotalSentSong = async () => {
@@ -36,6 +37,28 @@ function Home() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-[60px] pt-[80px]">
+      <div className="mb-4 flex flex-row items-center justify-center px-10 font-bold">
+        <button
+          className={`flex w-48 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
+            currentTab === "CLUB"
+              ? "bg-black text-white hover:bg-gray-600"
+              : "text-black hover:bg-gray-300"
+          }`}
+          onClick={() => setCurrentTab("CLUB")}
+        >
+          <span>Club</span>
+        </button>
+        <button
+          className={`flex w-48 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out hover:bg-gray-600 ${
+            currentTab === "MYSONGS"
+              ? "bg-black text-white hover:bg-gray-600"
+              : "text-black hover:bg-gray-300"
+          }`}
+          onClick={() => setCurrentTab("MYSONGS")}
+        >
+          <span>My Songs</span>
+        </button>
+      </div>
       <span className="gimmesong-primary-font">
         Songs have been given{" "}
         {loading ? (
