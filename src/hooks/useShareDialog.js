@@ -21,6 +21,7 @@ export const useShareDialog = () => {
 
   const [pattern, setPattern] = useState(1);
   const [file, setFile] = useState(null);
+  const [fileState, setFileState] = useState("unready");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
@@ -30,13 +31,16 @@ export const useShareDialog = () => {
   };
 
   const handleSharing = (props) => {
-    //console.log(props);
+    //console.log(props);setFileState("unready");
+    setFileState("unready");
     if (file === null) {
       setFile(props);
-    } else if (file.size !== props.size || file === null) {
+    } else if (file.size !== props.size) {
       setFile(props);
     }
-
+    if (file !== null && file.size === props.size) {
+      setFileState("ready");
+    }
     //console.log(file);
   };
 
@@ -111,6 +115,7 @@ export const useShareDialog = () => {
                   <div className="flex w-full justify-between">
                     <Button
                       onClick={() => {
+                        if (fileState === "unready") return;
                         const element = document.createElement("a");
                         element.href = URL.createObjectURL(file);
                         element.download = "gimmesong-" + Date.now() + ".png";
@@ -132,6 +137,7 @@ export const useShareDialog = () => {
                     </Button>
                     <Button
                       onClick={() => {
+                        if (fileState === "unready") return;
                         if (navigator.canShare({ files: [file] })) {
                           try {
                             navigator.share({
@@ -139,7 +145,7 @@ export const useShareDialog = () => {
                               title: isMysong
                                 ? `gimmesong.link/@${user.username}`
                                 : window.location.href,
-                              text: "#gimmsong #gimmesonglink",
+                              text: "#gimmsong",
                             });
                           } catch (err) {
                             console.error(err);
