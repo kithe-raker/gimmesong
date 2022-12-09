@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 
-import { useKeenSlider } from "keen-slider/react"
-import "keen-slider/keen-slider.min.css"
+import "keen-slider/keen-slider.min.css";
 
 import toast from "react-hot-toast";
 import GimmesongAPI from "@lib/gimmesong_api";
@@ -9,28 +8,14 @@ import GimmesongAPI from "@lib/gimmesong_api";
 import disc from "@assets/img/disc.webp";
 import shushingEmoji from "@assets/img/shushing_emoji.png";
 import presentEmoji from "@assets/img/present_emoji.png";
-import santaEmoji from "@assets/img/santa_emoji.png"
+import santaEmoji from "@assets/img/santa_emoji.png";
+import DiscList from "@components/DiscList";
 
 function WriteMessage({ next, receiver, song }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [selectedDisk, setSelectedDisk] = useState(0);
-
-  // const slider = useRef(null);
-  // const settings = {
-  //   className: "center mx-1",
-  //   infinite: false,
-  //   slidesToShow: 3,
-  //   slidesToScroll: 1,
-  //   speed: 500,
-  // };
-  const [sliderRef] = useKeenSlider({
-    slides: {
-      perView: 3,
-      spacing: 15,
-    },
-  })
+  const [selectedDisc, setSelectedDisc] = useState(0);
   const discs = [
     {
       disc: disc,
@@ -95,43 +80,11 @@ function WriteMessage({ next, receiver, song }) {
         </span>
       </div>
 
-      <div className="w-full pb-8">
-        <div ref={sliderRef} className="keen-slider">
-          {discs.map((item, i) => {
-            return (
-              <div
-                className={`h-full w-full rounded-2xl keen-slider__slide p-0.5 ${
-                  selectedDisk === i
-                    ? "bg-gradient-to-b from-[#86C7DF] via-[#8583D6] to-[#C697C8]"
-                    : "bg-black/[.05]"
-                }`}
-                key={i}
-              >
-                <button
-                  className="h-full w-full rounded-2xl border  bg-white p-1"
-                  onClick={() => setSelectedDisk(i)}
-                >
-                  <div className="relative pt-[100%]">
-                    <img
-                      className="absolute inset-0 h-full w-full select-none object-contain"
-                      src={item.disc}
-                      alt="disc"
-                    />
-
-                    <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                      <img
-                        className="h-[20%] w-[20%] select-none object-contain"
-                        src={item.emoji}
-                        alt="disc"
-                      />
-                    </div>
-                  </div>
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <DiscList
+        discs={discs}
+        selectedDisc={selectedDisc}
+        setSelectedDisc={setSelectedDisc}
+      />
 
       <div className="flex h-[360px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
         <span className="mt-3 bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-transparent">
