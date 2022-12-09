@@ -29,8 +29,13 @@ export const useShareDialog = () => {
     onOpen();
   };
 
-  const handleSharing = (file) => {
-    setFile(file);
+  const handleSharing = (props) => {
+    //console.log(props);
+    if (file.size !== props.size) {
+      setFile(props);
+    }
+
+    //console.log(file);
   };
 
   const ShareDialog = useCallback(
@@ -166,7 +171,7 @@ export const useShareDialog = () => {
         </>
       );
     },
-    [isOpen, onClose, pattern]
+    [onClose, isOpen, pattern, file, user.username]
   );
 
   return { openShareDialog, ShareDialog };
