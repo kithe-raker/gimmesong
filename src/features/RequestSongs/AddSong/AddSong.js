@@ -22,6 +22,11 @@ import { PlaylistContext } from "contexts/PlaylistContext";
 
 import { useSessionExpired } from "@hooks/useSessionExpired";
 
+import disc from "@assets/img/disc.webp";
+import shushingEmoji from "@assets/img/shushing_emoji.png";
+import presentEmoji from "@assets/img/present_emoji.png";
+import santaEmoji from "@assets/img/santa_emoji.png";
+
 export const AddSongContext = createContext();
 
 function AddSong({ className }) {
@@ -47,6 +52,30 @@ function AddSong({ className }) {
   const [message, setMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const [selectedDisc, setSelectedDisc] = useState(0);
+  const discs = [
+    {
+      disc: disc,
+      emoji: shushingEmoji,
+    },
+    {
+      disc: disc,
+      emoji: presentEmoji,
+    },
+    {
+      disc: disc,
+      emoji: santaEmoji,
+    },
+    {
+      disc: disc,
+      emoji: shushingEmoji,
+    },
+    {
+      disc: disc,
+      emoji: shushingEmoji,
+    },
+  ];
 
   // Call Native banner ads
   // Ads.NativeBanner();
@@ -126,13 +155,14 @@ function AddSong({ className }) {
   }
 
   const store = {
-    state: { isLoading },
-    data: { receiver, song, message },
+    state: { isLoading, selectedDisc },
+    data: { receiver, song, message, discs },
     action: {
       next: goToNextStep,
       selectSong: handleSongChange,
       writeMessage: handleMessageChange,
       sendSong: handleSendSong,
+      selectDisc: setSelectedDisc
     },
   };
 

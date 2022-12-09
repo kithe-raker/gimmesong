@@ -3,16 +3,16 @@ import React from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
-function DiscList({ discs, selectedDisc, setSelectedDisc }) {
+function DiscList({ discs, selectedDisc, setSelectedDisc, className="", perView=3 }) {
   const [sliderRef] = useKeenSlider({
     slides: {
-      perView: 3,
+      perView: perView,
       spacing: 15,
     },
   });
 
   return (
-    <div className="w-full pb-8">
+    <div className={"w-full pb-8 " + className}>
       <div ref={sliderRef} className="keen-slider">
         {discs.map((item, i) => {
           return (
