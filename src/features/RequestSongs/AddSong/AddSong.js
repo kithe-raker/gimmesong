@@ -1,7 +1,6 @@
 import { createContext, useState, useContext, useRef } from "react";
 
 import useSession from "@hooks/useSession";
-import { useDisclosure } from "@chakra-ui/react";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -41,7 +40,6 @@ function AddSong({ className }) {
     action: { fetchPlaylistItems },
   } = useContext(PlaylistContext);
 
-  // const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
   const { user } = useSession();
@@ -59,6 +57,7 @@ function AddSong({ className }) {
   };
   const onClose = () => {
     setIsOpen(false);
+    // reset when closed
     setCurrentStep(1);
   }
 
