@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import disc from "@assets/img/disc.webp";
 import logo from "@assets/img/gimmesong_logo.png";
 
@@ -5,9 +7,14 @@ import { ThreeDots } from "react-loader-spinner";
 import { useImageExporter } from "@hooks/useImageExporter";
 import useSession from "@hooks/useSession";
 
-const Pattern1 = ({ content, isMysong }) => {
+const Pattern3 = ({ content, isMysong, onSharing }) => {
   const { exportedURL, exportedFile, exportRefCallback } = useImageExporter();
   const { user } = useSession();
+
+  useEffect(() => {
+    if (!exportedFile) return;
+    onSharing(exportedFile);
+  }, [exportedFile, onSharing]);
 
   return (
     <>
@@ -99,4 +106,4 @@ const Pattern1 = ({ content, isMysong }) => {
     </>
   );
 };
-export default Pattern1;
+export default Pattern3;

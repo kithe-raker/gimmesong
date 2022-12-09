@@ -1,9 +1,18 @@
+import { useEffect } from "react";
+
 import logo from "@assets/img/gimmesong_logo.png";
 
+import { ThreeDots } from "react-loader-spinner";
 import { useImageExporter } from "@hooks/useImageExporter";
 
-const Pattern1 = ({ content }) => {
-  const { exportedURL, exportRefCallback } = useImageExporter();
+const Pattern1 = ({ content, onSharing }) => {
+  const { exportedURL, exportedFile, exportRefCallback } = useImageExporter();
+
+  useEffect(() => {
+    if (!exportedFile) return;
+    onSharing(exportedFile);
+  }, [exportedFile, onSharing]);
+
   return (
     <>
       <div className="h-0 w-0 overflow-hidden">
@@ -54,7 +63,26 @@ const Pattern1 = ({ content }) => {
           </div>
         </div>
       </div>
-      <img src={exportedURL} alt="inbox-widget" />
+      <div className="mt-3 flex flex-col items-center rounded-3xl border">
+        {exportedURL ? (
+          <img
+            className="w-full rounded-3xl"
+            src={exportedURL}
+            alt={`inbox-widget`}
+          />
+        ) : (
+          <ThreeDots
+            height="60"
+            width="60"
+            radius="9"
+            color="#8583D6"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />
+        )}
+      </div>
     </>
   );
 };

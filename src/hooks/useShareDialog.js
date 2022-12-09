@@ -11,17 +11,26 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+import useSession from "@hooks/useSession";
+
 import Pattern2 from "@features/ShareWidget/Pattern3";
 import Pattern1 from "@features/ShareWidget/Pattern1";
 
 export const useShareDialog = () => {
+  const { user } = useSession();
+
   const [pattern, setPattern] = useState(1);
+  const [file, setFile] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
   const openShareDialog = () => {
     onOpen();
+  };
+
+  const handleSharing = (file) => {
+    setFile(file);
   };
 
   const ShareDialog = useCallback(
@@ -48,9 +57,15 @@ export const useShareDialog = () => {
               >
                 <div className="flex w-full flex-col items-center justify-center">
                   {pattern === 1 && (
-                    <Pattern1 content={content} isMysong={isMysong} />
+                    <Pattern1 content={content} onSharing={handleSharing} />
                   )}
-                  {pattern === 2 && <Pattern2 content={content} />}
+                  {pattern === 2 && (
+                    <Pattern2
+                      content={content}
+                      isMysong={isMysong}
+                      onSharing={handleSharing}
+                    />
+                  )}
                   {/* {pattern === "3" && (
                     <Pattern1 content={(content, isMysong)} />
                   )} */}
@@ -88,6 +103,14 @@ export const useShareDialog = () => {
                   </div>
                   <div className="flex w-full justify-between">
                     <Button
+                      onClick={() => {
+                        const element = document.createElement("a");
+                        element.href = URL.createObjectURL(file);
+                        element.download = "gimmesong-" + Date.now() + ".png";
+
+                        document.body.appendChild(element); // Required for this to work in FireFox
+                        element.click();
+                      }}
                       w="full"
                       borderRadius="25"
                       bgColor="black"
@@ -101,6 +124,23 @@ export const useShareDialog = () => {
                       Download
                     </Button>
                     <Button
+                      onClick={() => {
+                        if (navigator.canShare({ files: [file] })) {
+                          try {
+                            navigator.share({
+                              files: [file],
+                              title: this.ShareDialog.isMysong
+                                ? `@${user.username}`
+                                : "",
+                              text: "#gimmsong #gimmesonglink",
+                            });
+                          } catch (err) {
+                            console.error(err);
+                          }
+                        } else {
+                          console.log("cannot");
+                        }
+                      }}
                       w="full"
                       borderRadius="25"
                       bgColor="black"
@@ -115,7 +155,7 @@ export const useShareDialog = () => {
                       Share
                     </Button>
                   </div>
-                  <span className=" text-center">
+                  <span className="pt-2 pb-1 text-center">
                     Or long press at the image to save.
                   </span>
                 </div>
