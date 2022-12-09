@@ -84,6 +84,7 @@ function WriteMessage({ next, receiver, song }) {
         discs={discs}
         selectedDisc={selectedDisc}
         setSelectedDisc={setSelectedDisc}
+        className="pb-8"
       />
 
       <div className="flex h-[360px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">

@@ -14,7 +14,7 @@ function WriteMessage() {
     <>
       <div className="flex w-full max-w-xs flex-col items-center justify-center">
         <div className="flex w-full flex-row items-center justify-start ">
-          <span className="gimmesong-secondary-font text-xl font-extrabold">
+          <span className="gimmesong-secondary-font text-lg font-extrabold">
             Select disc
           </span>
         </div>
@@ -23,7 +23,8 @@ function WriteMessage() {
           discs={discs}
           selectedDisc={selectedDisc}
           setSelectedDisc={selectDisc}
-          perView={4}
+          perView={3}
+          className="pb-2"
         />
 
         <div className="flex h-[280px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">

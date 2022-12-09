@@ -12,7 +12,7 @@ function DiscList({ discs, selectedDisc, setSelectedDisc, className="", perView=
   });
 
   return (
-    <div className={"w-full pb-8 " + className}>
+    <div className={"w-full " + className}>
       <div ref={sliderRef} className="keen-slider">
         {discs.map((item, i) => {
           return (
