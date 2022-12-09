@@ -136,9 +136,9 @@ export const useShareDialog = () => {
                           try {
                             navigator.share({
                               files: [file],
-                              title: this.ShareDialog.isMysong
-                                ? `@${user.username}`
-                                : "",
+                              title: isMysong
+                                ? `gimmesong.link/@${user.username}`
+                                : window.location.href,
                               text: "#gimmsong #gimmesonglink",
                             });
                           } catch (err) {
