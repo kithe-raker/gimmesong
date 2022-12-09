@@ -97,8 +97,7 @@ function Search() {
   }
 
   const store = {
-    state: { receiver },
-    data: { song },
+    data: { song, receiver },
     action: {
       selectSong: handleSongChange,
       selectReceiver: handleReceiverChange,

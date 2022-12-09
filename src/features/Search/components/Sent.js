@@ -17,7 +17,7 @@ function Sent({ children }) {
   const [count, setCount] = useState(0);
 
   const {
-    state: { receiver },
+    data: { receiver },
   } = useContext(SearchContext);
 
   useEffect(() => {

@@ -19,7 +19,7 @@ function SearchSong({ children }) {
   const { user } = useSession();
 
   const {
-    state: { receiver },
+    data: { receiver },
     action: { next, selectSong },
   } = useContext(SearchContext);
 

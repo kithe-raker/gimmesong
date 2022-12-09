@@ -59,7 +59,7 @@ function AddSong({ className }) {
     setIsOpen(false);
     // reset when closed
     setCurrentStep(1);
-  }
+  };
 
   const [selectedDisc, setSelectedDisc] = useState(0);
   const discs = [
@@ -163,14 +163,14 @@ function AddSong({ className }) {
   }
 
   const store = {
-    state: { isLoading, selectedDisc },
-    data: { receiver, song, message, discs },
+    state: { isLoading },
+    data: { receiver, song, message, discs, selectedDisc },
     action: {
       next: goToNextStep,
       selectSong: handleSongChange,
       writeMessage: handleMessageChange,
       sendSong: handleSendSong,
-      selectDisc: setSelectedDisc
+      selectDisc: setSelectedDisc,
     },
   };
 

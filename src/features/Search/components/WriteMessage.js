@@ -18,8 +18,7 @@ function WriteMessage({ children }) {
   const [loading, setLoading] = useState(false);
 
   const {
-    state: { receiver },
-    data: { song },
+    data: { song, receiver },
     action: { next },
   } = useContext(SearchContext);
 
