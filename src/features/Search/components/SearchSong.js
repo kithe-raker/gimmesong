@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 
 import Loading from "@components/Loading";
 import AudioPlayer from "@components/AudioPlayer";
@@ -12,9 +12,16 @@ import GimmesongAPI from "@lib/gimmesong_api";
 import ytm from "@lib/ytm_api";
 import Ads from "@lib/ads";
 
-function SearchSong({ next, onSelectSong, receiver }) {
+import { SearchContext } from "../Search";
+
+function SearchSong({ children }) {
   const navigate = useNavigate();
   const { user } = useSession();
+
+  const {
+    state: { receiver },
+    action: { next, selectSong },
+  } = useContext(SearchContext);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
@@ -159,7 +166,7 @@ function SearchSong({ next, onSelectSong, receiver }) {
       });
       return;
     }
-    onSelectSong(selected);
+    selectSong(selected);
     next();
   };
 

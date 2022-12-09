@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import disc from "@assets/img/gimmesong_logo.png";
 
 import { useNavigate } from "react-router-dom";
@@ -7,12 +7,18 @@ import useSession from "@hooks/useSession";
 import GimmesongAPI from "@lib/gimmesong_api";
 import { accountingNum } from "@utils/number";
 
-function Sent({ receiver }) {
+import { SearchContext } from "../Search";
+
+function Sent({ children }) {
   const navigate = useNavigate();
   const { user } = useSession();
 
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
+
+  const {
+    state: { receiver },
+  } = useContext(SearchContext);
 
   useEffect(() => {
     const getTotalSentSong = async () => {

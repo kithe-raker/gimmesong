@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 
 import "keen-slider/keen-slider.min.css";
 
@@ -11,9 +11,17 @@ import presentEmoji from "@assets/img/present_emoji.png";
 import santaEmoji from "@assets/img/santa_emoji.png";
 import DiscList from "@components/DiscList";
 
-function WriteMessage({ next, receiver, song }) {
+import { SearchContext } from "../Search";
+
+function WriteMessage({ children }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const {
+    state: { receiver },
+    data: { song },
+    action: { next },
+  } = useContext(SearchContext);
 
   const [selectedDisc, setSelectedDisc] = useState(0);
   const discs = [
