@@ -41,7 +41,7 @@ function AddSong({ className }) {
     action: { fetchPlaylistItems },
   } = useContext(PlaylistContext);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
   const { user } = useSession();
@@ -52,6 +52,15 @@ function AddSong({ className }) {
   const [message, setMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const onOpen = () => {
+    setIsOpen(true);
+  };
+  const onClose = () => {
+    setIsOpen(false);
+    setCurrentStep(1);
+  }
 
   const [selectedDisc, setSelectedDisc] = useState(0);
   const discs = [
