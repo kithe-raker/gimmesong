@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 
-import Slider from "react-slick";
+import { useKeenSlider } from "keen-slider/react"
+import "keen-slider/keen-slider.min.css"
 
 import toast from "react-hot-toast";
 import GimmesongAPI from "@lib/gimmesong_api";
@@ -15,14 +16,20 @@ function WriteMessage({ next, receiver, song }) {
 
   const [selectedDisk, setSelectedDisk] = useState(0);
 
-  const slider = useRef(null);
-  const settings = {
-    className: "center mx-1",
-    infinite: false,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    speed: 500,
-  };
+  // const slider = useRef(null);
+  // const settings = {
+  //   className: "center mx-1",
+  //   infinite: false,
+  //   slidesToShow: 3,
+  //   slidesToScroll: 1,
+  //   speed: 500,
+  // };
+  const [sliderRef] = useKeenSlider({
+    slides: {
+      perView: 3,
+      spacing: 15,
+    },
+  })
   const discs = [
     {
       disc: disc,
@@ -88,11 +95,11 @@ function WriteMessage({ next, receiver, song }) {
       </div>
 
       <div className="w-full pb-8">
-        <Slider ref={slider} {...settings}>
+        <div ref={sliderRef} className="keen-slider">
           {discs.map((item, i) => {
             return (
               <div
-                className={`h-full w-full rounded-2xl p-0.5 ${
+                className={`h-full w-full rounded-2xl keen-slider__slide p-0.5 ${
                   selectedDisk === i
                     ? "bg-gradient-to-b from-[#86C7DF] via-[#8583D6] to-[#C697C8]"
                     : "bg-black/[.05]"
@@ -122,7 +129,7 @@ function WriteMessage({ next, receiver, song }) {
               </div>
             );
           })}
-        </Slider>
+        </div>
       </div>
 
       <div className="flex h-[360px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
