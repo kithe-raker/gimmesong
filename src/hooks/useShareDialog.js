@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
 import { useDisclosure } from "@chakra-ui/react";
 import {
@@ -43,6 +43,11 @@ export const useShareDialog = () => {
     }
     //console.log(file);
   };
+
+  useEffect(() => {
+    setFile(null);
+    setFileState("unready");
+  }, [onOpen]);
 
   const ShareDialog = useCallback(
     ({ content, isMysong }) => {
