@@ -139,7 +139,7 @@ export const useShareDialog = () => {
                               title: isMysong
                                 ? `gimmesong.link/@${user.username}`
                                 : window.location.href,
-                              text: "#gimmsong #gimmesonglink",
+                              text: "#gimmsong",
                             });
                           } catch (err) {
                             console.error(err);
