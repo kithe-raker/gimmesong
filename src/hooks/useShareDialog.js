@@ -31,7 +31,9 @@ export const useShareDialog = () => {
 
   const handleSharing = (props) => {
     //console.log(props);
-    if (file.size !== props.size) {
+    if (file === null) {
+      setFile(props);
+    } else if (file.size !== props.size || file === null) {
       setFile(props);
     }
 
