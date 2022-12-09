@@ -11,7 +11,7 @@ const Pattern1 = ({ content, onSharing }) => {
   useEffect(() => {
     if (!exportedFile) return;
     onSharing(exportedFile);
-  }, [exportedFile, onSharing]);
+  }, [exportedFile]);
 
   return (
     <>
