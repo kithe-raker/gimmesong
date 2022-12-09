@@ -9,6 +9,7 @@ import GimmesongAPI from "@lib/gimmesong_api";
 import disc from "@assets/img/disc.webp";
 import shushingEmoji from "@assets/img/shushing_emoji.png";
 import presentEmoji from "@assets/img/present_emoji.png";
+import santaEmoji from "@assets/img/santa_emoji.png"
 
 function WriteMessage({ next, receiver, song }) {
   const [message, setMessage] = useState("");
@@ -33,23 +34,23 @@ function WriteMessage({ next, receiver, song }) {
   const discs = [
     {
       disc: disc,
-      center: shushingEmoji,
+      emoji: shushingEmoji,
     },
     {
       disc: disc,
-      center: presentEmoji,
+      emoji: presentEmoji,
     },
     {
       disc: disc,
-      center: shushingEmoji,
+      emoji: santaEmoji,
     },
     {
       disc: disc,
-      center: shushingEmoji,
+      emoji: shushingEmoji,
     },
     {
       disc: disc,
-      center: shushingEmoji,
+      emoji: shushingEmoji,
     },
   ];
 
@@ -120,7 +121,7 @@ function WriteMessage({ next, receiver, song }) {
                     <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                       <img
                         className="h-[20%] w-[20%] select-none object-contain"
-                        src={item.center}
+                        src={item.emoji}
                         alt="disc"
                       />
                     </div>
