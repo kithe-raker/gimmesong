@@ -83,26 +83,26 @@ const Pattern3 = ({ content, isMysong, onSharing }) => {
         </div>
       </div>
 
-      <div className="mt-3 flex flex-col items-center rounded-3xl border">
-        {exportedURL ? (
+      {exportedURL ? (
+        <div className="mt-3 flex flex-col items-center rounded-3xl border">
           <img
             className="w-full rounded-3xl"
             src={exportedURL}
             alt={`inbox-widget`}
-          />
-        ) : (
-          <ThreeDots
-            height="60"
-            width="60"
-            radius="9"
-            color="#8583D6"
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{}}
-            wrapperClassName=""
-            visible={true}
-          />
-        )}
-      </div>
+          />{" "}
+        </div>
+      ) : (
+        <ThreeDots
+          height="60"
+          width="60"
+          radius="9"
+          color="#8583D6"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClassName=""
+          visible={true}
+        />
+      )}
     </>
   );
 };
