@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import disc from "@assets/img/gimmesong_logo.png";
+import { useLocation } from "react-router-dom";
 import meme_icon from "@assets/img/meme_emoji.png";
 import confuse_icon from "@assets/img/confuse_emoji.png";
-import SignInMethod from "@components/SignInMethod";
 
 import { useNavigate } from "react-router-dom";
 
@@ -11,17 +10,14 @@ import GimmesongAPI from "@lib/gimmesong_api";
 import { accountingNum } from "@utils/number";
 
 import ConnectWithUs from "@components/ConnectWithUs";
-
-import MySongs from "@features/MySongs";
-import useSession from "@hooks/useSession";
+import ProtectedMySongs from "./components/ProtectedMySongs";
 
 function Home() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
-  const [currentTab, setCurrentTab] = useState("CLUB");
-  const { user } = useSession();
   const [] = useState(false); // <-- I assume I can safely delete this?
 
   useEffect(() => {
@@ -39,54 +35,46 @@ function Home() {
     getTotalSentSong();
   }, []);
 
+  let render;
+  switch (location.pathname) {
+    case "/club":
+      render = <></>;
+      break;
+    case "/mysongs":
+      render = <ProtectedMySongs />;
+      break;
+    default:
+      render = <span>The url you're looking for does not exist</span>;
+  }
+
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-[60px] pt-[80px]">
       <div className="gimmesong-bg fixed top-14 z-50">
         <div className="mb-2 flex flex-row items-center justify-center px-10 font-bold">
           <button
             className={`flex w-48 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
-              currentTab === "CLUB"
+              location.pathname === "/club"
                 ? "bg-black text-white hover:bg-gray-600"
                 : "text-black hover:bg-gray-300"
             }`}
-            onClick={() => setCurrentTab("CLUB")}
+            onClick={() => navigate("/club")}
           >
             <span>Club</span>
           </button>
           <button
             className={`flex w-48 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out hover:bg-gray-600 ${
-              currentTab === "MYSONGS"
+              location.pathname === "/mysongs"
                 ? "bg-black text-white hover:bg-gray-600"
                 : "text-black hover:bg-gray-300"
             }`}
-            onClick={() => setCurrentTab("MYSONGS")}
+            onClick={() => navigate("/mysongs")}
           >
             <span>My Songs</span>
           </button>
         </div>
       </div>
 
-      {currentTab === "CLUB" ? (
-        //club tab
-        <></>
-      ) : currentTab === "MYSONGS" ? (
-        // mysong tab
-        user ? (
-          <MySongs />
-        ) : (
-          <div className="mx-auto mt-14 flex max-w-md flex-col items-center justify-center rounded-2xl bg-white px-12 py-4">
-            <img className="mt-6 w-60" src={disc} alt="disc" />
-            <h1 className="gimmesong-primary-font mt-6 text-5xl">Sign In</h1>
-            <span className="mt-3 text-center text-lg leading-6 text-gray-400">
-              Connect with other by <br />
-              giving songs
-            </span>
-            <SignInMethod className="mt-12" />
-          </div>
-        )
-      ) : (
-        <span>Something went wrong</span>
-      )}
+      {render}
       {/*
       <span className="gimmesong-primary-font">
         Songs have been given{" "}

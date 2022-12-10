@@ -58,9 +58,13 @@ function App() {
       <Route
         path="/"
         element={
+          <ProtectedRoute isAllowed={true} redirectPath="/mysongs">
             <Home />
+          </ProtectedRoute>
         }
       />
+      <Route path="/mysongs" element={<Home />} />
+      <Route path="/club" element={<Home />} />
       <Route
         path="/signup"
         element={
@@ -82,14 +86,6 @@ function App() {
       />
       <Route path="/search" element={<Search />} />
       <Route path="/@:username" element={<Search />} />
-      <Route
-        path="/mysongs"
-        element={
-          <ProtectedRoute isAllowed={user?.username} redirectPath="/">
-            <MySongs />
-          </ProtectedRoute>
-        }
-      />
       <Route path="/request" element={<Feed />} />
       <Route
         path="/playlist/:id"
