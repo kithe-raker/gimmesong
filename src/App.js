@@ -119,7 +119,7 @@ function App() {
           <Loading fullScreen />
         ) : (
           <>
-            {pathname !== "/tutorial" && <Header />}
+            <Header />
             {routes}
           </>
         )}
