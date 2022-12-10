@@ -67,7 +67,12 @@ function WriteMessage({ children }) {
     // implement send song logic here
     try {
       setLoading(true);
-      const success = await GimmesongAPI.sendSong(receiver, message, song);
+      const success = await GimmesongAPI.sendSong(
+        receiver,
+        message,
+        song,
+        discs[selectedDisc]
+      );
       if (success) {
         // if success then go to next step
         next();

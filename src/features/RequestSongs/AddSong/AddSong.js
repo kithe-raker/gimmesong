@@ -108,7 +108,8 @@ function AddSong({ className }) {
         playlistInfo.language,
         playlistInfo.id,
         message,
-        song
+        song,
+        discs[selectedDisc]
       );
 
       if (success) {

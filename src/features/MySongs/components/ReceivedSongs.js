@@ -473,7 +473,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                               >
                                 <img
                                   className="absolute inset-0 h-full w-full select-none object-contain"
-                                  src={disc}
+                                  src={item.disc?.disc || disc}
                                   alt="disc"
                                 />
                                 {item.played ? (
@@ -495,7 +495,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                                   <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                                     <img
                                       className="h-[20%] w-[20%] select-none object-contain"
-                                      src={shushingEmoji}
+                                      src={item.disc?.emoji || shushingEmoji}
                                       alt="disc"
                                     />
                                   </div>
@@ -540,7 +540,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   >
                     <img
                       className="absolute inset-0 h-full w-full select-none object-contain"
-                      src={disc}
+                      src={item.disc?.disc || disc}
                       alt="disc"
                     />
                     {item.played ? (
@@ -559,7 +559,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                       <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                         <img
                           className="h-[20%] w-[20%] select-none object-contain"
-                          src={shushingEmoji}
+                          src={item.disc?.emoji || shushingEmoji}
                           alt="disc"
                         />
                       </div>
