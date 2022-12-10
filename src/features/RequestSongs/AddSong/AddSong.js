@@ -62,6 +62,7 @@ function AddSong({ className }) {
   };
 
   const [selectedDisc, setSelectedDisc] = useState(0);
+  // TODO: fetch discs from api instead of hard coding
   const discs = [
     {
       disc: disc,
@@ -109,7 +110,7 @@ function AddSong({ className }) {
         playlistInfo.id,
         message,
         song,
-        discs[selectedDisc]
+        // TODO: also add disc style here (currently disc[selectedDisc])
       );
 
       if (success) {

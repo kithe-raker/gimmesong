@@ -473,7 +473,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                               >
                                 <img
                                   className="absolute inset-0 h-full w-full select-none object-contain"
-                                  src={item.disc?.disc || disc}
+                                  src={item.disc?.disc || disc} // TODO: use disc style from api (I don't know the shape so I'm just putting a placeholder here)
                                   alt="disc"
                                 />
                                 {item.played ? (
@@ -495,7 +495,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                                   <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                                     <img
                                       className="h-[20%] w-[20%] select-none object-contain"
-                                      src={item.disc?.emoji || shushingEmoji}
+                                      src={item.disc?.emoji || shushingEmoji} // TODO: use disc style from api (I don't know the shape so I'm just putting a placeholder here)
                                       alt="disc"
                                     />
                                   </div>
@@ -540,7 +540,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   >
                     <img
                       className="absolute inset-0 h-full w-full select-none object-contain"
-                      src={item.disc?.disc || disc}
+                      src={item.disc?.disc || disc} // TODO: use disc style from api (I don't know the shape so I'm just putting a placeholder here)
                       alt="disc"
                     />
                     {item.played ? (
@@ -559,8 +559,8 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                       <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                         <img
                           className="h-[20%] w-[20%] select-none object-contain"
-                          src={item.disc?.emoji || shushingEmoji}
-                          alt="disc"
+                          src={item.disc?.emoji || shushingEmoji}// TODO: use disc style from api (I don't know the shape so I'm just putting a placeholder here)
+                          alt="disc" 
                         />
                       </div>
                     )}
@@ -865,7 +865,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                       <div className="flex items-center justify-center">
                         <img
                           className="mr-[8px] h-[36px] w-[36px]"
-                          src={logo}
+                          src={logo} 
                           alt="disc"
                         />
                         <span className="gimmesong-primary-font -mt-[27.5px] text-[36px] tracking-wider">

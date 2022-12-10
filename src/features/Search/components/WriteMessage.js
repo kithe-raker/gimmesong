@@ -23,6 +23,7 @@ function WriteMessage({ children }) {
   } = useContext(SearchContext);
 
   const [selectedDisc, setSelectedDisc] = useState(0);
+  // TODO: fetch discs from api instead of hard coding
   const discs = [
     {
       disc: disc,
@@ -71,7 +72,7 @@ function WriteMessage({ children }) {
         receiver,
         message,
         song,
-        discs[selectedDisc]
+        // TODO: also add disc style here (currently disc[selectedDisc])
       );
       if (success) {
         // if success then go to next step

@@ -449,7 +449,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                               >
                                 <img
                                   className="absolute inset-0 h-full w-full select-none object-contain"
-                                  src={item.disc?.disc || disc}
+                                  src={item.disc?.disc || disc} // TODO: use disc style from api (I don't know the shape so I'm just putting a placeholder here) 
                                   alt="disc"
                                 />
                                 <div className="absolute inset-0 flex h-full w-full items-center justify-center">
@@ -508,7 +508,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                     >
                       <img
                         className="absolute inset-0 h-full w-full select-none object-contain"
-                        src={item.disc?.disc || disc}
+                        src={item.disc?.disc || disc} // TODO: use disc style from api (I don't know the shape so I'm just putting a placeholder here)
                         alt="disc"
                       />
                       <div className="absolute inset-0 flex h-full w-full items-center justify-center">
