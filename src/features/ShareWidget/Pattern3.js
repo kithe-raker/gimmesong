@@ -14,7 +14,7 @@ const Pattern3 = ({ content, isMysong, onSharing }) => {
   useEffect(() => {
     if (!exportedFile) return;
     onSharing(exportedFile);
-  }, [exportedFile, onSharing]);
+  }, [exportedFile]);
 
   return (
     <>

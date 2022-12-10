@@ -16,37 +16,131 @@ import useSession from "@hooks/useSession";
 import Pattern2 from "@features/ShareWidget/Pattern3";
 import Pattern1 from "@features/ShareWidget/Pattern1";
 
-export const useShareDialog = () => {
+const ShareDialogContent = ({ content, isMysong }) => {
   const { user } = useSession();
 
   const [pattern, setPattern] = useState(1);
   const [file, setFile] = useState(null);
-  const [fileState, setFileState] = useState("unready");
 
+  const handleSharing = (props) => {
+    setFile(props);
+  };
+
+  const handleDownload = () => {
+    if (!file) return;
+    const element = document.createElement("a");
+    element.href = URL.createObjectURL(file);
+    element.download = "gimmesong-" + Date.now() + ".png";
+
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+  };
+
+  const handleShare = async () => {
+    if (!file || navigator.share === undefined) return;
+    if (navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: isMysong
+            ? `gimmesong.link/@${user.username}`
+            : window.location.href,
+          text: "#gimmesong",
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
+  return (
+    <div className="flex w-full flex-col items-center justify-center">
+      {pattern === 1 && (
+        <Pattern1 content={content} onSharing={handleSharing} />
+      )}
+      {pattern === 2 && (
+        <Pattern2
+          content={content}
+          isMysong={isMysong}
+          onSharing={handleSharing}
+        />
+      )}
+      {/* {pattern === "3" && (
+    <Pattern1 content={(content, isMysong)} />
+  )} */}
+      <div className="my-4 flex shrink-0 items-center rounded-full border p-1.5">
+        <button
+          onClick={() => setPattern(1)}
+          className={`mr-3 h-8 w-8 rounded-full ${
+            pattern === 1 ? "bg-black text-white" : "bg-white text-black"
+          }`}
+        >
+          1
+        </button>
+        <button
+          onClick={() => setPattern(2)}
+          className={`h-8 w-8 rounded-full ${
+            pattern === 2 ? "bg-black text-white" : "bg-white text-black"
+          }`}
+        >
+          2
+        </button>
+        {/* <button
+      onClick={setPattern("3")}
+      className={`h-8 w-8 rounded-full ${
+        pattern === "3"
+          ? "bg-black text-white"
+          : "bg-white text-black"
+      }`}
+    >
+      3
+    </button> */}
+      </div>
+      <div className="flex w-full justify-between">
+        <Button
+          onClick={handleDownload}
+          w="full"
+          borderRadius="25"
+          bgColor="black"
+          color="white"
+          h={42}
+          _hover={{ bg: "#000000" }}
+          _active={{
+            bg: "#000000",
+          }}
+        >
+          Download
+        </Button>
+        <Button
+          onClick={handleShare}
+          w="full"
+          borderRadius="25"
+          bgColor="black"
+          color="white"
+          ml={3}
+          h={42}
+          _hover={{ bg: "#000000" }}
+          _active={{
+            bg: "#000000",
+          }}
+        >
+          Share
+        </Button>
+      </div>
+      <span className="mt-2 mb-4 text-center">
+        Or long press on the above image to <b>Save</b> and <b>Share</b>
+      </span>
+    </div>
+  );
+};
+
+export const useShareDialog = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
   const openShareDialog = () => {
     onOpen();
   };
-
-  const handleSharing = (props) => {
-    //console.log(props);
-    if (file === null) {
-      setFile(props);
-    } else if (file.size !== props.size) {
-      setFile(props);
-    }
-    if (file !== null && file.size === props.size) {
-      setFileState("ready");
-    }
-    //console.log(file);
-  };
-
-  useEffect(() => {
-    setFile(null);
-    setFileState("unready");
-  }, [onOpen]);
 
   const ShareDialog = useCallback(
     ({ content, isMysong }) => {
@@ -70,112 +164,7 @@ export const useShareDialog = () => {
                 justifyContent={`center`}
                 alignItems={`center`}
               >
-                <div className="flex w-full flex-col items-center justify-center">
-                  {pattern === 1 && (
-                    <Pattern1 content={content} onSharing={handleSharing} />
-                  )}
-                  {pattern === 2 && (
-                    <Pattern2
-                      content={content}
-                      isMysong={isMysong}
-                      onSharing={handleSharing}
-                    />
-                  )}
-                  {/* {pattern === "3" && (
-                    <Pattern1 content={(content, isMysong)} />
-                  )} */}
-                  <div className="my-4 flex h-10 w-[137px] shrink-0 items-center  justify-around rounded-full border">
-                    <button
-                      onClick={() => setPattern(1)}
-                      className={`h-8 w-8 rounded-full ${
-                        pattern === 1
-                          ? "bg-black text-white"
-                          : "bg-white text-black"
-                      }`}
-                    >
-                      1
-                    </button>
-                    <button
-                      onClick={() => setPattern(2)}
-                      className={`h-8 w-8 rounded-full ${
-                        pattern === 2
-                          ? "bg-black text-white"
-                          : "bg-white text-black"
-                      }`}
-                    >
-                      2
-                    </button>
-                    {/* <button
-                      onClick={setPattern("3")}
-                      className={`h-8 w-8 rounded-full ${
-                        pattern === "3"
-                          ? "bg-black text-white"
-                          : "bg-white text-black"
-                      }`}
-                    >
-                      3
-                    </button> */}
-                  </div>
-                  <div className="flex w-full justify-between">
-                    <Button
-                      onClick={() => {
-                        if (fileState === "unready") return;
-                        const element = document.createElement("a");
-                        element.href = URL.createObjectURL(file);
-                        element.download = "gimmesong-" + Date.now() + ".png";
-
-                        document.body.appendChild(element); // Required for this to work in FireFox
-                        element.click();
-                      }}
-                      w="full"
-                      borderRadius="25"
-                      bgColor="black"
-                      color="white"
-                      h={42}
-                      _hover={{ bg: "#000000" }}
-                      _active={{
-                        bg: "#000000",
-                      }}
-                    >
-                      Download
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        if (fileState === "unready") return;
-                        if (navigator.canShare({ files: [file] })) {
-                          try {
-                            navigator.share({
-                              files: [file],
-                              title: isMysong
-                                ? `gimmesong.link/@${user.username}`
-                                : window.location.href,
-                              text: "#gimmsong",
-                            });
-                          } catch (err) {
-                            console.error(err);
-                          }
-                        } else {
-                          console.log("cannot");
-                        }
-                      }}
-                      w="full"
-                      borderRadius="25"
-                      bgColor="black"
-                      color="white"
-                      ml={3}
-                      h={42}
-                      _hover={{ bg: "#000000" }}
-                      _active={{
-                        bg: "#000000",
-                      }}
-                    >
-                      Share
-                    </Button>
-                  </div>
-                  <span className="pt-2 pb-1 text-center">
-                    Or long press at the image to save.
-                  </span>
-                </div>
+                <ShareDialogContent content={content} isMysong={isMysong} />
               </AlertDialogBody>
               {/* <AlertDialogFooter></AlertDialogFooter> */}
             </AlertDialogContent>
@@ -183,7 +172,7 @@ export const useShareDialog = () => {
         </>
       );
     },
-    [onClose, isOpen, pattern, file, user.username]
+    [isOpen]
   );
 
   return { openShareDialog, ShareDialog };
