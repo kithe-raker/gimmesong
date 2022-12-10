@@ -18,7 +18,6 @@ function Home() {
 
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
-  const [] = useState(false); // <-- I assume I can safely delete this?
 
   useEffect(() => {
     const getTotalSentSong = async () => {
@@ -49,10 +48,10 @@ function Home() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-[60px] pt-[80px]">
-      <div className="gimmesong-bg fixed top-14 z-50">
-        <div className="mb-2 flex flex-row items-center justify-center px-10 font-bold">
+      <div className="gimmesong-bg w-full max-w-md fixed top-14 z-50">
+        <div className="mb-2 flex flex-row items-center justify-center font-bold">
           <button
-            className={`flex w-48 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
+            className={`flex w-1/2 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
               location.pathname === "/club"
                 ? "bg-black text-white hover:bg-gray-600"
                 : "text-black hover:bg-gray-300"
@@ -62,7 +61,7 @@ function Home() {
             <span>Club</span>
           </button>
           <button
-            className={`flex w-48 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out hover:bg-gray-600 ${
+            className={`flex w-1/2 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out hover:bg-gray-600 ${
               location.pathname === "/mysongs"
                 ? "bg-black text-white hover:bg-gray-600"
                 : "text-black hover:bg-gray-300"
