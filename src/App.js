@@ -25,6 +25,7 @@ import { auth } from "@lib/firebase";
 
 import PlaylistProvider from "contexts/PlaylistContext";
 import FeedProvider from "contexts/FeedContext";
+import Profile from "@features/Profile";
 
 function App() {
   const { user, setUser } = useSession();
@@ -65,6 +66,7 @@ function App() {
       />
       <Route path="/mysongs" element={<Home />} />
       <Route path="/club" element={<Home />} />
+      <Route path="/profile" element={<Profile />} />
       <Route
         path="/signup"
         element={

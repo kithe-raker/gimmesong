@@ -100,7 +100,7 @@ function Header() {
             </svg>
           </button>
           <button
-            onClick={() => navigate("/mysongs")}
+            onClick={() => navigate("/profile")}
             className="group mr-1.5 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full"
           >
             <svg
