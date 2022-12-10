@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import GimmesongAPI from "@lib/gimmesong_api";
 
 import disc from "@assets/img/disc.webp";
+import decoratedDisc from "@assets/img/decorated_disc.png";
 import shushingEmoji from "@assets/img/shushing_emoji.png";
 import presentEmoji from "@assets/img/present_emoji.png";
 import santaEmoji from "@assets/img/santa_emoji.png";
@@ -38,12 +39,12 @@ function WriteMessage({ children }) {
       emoji: santaEmoji,
     },
     {
-      disc: disc,
+      disc: decoratedDisc,
       emoji: shushingEmoji,
     },
     {
-      disc: disc,
-      emoji: shushingEmoji,
+      disc: decoratedDisc,
+      emoji: presentEmoji,
     },
   ];
 
