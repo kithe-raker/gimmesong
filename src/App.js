@@ -15,7 +15,7 @@ import Header from "@components/Header";
 import Loading from "@components/Loading";
 import ProtectedRoute from "@components/ProtectedRoute";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import useSession from "@hooks/useSession";
 import { useLocation } from "react-router-dom";
@@ -59,13 +59,15 @@ function App() {
       <Route
         path="/"
         element={
-          <ProtectedRoute isAllowed={true} redirectPath="/mysongs">
-            <Home />
-          </ProtectedRoute>
+          <Navigate to="/mysongs" replace />
+          // <ProtectedRoute isAllowed={false} redirectPath="/mysongs">
+          //   <Home />
+          // </ProtectedRoute>
         }
       />
       <Route path="/mysongs" element={<Home />} />
       <Route path="/club" element={<Home />} />
+      <Route path="/club/:clublink" element={<Home />} />
       <Route path="/profile" element={<Profile />} />
       <Route
         path="/signup"

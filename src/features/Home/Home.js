@@ -13,7 +13,7 @@ import ConnectWithUs from "@components/ConnectWithUs";
 import SignInBox from "@components/SignInBox";
 
 import MySongs from "@features/MySongs";
-import Club from "@features/Club";
+import MainClub from "@features/Club/MainClub";
 
 import useSession from "@hooks/useSession";
 
@@ -43,7 +43,7 @@ function Home() {
   let render;
   switch (location.pathname) {
     case "/club":
-      render = <Club />;
+      render = <MainClub />;
       break;
     case "/mysongs":
       render = user ? <MySongs /> : <SignInBox className="mt-14" />;
@@ -58,7 +58,7 @@ function Home() {
         <div className="mb-2 flex flex-row items-center justify-center font-bold">
           <button
             className={`flex w-1/2 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
-              location.pathname === "/club"
+              location.pathname.startsWith("/club")
                 ? "bg-black text-white hover:bg-gray-600"
                 : "text-black hover:bg-gray-300"
             }`}
@@ -68,7 +68,7 @@ function Home() {
           </button>
           <button
             className={`flex w-1/2 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out hover:bg-gray-600 ${
-              location.pathname === "/mysongs"
+              location.pathname.startsWith("/mysongs")
                 ? "bg-black text-white hover:bg-gray-600"
                 : "text-black hover:bg-gray-300"
             }`}
