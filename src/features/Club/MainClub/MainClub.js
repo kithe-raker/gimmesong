@@ -14,7 +14,7 @@ function MainClub() {
   const navigate = useNavigate();
 
   const {
-    action: { changeTopic },
+    action: { changeClub },
   } = useContext(FeedContext);
   //TODO: fetch clubs from api instead of this hard-coding
   const clubs = [
@@ -46,7 +46,7 @@ function MainClub() {
   ];
 
   const navigateClub = (club) => {
-    changeTopic(club);
+    changeClub(club);
     navigate(`/club${club.urllink}`);
   };
 
