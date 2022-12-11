@@ -21,17 +21,18 @@ const FeedProvider = ({ children }) => {
   const [filter, setFilter] = useState("newest");
   const [hasNext, setHasNext] = useState(true);
 
-  // TODO: Data for topics. I don't know how the api will work yet so this is a placeholder
-  const [topicLink, setTopicLink] = useState("");
-  const [topicEmoji, setTopicEmoji] = useState("");
-  const [topicTitle, setTopicTitle] = useState("");
+  // TODO: Data for club. I don't know how the api will work yet so this is a placeholder
+  const [isClubFeed, setIsClubFeed] = useState(false);
+  const [clubLink, setClubLink] = useState("");
+  const [clubEmoji, setClubEmoji] = useState("");
+  const [clubTitle, setClubTitle] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(true);
   const [isError, setIsError] = useState(false);
 
   const fetchContent = async (options = {}) => {
-    // TODO: also fetch content by topic link?
+    // TODO: also fetch content by club link?
     const { loading = true, reset = false, filter, limit = 20 } = options;
 
     try {
@@ -75,12 +76,14 @@ const FeedProvider = ({ children }) => {
     }
   };
 
-  const changeTopic = (topicData) => {
+  const changeClub = (clubData) => {
     // TODO: Maybe you want to change how we handle this club topic data?
-    const { title, emoji, urllink } = topicData;
-    setTopicLink(urllink);
-    setTopicEmoji(emoji);
-    setTopicTitle(title);
+    const { title, emoji, urllink } = clubData;
+    setClubLink(urllink);
+    setClubEmoji(emoji);
+    setClubTitle(title);
+
+    setIsClubFeed(true);
   };
 
   const updateFeedItemInfo = async (shareLinkId) => {
@@ -130,10 +133,10 @@ const FeedProvider = ({ children }) => {
     window.scrollTo(0, scrollPosition);
   }, [pathname]);
 
-  const topic = {
-    title: topicTitle,
-    emoji: topicEmoji,
-    urllink: topicLink,
+  const club = {
+    title: clubTitle,
+    emoji: clubEmoji,
+    urllink: clubLink,
   };
 
   const feedStore = {
@@ -146,12 +149,13 @@ const FeedProvider = ({ children }) => {
     data: {
       items,
       filter,
-      topic,
+      isClubFeed,
+      club,
     },
     action: {
       changeFilter,
       changeLang: setLang,
-      changeTopic,
+      changeClub,
       loadMore,
       onCreatedRequest,
       fetchContent,
