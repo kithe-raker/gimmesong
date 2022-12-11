@@ -10,6 +10,7 @@ import GimmesongAPI from "@lib/gimmesong_api";
 import { accountingNum } from "@utils/number";
 
 import ConnectWithUs from "@components/ConnectWithUs";
+import Feed from "@features/RequestSongs/Feed";
 import SignInBox from "@components/SignInBox";
 
 import MySongs from "@features/MySongs";
@@ -41,15 +42,16 @@ function Home() {
   }, []);
 
   let render;
-  switch (location.pathname) {
-    case "/club":
-      render = <MainClub />;
-      break;
-    case "/mysongs":
-      render = user ? <MySongs /> : <SignInBox className="mt-14" />;
-      break;
-    default:
-      render = <span>The url you're looking for does not exist</span>;
+  if (location.pathname === "/mysongs") {
+    render = user ? <MySongs /> : <SignInBox className="mt-14" />;
+  } else if (location.pathname === "/club") {
+    render = <MainClub />;
+  } else if (location.pathname.startsWith("/club")) {
+    // TODO: Maybe you want to change how we pass this club topic link?
+    const topicLink = location.pathname.substring("/club".length);
+    render = <Feed topicLink={topicLink}/>
+  } else {
+    render = <span>The url you're looking for does not exist</span>;
   }
 
   return (
