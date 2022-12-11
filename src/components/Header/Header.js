@@ -7,6 +7,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import { signOut } from "@lib/firebase";
 import OnMainPage from "./components/OnMainPage";
 import OnOtherPage from "./components/OnOtherPage";
+import OnViewPlaylistPage from "./components/OnViewPlaylistPage";
 
 function Header() {
   const location = useLocation();
@@ -17,6 +18,8 @@ function Header() {
     location.pathname.startsWith("/mysongs")
   ) {
     render = <OnMainPage />;
+  } else if (location.pathname.startsWith("/playlist")) {
+    render = <OnViewPlaylistPage />;
   } else {
     render = <OnOtherPage />;
   }

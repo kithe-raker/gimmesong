@@ -91,14 +91,7 @@ function App() {
       <Route path="/search" element={<Search />} />
       <Route path="/@:username" element={<Search />} />
       <Route path="/request" element={<Feed />} />
-      <Route
-        path="/playlist/:id"
-        element={
-          <PlaylistProvider>
-            <ViewPlaylist />
-          </PlaylistProvider>
-        }
-      />
+      <Route path="/playlist/:id" element={<ViewPlaylist />} />
       <Route path="/tutorial" element={<Tutorial />} />
       <Route
         path="*"
@@ -116,15 +109,17 @@ function App() {
   return (
     <>
       <FeedProvider>
-        <Toaster />
-        {loading ? (
-          <Loading fullScreen />
-        ) : (
-          <>
-            <Header />
-            {routes}
-          </>
-        )}
+        <PlaylistProvider>
+          <Toaster />
+          {loading ? (
+            <Loading fullScreen />
+          ) : (
+            <>
+              <Header />
+              {routes}
+            </>
+          )}
+        </PlaylistProvider>
       </FeedProvider>
     </>
   );

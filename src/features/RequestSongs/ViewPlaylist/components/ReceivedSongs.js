@@ -17,7 +17,7 @@ import "@styles/slick-slider-custom.css";
 
 import Empty from "./Empty";
 import AudioPlayer from "@components/AudioPlayer";
-import AddSongModal from "./AddSongModal";
+import AddSongModal from "../AddSongModal/AddSongModal";
 
 import { useSteps } from "@hooks/useSteps";
 
