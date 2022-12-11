@@ -24,9 +24,7 @@ import { useLocation } from "react-router-dom";
 import SignInMethod from "@components/SignInMethod";
 import { useInView } from "react-cool-inview";
 
-function Feed({ topicLink = "" }) {
-  // TODO: Implement fetch songs from topic link given by the parent component.
-
+function Feed() {
   const {
     state: { isLoading, isLoadingMore, hasNext },
     data: { items, filter },

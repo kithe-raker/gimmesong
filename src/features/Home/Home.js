@@ -1,9 +1,5 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import meme_icon from "@assets/img/meme_emoji.png";
-import confuse_icon from "@assets/img/confuse_emoji.png";
-
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 
@@ -15,6 +11,8 @@ import SignInBox from "@components/SignInBox";
 
 import MySongs from "@features/MySongs";
 import MainClub from "@features/Club/MainClub";
+
+import { FeedContext } from "contexts/FeedContext";
 
 import useSession from "@hooks/useSession";
 
@@ -47,9 +45,7 @@ function Home() {
   } else if (location.pathname === "/club") {
     render = <MainClub />;
   } else if (location.pathname.startsWith("/club")) {
-    // TODO: Maybe you want to change how we pass this club topic link?
-    const topicLink = location.pathname.substring("/club".length);
-    render = <Feed topicLink={topicLink} />;
+    render = <Feed />;
   } else {
     render = <span>The url you're looking for does not exist</span>;
   }

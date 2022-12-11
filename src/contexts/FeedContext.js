@@ -21,11 +21,17 @@ const FeedProvider = ({ children }) => {
   const [filter, setFilter] = useState("newest");
   const [hasNext, setHasNext] = useState(true);
 
+  // TODO: Data for topics. I don't know how the api will work yet so this is a placeholder
+  const [topicLink, setTopicLink] = useState("");
+  const [topicEmoji, setTopicEmoji] = useState("");
+  const [topicTitle, setTopicTitle] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(true);
   const [isError, setIsError] = useState(false);
 
   const fetchContent = async (options = {}) => {
+    // TODO: also fetch content by topic link?
     const { loading = true, reset = false, filter, limit = 20 } = options;
 
     try {
@@ -67,6 +73,14 @@ const FeedProvider = ({ children }) => {
       setIsLoading(false);
       setIsLoadingMore(false);
     }
+  };
+
+  const changeTopic = (topicData) => {
+    // TODO: Maybe you want to change how we handle this club topic data?
+    const { title, emoji, urllink } = topicData;
+    setTopicLink(urllink);
+    setTopicEmoji(emoji);
+    setTopicTitle(title);
   };
 
   const updateFeedItemInfo = async (shareLinkId) => {
@@ -116,6 +130,12 @@ const FeedProvider = ({ children }) => {
     window.scrollTo(0, scrollPosition);
   }, [pathname]);
 
+  const topic = {
+    title: topicTitle,
+    emoji: topicEmoji,
+    urllink: topicLink,
+  };
+
   const feedStore = {
     state: {
       isLoading,
@@ -126,10 +146,12 @@ const FeedProvider = ({ children }) => {
     data: {
       items,
       filter,
+      topic,
     },
     action: {
       changeFilter,
       changeLang: setLang,
+      changeTopic,
       loadMore,
       onCreatedRequest,
       fetchContent,
