@@ -49,38 +49,13 @@ function Home() {
   } else if (location.pathname.startsWith("/club")) {
     // TODO: Maybe you want to change how we pass this club topic link?
     const topicLink = location.pathname.substring("/club".length);
-    render = <Feed topicLink={topicLink}/>
+    render = <Feed topicLink={topicLink} />;
   } else {
     render = <span>The url you're looking for does not exist</span>;
   }
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col py-[60px] pt-[80px]">
-      <div className="gimmesong-bg fixed top-14 z-50 w-full max-w-md">
-        <div className="mb-2 flex flex-row items-center justify-center font-bold">
-          <button
-            className={`flex w-1/2 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
-              location.pathname.startsWith("/club")
-                ? "bg-black text-white hover:bg-gray-600"
-                : "text-black hover:bg-gray-300"
-            }`}
-            onClick={() => navigate("/club")}
-          >
-            <span>Club</span>
-          </button>
-          <button
-            className={`flex w-1/2 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out hover:bg-gray-600 ${
-              location.pathname.startsWith("/mysongs")
-                ? "bg-black text-white hover:bg-gray-600"
-                : "text-black hover:bg-gray-300"
-            }`}
-            onClick={() => navigate("/mysongs")}
-          >
-            <span>My Songs</span>
-          </button>
-        </div>
-      </div>
-
       {render}
       {/*
       <span className="gimmesong-primary-font">
