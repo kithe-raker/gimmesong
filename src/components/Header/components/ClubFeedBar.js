@@ -3,6 +3,7 @@ import { useEffect, useRef, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { FeedContext } from "contexts/FeedContext";
+import Dropdown from "@components/Dropdown";
 
 function ClubFeedBar() {
   const navigate = useNavigate();
@@ -10,6 +11,12 @@ function ClubFeedBar() {
   const {
     data: { club },
   } = useContext(FeedContext);
+
+  if (!club.title) {
+    //TODO: user probably enter the url directly, so the emoji and title is not passed from parent, fetch it from location.pathname?
+  }
+
+  const options = ["Trend", "Newest", "Popular"];
 
   return (
     <div className="mt-2 mb-4 flex flex-row justify-between px-2">
@@ -44,7 +51,11 @@ function ClubFeedBar() {
         </div>
       </div>
 
-      
+      <Dropdown
+        options={options}
+        initialOption={options[0]}
+        className="w-1/3"
+      />
     </div>
   );
 }
