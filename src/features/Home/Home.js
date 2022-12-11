@@ -13,6 +13,7 @@ import ConnectWithUs from "@components/ConnectWithUs";
 import SignInBox from "@components/SignInBox";
 
 import MySongs from "@features/MySongs";
+import Club from "@features/Club";
 
 import useSession from "@hooks/useSession";
 
@@ -42,7 +43,7 @@ function Home() {
   let render;
   switch (location.pathname) {
     case "/club":
-      render = <></>;
+      render = <Club />;
       break;
     case "/mysongs":
       render = user ? <MySongs /> : <SignInBox className="mt-14" />;
@@ -52,7 +53,7 @@ function Home() {
   }
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-[60px] pt-[80px]">
+    <div className="mx-auto flex min-h-screen max-w-md flex-col py-[60px] pt-[80px]">
       <div className="gimmesong-bg fixed top-14 z-50 w-full max-w-md">
         <div className="mb-2 flex flex-row items-center justify-center font-bold">
           <button
