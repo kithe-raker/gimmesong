@@ -1,15 +1,31 @@
 import ConnectWithUs from "@components/ConnectWithUs";
 import SignInBox from "@components/SignInBox";
 
+import { useDisclosure } from "@chakra-ui/react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+  Button,
+} from "@chakra-ui/react";
+
 import useSession from "@hooks/useSession";
 import { signOut } from "@lib/firebase";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const navigate = useNavigate();
   const { user } = useSession();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
+
   const [language, setLanguage] = useState("EN");
 
   return (
@@ -78,14 +94,59 @@ function Profile() {
             </svg>
           </div>
         </button>
+
         <ConnectWithUs direction="flex-row" className="mt-5 justify-between" />
+
         {user && (
-          <button className="mt-8 hover:bg-gray-100" onClick={()=>signOut()}>
-            <div className="flex h-full w-full max-w-md flex-row items-center justify-center rounded-xl border border-black/[0.1] py-3 px-5">
-              <span className="flex text-lg font-bold">Log out</span>
-            </div>
-          </button>
-        )} 
+          <>
+            <button
+              className="mt-8 hover:bg-gray-100"
+              onClick={onOpen}
+            >
+              <div className="flex h-full w-full max-w-md flex-row items-center justify-center rounded-xl border border-black/[0.1] py-3 px-5">
+                <span className="flex text-lg font-bold">Log out</span>
+              </div>
+            </button>
+
+            <AlertDialog
+              motionPreset="slideInBottom"
+              leastDestructiveRef={cancelRef}
+              onClose={onClose}
+              isOpen={isOpen}
+              isCentered
+              size="md"
+            >
+              <AlertDialogOverlay />
+              <AlertDialogContent borderRadius={25} marginX={4}>
+                <AlertDialogHeader>Sign out?</AlertDialogHeader>
+                <AlertDialogCloseButton />
+                <AlertDialogBody>
+                  Are you sure you want to sign out? you won&apos;t see new
+                  received song until you signed in again.
+                </AlertDialogBody>
+                <AlertDialogFooter>
+                  <Button
+                    borderRadius="25"
+                    ref={cancelRef}
+                    onClick={onClose}
+                    h={42}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={signOut}
+                    borderRadius="25"
+                    colorScheme="red"
+                    ml={3}
+                    h={42}
+                  >
+                    Sign out
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </>
+        )}
       </div>
     </div>
   );
