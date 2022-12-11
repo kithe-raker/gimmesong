@@ -10,9 +10,14 @@ import GimmesongAPI from "@lib/gimmesong_api";
 import { accountingNum } from "@utils/number";
 
 import ConnectWithUs from "@components/ConnectWithUs";
-import ProtectedMySongs from "./components/ProtectedMySongs";
+import SignInBox from "@components/SignInBox";
+
+import MySongs from "@features/MySongs";
+
+import useSession from "@hooks/useSession";
 
 function Home() {
+  const { user } = useSession();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,7 +45,7 @@ function Home() {
       render = <></>;
       break;
     case "/mysongs":
-      render = <ProtectedMySongs />;
+      render = user ? <MySongs /> : <SignInBox className="mt-14" />;
       break;
     default:
       render = <span>The url you're looking for does not exist</span>;
@@ -48,7 +53,7 @@ function Home() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-[60px] pt-[80px]">
-      <div className="gimmesong-bg w-full max-w-md fixed top-14 z-50">
+      <div className="gimmesong-bg fixed top-14 z-50 w-full max-w-md">
         <div className="mb-2 flex flex-row items-center justify-center font-bold">
           <button
             className={`flex w-1/2 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
