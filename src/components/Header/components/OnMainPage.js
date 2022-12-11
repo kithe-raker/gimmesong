@@ -108,7 +108,8 @@ function OnMainPage() {
           </>
         </div>
       </div>
-      <div className="gimmesong-bg w-full max-w-md">
+
+      <div className="gimmesong-bg mt-3 w-full max-w-md">
         <div className="mx-8 mb-2 flex flex-row items-center justify-center font-bold">
           <button
             className={`flex w-1/2 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
