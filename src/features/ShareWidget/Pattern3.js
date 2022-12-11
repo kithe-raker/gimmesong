@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 import disc from "@assets/img/disc.webp";
+import decoratedDisc from "@assets/img/decorated_disc.png"
 import logo from "@assets/img/gimmesong_logo.png";
 
 import { ThreeDots } from "react-loader-spinner";
@@ -28,7 +29,7 @@ const Pattern3 = ({ content, isMysong, onSharing }) => {
               <div className="relative mt-[40px] flex h-[180px] w-[180px] shrink-0 items-center justify-center">
                 <img
                   className="absolute inset-0 h-full w-full select-none object-contain"
-                  src={content.disc?.disc || disc} // TODO: Use data passed from the widget's parent, which is retrieved from api (I don't know the shape yet so I'm just putting a placeholder) 
+                  src={content.disc?.disc || decoratedDisc} // TODO: Use data passed from the widget's parent, which is retrieved from api (I don't know the shape yet so I'm just putting a placeholder) 
                   alt="disc"
                 />
                 <img
