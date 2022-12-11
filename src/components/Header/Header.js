@@ -25,7 +25,7 @@ function Header() {
   }
 
   return (
-    <header className="gimmesong-bg fixed top-0 right-0 left-0 z-50 mx-auto mt-1 flex w-full max-w-md items-center justify-between px-2.5">
+    <header className="gimmesong-bg fixed top-0 right-0 left-0 z-50 mx-auto pt-1 flex w-full max-w-md items-center justify-between px-2.5">
       {render}
     </header>
   );
