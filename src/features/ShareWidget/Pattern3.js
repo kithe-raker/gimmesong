@@ -28,7 +28,7 @@ const Pattern3 = ({ content, isMysong, onSharing }) => {
               <div className="relative mt-[40px] flex h-[180px] w-[180px] shrink-0 items-center justify-center">
                 <img
                   className="absolute inset-0 h-full w-full select-none object-contain"
-                  src={disc}
+                  src={content.disc?.disc || disc} // TODO: Use data passed from the widget's parent, which is retrieved from api (I don't know the shape yet so I'm just putting a placeholder) 
                   alt="disc"
                 />
                 <img
