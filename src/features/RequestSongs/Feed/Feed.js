@@ -269,25 +269,29 @@ function Feed() {
         size="md"
       >
         <AlertDialogOverlay />
-        <AlertDialogContent borderRadius={36} marginX={4} py={4}>
-          <div className="flex flex-col">
-            <div className="mx-3 flex flex-row items-center justify-start">
-              <div className="flex flex-row rounded-3xl border border-black/[0.15] px-3 py-2">
-                <img
-                  className="mr-2 h-[17px] w-[17px]"
-                  src={club.emoji}
-                  alt="emoji"
-                />
-                <span className="gimmesong-secondary-font">{club.title}</span>
-              </div>
-            </div>
+        <AlertDialogContent  borderRadius={36}>
+          <div className="rounded-[36px] bg-gradient-to-b from-[#8583D6] to-[#C697C8]">
+            <div className="m-0.5 bg-white  rounded-[36px]">
+              <div className="flex flex-col mx-2 py-4">
+                <div className="mx-3 flex flex-row items-center justify-start">
+                  <div className="flex flex-row rounded-3xl border border-black/[0.15] px-3 py-2">
+                    <img
+                      className="mr-2 h-[17px] w-[17px]"
+                      src={club.emoji}
+                      alt="emoji"
+                    />
+                    <span className="gimmesong-secondary-font">
+                      {club.title}
+                    </span>
+                  </div>
+                </div>
 
-            <div className="mt-7 flex w-full items-center justify-between py-2 px-6">
-              <span className="gimmesong-secondary-font text-3xl font-bold">
-                Request Songs
-              </span>
+                <div className="mt-7 flex w-full items-center justify-between py-2 px-6">
+                  <span className="gimmesong-secondary-font text-3xl font-bold">
+                    Request Songs
+                  </span>
 
-              {/* <button
+                  {/* <button
                 onClick={onClose}
                 className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-gray-200"
               >
@@ -307,22 +311,24 @@ function Feed() {
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               </button> */}
+                </div>
+              </div>
+
+              <AlertDialogBody>
+                {!user?.username ? (
+                  <div className="flex max-w-md flex-col items-center justify-center">
+                    Please sign in before start requesting songs from others.
+                    <SignInMethod className="mt-4" />
+                  </div>
+                ) : (
+                  <NewRequest />
+                )}
+
+                {/* Are you sure you want to sign out? you won&apos;t see new received
+            song until you signed in again. */}
+              </AlertDialogBody>
             </div>
           </div>
-
-          <AlertDialogBody>
-            {!user?.username ? (
-              <div className="flex max-w-md flex-col items-center justify-center">
-                Please sign in before start requesting songs from others.
-                <SignInMethod className="mt-4" />
-              </div>
-            ) : (
-              <NewRequest />
-            )}
-
-            {/* Are you sure you want to sign out? you won&apos;t see new received
-            song until you signed in again. */}
-          </AlertDialogBody>
           {/* <AlertDialogFooter>
             <Button borderRadius="25" ref={cancelRef} onClick={onClose} h={42}>
               Cancel
