@@ -133,11 +133,11 @@ function NewRequest() {
                 ></path>
               </svg>
             )}
-            Request
+            Next
           </button>
         </div>
 
-        <span className="mt-7 text-[#929292]">
+        <span className="mt-7 text-[#929292] text-sm">
           Tips: More you get like on this playlist{" "}
           {/* I don't think this makes sense in English :P */}
         </span>
