@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import disc from "@assets/img/disc.webp";
 import decoratedDisc from "@assets/img/decorated_disc.png";
 import logo from "@assets/img/gimmesong_logo.png";
-import santaHatLogo from "@assets/img/gimmesong_logo_with_text_and_santa_hat.png"
+import santaHatLogo from "@assets/img/gimmesong_logo_with_text_and_santa_hat.png";
 
 import { ThreeDots } from "react-loader-spinner";
 import { useImageExporter } from "@hooks/useImageExporter";
