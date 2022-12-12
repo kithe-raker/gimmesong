@@ -14,8 +14,6 @@ import {
   AlertDialogOverlay,
 } from "@chakra-ui/react";
 
-import annouceEmoji from "@assets/img/annouce_emoji.png";
-
 import { FeedContext } from "contexts/FeedContext";
 import NativeBanner from "@components/Adsense/NativeBanner";
 
@@ -27,7 +25,7 @@ import { useInView } from "react-cool-inview";
 function Feed() {
   const {
     state: { isLoading, isLoadingMore, hasNext },
-    data: { items, filter },
+    data: { items, filter, club },
     action: { loadMore, changeFilter, fetchContent },
   } = useContext(FeedContext);
 
@@ -272,31 +270,44 @@ function Feed() {
       >
         <AlertDialogOverlay />
         <AlertDialogContent borderRadius={36} marginX={4} py={4}>
-          <div className="flex w-full items-center justify-between py-2 px-6">
-            <div className="flex items-center">
-              <img className=" mr-1 h-7 w-7" src={annouceEmoji} alt="" />
-              <span className="text-xl font-semibold">Request Songs</span>
+          <div className="flex flex-col">
+            <div className="mx-3 flex flex-row items-center justify-start">
+              <div className="flex flex-row rounded-3xl border border-black/[0.15] px-3 py-2">
+                <img
+                  className="mr-2 h-[17px] w-[17px]"
+                  src={club.emoji}
+                  alt="emoji"
+                />
+                <span className="gimmesong-secondary-font">{club.title}</span>
+              </div>
             </div>
-            <button
-              onClick={onClose}
-              className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-gray-200"
-            >
-              <svg
-                className="text-gray-600"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+
+            <div className="mt-7 flex w-full items-center justify-between py-2 px-6">
+              <span className="gimmesong-secondary-font text-3xl font-bold">
+                Request Songs
+              </span>
+
+              {/* <button
+                onClick={onClose}
+                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-gray-200"
               >
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
+                <svg
+                  className="text-gray-600"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button> */}
+            </div>
           </div>
 
           <AlertDialogBody>
@@ -308,6 +319,7 @@ function Feed() {
             ) : (
               <NewRequest />
             )}
+
             {/* Are you sure you want to sign out? you won&apos;t see new received
             song until you signed in again. */}
           </AlertDialogBody>
