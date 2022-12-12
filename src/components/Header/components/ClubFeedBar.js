@@ -9,14 +9,34 @@ function ClubFeedBar() {
   const navigate = useNavigate();
 
   const {
-    data: { club },
+    data: { club, items, filter },
+    action: { changeFilter, fetchContent },
   } = useContext(FeedContext);
+
+  const { state } = useLocation();
 
   if (!club.title) {
     //TODO: user probably enter the url directly, so the emoji and title is not passed from parent, fetch it from location.pathname?
   }
 
   const options = ["Trend", "Newest", "Popular"];
+
+  // TODO: use appropriate filter for each dropdown options.
+  const optionFilter = {
+    Newest: "newest",
+    Popular: "most_play",
+    Trend: "most_play",
+  };
+
+  /**
+   * @dev To prevents the user's scroll from being reset.
+   * before run this effect, we need to make sure that feed items is empty and navigate state.reload is true
+   * remember, only thing to make the state.reload true, user need to navigate by pressing menu from the navbar.
+   */
+  useEffect(() => {
+    if (items.length > 0 && !state?.reload) return;
+    fetchContent({ loading: true, reset: true, filter });
+  }, [state]);
 
   return (
     <div className="mt-2 mb-4 flex flex-row justify-between px-2">
@@ -53,6 +73,7 @@ function ClubFeedBar() {
 
       <Dropdown
         options={options}
+        onOptionSelected={(option) => changeFilter(optionFilter[option])}
         initialOption={options[0]}
         className="w-1/3"
       />
