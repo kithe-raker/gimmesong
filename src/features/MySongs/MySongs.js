@@ -4,10 +4,25 @@ import useSession from "@hooks/useSession";
 
 import ReceivedSongs from "./components/ReceivedSongs";
 
+import {
+  Center,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalBody,
+  ModalContent,
+  ModalCloseButton,
+  ModalHeader,
+  useDisclosure,
+  Box
+} from "@chakra-ui/react";
+
 import Ads from "@lib/ads";
 import toast from "react-hot-toast";
 
 function MySongs() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [currentTab, setCurrentTab] = useState("new");
   const [pageLayout, setPageLayout] = useState("single");
 
