@@ -58,13 +58,7 @@ function OnMainPage() {
             </button>
             <button
               onClick={() =>
-                navigate("/request", {
-                  state: {
-                    reload: location.pathname.startsWith("/request")
-                      ? true
-                      : false,
-                  },
-                })
+                navigate("/shop")
               }
               className="group mr-1.5 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full"
             >
