@@ -6,6 +6,8 @@ import NewRequest from "../NewRequest";
 
 import LanguageTag from "@lib/languageTag";
 
+import annouceEmoji from "@assets/img/annouce_emoji.png";
+
 import { useDisclosure } from "@chakra-ui/react";
 import {
   AlertDialog,
@@ -269,12 +271,12 @@ function Feed() {
         size="md"
       >
         <AlertDialogOverlay />
-        <AlertDialogContent  borderRadius={36}>
+        <AlertDialogContent borderRadius={36}>
           <div className="rounded-[36px] bg-gradient-to-b from-[#8583D6] to-[#C697C8]">
-            <div className="m-0.5 bg-white  rounded-[36px]">
-              <div className="flex flex-col mx-2 py-4">
-                <div className="mx-3 flex flex-row items-center justify-start">
-                  <div className="flex flex-row rounded-3xl border border-black/[0.15] px-3 py-2">
+            <div className="m-0.5 rounded-[36px]  bg-white">
+              <div className="flex flex-col py-4">
+                <div className="mx-3 flex flex-row items-center justify-between">
+                  <div className="flex flex-row items-center rounded-3xl border border-black/[0.15] px-3 py-2">
                     <img
                       className="mr-2 h-[17px] w-[17px]"
                       src={club.emoji}
@@ -284,33 +286,33 @@ function Feed() {
                       {club.title}
                     </span>
                   </div>
+
+                  <button
+                    onClick={onClose}
+                    className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-gray-200 hover:bg-gray-100"
+                  >
+                    <svg
+                      className="text-gray-600"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
                 </div>
 
                 <div className="mt-7 flex w-full items-center justify-between py-2 px-6">
                   <span className="gimmesong-secondary-font text-3xl font-bold">
                     Request Songs
                   </span>
-
-                  {/* <button
-                onClick={onClose}
-                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-gray-200"
-              >
-                <svg
-                  className="text-gray-600"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button> */}
                 </div>
               </div>
 
@@ -327,6 +329,23 @@ function Feed() {
                 {/* Are you sure you want to sign out? you won&apos;t see new received
             song until you signed in again. */}
               </AlertDialogBody>
+
+              <div className="flex flex-col items-center justify-center">
+                {!user?.username || (
+                  <span className="mt-7 flex text-sm text-[#929292]">
+                    Tips: More you get like on this playlist{" "}
+                    {/* I don't think this makes sense in English :P */}
+                  </span>
+                )}
+
+                <div className="mt-16 mb-5 mr-7 flex w-full flex-row justify-end">
+                  <img
+                    src={annouceEmoji}
+                    alt="announce emoji"
+                    className="h-[28px] w-[28px]"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           {/* <AlertDialogFooter>

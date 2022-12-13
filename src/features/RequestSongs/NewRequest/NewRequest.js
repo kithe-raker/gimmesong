@@ -12,8 +12,6 @@ import { FeedContext } from "contexts/FeedContext";
 
 import { useSessionExpired } from "@hooks/useSessionExpired";
 
-import annouceEmoji from "@assets/img/annouce_emoji.png";
-
 function NewRequest() {
   const { open: openSessionExpired, SessionExpired } = useSessionExpired();
 
@@ -77,7 +75,7 @@ function NewRequest() {
         </div> */}
         <div className="flex w-full flex-col items-center justify-center">
           <div className="flex w-full flex-col items-center justify-center">
-            <div className="flex h-[200px] w-full flex-col rounded-[24px] border border-gray-200 bg-white p-3">
+            <div className="flex h-[170px] w-full flex-col rounded-[24px] border border-gray-200 bg-white p-3">
               <span className="w-fit bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text px-2 text-transparent">
                 {!anonymous ? `@${user?.username}` : "Anonymous"}
               </span>
@@ -133,21 +131,8 @@ function NewRequest() {
                 ></path>
               </svg>
             )}
-            Next
+            Request
           </button>
-        </div>
-
-        <span className="mt-7 text-[#929292] text-sm">
-          Tips: More you get like on this playlist{" "}
-          {/* I don't think this makes sense in English :P */}
-        </span>
-
-        <div className="flex w-full flex-row justify-end mt-16">
-          <img
-            src={annouceEmoji}
-            alt="announce emoji"
-            className="h-[28px] w-[28px]"
-          />
         </div>
       </div>
     </>
