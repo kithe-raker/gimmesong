@@ -6,7 +6,7 @@ import { FeedContext } from "contexts/FeedContext";
 
 import christmasTreeEmoji from "@assets/img/christmas_tree_emoji.png";
 import cameraEmoji from "@assets/img/camera_emoji.png";
-import heartEmoji from "@assets/img/heart_emoji.png";
+import heartEmoji from "@assets/img/shiny_heart_emoji.png";
 import rockEmoji from "@assets/img/rock_emoji.png";
 import sadEmoji from "@assets/img/sad_emoji.png";
 
