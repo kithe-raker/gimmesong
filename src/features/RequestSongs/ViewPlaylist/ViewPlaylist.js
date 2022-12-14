@@ -33,7 +33,7 @@ function ViewPlaylist() {
     <div
       className={`relative mx-auto flex ${
         pageLayout === "single" ? "h-full" : "min-h-full"
-      } max-w-md flex-col items-center py-6 pt-[60px]`}
+      } max-w-md flex-col items-center py-6 pt-64`}
     >
       {/* <div className="gimmesong-bg fixed top-0 z-50 flex h-16 w-full max-w-md items-center justify-between px-2.5">
         

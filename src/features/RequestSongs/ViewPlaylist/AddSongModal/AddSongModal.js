@@ -42,7 +42,7 @@ function AddSongModal({ className }) {
         onClick={onOpen}
         className={`${
           className ? className : ""
-        } group flex h-[42px] shrink-0 items-center justify-center rounded-full bg-black px-4 text-sm text-white shadow-sm`}
+        } group flex h-[32px] shrink-0 items-center justify-center rounded-full bg-black px-3 text-sm text-white shadow-sm`}
       >
         <svg
           className="mr-1"
@@ -59,7 +59,7 @@ function AddSongModal({ className }) {
           <line x1="12" y1="5" x2="12" y2="19"></line>
           <line x1="5" y1="12" x2="19" y2="12"></line>
         </svg>
-        <span className="gimmesong-secondary-font ml-1">Songs</span>
+        <span className="gimmesong-secondary-font">Song</span>
       </button>
       <AlertDialog
         motionPreset="slideInBottom"

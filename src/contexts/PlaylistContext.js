@@ -4,6 +4,7 @@ import GimmesongAPI from "@lib/gimmesong_api";
 export const PlaylistContext = createContext();
 
 const PlaylistProvider = ({ children }) => {
+  // Idk, this is the easiest way i know to make header component has access to page layout state
   const [pageLayout, setPageLayout] = useState("multiple");
 
   const [playlistInfo, setPlaylistInfo] = useState(null);

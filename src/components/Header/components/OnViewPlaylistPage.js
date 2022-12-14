@@ -23,8 +23,6 @@ function OnViewPlaylistPage() {
     action: { fetchPlaylistInfo, setPageLayout },
   } = useContext(PlaylistContext);
 
-  console.log(pageLayout);
-
   const [value, copy] = useCopyToClipboard();
 
   const copyToClipboard = (val) => {
@@ -39,8 +37,8 @@ function OnViewPlaylistPage() {
   };
 
   return (
-    <div className="mb-2 flex w-full flex-col">
-      <div className="flex flex-row justify-between">
+    <div className="my-2 flex w-full flex-col">
+      <div className="flex flex-row items-center justify-between">
         <button
           onClick={() => navigate(-1)}
           className="group flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full shadow-sm"
@@ -66,11 +64,7 @@ function OnViewPlaylistPage() {
             />
           </svg>
         </button>
-        {isLoadingInfo || (
-          <div className="flex">
-            <AddSongModal />
-          </div>
-        )}
+        {isLoadingInfo || <AddSongModal />}
       </div>
 
       {isLoadingInfo || (
@@ -109,7 +103,7 @@ function OnViewPlaylistPage() {
             </div>
           </div>
 
-          <div className="mt-8 flex flex-row justify-between">
+          <div className="mt-8 mx-3 flex flex-row justify-between">
             <button
               className="group mr-1.5 flex h-[42px] shrink-0 items-center justify-center rounded-lg bg-white px-4 text-sm shadow-sm hover:bg-gray-100"
               onClick={() => {
