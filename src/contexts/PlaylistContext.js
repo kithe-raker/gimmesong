@@ -4,6 +4,8 @@ import GimmesongAPI from "@lib/gimmesong_api";
 export const PlaylistContext = createContext();
 
 const PlaylistProvider = ({ children }) => {
+  const [pageLayout, setPageLayout] = useState("multiple");
+
   const [playlistInfo, setPlaylistInfo] = useState(null);
   const [items, setItems] = useState([]);
 
@@ -97,6 +99,7 @@ const PlaylistProvider = ({ children }) => {
   const playlistStore = {
     data: {
       playlistInfo,
+      pageLayout,
       items,
     },
     state: {
@@ -111,6 +114,7 @@ const PlaylistProvider = ({ children }) => {
       fetchPlaylistItems,
       shouldLoadMore,
       loadMore,
+      setPageLayout,
     },
   };
 
