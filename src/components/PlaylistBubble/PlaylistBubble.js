@@ -61,7 +61,7 @@ function PlaylistBubble({ data }) {
                   style={{ zIndex: Math.abs(index - _recentlyAdded.length) }}
                   key={item.itemId}
                 >
-                  <div className={`relative w-12 pt-[100%]`}>
+                  <div className={`relative w-10 pt-[100%]`}>
                     <img
                       className="absolute inset-0 h-full w-full select-none object-contain"
                       src={disc}
@@ -85,27 +85,27 @@ function PlaylistBubble({ data }) {
           <div></div> // just for flex between
         )}
         <div className="flex items-center">
-          <div className="mr-2 flex flex-row items-center justify-center rounded-3xl bg-black/[0.05] px-3 py-2">
-            <img className="mr-1 h-[20px] w-[20px]" src={disc} alt="songs" />
-            <span className="font-bold">{counter}</span>
+          <div className="mr-1 flex min-w-[60px] flex-row items-center justify-center rounded-3xl bg-black/[0.05] px-3 py-2">
+            <img className="mr-1 h-[15px] w-[15px]" src={disc} alt="songs" />
+            <span className="font-bold text-sm">{counter}</span>
           </div>
 
-          <div className="mr-2 flex flex-row items-center justify-center rounded-3xl bg-black/[0.05] px-3 py-2">
+          <div className="mr-1 flex min-w-[60px] flex-row items-center justify-center rounded-3xl bg-black/[0.05] px-3 py-2">
             <img
-              className="mr-1 h-[20px] w-[20px]"
+              className="mr-1 h-[15px] w-[15px]"
               src={headphoneEmoji}
               alt="views"
             />
-            <span className="font-bold">{views}</span>
+            <span className="font-bold text-sm">{views}</span>
           </div>
 
-          <div className="flex flex-row items-center justify-center rounded-3xl border-2 border-black/[0.05] px-3 py-2">
+          <div className="flex min-w-[60px] flex-row items-center justify-center rounded-3xl border-2 border-black/[0.05] px-3 py-2">
             <img
-              className="mr-1 h-[20px] w-[20px]"
+              className="mr-1 h-[15px] w-[15px]"
               src={heartEmoji}
               alt="like"
             />
-            <span className="font-bold">123</span>
+            <span className="font-bold text-sm">123</span>
           </div>
         </div>
       </div>
