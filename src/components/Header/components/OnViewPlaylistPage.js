@@ -41,7 +41,7 @@ function OnViewPlaylistPage() {
       <div className="flex flex-row items-center justify-between">
         <button
           onClick={() => navigate(-1)}
-          className="group flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full shadow-sm"
+          className="group flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full shadow-sm hover:bg-gray-100"
         >
           <svg
             width="36"
@@ -103,7 +103,7 @@ function OnViewPlaylistPage() {
             </div>
           </div>
 
-          <div className="mt-8 mx-3 flex flex-row justify-between">
+          <div className="mx-3 mt-8 flex flex-row justify-between">
             <button
               className="group mr-1.5 flex h-[42px] shrink-0 items-center justify-center rounded-lg bg-white px-4 text-sm shadow-sm hover:bg-gray-100"
               onClick={() => {
