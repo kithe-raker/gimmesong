@@ -56,11 +56,14 @@ function SelectPageLayout({ setPageLayout, pageLayout }) {
     { value: "multiple", component: multiple },
   ];
 
+  const initialOption = pageLayout === "single" ? 0 : 1;
+
   return (
     <Dropdown
       options={options}
+      initialOption={initialOption}
       onOptionSelected={setPageLayout}
-      className="w-24 h-full"
+      className="h-full w-24"
       contentClassName="rounded-lg bg-black py-1"
     />
   );
