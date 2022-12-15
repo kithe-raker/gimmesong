@@ -1,6 +1,5 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
-
 /**
  * A custom dropdown component. Note that it is very important to specify the width of the dropdown (using className).
  * @param options the available options for dropdown. It can be in shape of ["value1", "value2", "value3", ...] in which the dropdown will render each option in a text button and when a value changes, the callback function will be passed the option value,
@@ -27,9 +26,9 @@ function Dropdown({
 
   const { isOpen, onToggle, onClose } = useDisclosure();
 
-  const selectOption = (option) => {
-    onOptionSelected(option);
-    setCurrentOption(option);
+  const selectOption = (index) => {
+    onOptionSelected(options[index].value || options[index]);
+    setCurrentOption(index);
     onClose();
   };
 
@@ -80,10 +79,10 @@ function Dropdown({
         {
           isOpen &&
             // <div className="mt-2 flex w-full flex-col overflow-hidden rounded-3xl border border-black/[0.05]">
-            options.map((option) => (
+            options.map((option, i) => (
                 <button
                   className={`flex w-full flex-row items-center justify-start py-2 ${buttonClassName}`}
-                  onClick={() => selectOption(option.value || option)}
+                  onClick={() => selectOption(i)}
                 >
                   {option.component || (
                     <span className="ml-3 font-bold text-black/[0.3]">
