@@ -76,7 +76,7 @@ function ClubFeedBar() {
         options={options}
         onOptionSelected={(option) => changeFilter(optionFilter[option])}
         className="w-1/3"
-        contentClassName="border border-black/[0.05]"
+        contentClassName="border border-black/[0.05] gimmesong-bg"
       />
     </div>
   );

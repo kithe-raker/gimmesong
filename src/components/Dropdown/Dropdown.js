@@ -43,7 +43,7 @@ function Dropdown({
           onClick={onToggle}
         >
           {options[currentOption].component || (
-            <span className="ml-3 font-bold">{currentOption}</span>
+            <span className="ml-3 font-bold">{options[currentOption]}</span>
           )}
           {arrow &&
             (isOpen ? (
