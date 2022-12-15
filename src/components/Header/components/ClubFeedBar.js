@@ -72,9 +72,9 @@ function ClubFeedBar() {
       </div>
 
       <Dropdown
+        arrow
         options={options}
         onOptionSelected={(option) => changeFilter(optionFilter[option])}
-        initialOption={options[0]}
         className="w-1/3"
         contentClassName="border border-black/[0.05]"
       />
