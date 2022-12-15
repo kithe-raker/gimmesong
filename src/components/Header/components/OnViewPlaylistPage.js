@@ -20,9 +20,13 @@ function OnViewPlaylistPage() {
 
   const {
     state: { isLoadingInfo },
-    data: { playlistInfo, pageLayout },
+    data: { playlistInfo, pageLayout, stats },
     action: { fetchPlaylistInfo, setPageLayout },
   } = useContext(PlaylistContext);
+
+  if (stats.views < 0) {
+    // user probably enter url directly, so the data is not passed from the parent. maybe fetch the stats from api?
+  }
 
   const [value, copy] = useCopyToClipboard();
 
@@ -82,7 +86,7 @@ function OnViewPlaylistPage() {
           <div className="mt-6 flex flex-row items-center justify-center">
             <div className="mr-2 flex flex-row items-center justify-center rounded-3xl bg-white px-5 py-2 shadow-md">
               <img className="mr-1 h-[17px] w-[17px]" src={disc} alt="songs" />
-              <span>123</span>
+              <span>{stats.counter}</span>
             </div>
 
             <div className="mr-2 flex flex-row items-center justify-center rounded-3xl bg-white px-5 py-2 shadow-md">
@@ -91,7 +95,7 @@ function OnViewPlaylistPage() {
                 src={headphoneEmoji}
                 alt="views"
               />
-              <span>123</span>
+              <span>{stats.views}</span>
             </div>
 
             <div className="flex flex-row items-center justify-center rounded-3xl bg-white px-5 py-2 shadow-md">
@@ -100,7 +104,7 @@ function OnViewPlaylistPage() {
                 src={heartEmoji}
                 alt="like"
               />
-              <span>123</span>
+              <span>{stats.likes}</span>
             </div>
           </div>
 

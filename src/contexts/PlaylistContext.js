@@ -7,6 +7,10 @@ const PlaylistProvider = ({ children }) => {
   // Idk, this is the easiest way i know to make header component has access to page layout state
   const [pageLayout, setPageLayout] = useState("multiple");
 
+  const [counter, setCounter] = useState(-1);
+  const [views, setViews] = useState(-1);
+  const [likes, setLikes] = useState(-1);
+
   const [playlistInfo, setPlaylistInfo] = useState(null);
   const [items, setItems] = useState([]);
 
@@ -97,11 +101,18 @@ const PlaylistProvider = ({ children }) => {
     [items]
   );
 
+  const stats = {
+    counter,
+    likes,
+    views,
+  };
+
   const playlistStore = {
     data: {
       playlistInfo,
       pageLayout,
       items,
+      stats,
     },
     state: {
       isLoadingInfo,
@@ -116,6 +127,9 @@ const PlaylistProvider = ({ children }) => {
       shouldLoadMore,
       loadMore,
       setPageLayout,
+      setCounter,
+      setLikes,
+      setViews,
     },
   };
 

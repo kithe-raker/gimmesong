@@ -1,5 +1,10 @@
+import { useState, useContext, useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
+
 import useSession from "@hooks/useSession";
+
+import { PlaylistContext } from "contexts/PlaylistContext";
 
 import disc from "@assets/img/disc.webp";
 import heartEmoji from "@assets/img/heart_emoji.png";
@@ -8,6 +13,10 @@ import headphoneEmoji from "@assets/img/headphone_emoji.png";
 function PlaylistBubble({ data }) {
   const { user } = useSession();
   const navigate = useNavigate();
+
+  const {
+    action: { setViews, setCounter, setLikes },
+  } = useContext(PlaylistContext);
 
   const {
     counter,
@@ -21,9 +30,17 @@ function PlaylistBubble({ data }) {
 
   let _recentlyAdded = [...recentlyAdded];
 
+  const navigateToPlaylist = () => {
+    setViews(views);
+    setCounter(counter);
+    //TODO: fetch number of likes from api
+    setLikes(0);
+    navigate(`/playlist/${shareLinkId}`);
+  };
+
   return (
     <div
-      onClick={() => navigate(`/playlist/${shareLinkId}`)}
+      onClick={navigateToPlaylist}
       className="mb-4 flex w-full cursor-pointer flex-col items-center justify-evenly overflow-hidden rounded-3xl bg-white p-4 shadow-md"
     >
       <div className="flex w-full justify-between">
@@ -87,7 +104,7 @@ function PlaylistBubble({ data }) {
         <div className="flex items-center">
           <div className="mr-1 flex min-w-[60px] flex-row items-center justify-center rounded-3xl bg-black/[0.05] px-3 py-2">
             <img className="mr-1 h-[15px] w-[15px]" src={disc} alt="songs" />
-            <span className="font-bold text-sm">{counter}</span>
+            <span className="text-sm font-bold">{counter}</span>
           </div>
 
           <div className="mr-1 flex min-w-[60px] flex-row items-center justify-center rounded-3xl bg-black/[0.05] px-3 py-2">
@@ -96,7 +113,7 @@ function PlaylistBubble({ data }) {
               src={headphoneEmoji}
               alt="views"
             />
-            <span className="font-bold text-sm">{views}</span>
+            <span className="text-sm font-bold">{views}</span>
           </div>
 
           <div className="flex min-w-[60px] flex-row items-center justify-center rounded-3xl border-2 border-black/[0.05] px-3 py-2">
@@ -105,7 +122,8 @@ function PlaylistBubble({ data }) {
               src={heartEmoji}
               alt="like"
             />
-            <span className="font-bold text-sm">123</span>
+            {/* TODO: fetch number of likes from api */}
+            <span className="text-sm font-bold">123</span>
           </div>
         </div>
       </div>
