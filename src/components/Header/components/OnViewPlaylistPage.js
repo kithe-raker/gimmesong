@@ -84,12 +84,12 @@ function OnViewPlaylistPage() {
           </span>
 
           <div className="mt-6 flex flex-row items-center justify-center">
-            <div className="mr-2 flex flex-row items-center justify-center rounded-3xl bg-white px-5 py-2 shadow-md">
+            <div className="mr-2 flex min-w-[75px] flex-row items-center justify-center rounded-3xl bg-[#f6f6f6] px-5 py-2 shadow-lg">
               <img className="mr-1 h-[17px] w-[17px]" src={disc} alt="songs" />
               <span>{stats.counter}</span>
             </div>
 
-            <div className="mr-2 flex flex-row items-center justify-center rounded-3xl bg-white px-5 py-2 shadow-md">
+            <div className="mr-2 flex min-w-[75px] flex-row items-center justify-center rounded-3xl bg-[#f6f6f6] px-5 py-2 shadow-lg">
               <img
                 className="mr-1 h-[17px] w-[17px]"
                 src={headphoneEmoji}
@@ -98,7 +98,7 @@ function OnViewPlaylistPage() {
               <span>{stats.views}</span>
             </div>
 
-            <div className="flex flex-row items-center justify-center rounded-3xl bg-white px-5 py-2 shadow-md">
+            <div className="flex min-w-[75px] flex-row items-center justify-center rounded-3xl bg-white px-5 py-2 shadow-lg">
               <img
                 className="mr-1 h-[17px] w-[17px]"
                 src={heartEmoji}
