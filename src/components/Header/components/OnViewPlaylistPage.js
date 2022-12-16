@@ -99,14 +99,14 @@ function OnViewPlaylistPage() {
               <span>{stats.views}</span>
             </div>
 
-            <div className="flex min-w-[75px] flex-row items-center justify-center rounded-3xl bg-white px-5 py-2 shadow-lg">
+            {/* <div className="flex min-w-[75px] flex-row items-center justify-center rounded-3xl bg-white px-5 py-2 shadow-lg">
               <img
                 className="mr-1 h-[17px] w-[17px]"
                 src={heartEmoji}
                 alt="like"
               />
               <span>{stats.likes}</span>
-            </div>
+            </div> */}
           </div>
 
           <div className="mx-3 mt-8 flex flex-row justify-between">
