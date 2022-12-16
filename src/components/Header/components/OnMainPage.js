@@ -56,7 +56,7 @@ function OnMainPage() {
                 />
               </svg>
             </button>
-            <button
+            {/* <button
               onClick={() =>
                 navigate("/shop")
               }
@@ -78,7 +78,7 @@ function OnMainPage() {
                   fill="black"
                 />
               </svg>
-            </button>
+            </button> */}
             <button
               onClick={() => navigate("/profile")}
               className="group mr-1.5 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full"
