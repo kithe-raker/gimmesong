@@ -63,6 +63,7 @@ function SelectPageLayout({ setPageLayout, pageLayout }) {
       options={options}
       initialOption={initialOption}
       onOptionSelected={setPageLayout}
+      hideSelectedOption
       className="h-full w-24"
       contentClassName="rounded-lg bg-black py-1"
     />

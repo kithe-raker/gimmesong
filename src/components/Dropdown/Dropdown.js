@@ -8,6 +8,7 @@ import { useState } from "react";
  * @param onOptionSelected a function that takes the selected option value and get called whenever an option is selected.
  * @param arrow whether or not the dropdown will render the arrow in opener button.
  * @param arrowColor the color of the dropdown's arrow.
+ * @param hideSelectedOption whether or not the dropdown will hide the button of the currently selected option when the dropdown is opened.
  * @param className the class name to be added to this dropdown.
  * @param contentClassName the class name to be added to the component that renders the full dropdown.
  * @param buttonClassName the class name to be added to every button in this dropdown.
@@ -18,6 +19,7 @@ function Dropdown({
   initialOption = 0,
   arrow = false,
   arrowColor = "black",
+  hideSelectedOption = false,
   className = "",
   contentClassName = "",
   buttonClassName = "",
@@ -79,7 +81,10 @@ function Dropdown({
         {
           isOpen &&
             // <div className="mt-2 flex w-full flex-col overflow-hidden rounded-3xl border border-black/[0.05]">
-            options.map((option, i) => (
+            options.map((option, i) =>
+              hideSelectedOption && currentOption === i ? (
+                <></>
+              ) : (
                 <button
                   className={`flex w-full flex-row items-center justify-start py-2 ${buttonClassName}`}
                   onClick={() => selectOption(i)}
@@ -90,7 +95,8 @@ function Dropdown({
                     </span>
                   )}
                 </button>
-            ))
+              )
+            )
           // </div>
         }
       </div>
