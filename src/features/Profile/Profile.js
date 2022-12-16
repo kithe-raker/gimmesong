@@ -39,11 +39,11 @@ function Profile() {
             </div>
             <div className="flex flex-1 flex-row items-center justify-between px-4">
               <span>{language}</span>
-              <button className="rounded-2xl border border-black/[0.05] px-3 hover:bg-gray-100">
+              {/* <button className="rounded-2xl border border-black/[0.05] px-3 hover:bg-gray-100">
                 <span className="text-base font-normal text-[#6A6A6A]">
                   Change
                 </span>
-              </button>
+              </button> */}
             </div>
           </div>
 
