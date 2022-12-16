@@ -9,6 +9,7 @@ import cameraEmoji from "@assets/img/camera_emoji.png";
 import heartEmoji from "@assets/img/shiny_heart_emoji.png";
 import rockEmoji from "@assets/img/rock_emoji.png";
 import sadEmoji from "@assets/img/sad_emoji.png";
+import Feed from "@features/RequestSongs/Feed";
 
 function MainClub() {
   const navigate = useNavigate();
@@ -52,7 +53,8 @@ function MainClub() {
 
   return (
     <div className="gimmesong-secondary-font mt-12 flex w-full max-w-md flex-col items-start justify-start px-4">
-      <span className="text-2xl font-extrabold">Join the club 🍸</span>
+      
+      {/* <span className="text-2xl font-extrabold">Join the club 🍸</span>
       <span className="mt-1 text-lg font-medium">Select club</span>
 
       <div className="mt-5 flex flex-wrap">
@@ -68,7 +70,8 @@ function MainClub() {
             </div>
           </button>
         ))}
-      </div>
+      </div> */}
+      <Feed />
     </div>
   );
 }
