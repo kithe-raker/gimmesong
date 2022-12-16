@@ -8,12 +8,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { PlaylistContext } from "contexts/PlaylistContext";
 
+import SelectPageLayout from "@components/SelectPageLayout";
+
 import AddSongModal from "@features/RequestSongs/ViewPlaylist/AddSongModal";
 
 import heartEmoji from "@assets/img/heart_emoji.png";
 import headphoneEmoji from "@assets/img/headphone_emoji.png";
 import disc from "@assets/img/disc.png";
-import SelectPageLayout from "./SelectPageLayout";
 
 function OnViewPlaylistPage() {
   const navigate = useNavigate();
