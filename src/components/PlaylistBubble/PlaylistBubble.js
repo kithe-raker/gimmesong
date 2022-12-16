@@ -116,15 +116,17 @@ function PlaylistBubble({ data }) {
             <span className="text-sm font-bold">{views}</span>
           </div>
 
-          <div className="flex min-w-[60px] flex-row items-center justify-center rounded-3xl border-2 border-black/[0.05] px-3 py-2">
+          {/* <div className="flex min-w-[60px] flex-row items-center justify-center rounded-3xl border-2 border-black/[0.05] px-3 py-2">
             <img
               className="mr-1 h-[15px] w-[15px]"
               src={heartEmoji}
               alt="like"
             />
-            {/* TODO: fetch number of likes from api */}
+            {
+              // TODO: fetch number of likes from api 
+            }
             <span className="text-sm font-bold">123</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
