@@ -231,7 +231,7 @@ function Feed() {
             />
           )}
         </div>
-        <div className="fixed bottom-0 z-20 mx-auto flex w-full max-w-md items-center justify-end py-6 px-5">
+        <div className="fixed bottom-0 z-50 mx-auto flex w-full max-w-md items-center justify-end py-6 px-5">
           <button
             onClick={handleOpenRequestSong}
             className={`flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-3xl bg-gradient-to-b from-[#8583D6] to-[#C697C8] shadow-md`}
