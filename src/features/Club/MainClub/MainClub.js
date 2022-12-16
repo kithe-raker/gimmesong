@@ -77,7 +77,7 @@ function MainClub() {
         </div>
 
         <div className="absolute inset-0 z-10 flex h-full flex-row items-center justify-end">
-          <button className="mr-5 rounded-3xl border border-white py-2 px-4">
+          <button className="mr-5 rounded-3xl border border-white py-2 px-4 hover:bg-gray-800">
             <span className="text-xl text-white">Play</span>
           </button>
         </div>
