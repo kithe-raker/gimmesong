@@ -42,11 +42,13 @@ function Home() {
   let render;
   if (location.pathname === "/mysongs") {
     render = user ? <MySongs /> : <SignInBox className="mt-14" />;
-  } else if (location.pathname === "/club") {
+  } else if (location.pathname === "/request") {
     render = <MainClub />;
-  } else if (location.pathname.startsWith("/club")) {
-    render = <Feed />;
-  } else {
+  }
+  // else if (location.pathname.startsWith("/club")) {
+  //   render = <Feed />;
+  // }
+  else {
     render = <span>The url you're looking for does not exist</span>;
   }
 

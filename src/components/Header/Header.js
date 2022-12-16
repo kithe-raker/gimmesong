@@ -14,7 +14,7 @@ function Header() {
 
   let render;
   if (
-    location.pathname.startsWith("/club") ||
+    location.pathname.startsWith("/request") ||
     location.pathname.startsWith("/mysongs")
   ) {
     render = <OnMainPage />;

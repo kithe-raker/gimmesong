@@ -112,13 +112,13 @@ function OnMainPage() {
         <div className="mx-8 mb-2 flex flex-row items-center justify-center font-bold">
           <button
             className={`flex w-1/2 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
-              location.pathname.startsWith("/club")
+              location.pathname.startsWith("/request")
                 ? "bg-black text-white hover:bg-gray-600"
                 : "text-black hover:bg-gray-300"
             }`}
-            onClick={() => navigate("/club")}
+            onClick={() => navigate("/request")}
           >
-            <span>Club</span>
+            <span>Song Request</span>
           </button>
           <button
             className={`flex w-1/2 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out hover:bg-gray-600 ${
@@ -133,7 +133,7 @@ function OnMainPage() {
         </div>
       </div>
 
-      {isClubFeed && <ClubFeedBar />}
+      {/* {isClubFeed && <ClubFeedBar />} */}
     </div>
   );
 }

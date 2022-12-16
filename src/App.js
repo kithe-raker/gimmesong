@@ -67,8 +67,9 @@ function App() {
         }
       />
       <Route path="/mysongs" element={<Home />} />
-      <Route path="/club" element={<Home />} />
-      <Route path="/club/:clublink" element={<Home />} />
+      <Route path="/request" element={<Home />} />
+      {/* <Route path="/club" element={<Home />} />
+      <Route path="/club/:clublink" element={<Home />} /> */}
       <Route path="/profile" element={<Profile />} />
       <Route path="/shop" element={<Shop />} />
       <Route
