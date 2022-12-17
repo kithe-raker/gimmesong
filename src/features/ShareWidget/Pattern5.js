@@ -6,6 +6,7 @@ import logo from "@assets/img/gimmesong_logo.png";
 import santaHatLogo from "@assets/img/gimmesong_logo_with_santa_hat.png";
 import santaEmoji from "@assets/img/santa_emoji.png";
 import bellEmoji from "@assets/img/bell_emoji.png";
+import bellEmojiLarge from "@assets/img/bell_emoji_large.png";
 
 import { ThreeDots } from "react-loader-spinner";
 import { useImageExporter } from "@hooks/useImageExporter";
@@ -28,7 +29,7 @@ const Pattern5 = ({ content, isMysong, onSharing }) => {
           ref={exportRefCallback}
         >
           <img
-            src={bellEmoji}
+            src={bellEmojiLarge}
             alt="Bell"
             className="absolute top-0 -right-[45%] h-full"
           />
