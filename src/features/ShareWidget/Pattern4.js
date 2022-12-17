@@ -3,7 +3,8 @@ import { useEffect } from "react";
 import disc from "@assets/img/disc.webp";
 import decoratedDisc from "@assets/img/decorated_disc.png";
 import logo from "@assets/img/gimmesong_logo.png";
-import santaHatLogo from "@assets/img/gimmesong_logo_with_text_and_santa_hat.png";
+import santaHatLogo from "@assets/img/gimmesong_logo_with_santa_hat.png";
+import santaEmoji from "@assets/img/santa_emoji.png";
 
 import { ThreeDots } from "react-loader-spinner";
 import { useImageExporter } from "@hooks/useImageExporter";
@@ -22,7 +23,7 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
     <>
       <div className="h-0 w-0 overflow-hidden">
         <div
-          className="flex w-[960px] flex-col justify-between bg-[#D17D7A] px-[86px] pt-[42px] pb-[86px]"
+          className="flex w-[960px] flex-col justify-between bg-[#F09794] px-[86px] pt-[42px] pb-[86px]"
           ref={exportRefCallback}
         >
           <div>
@@ -55,7 +56,7 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
               </div>
             </div>
           </div>
-          <div className="mt-[48px] mb-[64px] w-full px-[8px]">
+          <div className="mt-[48px] w-full px-[8px]">
             <p
               style={{
                 wordBreak: "break-word",
@@ -67,16 +68,60 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
               {content.message}
             </p>
           </div>
+          <div className="mt-[32px] mb-[64px] flex w-full flex-row items-center px-[8px] pr-[120px] text-[32px] font-thin text-white">
+            {/* <p
+              style={{
+                wordBreak: "break-word",
+                whiteSpace: "pre-line",
+                // "-webkit-text-stroke": "0.5px white",
+              }}
+              className="pr-[120px] text-[32px] text-white"
+            > */}
+            <span
+              style={{
+                wordBreak: "break-word",
+                whiteSpace: "pre-line",
+                // "-webkit-text-stroke": "0.5px white",
+              }}
+            >
+              Merry Christmas fr
+            </span>
+            <img
+              src={santaEmoji}
+              alt="Santa"
+              className="mt-[24px] h-[32px] w-[32px]"
+            />
+            <span
+              style={{
+                wordBreak: "break-word",
+                whiteSpace: "pre-line",
+                // "-webkit-text-stroke": "0.5px white",
+              }}
+            >
+              m
+            </span>
+            <span
+              style={{
+                wordBreak: "break-word",
+                whiteSpace: "pre-line",
+                // "-webkit-text-stroke": "0.5px white",
+              }}
+              className="ml-4 font-normal"
+            >
+              Anonymous
+            </span>
+            {/* </p> */}
+          </div>
           <div className="flex flex-col">
             <div className="flex items-center">
               <img
-                className="mr-[10px] mt-[29px] "
+                className="mr-[10px] mt-[12px]"
                 src={santaHatLogo}
                 alt="disc"
               />
-              {/* <span className="gimmesong-primary-font text-[36px] tracking-wider">
+              <span className="gimmesong-primary-font text-[36px] tracking-wider text-white">
                 GIMMESONG
-              </span> */}
+              </span>
             </div>
             {isMysong && (
               <span className="-mt-[20px]  text-[36px] text-gray-300">
