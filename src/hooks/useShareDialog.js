@@ -13,6 +13,7 @@ import {
 
 import useSession from "@hooks/useSession";
 
+import Pattern4 from "@features/ShareWidget/Pattern5";
 import Pattern3 from "@features/ShareWidget/Pattern4";
 import Pattern2 from "@features/ShareWidget/Pattern3";
 import Pattern1 from "@features/ShareWidget/Pattern1";
@@ -73,6 +74,13 @@ const ShareDialogContent = ({ content, isMysong }) => {
           onSharing={handleSharing}
         />
       )}
+      {pattern === "4" && (
+        <Pattern4
+          content={content}
+          isMysong={isMysong}
+          onSharing={handleSharing}
+        />
+      )}
       <div className="my-4 flex shrink-0 items-center rounded-full border p-1.5">
         <button
           onClick={() => setPattern(1)}
@@ -92,11 +100,19 @@ const ShareDialogContent = ({ content, isMysong }) => {
         </button>
         <button
           onClick={() => setPattern("3")}
-          className={`h-8 w-8 rounded-full ${
+          className={`mr-3 h-8 w-8 rounded-full ${
             pattern === "3" ? "bg-black text-white" : "bg-white text-black"
           }`}
         >
           3
+        </button>
+        <button
+          onClick={() => setPattern("4")}
+          className={`h-8 w-8 rounded-full ${
+            pattern === "4" ? "bg-black text-white" : "bg-white text-black"
+          }`}
+        >
+          4
         </button>
       </div>
       <div className="flex w-full justify-between">
