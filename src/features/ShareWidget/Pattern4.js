@@ -5,6 +5,8 @@ import decoratedDisc from "@assets/img/decorated_disc.png";
 import logo from "@assets/img/gimmesong_logo.png";
 import santaHatLogo from "@assets/img/gimmesong_logo_with_santa_hat.png";
 import santaEmoji from "@assets/img/santa_emoji.png";
+import giftEmoji from "@assets/img/gift_emoji.png";
+import noteEmoji from "@assets/img/note_emoji.png";
 
 import { ThreeDots } from "react-loader-spinner";
 import { useImageExporter } from "@hooks/useImageExporter";
@@ -23,9 +25,39 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
     <>
       <div className="h-0 w-0 overflow-hidden">
         <div
-          className="flex w-[960px] flex-col justify-between bg-[#F09794] px-[86px] pt-[42px] pb-[86px]"
+          className="relative flex w-[960px] flex-col justify-between bg-[#F09794] px-[86px] pt-[42px] pb-[86px]"
           ref={exportRefCallback}
         >
+          <img
+            src={noteEmoji}
+            alt="Gift"
+            className="absolute top-[250px] right-[10px] w-[80px] -rotate-[24deg]"
+          /><img
+          src={noteEmoji}
+          alt="Gift"
+          className="absolute top-[270px] right-[-30px] w-[80px] -rotate-[24deg]"
+        />
+          <img
+            src={giftEmoji}
+            alt="Gift"
+            className="absolute top-[300px] right-[-80px] w-[300px] -rotate-[30deg]"
+          />
+          <img
+            src={noteEmoji}
+            alt="Gift"
+            className="absolute top-[500px] right-[140px] z-10 w-[80px] -rotate-[24deg]"
+          />
+          <img
+            src={noteEmoji}
+            alt="Gift"
+            className="absolute top-[520px] right-[100px] z-10 w-[80px] -rotate-[24deg]"
+          />
+          <img
+            src={noteEmoji}
+            alt="Gift"
+            className="absolute top-[490px] right-[60px] z-10 w-[80px] -rotate-[24deg]"
+          />
+
           <div>
             <div className="flex items-center">
               <div className="relative mt-[40px] flex h-[180px] w-[180px] shrink-0 items-center justify-center">
@@ -69,14 +101,6 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
             </p>
           </div>
           <div className="mt-[32px] mb-[64px] flex w-full flex-row items-center px-[8px] pr-[120px] text-[32px] font-thin text-white">
-            {/* <p
-              style={{
-                wordBreak: "break-word",
-                whiteSpace: "pre-line",
-                // "-webkit-text-stroke": "0.5px white",
-              }}
-              className="pr-[120px] text-[32px] text-white"
-            > */}
             <span
               style={{
                 wordBreak: "break-word",
@@ -110,7 +134,6 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
             >
               Anonymous
             </span>
-            {/* </p> */}
           </div>
           <div className="flex flex-col">
             <div className="flex items-center">
