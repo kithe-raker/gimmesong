@@ -30,13 +30,14 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
         >
           <img
             src={noteEmoji}
-            alt="Gift"
+            alt="Note"
             className="absolute top-[250px] right-[10px] w-[80px] -rotate-[24deg]"
-          /><img
-          src={noteEmoji}
-          alt="Gift"
-          className="absolute top-[270px] right-[-30px] w-[80px] -rotate-[24deg]"
-        />
+          />
+          <img
+            src={noteEmoji}
+            alt="Note"
+            className="absolute top-[270px] right-[-30px] w-[80px] -rotate-[24deg]"
+          />
           <img
             src={giftEmoji}
             alt="Gift"
@@ -44,17 +45,17 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
           />
           <img
             src={noteEmoji}
-            alt="Gift"
+            alt="Note"
             className="absolute top-[500px] right-[140px] z-10 w-[80px] -rotate-[24deg]"
           />
           <img
             src={noteEmoji}
-            alt="Gift"
+            alt="Note"
             className="absolute top-[520px] right-[100px] z-10 w-[80px] -rotate-[24deg]"
           />
           <img
             src={noteEmoji}
-            alt="Gift"
+            alt="Note"
             className="absolute top-[490px] right-[60px] z-10 w-[80px] -rotate-[24deg]"
           />
 
