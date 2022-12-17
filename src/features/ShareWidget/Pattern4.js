@@ -41,22 +41,22 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
           <img
             src={giftEmoji}
             alt="Gift"
-            className="absolute top-[300px] right-[-80px] w-[300px] -rotate-[30deg]"
+            className="absolute top-[300px] right-[-110px] w-[350px] -rotate-[30deg]"
           />
           <img
             src={noteEmoji}
             alt="Note"
-            className="absolute top-[500px] right-[140px] z-10 w-[80px] -rotate-[24deg]"
+            className="absolute top-[540px] right-[160px] z-10 w-[80px] -rotate-[24deg]"
           />
           <img
             src={noteEmoji}
             alt="Note"
-            className="absolute top-[520px] right-[100px] z-10 w-[80px] -rotate-[24deg]"
+            className="absolute top-[560px] right-[120px] z-10 w-[80px] -rotate-[24deg]"
           />
           <img
             src={noteEmoji}
             alt="Note"
-            className="absolute top-[490px] right-[60px] z-10 w-[80px] -rotate-[24deg]"
+            className="absolute top-[530px] right-[80px] z-10 w-[80px] -rotate-[24deg]"
           />
 
           <div>
