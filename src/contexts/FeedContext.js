@@ -101,7 +101,11 @@ const FeedProvider = ({ children }) => {
     fetchContent({ loading: true, reset: true, filter: val });
   };
 
-  const onCreatedRequest = () => {
+  const changeLang = (val) => {
+    setLang(val);
+  };
+
+  const onRequestCreated = () => {
     setScrollPosition(0);
     fetchContent({ loading: true, reset: true, filter });
   };
@@ -129,11 +133,11 @@ const FeedProvider = ({ children }) => {
     },
     action: {
       changeFilter,
-      changeLang: setLang,
+      changeLang,
       loadMore,
-      onCreatedRequest,
       fetchContent,
       updateFeedItemInfo,
+      onRequestCreated,
     },
   };
 

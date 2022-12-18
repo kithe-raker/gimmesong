@@ -770,6 +770,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   </button>
                   <ShareDialog
                     isMysong={true}
+                    //TODO: Add disc style here
                     content={{
                       song: {
                         title: items[current]?.content?.song?.title,
