@@ -212,10 +212,10 @@ export const useShareDialog = () => {
     onOpen();
   };
 
-  useEffect(() => {
-    setFile(null);
-    setFileState("unready");
-  }, [onOpen]);
+  // useEffect(() => {
+  //   setFile(null);
+  //   setFileState("unready");
+  // }, [onOpen]);
 
   const ShareDialog = useCallback(
     ({ content, isMysong }) => {
