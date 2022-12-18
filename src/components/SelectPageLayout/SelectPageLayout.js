@@ -56,13 +56,14 @@ function SelectPageLayout({ setPageLayout, pageLayout }) {
     { value: "multiple", component: multiple },
   ];
 
-  const initialOption = pageLayout === "single" ? 0 : 1;
+  const selectedOption = pageLayout === "single" ? 0 : 1;
 
   return (
     <Dropdown
       options={options}
-      initialOption={initialOption}
-      onOptionSelected={setPageLayout}
+      selectedOption={selectedOption}
+      onOptionSelected={(index) => setPageLayout(options[index].value)}
+      hideSelectedOption
       className="h-full w-24"
       contentClassName="rounded-lg bg-black py-1"
     />

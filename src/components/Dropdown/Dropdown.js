@@ -1,13 +1,16 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 /**
- * A custom dropdown component. Note that it is very important to specify the width of the dropdown (using className).
+ * A custom dropdown component. 
+ *  <p> (1) Note that it is very important to specify the width of the dropdown (using className). </p>
+ *  <p> (1) Note that the user of this component is expected to maintain the selectedOption state themselves, meaning that nothing will happens when an option is selected, unless user update the selectedOption props passed to this component when onOptionSelected callback is called. </p>
  * @param options the available options for dropdown. It can be in shape of ["value1", "value2", "value3", ...] in which the dropdown will render each option in a text button and when a value changes, the callback function will be passed the option value,
  * or [{value: "value1", component: \<span>text1\</span>}, {value: "value2", component: \<span>text2\</span>}, ...] the dropdown will render each option's component and when a value changes, the callback function will be passed the option.value.
- * @param initialOption the index of an option that will be shown when this dropdown is first rendered.
- * @param onOptionSelected a function that takes the selected option value and get called whenever an option is selected.
+ * @param selectedOption the index of an option that will be shown when this dropdown is hiding its options.
+ * @param onOptionSelected a function that takes the selected option index and get called whenever an option is selected. The user of this component should update the selected option as this component does not do it automatically.
  * @param arrow whether or not the dropdown will render the arrow in opener button.
  * @param arrowColor the color of the dropdown's arrow.
+ * @param hideSelectedOption whether or not the dropdown will hide the button of the currently selected option when the dropdown is opened.
  * @param className the class name to be added to this dropdown.
  * @param contentClassName the class name to be added to the component that renders the full dropdown.
  * @param buttonClassName the class name to be added to every button in this dropdown.
@@ -15,20 +18,21 @@ import { useState } from "react";
 function Dropdown({
   options,
   onOptionSelected = (_) => {},
-  initialOption = 0,
+  selectedOption = 0,
   arrow = false,
   arrowColor = "black",
+  hideSelectedOption = false,
   className = "",
   contentClassName = "",
   buttonClassName = "",
 }) {
-  const [currentOption, setCurrentOption] = useState(initialOption);
+  // const [currentOption, setCurrentOption] = useState(initialOption);
 
   const { isOpen, onToggle, onClose } = useDisclosure();
 
   const selectOption = (index) => {
-    onOptionSelected(options[index].value || options[index]);
-    setCurrentOption(index);
+    onOptionSelected(index);
+    // setCurrentOption(index);
     onClose();
   };
 
@@ -41,8 +45,8 @@ function Dropdown({
           className={`flex w-full flex-row items-center justify-between rounded-3xl py-2 ${buttonClassName}`}
           onClick={onToggle}
         >
-          {options[currentOption].component || (
-            <span className="ml-3 font-bold">{options[currentOption]}</span>
+          {options[selectedOption].component || (
+            <span className="ml-3 font-bold">{options[selectedOption]}</span>
           )}
           {arrow &&
             (isOpen ? (
@@ -79,7 +83,10 @@ function Dropdown({
         {
           isOpen &&
             // <div className="mt-2 flex w-full flex-col overflow-hidden rounded-3xl border border-black/[0.05]">
-            options.map((option, i) => (
+            options.map((option, i) =>
+              hideSelectedOption && selectedOption === i ? (
+                <></>
+              ) : (
                 <button
                   className={`flex w-full flex-row items-center justify-start py-2 ${buttonClassName}`}
                   onClick={() => selectOption(i)}
@@ -90,7 +97,8 @@ function Dropdown({
                     </span>
                   )}
                 </button>
-            ))
+              )
+            )
           // </div>
         }
       </div>

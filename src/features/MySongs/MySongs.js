@@ -51,12 +51,13 @@ function MySongs() {
   Ads.VignetteBanner();
 
   const options = ["All Songs", "Like", "Direct", "Request"];
+  const [selectedOption, setSelectedOption] = useState(0);
 
   return (
     <div
       className={`relative mx-auto flex ${
         pageLayout === "single" ? "h-full" : "min-h-full"
-      } max-w-[min(100vw,28rem)] flex-col items-center py-6 pt-[30px]`}
+      } max-w-[min(100vw,28rem)] flex-col items-center py-6 px-4 pt-[30px]`}
     >
       {/* <button
         className="flex items-center rounded-full bg-gray-100 px-2 py-2"
@@ -190,7 +191,10 @@ function MySongs() {
             <Dropdown
               className="inset-0 w-36"
               contentClassName="bg-white"
+              hideSelectedOption
               arrow
+              selectedOption={selectedOption}
+              onOptionSelected={setSelectedOption}
               options={options}
             />
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useContext } from "react";
+import { useEffect, useRef, useContext, useState } from "react";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -19,13 +19,14 @@ function ClubFeedBar() {
     //TODO: user probably enter the url directly, so the emoji and title is not passed from parent, fetch it from location.pathname?
   }
 
+  const [selectedOption, setSelectedOption] = useState(0);
   const options = ["Trend", "Newest", "Popular"];
-
   // TODO: use appropriate filter for each dropdown options.
-  const optionFilter = {
-    Newest: "newest",
-    Popular: "most_play",
-    Trend: "most_play",
+  const optionFilter = ["most_play", "newest", "most_play"];
+
+  const optionChanged = (index) => {
+    changeFilter(optionFilter[index]);
+    setSelectedOption(index);
   };
 
   /**
@@ -74,7 +75,8 @@ function ClubFeedBar() {
       <Dropdown
         arrow
         options={options}
-        onOptionSelected={(option) => changeFilter(optionFilter[option])}
+        selectedOption={selectedOption}
+        onOptionSelected={optionChanged}
         className="w-1/3"
         contentClassName="border border-black/[0.05] gimmesong-bg"
       />
