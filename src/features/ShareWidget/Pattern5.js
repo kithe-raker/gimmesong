@@ -123,8 +123,8 @@ const Pattern5 = ({ content, isMysong, onSharing }) => {
               </span>
             </div>
             {isMysong && (
-              <span className="-mt-[20px]  text-[36px] text-gray-300">
-                gimmesong.link/@{user.username}
+              <span className="-mt-[20px]  text-[32px] text-gray-300">
+                @{user.username}
               </span>
             )}
           </div>
