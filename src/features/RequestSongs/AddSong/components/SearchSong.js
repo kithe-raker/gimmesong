@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 
 import Loading from "@components/Loading";
 import AudioPlayer from "@components/AudioPlayer";
@@ -10,7 +10,13 @@ import GimmesongAPI from "@lib/gimmesong_api";
 import ytm from "@lib/ytm_api";
 import Ads from "@lib/ads";
 
-function SendSong({ next, onSelectSong, receiver }) {
+import { AddSongContext } from "../AddSong";
+
+function SearchSong() {
+  const {
+    action: { next, selectSong },
+  } = useContext(AddSongContext);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -155,7 +161,7 @@ function SendSong({ next, onSelectSong, receiver }) {
       });
       return;
     }
-    onSelectSong(selected);
+    selectSong(selected);
     next();
   };
 
@@ -346,4 +352,4 @@ function SendSong({ next, onSelectSong, receiver }) {
   );
 }
 
-export default SendSong;
+export default SearchSong;
