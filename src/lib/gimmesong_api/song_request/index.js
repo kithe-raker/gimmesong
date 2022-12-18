@@ -33,6 +33,20 @@ const methods = {
       lastRequestId,
       limit,
     });
+
+    for (let index = 0; index < results?.contents?.length ?? 0; index++) {
+      for (
+        let vinlyIndex = 0;
+        vinlyIndex < results.contents[index].recentlyAdded?.length ?? 0;
+        vinlyIndex++
+      ) {
+        results.contents[index].recentlyAdded[vinlyIndex].vinyl_style =
+          await VinylStyle.getVinylStyleDetails(
+            results.contents[index].recentlyAdded[vinlyIndex].vinyl_style
+          );
+      }
+    }
+
     return results.contents;
   },
   QueryNewest: async function (langTag, { lastRequestId = "", limit = 10 }) {
@@ -43,6 +57,20 @@ const methods = {
       lastRequestId,
       limit,
     });
+
+    for (let index = 0; index < results?.contents?.length ?? 0; index++) {
+      for (
+        let vinlyIndex = 0;
+        vinlyIndex < results.contents[index].recentlyAdded?.length ?? 0;
+        vinlyIndex++
+      ) {
+        results.contents[index].recentlyAdded[vinlyIndex].vinyl_style =
+          await VinylStyle.getVinylStyleDetails(
+            results.contents[index].recentlyAdded[vinlyIndex].vinyl_style
+          );
+      }
+    }
+
     return results.contents;
   },
   QueryUserRequest: async function ({ lastRequestId = "", limit = 10 }) {
@@ -52,6 +80,20 @@ const methods = {
       lastRequestId,
       limit,
     });
+
+    for (let index = 0; index < results?.contents?.length ?? 0; index++) {
+      for (
+        let vinlyIndex = 0;
+        vinlyIndex < results.contents[index].recentlyAdded?.length ?? 0;
+        vinlyIndex++
+      ) {
+        results.contents[index].recentlyAdded[vinlyIndex].vinyl_style =
+          await VinylStyle.getVinylStyleDetails(
+            results.contents[index].recentlyAdded[vinlyIndex].vinyl_style
+          );
+      }
+    }
+
     return results.contents;
   },
   QueryRequestItem: async function (
