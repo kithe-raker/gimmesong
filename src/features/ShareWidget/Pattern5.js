@@ -64,19 +64,24 @@ const Pattern5 = ({ content, isMysong, onSharing }) => {
               </div>
             </div>
           </div>
-          <div className="mt-[48px] w-full px-[8px]">
+          {isMysong && (
+            <span className="mt-[20px]  text-[32px] font-bold text-gray-300">
+              @{user.username}
+            </span>
+          )}
+          <div className="mt-[10px] w-full px-[8px]">
             <p
               style={{
                 wordBreak: "break-word",
                 whiteSpace: "pre-line",
                 // "-webkit-text-stroke": "0.5px white",
               }}
-              className=" pr-[120px] text-[54px]  font-bold italic text-white"
+              className=" pr-[120px] text-[48px]  font-bold italic text-white"
             >
               {content.message}
             </p>
           </div>
-          <div className="mt-[32px] mb-[64px] flex w-full flex-row items-center px-[8px] pr-[120px] text-[32px] font-thin text-white">
+          <div className="mt-[32px] mb-[48px] flex w-full flex-row items-center px-[8px] pr-[120px] text-[28px] font-thin text-white">
             <span
               style={{
                 wordBreak: "break-word",
@@ -122,11 +127,6 @@ const Pattern5 = ({ content, isMysong, onSharing }) => {
                 GIMMESONG
               </span>
             </div>
-            {isMysong && (
-              <span className="-mt-[20px]  text-[32px] text-gray-300">
-                @{user.username}
-              </span>
-            )}
           </div>
         </div>
       </div>
