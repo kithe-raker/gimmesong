@@ -23,17 +23,17 @@ import Pattern1 from "@features/ShareWidget/Pattern1";
 const ShareDialogContent = ({
   content,
   isMysong,
-  file,
-  setFile,
-  fileState,
-  setFileState,
 }) => {
   const { user } = useSession();
 
   const [pattern, setPattern] = useState(1);
 
+  const [file, setFile] = useState(null);
+  const [fileState, setFileState] = useState("unready");
+
   const handleSharing = (props) => {
     //console.log(props);setFileState("unready");
+
     setFileState("unready");
     if (file === null) {
       setFile(props);
@@ -43,10 +43,11 @@ const ShareDialogContent = ({
     if (file !== null && file.size === props.size) {
       setFileState("ready");
     }
-    //console.log(file);
+    // console.log(file);
   };
 
   const handleDownload = () => {
+    // console.log(file);
     if (!file) return;
     const element = document.createElement("a");
     element.href = URL.createObjectURL(file);
@@ -205,9 +206,6 @@ export const useShareDialog = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
-  const [file, setFile] = useState(null);
-  const [fileState, setFileState] = useState("unready");
-
   const openShareDialog = () => {
     onOpen();
   };
@@ -242,10 +240,6 @@ export const useShareDialog = () => {
                 <ShareDialogContent
                   content={content}
                   isMysong={isMysong}
-                  file={file}
-                  setFile={setFile}
-                  fileState={fileState}
-                  setFileState={setFileState}
                 />
               </AlertDialogBody>
               {/* <AlertDialogFooter></AlertDialogFooter> */}
