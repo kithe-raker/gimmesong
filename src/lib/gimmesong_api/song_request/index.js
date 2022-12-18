@@ -1,5 +1,7 @@
 import { axios } from "@lib/axios";
 
+import VinylStyle from "../vinyl_style";
+
 function _requestPath(path) {
   return "/api/v1/songrequest/" + path;
 }
@@ -65,6 +67,14 @@ const methods = {
       lastItemId,
       limit,
     });
+
+    for (let index = 0; index < results?.contents?.length ?? 0; index++) {
+      results.contents[index].vinyl_style =
+        await VinylStyle.getVinylStyleDetails(
+          results.contents[index].vinyl_style
+        );
+    }
+
     return results.contents;
   },
   Create: async function (langTag, message, isAnonymous = true) {

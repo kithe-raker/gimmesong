@@ -1,5 +1,6 @@
 import { axios } from "@lib/axios";
 import SongRequest from "./song_request";
+import VinylStyle from "./vinyl_style";
 
 import { db } from "../firebase";
 import { ref, child, get } from "firebase/database";
@@ -63,6 +64,13 @@ const methods = {
     const {
       data: { results },
     } = await axios.get(`/api/v1/queryinbox?${params}`);
+
+    for (let index = 0; index < results?.length ?? 0; index++) {
+      results[index].vinyl_style = await VinylStyle.getVinylStyleDetails(
+        results[index].vinyl_style
+      );
+    }
+
     return results;
   },
   playedInbox: async function (inboxId) {
