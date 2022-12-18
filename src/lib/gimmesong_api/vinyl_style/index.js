@@ -34,15 +34,15 @@ const methods = {
    * @returns
    */
   getVinylStyleDetails: async function (vinylStyle) {
-    if (!vinylStyle?.background) return "No vinyl background style provided";
-    if (!vinylStyle?.center) return "No vinyl center style provided";
-
     const backgroundStyle = await this.getStyleDetails(
       "background",
       vinylStyle?.background
     );
 
-    const CenterStyle = await this.getStyleDetails("center", vinylStyle.center);
+    const CenterStyle = await this.getStyleDetails(
+      "center",
+      vinylStyle?.center
+    );
 
     return {
       background: backgroundStyle,
