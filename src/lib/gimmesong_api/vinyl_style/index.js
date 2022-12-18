@@ -23,7 +23,7 @@ const methods = {
       throw "provided type not exists";
 
     return __VinylStyle[type][id]
-      ? { exists: true, details: __VinylStyle[type][id] }
-      : { exists: false };
+      ? __VinylStyle[type][id]
+      : __VinylStyle[type]["id"];
   },
 };
