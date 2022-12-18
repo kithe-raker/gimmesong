@@ -77,13 +77,13 @@ const ShareDialogContent = ({ content, isMysong }) => {
         />
       )}
       {pattern === "4" && (
-        <Pattern4
+        <Pattern6
           content={content}
           isMysong={isMysong}
           onSharing={handleSharing}
         />
       )}
-      {pattern === "5" && (
+      {/* {pattern === "5" && (
         <Pattern5
           content={content}
           isMysong={isMysong}
@@ -96,7 +96,7 @@ const ShareDialogContent = ({ content, isMysong }) => {
           isMysong={isMysong}
           onSharing={handleSharing}
         />
-      )}
+      )} */}
       <div className="my-4 flex shrink-0 items-center rounded-full border p-1.5">
         <button
           onClick={() => setPattern(1)}
@@ -124,13 +124,13 @@ const ShareDialogContent = ({ content, isMysong }) => {
         </button>
         <button
           onClick={() => setPattern("4")}
-          className={`mr-3 h-8 w-8 rounded-full ${
+          className={`h-8 w-8 rounded-full ${
             pattern === "4" ? "bg-black text-white" : "bg-white text-black"
           }`}
         >
           4
         </button>
-        <button
+        {/* <button
           onClick={() => setPattern("5")}
           className={`mr-3 h-8 w-8 rounded-full ${
             pattern === "5" ? "bg-black text-white" : "bg-white text-black"
@@ -145,7 +145,7 @@ const ShareDialogContent = ({ content, isMysong }) => {
           }`}
         >
           6
-        </button>
+        </button> */}
       </div>
       <div className="flex w-full justify-between">
         <Button
