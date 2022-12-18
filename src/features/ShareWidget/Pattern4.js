@@ -96,7 +96,7 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
                 whiteSpace: "pre-line",
                 // "-webkit-text-stroke": "0.5px white",
               }}
-              className=" pr-[120px] text-[54px]  font-bold italic text-white"
+              className=" pr-[170px] text-[54px]  font-bold italic text-white"
             >
               {content.message}
             </p>
