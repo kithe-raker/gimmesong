@@ -17,13 +17,36 @@ const methods = {
    * @returns
    */
   getStyleDetails: async function (type, id) {
-    if (!id) throw "no id provided";
     if (!type) throw "no type provided";
     if (type != "background" && type != "center")
       throw "provided type not exists";
 
-    return __VinylStyle[type][id]
+    return id && __VinylStyle[type][id]
       ? __VinylStyle[type][id]
       : __VinylStyle[type]["id"];
+  },
+  /**
+   *
+   * @param {{
+   *            background: string,
+   *            center: string,
+   *        }} vinylStyle
+   * @returns
+   */
+  getVinylStyleDetails: async function (vinylStyle) {
+    if (!vinylStyle?.background) return "No vinyl background style provided";
+    if (!vinylStyle?.center) return "No vinyl center style provided";
+
+    const backgroundStyle = await this.getStyleDetails(
+      "background",
+      vinylStyle?.background
+    );
+
+    const CenterStyle = await this.getStyleDetails("center", vinylStyle.center);
+
+    return {
+      background: backgroundStyle,
+      center: CenterStyle,
+    };
   },
 };
