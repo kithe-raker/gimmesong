@@ -20,14 +20,23 @@ import Pattern3 from "@features/ShareWidget/Pattern4";
 import Pattern2 from "@features/ShareWidget/Pattern3";
 import Pattern1 from "@features/ShareWidget/Pattern1";
 
-const ShareDialogContent = ({ content, isMysong }) => {
+const ShareDialogContent = ({ content, isMysong, file, setFile, fileState, setFileState }) => {
   const { user } = useSession();
 
   const [pattern, setPattern] = useState(1);
-  const [file, setFile] = useState(null);
 
   const handleSharing = (props) => {
-    setFile(props);
+    //console.log(props);setFileState("unready");
+    setFileState("unready");
+    if (file === null) {
+      setFile(props);
+    } else if (file.size !== props.size) {
+      setFile(props);
+    }
+    if (file !== null && file.size === props.size) {
+      setFileState("ready");
+    }
+    //console.log(file);
   };
 
   const handleDownload = () => {
@@ -189,9 +198,19 @@ export const useShareDialog = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
+
+  const [file, setFile] = useState(null);
+  const [fileState, setFileState] = useState("unready");
+
   const openShareDialog = () => {
     onOpen();
   };
+  
+
+  useEffect(() => {
+    setFile(null);
+    setFileState("unready");
+  }, [onOpen]);
 
   const ShareDialog = useCallback(
     ({ content, isMysong }) => {
@@ -215,7 +234,7 @@ export const useShareDialog = () => {
                 justifyContent={`center`}
                 alignItems={`center`}
               >
-                <ShareDialogContent content={content} isMysong={isMysong} />
+                <ShareDialogContent content={content} isMysong={isMysong} file={file} setFile={setFile} fileState={fileState} setFileState={setFileState} />
               </AlertDialogBody>
               {/* <AlertDialogFooter></AlertDialogFooter> */}
             </AlertDialogContent>
@@ -227,4 +246,5 @@ export const useShareDialog = () => {
   );
 
   return { openShareDialog, ShareDialog };
-};
+
+  };
