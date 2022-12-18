@@ -9,6 +9,8 @@ import cameraEmoji from "@assets/img/camera_emoji.png";
 import heartEmoji from "@assets/img/shiny_heart_emoji.png";
 import rockEmoji from "@assets/img/rock_emoji.png";
 import sadEmoji from "@assets/img/sad_emoji.png";
+import christmasEventBackground from "@assets/img/christmas_event_bg.png";
+import christmasMelodiesText from "@assets/img/christmas_melodies_text.png";
 
 function MainClub() {
   const navigate = useNavigate();
@@ -52,6 +54,34 @@ function MainClub() {
 
   return (
     <div className="gimmesong-secondary-font mt-12 flex w-full max-w-md flex-col items-start justify-start px-4">
+      <span className="text-2xl font-extrabold">Event</span>
+
+      <div
+        style={{
+          backgroundImage: `url(${christmasEventBackground})`,
+        }}
+        className="relative my-5 flex h-0 w-full flex-row items-center bg-contain bg-no-repeat pt-[60%]"
+      >
+        <div className="absolute inset-0 z-10 ml-5 flex h-full flex-col justify-center">
+          <img
+            src={christmasMelodiesText}
+            alt="Christmas Melodies"
+            className="w-44"
+          />
+
+          <span className="mt-3 font-bold leading-none text-white">
+            Give anonymous <br />
+            song in this christmas
+          </span>
+        </div>
+
+        <div className="absolute inset-0 z-10 flex h-full flex-row items-center justify-end">
+          <button className="mr-5 rounded-3xl border border-white py-2 px-4 hover:bg-gray-800">
+            <span className="text-xl text-white">Play</span>
+          </button>
+        </div>
+      </div>
+
       <span className="text-2xl font-extrabold">Join the club 🍸</span>
       <span className="mt-1 text-lg font-medium">Select club</span>
 
