@@ -33,7 +33,7 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
           <img
             src={decoration}
             alt="Side Decoration"
-            className="absolute top-[100px] right-[0px] w-[420px]"
+            className="absolute bottom-0 right-[0px] w-[420px]"
           />
 
           <div>
