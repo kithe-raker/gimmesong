@@ -8,6 +8,7 @@ import santaEmoji from "@assets/img/santa_emoji.png";
 import giftEmoji from "@assets/img/gift_emoji.png";
 import noteEmoji from "@assets/img/note_emoji.png";
 import decoration from "./assets/pattern4_decoration.png";
+import textOverflowFade from "./assets/pattern4_text_overflow_fade.png";
 
 import { ThreeDots } from "react-loader-spinner";
 import { useImageExporter } from "@hooks/useImageExporter";
@@ -24,9 +25,9 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
 
   return (
     <>
-      <div className="h-0 w-0 overflow-hidden">
+      <div className="w-0 h-0 overflow-hidden">
         <div
-          className="relative flex w-[960px] flex-col justify-between bg-[#FF9C9C] px-[86px] pt-[42px] pb-[86px]"
+          className="relative flex min-h-[715px] w-[960px] flex-col justify-between bg-[#FF9C9C] px-[86px] pt-[42px] pb-[86px]"
           ref={exportRefCallback}
         >
           <img
@@ -52,11 +53,20 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
                 />
               </div>
               <div className="ml-[32px] flex min-w-0 flex-col">
-                <span
-                  className={`truncate text-[44px] w-[460px] font-bold italic leading-[2] text-white`}
-                >
-                  {content.song.title}
-                </span>
+                <div className="flex flex-row w-[560px]">
+                  <span
+                    className={`flex w-[460px] flex-row truncate text-[44px] font-bold italic leading-[2] text-white`}
+                  >
+                    {content.song.title}
+                  </span>
+                  <div 
+                  style={{
+                    backgroundImage: `url(${textOverflowFade})`,
+                  }}
+                  className="relative top-[30px] right-[30px] w-12 h-12 border-none bg-contain"
+                  />
+                </div>
+
                 <span
                   className={` -mt-[28px] truncate text-[42px] font-light italic leading-[2] text-[#EDEDED]`}
                 >
