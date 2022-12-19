@@ -473,7 +473,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                               >
                                 <img
                                   className="absolute inset-0 h-full w-full select-none object-contain"
-                                  src={item.disc?.disc || disc} // TODO: use disc style from api (I don't know the shape so I'm just putting a placeholder here)
+                                  src={item.vinyl_style?.background?.image_url} 
                                   alt="disc"
                                 />
                                 {item.played ? (
@@ -495,7 +495,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                                   <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                                     <img
                                       className="h-[20%] w-[20%] select-none object-contain"
-                                      src={item.disc?.emoji || shushingEmoji} // TODO: use disc style from api (I don't know the shape so I'm just putting a placeholder here)
+                                      src={item.vinyl_style?.center?.image_url} 
                                       alt="disc"
                                     />
                                   </div>
@@ -540,7 +540,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   >
                     <img
                       className="absolute inset-0 h-full w-full select-none object-contain"
-                      src={item.disc?.disc || disc} // TODO: use disc style from api (I don't know the shape so I'm just putting a placeholder here)
+                      src={item.vinyl_style?.background?.image_url} 
                       alt="disc"
                     />
                     {item.played ? (
@@ -559,7 +559,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                       <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                         <img
                           className="h-[20%] w-[20%] select-none object-contain"
-                          src={item.disc?.emoji || shushingEmoji}// TODO: use disc style from api (I don't know the shape so I'm just putting a placeholder here)
+                          src={item.vinyl_style?.center?.image_url}
                           alt="disc" 
                         />
                       </div>
