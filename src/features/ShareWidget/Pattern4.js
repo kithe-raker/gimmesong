@@ -63,7 +63,7 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
                   style={{
                     backgroundImage: `url(${textOverflowFade})`,
                   }}
-                  className="relative top-[30px] right-[30px] w-12 h-12 border-none bg-contain"
+                  className="relative top-[30px] right-[30px] w-12 h-16 border-none bg-contain"
                   />
                 </div>
 
