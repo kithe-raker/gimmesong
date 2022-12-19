@@ -63,28 +63,30 @@ function AddSong({ className }) {
 
   const [selectedDisc, setSelectedDisc] = useState(0);
   // TODO: fetch discs from api instead of hard coding
-  const discs = [
-    {
-      disc: disc,
-      emoji: shushingEmoji,
-    },
-    {
-      disc: disc,
-      emoji: presentEmoji,
-    },
-    {
-      disc: disc,
-      emoji: santaEmoji,
-    },
-    {
-      disc: disc,
-      emoji: shushingEmoji,
-    },
-    {
-      disc: disc,
-      emoji: shushingEmoji,
-    },
-  ];
+  // const discs = GimmesongAPI.User.queryVinylStyleInventory;
+  // GimmesongAPI.User.queryVinylStyleInventory().then(console.log);
+  // const discs = [
+  //   {
+  //     disc: disc,
+  //     emoji: shushingEmoji,
+  //   },
+  //   {
+  //     disc: disc,
+  //     emoji: presentEmoji,
+  //   },
+  //   {
+  //     disc: disc,
+  //     emoji: santaEmoji,
+  //   },
+  //   {
+  //     disc: disc,
+  //     emoji: shushingEmoji,
+  //   },
+  //   {
+  //     disc: disc,
+  //     emoji: shushingEmoji,
+  //   },
+  // ];
 
   // Call Native banner ads
   // Ads.NativeBanner();
@@ -109,7 +111,7 @@ function AddSong({ className }) {
         playlistInfo.language,
         playlistInfo.id,
         message,
-        song,
+        song
         // TODO: also add disc style here (currently disc[selectedDisc])
       );
 
@@ -166,7 +168,7 @@ function AddSong({ className }) {
 
   const store = {
     state: { isLoading },
-    data: { receiver, song, message, discs, selectedDisc },
+    data: { receiver, song, message, selectedDisc },
     action: {
       next: goToNextStep,
       selectSong: handleSongChange,

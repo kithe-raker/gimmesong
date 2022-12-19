@@ -1,5 +1,5 @@
 import DiscList from "@components/DiscList";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { AddSongContext } from "../AddSong";
 
@@ -20,14 +20,13 @@ function WriteMessage() {
         </div>
 
         <DiscList
-          discs={discs}
           selectedDisc={selectedDisc}
           setSelectedDisc={selectDisc}
           perView={3}
-          className="pb-2"
+          className="mt-2"
         />
 
-        <div className="flex h-[280px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
+        <div className="mt-4 flex h-[280px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
           {/* <span className="mt-3">Lorem Lorem</span> */}
           <textarea
             disabled={isLoading}

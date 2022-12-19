@@ -1,53 +1,51 @@
-import React from "react";
+import { useEffect, useState } from "react";
 
-import { useKeenSlider } from "keen-slider/react";
-import "keen-slider/keen-slider.min.css";
+import GimmesongAPI from "@lib/gimmesong_api";
 
-function DiscList({ discs, selectedDisc, setSelectedDisc, className="", perView=3 }) {
-  const [sliderRef] = useKeenSlider({
-    slides: {
-      perView: perView,
-      spacing: 15,
-    },
-  });
+import Slider from "./component/Slider";
+
+/**
+ * A component that display a list of all discs that the user own. Also has ability to highlight 1 disc (to mark as selected).
+ * @param {*} param0
+ * @returns
+ */
+function DiscList({
+  selectedDisc,
+  setSelectedDisc,
+  className = "",
+  perView = 3,
+}) {
+  const [isLoading, setLoading] = useState(false);
+
+  const [discs, setDiscs] = useState([]);
+
+  const fetchDiscs = async () => {
+    setLoading(true);
+    const respond = await GimmesongAPI.User.queryVinylStyleInventory();
+    let result = [];
+    for (let i = 0; i < respond.background.length; i++) {
+      result.push({
+        background: respond.background[i],
+        center: respond.center[i],
+      });
+    }
+    setDiscs(result);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchDiscs();
+    console.log("use effect triggered");
+  }, []);
 
   return (
-    <div className={"w-full " + className}>
-      <div ref={sliderRef} className="keen-slider">
-        {discs.map((item, i) => {
-          return (
-            <div
-              className={`keen-slider__slide h-full w-full rounded-2xl p-0.5 ${
-                selectedDisc === i
-                  ? "bg-gradient-to-b from-[#86C7DF] via-[#8583D6] to-[#C697C8]"
-                  : "bg-black/[.05]"
-              }`}
-              key={i}
-            >
-              <button
-                className="h-full w-full rounded-2xl border  bg-white p-1"
-                onClick={() => setSelectedDisc(i)}
-              >
-                <div className="relative pt-[100%]">
-                  <img
-                    className="absolute inset-0 h-full w-full select-none object-contain"
-                    src={item.disc}
-                    alt="disc"
-                  />
-
-                  <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                    <img
-                      className="h-[20%] w-[20%] select-none object-contain"
-                      src={item.emoji}
-                      alt="disc"
-                    />
-                  </div>
-                </div>
-              </button>
-            </div>
-          );
-        })}
-      </div>
+    <div className={`w-full ${className}`}>
+      <Slider
+        discs={discs}
+        selectedDisc={selectedDisc}
+        setSelectedDisc={setSelectedDisc}
+        perView={perView}
+      />
     </div>
   );
 }
