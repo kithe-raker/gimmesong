@@ -1,6 +1,7 @@
 import { axios } from "@lib/axios";
 import SongRequest from "./song_request";
 import VinylStyle from "./vinyl_style";
+import User from "./user";
 
 import { db } from "../firebase";
 import { ref, child, get } from "firebase/database";
@@ -108,6 +109,6 @@ const methods = {
   },
 };
 
-const GimmesongAPI = { ...methods, SongRequest };
+const GimmesongAPI = { ...methods, SongRequest, User };
 
 export default GimmesongAPI;
