@@ -26,7 +26,7 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
     <>
       <div className="h-0 w-0 overflow-hidden">
         <div
-          className="relative flex w-[960px] flex-col justify-between bg-[#F09794] px-[86px] pt-[42px] pb-[86px]"
+          className="relative flex w-[960px] flex-col justify-between bg-[#FF9C9C] px-[86px] pt-[42px] pb-[86px]"
           ref={exportRefCallback}
         >
           <img
