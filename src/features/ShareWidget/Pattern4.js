@@ -26,7 +26,7 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
     <>
       <div className="h-0 w-0 overflow-hidden">
         <div
-          className="relative flex w-[960px] flex-col justify-between bg-[#FF9C9C] px-[86px] pt-[42px] pb-[86px]"
+          className="relative flex min-h-[715px] w-[960px] flex-col justify-between bg-[#FF9C9C] px-[86px] pt-[42px] pb-[86px]"
           ref={exportRefCallback}
         >
           <img
@@ -53,7 +53,7 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
               </div>
               <div className="ml-[32px] flex min-w-0 flex-col">
                 <span
-                  className={`truncate text-[44px] w-[460px] font-bold italic leading-[2] text-white`}
+                  className={`w-[460px] truncate text-[44px] font-bold italic leading-[2] text-white`}
                 >
                   {content.song.title}
                 </span>
