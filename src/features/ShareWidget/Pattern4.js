@@ -51,9 +51,9 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
                   crossOrigin="anonymous"
                 />
               </div>
-              <div className="ml-[32px] flex min-w-0 flex-col ">
+              <div className="ml-[32px] flex min-w-0 flex-col">
                 <span
-                  className={`truncate text-[44px] font-bold italic leading-[2] text-white`}
+                  className={`truncate text-[44px] w-[460px] font-bold italic leading-[2] text-white`}
                 >
                   {content.song.title}
                 </span>
