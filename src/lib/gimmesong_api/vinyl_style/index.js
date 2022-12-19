@@ -49,6 +49,22 @@ const methods = {
       center: CenterStyle,
     };
   },
+
+  getAllVinylStyle: async function () {
+    const _background = [];
+    Object.keys(__VinylStyle.background).forEach((key) => {
+      _background.push(__VinylStyle.background[key]);
+    });
+
+    const _center = [];
+    Object.keys(__VinylStyle.center).forEach((key) => {
+      _center.push(__VinylStyle.center[key]);
+    });
+    return {
+      background: _background.reverse(),
+      center: _center.reverse(),
+    };
+  },
 };
 
 export default methods;
