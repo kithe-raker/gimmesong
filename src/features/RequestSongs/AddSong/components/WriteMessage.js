@@ -1,77 +1,26 @@
-import { useState } from "react";
+import { useContext } from "react";
 
-import toast from "react-hot-toast";
-import GimmesongAPI from "@lib/gimmesong_api";
+import { AddSongContext } from "../AddSong";
 
-import { useSessionExpired } from "@hooks/useSessionExpired";
-
-function WriteMessage({ next, requiredPayload, onSongAdded, receiver, song }) {
-  const { open: openSessionExpired, SessionExpired } = useSessionExpired();
-
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleMessageChange = (val) => {
-    if (val.length > 100) return;
-    setMessage(val);
-  };
-
-  const sendSong = async () => {
-    if (loading) return;
-    if (!receiver || !song) return;
-    if (!message.trim()) {
-      toast("Please write me a message 🥹", {
-        style: {
-          borderRadius: "25px",
-          background: "#FF6464",
-          color: "#fff",
-        },
-      });
-      return;
-    }
-    try {
-      setLoading(true);
-      // implement api here
-      const success = await GimmesongAPI.SongRequest.AddSong(
-        requiredPayload.language,
-        requiredPayload.id,
-        message,
-        song
-      );
-
-      if (success) {
-        // if success then go to next step
-        toast("Song Added!", {
-          style: {
-            borderRadius: "25px",
-            background: "#000",
-            color: "#fff",
-          },
-        });
-        onSongAdded();
-        // next();
-      }
-    } catch (err) {
-      if (err.response.status === 403) openSessionExpired();
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+function WriteMessage() {
+  const {
+    state: { isLoading },
+    data: { song, message },
+    action: { writeMessage, sendSong },
+  } = useContext(AddSongContext);
 
   return (
     <>
-      <SessionExpired />
       <div className="flex w-full max-w-xs flex-col items-center justify-center">
         <div className="flex h-[360px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
           {/* <span className="mt-3">Lorem Lorem</span> */}
           <textarea
-            disabled={loading}
+            disabled={isLoading}
             value={message}
             className="my-auto w-full resize-none px-2 text-center outline-none"
             placeholder="“ Write something ”"
             rows={6}
-            onChange={(e) => handleMessageChange(e.target.value)}
+            onChange={(e) => writeMessage(e.target.value)}
           />
 
           <div
@@ -96,11 +45,11 @@ function WriteMessage({ next, requiredPayload, onSongAdded, receiver, song }) {
           </div>
         </div>
         <button
-          disabled={loading}
+          disabled={isLoading}
           onClick={sendSong}
           className="gimmesong-primary-font mt-5 inline-flex h-12 w-[250px] items-center justify-center rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-500"
         >
-          {loading && (
+          {isLoading && (
             <svg
               className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
               xmlns="http://www.w3.org/2000/svg"

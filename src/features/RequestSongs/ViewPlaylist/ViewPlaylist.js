@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import ReceivedSongs from "./components/ReceivedSongs";
 import Empty from "./components/Empty";
 import Loading from "@components/Loading";
-import AddSongModal from "./components/AddSongModal";
+import AddSong from "@features/RequestSongs/AddSong";
 
 import Ads from "@lib/ads";
 import toast from "react-hot-toast";
@@ -100,7 +100,7 @@ function ViewPlaylist() {
               </svg>
               <span className="gimmesong-secondary-font ml-1">Share</span>
             </button>
-            <AddSongModal />
+            <AddSong />
           </div>
         )}
       </div>
