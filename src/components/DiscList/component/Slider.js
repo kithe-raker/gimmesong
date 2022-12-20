@@ -4,6 +4,7 @@ import "keen-slider/keen-slider.min.css";
 function Slider({ discs, selectedDisc, setSelectedDisc, perView }) {
   const [sliderRef, instanceRef] = useKeenSlider({
     slides: {
+      number: discs.length,
       perView: perView,
       spacing: 15,
     },
