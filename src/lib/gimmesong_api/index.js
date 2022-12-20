@@ -46,13 +46,25 @@ const methods = {
     });
     return success;
   },
-  sendSong: async function (receiver, message, song) {
+  /**
+   *
+   * @param {*} receiver
+   * @param {*} message
+   * @param {*} song
+   * @param {{
+   *            background: string,
+   *            center: string,
+   *        }} vinylStyle passing only the component's id
+   * @returns
+   */
+  sendSong: async function (receiver, message, song, vinylStyle) {
     const {
       data: { success },
     } = await axios.post(`/api/v1/sendsong`, {
       recipient: receiver,
       message,
       song,
+      vinylStyle,
     });
     return success;
   },
