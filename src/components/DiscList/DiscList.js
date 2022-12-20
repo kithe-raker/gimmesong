@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 
 import Slider from "./component/Slider";
+import { DiscListContext } from "contexts/DiscListContext";
 
 /**
  * A component that display a list of all discs that the user own. Also has ability to highlight 1 disc (to mark as selected).
@@ -15,23 +16,11 @@ function DiscList({
   className = "",
   perView = 3,
 }) {
-  const [isLoading, setLoading] = useState(false);
-
-  const [discs, setDiscs] = useState([]);
-
-  const fetchDiscs = async () => {
-    setLoading(true);
-    const respond = await GimmesongAPI.User.queryVinylStyleInventory();
-    let result = [];
-    for (let i = 0; i < respond.background.length; i++) {
-      result.push({
-        background: respond.background[i],
-        center: respond.center[i],
-      });
-    }
-    setDiscs(result);
-    setLoading(false);
-  };
+  const {
+    state: { isLoading },
+    data: { discs },
+    action: { fetchDiscs },
+  } = useContext(DiscListContext);
 
   useEffect(() => {
     fetchDiscs();
