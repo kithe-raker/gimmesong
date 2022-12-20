@@ -129,7 +129,19 @@ const methods = {
     });
     return results;
   },
-  AddSong: async function (langTag, requestId, message, song) {
+  /**
+   *
+   * @param {*} langTag
+   * @param {*} requestId
+   * @param {*} message
+   * @param {*} song
+   * @param {{
+   *            background: string,
+   *            center: string,
+   *        }} vinylStyle passing only the component's id
+   * @returns
+   */
+  AddSong: async function (langTag, requestId, message, song, vinylStyle) {
     const {
       data: { success },
     } = await axios.post(_requestPath(`addsong`), {
@@ -137,6 +149,7 @@ const methods = {
       requestId,
       message,
       song,
+      vinylStyle,
     });
     return success;
   },
