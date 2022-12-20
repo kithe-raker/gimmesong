@@ -8,7 +8,7 @@ function SongGrid({ title, songs }) {
     data: { items, current, playing },
     action: { selectSong: handleSelect },
   } = useContext(ReceivedSongsContext);
-  
+
   return (
     <>
       <span className="gimmesong-secondary-font text-xl font-medium">
@@ -17,7 +17,7 @@ function SongGrid({ title, songs }) {
 
       <div
         className={`grid grid-cols-2 gap-4 overflow-x-hidden pt-4 ${
-          current !== null ? "pb-[88px]" : "pb-[30px]"
+          current !== null ? "pb-[88px]" : "pb-[24px]"
         }`}
       >
         {songs.map((item, i) => (

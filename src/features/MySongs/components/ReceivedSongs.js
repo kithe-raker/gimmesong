@@ -510,6 +510,10 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                       )}
                     />
                   ))}
+
+                {requests.map((request) => (
+                  <SongGrid title={request.name} songs={request.songs} />
+                ))}
               </>
 
               // <div
