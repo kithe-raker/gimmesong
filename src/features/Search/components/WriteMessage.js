@@ -24,29 +24,6 @@ function WriteMessage({ children }) {
   } = useContext(SearchContext);
 
   const [selectedDisc, setSelectedDisc] = useState(0);
-  // TODO: fetch discs from api instead of hard coding
-  const discs = [
-    {
-      disc: disc,
-      emoji: shushingEmoji,
-    },
-    {
-      disc: disc,
-      emoji: presentEmoji,
-    },
-    {
-      disc: disc,
-      emoji: santaEmoji,
-    },
-    {
-      disc: decoratedDisc,
-      emoji: shushingEmoji,
-    },
-    {
-      disc: decoratedDisc,
-      emoji: presentEmoji,
-    },
-  ];
 
   const handleMessageChange = (val) => {
     if (val.length > 100) return;
@@ -95,7 +72,6 @@ function WriteMessage({ children }) {
       </div>
 
       <DiscList
-        discs={discs}
         selectedDisc={selectedDisc}
         setSelectedDisc={setSelectedDisc}
         className="pb-8"

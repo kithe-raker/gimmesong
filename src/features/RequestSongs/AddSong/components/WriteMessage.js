@@ -6,7 +6,7 @@ import { AddSongContext } from "../AddSong";
 function WriteMessage() {
   const {
     state: { isLoading },
-    data: { song, message, discs, selectedDisc },
+    data: { song, message, selectedDisc },
     action: { writeMessage, sendSong, selectDisc },
   } = useContext(AddSongContext);
 

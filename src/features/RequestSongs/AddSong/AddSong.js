@@ -62,31 +62,6 @@ function AddSong({ className }) {
   };
 
   const [selectedDisc, setSelectedDisc] = useState(0);
-  // TODO: fetch discs from api instead of hard coding
-  // const discs = GimmesongAPI.User.queryVinylStyleInventory;
-  // GimmesongAPI.User.queryVinylStyleInventory().then(console.log);
-  // const discs = [
-  //   {
-  //     disc: disc,
-  //     emoji: shushingEmoji,
-  //   },
-  //   {
-  //     disc: disc,
-  //     emoji: presentEmoji,
-  //   },
-  //   {
-  //     disc: disc,
-  //     emoji: santaEmoji,
-  //   },
-  //   {
-  //     disc: disc,
-  //     emoji: shushingEmoji,
-  //   },
-  //   {
-  //     disc: disc,
-  //     emoji: shushingEmoji,
-  //   },
-  // ];
 
   // Call Native banner ads
   // Ads.NativeBanner();
