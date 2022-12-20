@@ -39,7 +39,13 @@ import SongGrid from "./SongGrid";
 
 export const ReceivedSongsContext = createContext();
 
-function ReceivedSongs({ tab, layout, onLayoutChange }) {
+function ReceivedSongs({
+  tab,
+  layout,
+  onLayoutChange,
+  renderDirectSongs,
+  renderRequestSongs,
+}) {
   const { openShareDialog, ShareDialog } = useShareDialog();
 
   const { open: openSessionExpired, SessionExpired } = useSessionExpired();
@@ -497,23 +503,25 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
               </>
             ) : (
               <>
-                {Object.entries(dates)
-                  .sort(([dmy1, date1], [dmy2, date2]) =>
-                    compareDate(date1, date2)
-                  )
-                  .reverse()
-                  .map(([dmy, date]) => (
-                    <SongGrid
-                      title={dmy}
-                      songs={items.filter(
-                        (item) => compareDate(date, getDate(item)) === 0
-                      )}
-                    />
-                  ))}
+                {renderDirectSongs &&
+                  Object.entries(dates)
+                    .sort(([dmy1, date1], [dmy2, date2]) =>
+                      compareDate(date1, date2)
+                    )
+                    .reverse()
+                    .map(([dmy, date]) => (
+                      <SongGrid
+                        title={dmy}
+                        songs={items.filter(
+                          (item) => compareDate(date, getDate(item)) === 0
+                        )}
+                      />
+                    ))}
 
-                {requests.map((request) => (
-                  <SongGrid title={request.name} songs={request.songs} />
-                ))}
+                {renderRequestSongs &&
+                  requests.map((request) => (
+                    <SongGrid title={request.name} songs={request.songs} />
+                  ))}
               </>
 
               // <div

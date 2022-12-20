@@ -31,6 +31,19 @@ function MySongs() {
   const { user } = useSession();
   const [value, copy] = useCopyToClipboard();
 
+  // TODO: condition to render liked songs
+  const [renderDirectSongs, setRenderDirectSongs] = useState(true);
+  const [renderRequestSongs, setRenderRequestSongs] = useState(true);
+
+  const options = ["All Songs", "Like", "Direct", "Request"];
+  const [selectedOption, setSelectedOption] = useState(0);
+  const selectOption = (index) => {
+    // TODO: condition to render liked songs
+    setRenderDirectSongs(index === 0 || index === 2);
+    setRenderRequestSongs(index === 0 || index === 3);
+    setSelectedOption(index);
+  };
+
   const copyToClipboard = (val) => {
     copy(val);
     toast("Copied!", {
@@ -49,9 +62,6 @@ function MySongs() {
 
   // Call VignetteBanner ads
   Ads.VignetteBanner();
-
-  const options = ["All Songs", "Like", "Direct", "Request"];
-  const [selectedOption, setSelectedOption] = useState(0);
 
   return (
     <div
@@ -194,7 +204,7 @@ function MySongs() {
               hideSelectedOption
               arrow
               selectedOption={selectedOption}
-              onOptionSelected={setSelectedOption}
+              onOptionSelected={selectOption}
               options={options}
             />
 
@@ -317,6 +327,8 @@ function MySongs() {
         tab={currentTab}
         layout={pageLayout}
         onLayoutChange={setPageLayout}
+        renderDirectSongs={renderDirectSongs}
+        renderRequestSongs={renderRequestSongs}
       />
     </div>
   );
