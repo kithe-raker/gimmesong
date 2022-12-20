@@ -53,6 +53,9 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
 
   const [items, setItems] = useState([]);
 
+  // keeps all the dates that has song sent to the user.
+  const [dates, setDates] = useState({});
+
   // const [title, setTitle] = useState("");
   // useDocumentTitle(title);
 
@@ -118,6 +121,38 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     if (!url) return;
     return `${url["audio/mp4"]}${identifier}`;
   }, [current, playbackURL]);
+
+  const getDate = (item) => {
+    const date = new Date(item.content.song.lastestGiven._seconds * 1000);
+    return {
+      day: date.getDate(),
+      month: date.getMonth() + 1, // return value of JS Date.getMonth() is between 0-11. Today I learned that I hate JS even more.
+      year: date.getFullYear(),
+    };
+  };
+
+  /**
+   * 
+   * @param {*} date1 
+   * @param {*} date2 
+   * @returns negative number if date1 is before date2, positive number if date1 is after date 2, or 0 if two dates are equal.
+   */
+  const compareDate = (date1, date2) => {
+    if (date1.year !== date2.year) return date1.year < date2.year ? -1 : 1;
+    else if (date1.month !== date2.month)
+      return date1.month < date2.month ? -1 : 1;
+    else return date1.day < date2.day ? -1 : date1.day > date2.day ? 1 : 0;
+  };
+
+  useEffect(() => {
+    let toAdd = {};
+    for (let item of items) {
+      const date = getDate(item);
+      const dmy = `${date.day}/${date.month}/${date.year}`;
+      toAdd[dmy] = date;
+    }
+    setDates({ ...dates, ...toAdd });
+  }, [items]);
 
   const handleUpdateInbox = async (id) => {
     try {
@@ -431,52 +466,118 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                 </div>
               </>
             ) : (
-              <div
-                className={`grid grid-cols-2 gap-4 overflow-x-hidden pt-4 ${
-                  current !== null ? "pb-[88px]" : "pb-[24px]"
-                }`}
-              >
-                {items.map((item, i) => (
-                  <div
-                    onClick={() => handleSelect(i)}
-                    key={i}
-                    className={`relative w-[160px] cursor-pointer pt-[100%] ${
-                      items[current]?.id === item.id ? "animate-spin-slow" : ""
-                    } ${
-                      !playing && items[current]?.id === item.id
-                        ? "animate-pause"
-                        : ""
-                    }`}
-                  >
-                    <img
-                      className="absolute inset-0 h-full w-full select-none object-contain"
-                      src={disc}
-                      alt="disc"
-                    />
-                    {item.played ? (
-                      <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                        {item.content?.song?.thumbnails?.length > 0 && (
-                          <img
-                            className="h-[27%] w-[27%] select-none rounded-full object-contain"
-                            src={item.content?.song?.thumbnails[0]?.url}
-                            alt="thumbnail"
-                            referrerPolicy="no-referrer"
-                            crossOrigin="anonymous"
-                          />
-                        )}
-                      </div>
-                    ) : (
-                      <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                        <img
-                          className="h-[20%] w-[20%] select-none object-contain"
-                          src={shushingEmoji}
-                          alt="disc"
-                        />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+              Object.entries(dates)
+                .sort(([dmy1, date1], [dmy2, date2]) =>
+                  compareDate(date1, date2)
+                )
+                .reverse()
+                .map(([dmy, date]) => (
+                  <>
+                    <span className="gimmesong-secondary-font text-xl font-medium">
+                      {dmy}
+                    </span>
+
+                    <div
+                      className={`grid grid-cols-2 gap-4 overflow-x-hidden pt-4 ${
+                        current !== null ? "pb-[88px]" : "pb-[30px]"
+                      }`}
+                    >
+                      {items
+                        .filter(
+                          (item) => compareDate(date, getDate(item)) === 0
+                        )
+                        .map((item, i) => (
+                          <div
+                            onClick={() => handleSelect(i)}
+                            key={i}
+                            className={`relative w-[160px] cursor-pointer pt-[100%] ${
+                              items[current]?.id === item.id
+                                ? "animate-spin-slow"
+                                : ""
+                            } ${
+                              !playing && items[current]?.id === item.id
+                                ? "animate-pause"
+                                : ""
+                            }`}
+                          >
+                            <img
+                              className="absolute inset-0 h-full w-full select-none object-contain"
+                              src={disc}
+                              alt="disc"
+                            />
+                            {item.played ? (
+                              <div className="absolute inset-0 flex h-full w-full items-center justify-center">
+                                {item.content?.song?.thumbnails?.length > 0 && (
+                                  <img
+                                    className="h-[27%] w-[27%] select-none rounded-full object-contain"
+                                    src={item.content?.song?.thumbnails[0]?.url}
+                                    alt="thumbnail"
+                                    referrerPolicy="no-referrer"
+                                    crossOrigin="anonymous"
+                                  />
+                                )}
+                              </div>
+                            ) : (
+                              <div className="absolute inset-0 flex h-full w-full items-center justify-center">
+                                <img
+                                  className="h-[20%] w-[20%] select-none object-contain"
+                                  src={shushingEmoji}
+                                  alt="disc"
+                                />
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                    </div>
+                  </>
+                ))
+
+              // <div
+              //   className={`grid grid-cols-2 gap-4 overflow-x-hidden pt-4 ${
+              //     current !== null ? "pb-[88px]" : "pb-[24px]"
+              //   }`}
+              // >
+              //   {items.map((item, i) => (
+              //     <div
+              //       onClick={() => handleSelect(i)}
+              //       key={i}
+              //       className={`relative w-[160px] cursor-pointer pt-[100%] ${
+              //         items[current]?.id === item.id ? "animate-spin-slow" : ""
+              //       } ${
+              //         !playing && items[current]?.id === item.id
+              //           ? "animate-pause"
+              //           : ""
+              //       }`}
+              //     >
+              //       <img
+              //         className="absolute inset-0 h-full w-full select-none object-contain"
+              //         src={disc}
+              //         alt="disc"
+              //       />
+              //       {item.played ? (
+              //         <div className="absolute inset-0 flex h-full w-full items-center justify-center">
+              //           {item.content?.song?.thumbnails?.length > 0 && (
+              //             <img
+              //               className="h-[27%] w-[27%] select-none rounded-full object-contain"
+              //               src={item.content?.song?.thumbnails[0]?.url}
+              //               alt="thumbnail"
+              //               referrerPolicy="no-referrer"
+              //               crossOrigin="anonymous"
+              //             />
+              //           )}
+              //         </div>
+              //       ) : (
+              //         <div className="absolute inset-0 flex h-full w-full items-center justify-center">
+              //           <img
+              //             className="h-[20%] w-[20%] select-none object-contain"
+              //             src={shushingEmoji}
+              //             alt="disc"
+              //           />
+              //         </div>
+              //       )}
+              //     </div>
+              //   ))}
+              // </div>
             )}
             {current !== null && (
               <>
