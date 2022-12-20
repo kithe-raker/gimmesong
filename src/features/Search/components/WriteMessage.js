@@ -13,10 +13,15 @@ import santaEmoji from "@assets/img/santa_emoji.png";
 import DiscList from "@components/DiscList";
 
 import { SearchContext } from "../Search";
+import { DiscListContext } from "contexts/DiscListContext";
 
 function WriteMessage({ children }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const {
+    data: { discs },
+  } = useContext(DiscListContext);
 
   const {
     data: { song, receiver },
@@ -46,11 +51,17 @@ function WriteMessage({ children }) {
     // implement send song logic here
     try {
       setLoading(true);
+
+      const vinylStyle = {
+        background: discs[selectedDisc].background.id,
+        center: discs[selectedDisc].center.id,
+      };
+
       const success = await GimmesongAPI.sendSong(
         receiver,
         message,
         song,
-        // TODO: also add disc style here (currently disc[selectedDisc])
+        vinylStyle
       );
       if (success) {
         // if success then go to next step

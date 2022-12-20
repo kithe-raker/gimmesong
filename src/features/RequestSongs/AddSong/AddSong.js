@@ -25,11 +25,16 @@ import disc from "@assets/img/disc.webp";
 import shushingEmoji from "@assets/img/shushing_emoji.png";
 import presentEmoji from "@assets/img/present_emoji.png";
 import santaEmoji from "@assets/img/santa_emoji.png";
+import { DiscListContext } from "contexts/DiscListContext.js";
 
 export const AddSongContext = createContext();
 
 function AddSong({ className }) {
   const { open: openSessionExpired, SessionExpired } = useSessionExpired();
+
+  const {
+    data: { discs },
+  } = useContext(DiscListContext);
 
   const {
     action: { updateFeedItemInfo },
@@ -82,12 +87,17 @@ function AddSong({ className }) {
     try {
       setIsLoading(true);
       // implement api here
+      const vinylStyle = {
+        background: discs[selectedDisc].background.id,
+        center: discs[selectedDisc].center.id,
+      };
+      
       const success = await GimmesongAPI.SongRequest.AddSong(
         playlistInfo.language,
         playlistInfo.id,
         message,
-        song
-        // TODO: also add disc style here (currently disc[selectedDisc])
+        song,
+        vinylStyle
       );
 
       if (success) {
