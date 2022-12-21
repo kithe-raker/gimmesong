@@ -1,11 +1,32 @@
-import logo from "@assets/img/gimmesong_logo.png";
+import disc from "@assets/img/disc.webp";
+import santa_emoji from "@assets/img/santa_emoji.png";
+import shushing_emoji from "@assets/img/shushing_emoji.png";
+import present_emoji from "@assets/img/present_emoji.png";
 
 const __VinylStyle = {
   background: {
-    id: { id: "id", image_url: logo },
+    akKKhVLdRoE3DwwV7VA9: {
+      id: "akKKhVLdRoE3DwwV7VA9",
+      image_url: disc,
+      display_name: "Default",
+    },
   },
   center: {
-    id: { id: "id", image_url: logo },
+    n5W90RdmF5aKrNdMjEo2: {
+      id: "n5W90RdmF5aKrNdMjEo2",
+      image_url: shushing_emoji,
+      display_name: "Default",
+    },
+    asW3lCf98pxSdCuHi6kH: {
+      id: "asW3lCf98pxSdCuHi6kH",
+      image_url: santa_emoji,
+      display_name: "Santa",
+    },
+    "8MePVaC2QTpEXHD9zwEp": {
+      id: "8MePVaC2QTpEXHD9zwEp",
+      image_url: present_emoji,
+      display_name: "Present",
+    },
   },
 };
 
@@ -61,8 +82,8 @@ const methods = {
       _center.push(__VinylStyle.center[key]);
     });
     return {
-      background: _background.reverse(),
-      center: _center.reverse(),
+      background: _background,
+      center: _center,
     };
   },
 };
