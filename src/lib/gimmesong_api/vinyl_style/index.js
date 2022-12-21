@@ -39,13 +39,13 @@ const methods = {
    */
   getStyleDetails: async function (type, id) {
     if (!type) throw "no type provided";
-    if (type != "disc" && type != "emoji") throw "provided type not exists";
+    if (type !== "disc" && type !== "emoji") throw "provided type not exists";
 
     if (id && __VinylStyle[type][id]) {
       return __VinylStyle[type][id];
     }
 
-    return type == "disc"
+    return type === "disc"
       ? __VinylStyle[type]["akKKhVLdRoE3DwwV7VA9"]
       : __VinylStyle[type]["n5W90RdmF5aKrNdMjEo2"];
   },
