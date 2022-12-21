@@ -4,14 +4,14 @@ import shushing_emoji from "@assets/img/shushing_emoji.png";
 import present_emoji from "@assets/img/present_emoji.png";
 
 const __VinylStyle = {
-  background: {
+  disc: {
     akKKhVLdRoE3DwwV7VA9: {
       id: "akKKhVLdRoE3DwwV7VA9",
       image_url: disc,
       display_name: "Default",
     },
   },
-  center: {
+  emoji: {
     n5W90RdmF5aKrNdMjEo2: {
       id: "n5W90RdmF5aKrNdMjEo2",
       image_url: shushing_emoji,
@@ -33,61 +33,53 @@ const __VinylStyle = {
 const methods = {
   /**
    *
-   * @param {*} type right now we only have [background] and [center] vinyl component's type
+   * @param {*} type right now we only have [disc] and [emoji] vinyl component's type
    * @param {*} id
    * @returns
    */
   getStyleDetails: async function (type, id) {
     if (!type) throw "no type provided";
-    if (type != "background" && type != "center")
-      throw "provided type not exists";
+    if (type !== "disc" && type !== "emoji") throw "provided type not exists";
 
     if (id && __VinylStyle[type][id]) {
       return __VinylStyle[type][id];
     }
 
-    return type == "background"
+    return type === "disc"
       ? __VinylStyle[type]["akKKhVLdRoE3DwwV7VA9"]
       : __VinylStyle[type]["n5W90RdmF5aKrNdMjEo2"];
   },
   /**
    *
    * @param {{
-   *            background: string,
-   *            center: string,
+   *            disc: string,
+   *            emoji: string,
    *        }} vinylStyle
    * @returns
    */
   getVinylStyleDetails: async function (vinylStyle) {
-    const backgroundStyle = await this.getStyleDetails(
-      "background",
-      vinylStyle?.background
-    );
-
-    const CenterStyle = await this.getStyleDetails(
-      "center",
-      vinylStyle?.center
-    );
+    const discStyle = await this.getStyleDetails("disc", vinylStyle?.disc);
+    const emojiStyle = await this.getStyleDetails("emoji", vinylStyle?.emoji);
 
     return {
-      background: backgroundStyle,
-      center: CenterStyle,
+      disc: discStyle,
+      emoji: emojiStyle,
     };
   },
 
   getAllVinylStyle: async function () {
-    const _background = [];
-    Object.keys(__VinylStyle.background).forEach((key) => {
-      _background.push(__VinylStyle.background[key]);
+    const _disc = [];
+    Object.keys(__VinylStyle.disc).forEach((key) => {
+      _disc.push(__VinylStyle.disc[key]);
     });
 
-    const _center = [];
-    Object.keys(__VinylStyle.center).forEach((key) => {
-      _center.push(__VinylStyle.center[key]);
+    const _emoji = [];
+    Object.keys(__VinylStyle.emoji).forEach((key) => {
+      _emoji.push(__VinylStyle.emoji[key]);
     });
     return {
-      background: _background,
-      center: _center,
+      disc: _disc,
+      emoji: _emoji,
     };
   },
 };

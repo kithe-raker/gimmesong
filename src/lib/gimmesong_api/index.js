@@ -52,8 +52,8 @@ const methods = {
    * @param {*} message
    * @param {*} song
    * @param {{
-   *            background: string,
-   *            center: string,
+   *            disc: string,
+   *            emoji: string,
    *        }} vinylStyle passing only the component's id
    * @returns
    */

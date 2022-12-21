@@ -53,8 +53,8 @@ function WriteMessage({ children }) {
       setLoading(true);
 
       const vinylStyle = {
-        background: discs[selectedDisc].background.id,
-        center: discs[selectedDisc].center.id,
+        disc: discs[selectedDisc].disc.id,
+        emoji: discs[selectedDisc].emoji.id,
       };
 
       const success = await GimmesongAPI.sendSong(
