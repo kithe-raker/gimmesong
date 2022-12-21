@@ -101,8 +101,8 @@ const ShareDialogContent = ({ content, isMysong }) => {
 
   let render = [...normalPatterns];
   if (
-    content?.vinylStyle?.center?.id === "asW3lCf98pxSdCuHi6kH" ||
-    content?.vinylStyle?.center?.id === "8MePVaC2QTpEXHD9zwEp"
+    content?.vinylStyle?.emoji?.id === "asW3lCf98pxSdCuHi6kH" ||
+    content?.vinylStyle?.emoji?.id === "8MePVaC2QTpEXHD9zwEp"
   ) {
     render = [...render, ...christmasPatterns];
   }
@@ -110,7 +110,7 @@ const ShareDialogContent = ({ content, isMysong }) => {
   return (
     <div className="flex w-full flex-col items-center justify-center">
       {render[pattern]}
-      
+
       <div className="my-4 flex shrink-0 items-center rounded-full border p-1.5">
         {render.map((component, index) => (
           <button
@@ -126,7 +126,7 @@ const ShareDialogContent = ({ content, isMysong }) => {
           </button>
         ))}
       </div>
-      
+
       <div className="flex w-full justify-between">
         <Button
           onClick={handleDownload}
