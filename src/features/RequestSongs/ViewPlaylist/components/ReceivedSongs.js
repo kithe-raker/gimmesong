@@ -361,7 +361,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                               >
                                 <img
                                   className="absolute inset-0 h-full w-full select-none object-contain"
-                                  src={item.vinyl_style?.background?.image_url} 
+                                  src={item.vinyl_style?.disc?.image_url} 
                                   alt="disc"
                                 />
                                 <div className="absolute inset-0 flex h-full w-full items-center justify-center">
@@ -418,7 +418,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                     >
                       <img
                         className="absolute inset-0 h-full w-full select-none object-contain"
-                        src={item.vinyl_style?.background?.image_url} 
+                        src={item.vinyl_style?.disc?.image_url} 
                         alt="disc"
                       />
                       <div className="absolute inset-0 flex h-full w-full items-center justify-center">
