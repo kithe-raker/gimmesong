@@ -42,9 +42,13 @@ const methods = {
     if (type != "background" && type != "center")
       throw "provided type not exists";
 
-    return id && __VinylStyle[type][id]
-      ? __VinylStyle[type][id]
-      : __VinylStyle[type]["id"];
+    if (id && __VinylStyle[type][id]) {
+      return __VinylStyle[type][id];
+    }
+
+    return type == "background"
+      ? __VinylStyle[type]["akKKhVLdRoE3DwwV7VA9"]
+      : __VinylStyle[type]["n5W90RdmF5aKrNdMjEo2"];
   },
   /**
    *
