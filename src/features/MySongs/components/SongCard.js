@@ -1,14 +1,30 @@
-function SongCard({
+import { useRef, useState } from "react";
+import ReactCardFlip from "react-card-flip";
+import useDoubleClick from "use-double-click";
+
+/**
+ * Song will have 2 side, front and back (front have the song cover as center, back have song emoji as center, anything else should be identical)
+ */
+function SongCardSide({
   currentItem,
   item,
   playing,
   showMessage = false,
+  forceRenderEmoji = false,
   onClick = () => {},
   onDoubleClick = () => {},
   containerClassName = "",
 }) {
+  const clickRef = useRef();
+
+  useDoubleClick({
+    onSingleClick: onClick,
+    onDoubleClick: onDoubleClick,
+    ref: clickRef,
+    latency: 300,
+  });
   return (
-    <div className="outline-none" onClick={onClick}>
+    <div className="outline-none" ref={clickRef}>
       <div className="flex flex-col items-center justify-center">
         <div className={`mt-6 w-[90%] ${containerClassName}`}>
           <div
@@ -23,7 +39,7 @@ function SongCard({
               src={item.vinyl_style?.disc?.image_url}
               alt="disc"
             />
-            {item.played ? (
+            {item.played && !forceRenderEmoji ? (
               <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                 {item.content?.song?.thumbnails?.length > 0 && (
                   <img
@@ -59,6 +75,50 @@ function SongCard({
         )}
       </div>
     </div>
+  );
+}
+
+/**
+ * A flippable song card that have front and back side (double tap to flip)
+ */
+function SongCard({
+  currentItem,
+  item,
+  playing,
+  showMessage = false,
+  onClick = () => {},
+  onDoubleClick = () => {},
+  containerClassName = "",
+}) {
+  const [flipped, setFlipped] = useState(false);
+
+  const toggleFlipped = () => {
+    setFlipped(!flipped);
+  };
+
+  return (
+    <ReactCardFlip isFlipped={flipped}>
+      <SongCardSide
+        onClick={onClick}
+        onDoubleClick={toggleFlipped}
+        currentItem={currentItem}
+        item={item}
+        playing={playing}
+        containerClassName={containerClassName}
+        showMessage={showMessage}
+      />
+
+      <SongCardSide
+        forceRenderEmoji
+        onClick={onClick}
+        onDoubleClick={toggleFlipped}
+        currentItem={currentItem}
+        item={item}
+        playing={playing}
+        containerClassName={containerClassName}
+        showMessage={showMessage}
+      />
+    </ReactCardFlip>
   );
 }
 
