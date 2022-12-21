@@ -21,13 +21,10 @@ import Pattern3 from "@features/ShareWidget/Pattern4";
 import Pattern2 from "@features/ShareWidget/Pattern3";
 import Pattern1 from "@features/ShareWidget/Pattern1";
 
-const ShareDialogContent = ({
-  content,
-  isMysong,
-}) => {
+const ShareDialogContent = ({ content, isMysong }) => {
   const { user } = useSession();
 
-  const [pattern, setPattern] = useState(1);
+  const [pattern, setPattern] = useState(0);
 
   const [file, setFile] = useState(null);
   const [fileState, setFileState] = useState("unready");
@@ -75,9 +72,47 @@ const ShareDialogContent = ({
     }
   };
 
+  const normalPatterns = [
+    <Pattern1 content={content} onSharing={handleSharing} />,
+    <Pattern2
+      content={content}
+      isMysong={isMysong}
+      onSharing={handleSharing}
+    />,
+  ];
+
+  const christmasPatterns = [
+    <Pattern3
+      content={content}
+      isMysong={isMysong}
+      onSharing={handleSharing}
+    />,
+    <Pattern6
+      content={content}
+      isMysong={isMysong}
+      onSharing={handleSharing}
+    />,
+    <Pattern7
+      content={content}
+      isMysong={isMysong}
+      onSharing={handleSharing}
+    />,
+  ];
+
+  console.log(content.vinylStyle);
+  let render = [...normalPatterns];
+  if (
+    content?.vinylStyle?.center?.id === "asW3lCf98pxSdCuHi6kH" ||
+    content?.vinylStyle?.center?.id === "8MePVaC2QTpEXHD9zwEp"
+  ) {
+    console.log("Is christmas")
+    render = [...render, ...christmasPatterns];
+  }
+
   return (
     <div className="flex w-full flex-col items-center justify-center">
-      {pattern === 1 && (
+      {render[pattern]}
+      {/* {pattern === 1 && (
         <Pattern1 content={content} onSharing={handleSharing} />
       )}
       {pattern === 2 && (
@@ -101,13 +136,13 @@ const ShareDialogContent = ({
           onSharing={handleSharing}
         />
       )}
-       {pattern === "5" && (
+      {pattern === "5" && (
         <Pattern7
           content={content}
           isMysong={isMysong}
           onSharing={handleSharing}
         />
-      )}
+      )} */}
       {/*{pattern === "6" && (
         <Pattern6
           content={content}
@@ -116,7 +151,20 @@ const ShareDialogContent = ({
         />
       )} */}
       <div className="my-4 flex shrink-0 items-center rounded-full border p-1.5">
-        <button
+        {render.map((component, index) => (
+          <button
+            key={index}
+            onClick={() => setPattern(index)}
+            className={`h-8 w-8 rounded-full 
+            ${index < render.length - 1 ? "mr-3" : ""}  
+            ${
+              pattern === index ? "bg-black text-white" : "bg-white text-black"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        {/* <button
           onClick={() => setPattern(1)}
           className={`mr-3 h-8 w-8 rounded-full ${
             pattern === 1 ? "bg-black text-white" : "bg-white text-black"
@@ -148,14 +196,14 @@ const ShareDialogContent = ({
         >
           4
         </button>
-         <button
+        <button
           onClick={() => setPattern("5")}
           className={`h-8 w-8 rounded-full ${
             pattern === "5" ? "bg-black text-white" : "bg-white text-black"
           }`}
         >
           5
-        </button>
+        </button> */}
         {/*<button
           onClick={() => setPattern("6")}
           className={`h-8 w-8 rounded-full ${
@@ -238,10 +286,7 @@ export const useShareDialog = () => {
                 justifyContent={`center`}
                 alignItems={`center`}
               >
-                <ShareDialogContent
-                  content={content}
-                  isMysong={isMysong}
-                />
+                <ShareDialogContent content={content} isMysong={isMysong} />
               </AlertDialogBody>
               {/* <AlertDialogFooter></AlertDialogFooter> */}
             </AlertDialogContent>

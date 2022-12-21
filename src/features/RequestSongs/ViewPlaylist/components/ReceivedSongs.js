@@ -770,6 +770,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                           ?.text,
                       thumbnails: items[current]?.content?.song?.thumbnails,
                     },
+                    vinylStyle: items[current]?.vinyl_style,
                     message: items[current]?.content?.message,
                   }} showLink={false} />
                 </div>

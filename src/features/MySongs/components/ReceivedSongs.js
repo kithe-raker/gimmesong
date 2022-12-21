@@ -770,7 +770,6 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   </button>
                   <ShareDialog
                     isMysong={true}
-                    //TODO: Add disc style here
                     content={{
                       song: {
                         title: items[current]?.content?.song?.title,
@@ -779,6 +778,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                             ?.text,
                         thumbnails: items[current]?.content?.song?.thumbnails,
                       },
+                      vinylStyle: items[current]?.vinyl_style,
                       message: items[current]?.content?.message,
                     }}
                   />
