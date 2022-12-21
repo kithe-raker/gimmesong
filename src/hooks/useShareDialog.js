@@ -99,57 +99,18 @@ const ShareDialogContent = ({ content, isMysong }) => {
     />,
   ];
 
-  console.log(content.vinylStyle);
   let render = [...normalPatterns];
   if (
     content?.vinylStyle?.center?.id === "asW3lCf98pxSdCuHi6kH" ||
     content?.vinylStyle?.center?.id === "8MePVaC2QTpEXHD9zwEp"
   ) {
-    console.log("Is christmas")
     render = [...render, ...christmasPatterns];
   }
 
   return (
     <div className="flex w-full flex-col items-center justify-center">
       {render[pattern]}
-      {/* {pattern === 1 && (
-        <Pattern1 content={content} onSharing={handleSharing} />
-      )}
-      {pattern === 2 && (
-        <Pattern2
-          content={content}
-          isMysong={isMysong}
-          onSharing={handleSharing}
-        />
-      )}
-      {pattern === "3" && (
-        <Pattern3
-          content={content}
-          isMysong={isMysong}
-          onSharing={handleSharing}
-        />
-      )}
-      {pattern === "4" && (
-        <Pattern6
-          content={content}
-          isMysong={isMysong}
-          onSharing={handleSharing}
-        />
-      )}
-      {pattern === "5" && (
-        <Pattern7
-          content={content}
-          isMysong={isMysong}
-          onSharing={handleSharing}
-        />
-      )} */}
-      {/*{pattern === "6" && (
-        <Pattern6
-          content={content}
-          isMysong={isMysong}
-          onSharing={handleSharing}
-        />
-      )} */}
+      
       <div className="my-4 flex shrink-0 items-center rounded-full border p-1.5">
         {render.map((component, index) => (
           <button
@@ -164,55 +125,8 @@ const ShareDialogContent = ({ content, isMysong }) => {
             {index + 1}
           </button>
         ))}
-        {/* <button
-          onClick={() => setPattern(1)}
-          className={`mr-3 h-8 w-8 rounded-full ${
-            pattern === 1 ? "bg-black text-white" : "bg-white text-black"
-          }`}
-        >
-          1
-        </button>
-        <button
-          onClick={() => setPattern(2)}
-          className={`mr-3 h-8 w-8 rounded-full ${
-            pattern === 2 ? "bg-black text-white" : "bg-white text-black"
-          }`}
-        >
-          2
-        </button>
-        <button
-          onClick={() => setPattern("3")}
-          className={`mr-3 h-8 w-8 rounded-full ${
-            pattern === "3" ? "bg-black text-white" : "bg-white text-black"
-          }`}
-        >
-          3
-        </button>
-        <button
-          onClick={() => setPattern("4")}
-          className={`mr-3 h-8 w-8 rounded-full ${
-            pattern === "4" ? "bg-black text-white" : "bg-white text-black"
-          }`}
-        >
-          4
-        </button>
-        <button
-          onClick={() => setPattern("5")}
-          className={`h-8 w-8 rounded-full ${
-            pattern === "5" ? "bg-black text-white" : "bg-white text-black"
-          }`}
-        >
-          5
-        </button> */}
-        {/*<button
-          onClick={() => setPattern("6")}
-          className={`h-8 w-8 rounded-full ${
-            pattern === "6" ? "bg-black text-white" : "bg-white text-black"
-          }`}
-        >
-          6
-        </button> */}
       </div>
+      
       <div className="flex w-full justify-between">
         <Button
           onClick={handleDownload}
