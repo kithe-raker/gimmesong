@@ -8,6 +8,7 @@ import {
 
 import disc from "@assets/img/disc.webp";
 import logo from "@assets/img/gimmesong_logo.png";
+import decoratedDisc from "@assets/img/decorated_disc.png";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -360,7 +361,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                               >
                                 <img
                                   className="absolute inset-0 h-full w-full select-none object-contain"
-                                  src={disc}
+                                  src={item.vinyl_style?.background?.image_url} 
                                   alt="disc"
                                 />
                                 <div className="absolute inset-0 flex h-full w-full items-center justify-center">
@@ -417,7 +418,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                     >
                       <img
                         className="absolute inset-0 h-full w-full select-none object-contain"
-                        src={disc}
+                        src={item.vinyl_style?.background?.image_url} 
                         alt="disc"
                       />
                       <div className="absolute inset-0 flex h-full w-full items-center justify-center">
