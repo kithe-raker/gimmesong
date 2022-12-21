@@ -13,6 +13,7 @@ import {
 
 import useSession from "@hooks/useSession";
 
+import Pattern7 from "@features/ShareWidget/Pattern8";
 import Pattern6 from "@features/ShareWidget/Pattern7";
 import Pattern5 from "@features/ShareWidget/Pattern6";
 import Pattern4 from "@features/ShareWidget/Pattern5";
@@ -100,14 +101,14 @@ const ShareDialogContent = ({
           onSharing={handleSharing}
         />
       )}
-      {/* {pattern === "5" && (
-        <Pattern5
+       {pattern === "5" && (
+        <Pattern7
           content={content}
           isMysong={isMysong}
           onSharing={handleSharing}
         />
       )}
-      {pattern === "6" && (
+      {/*{pattern === "6" && (
         <Pattern6
           content={content}
           isMysong={isMysong}
@@ -141,21 +142,21 @@ const ShareDialogContent = ({
         </button>
         <button
           onClick={() => setPattern("4")}
-          className={`h-8 w-8 rounded-full ${
+          className={`mr-3 h-8 w-8 rounded-full ${
             pattern === "4" ? "bg-black text-white" : "bg-white text-black"
           }`}
         >
           4
         </button>
-        {/* <button
+         <button
           onClick={() => setPattern("5")}
-          className={`mr-3 h-8 w-8 rounded-full ${
+          className={`h-8 w-8 rounded-full ${
             pattern === "5" ? "bg-black text-white" : "bg-white text-black"
           }`}
         >
           5
         </button>
-        <button
+        {/*<button
           onClick={() => setPattern("6")}
           className={`h-8 w-8 rounded-full ${
             pattern === "6" ? "bg-black text-white" : "bg-white text-black"
