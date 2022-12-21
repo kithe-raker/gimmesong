@@ -13,11 +13,11 @@ function DiscListProvider({ children }) {
     setLoading(true);
     const respond = await GimmesongAPI.User.queryVinylStyleInventory();
     let result = [];
-    for (let i = 0; i < respond.background.length; i++) {
-      for (let j = 0; j < respond.center.length; j++) {
+    for (let i = 0; i < respond.disc.length; i++) {
+      for (let j = 0; j < respond.emoji.length; j++) {
         result.push({
-          background: respond.background[i],
-          center: respond.center[j],
+          disc: respond.disc[i],
+          emoji: respond.emoji[j],
         });
       }
     }
