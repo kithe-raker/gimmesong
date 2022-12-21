@@ -25,6 +25,7 @@ import { auth } from "@lib/firebase";
 
 import PlaylistProvider from "contexts/PlaylistContext";
 import FeedProvider from "contexts/FeedContext";
+import DiscListProvider from "contexts/DiscListContext";
 
 function App() {
   const { user, setUser } = useSession();
@@ -118,15 +119,17 @@ function App() {
   return (
     <>
       <FeedProvider>
-        <Toaster />
-        {loading ? (
-          <Loading fullScreen />
-        ) : (
-          <>
-            {pathname !== "/tutorial" && <Header />}
-            {routes}
-          </>
-        )}
+        <DiscListProvider>
+          <Toaster />
+          {loading ? (
+            <Loading fullScreen />
+          ) : (
+            <>
+              {pathname !== "/tutorial" && <Header />}
+              {routes}
+            </>
+          )}
+        </DiscListProvider>
       </FeedProvider>
     </>
   );

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 
 import PasteLink from "./components/PasteLink.js";
 import Sent from "./components/Sent.js";
@@ -13,6 +13,8 @@ import { useParams } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
 import SearchSongBanner from "@components/Adsense/SearchSongBanner.js";
+
+export const SearchContext = createContext();
 
 function Search() {
   const { username } = useParams();
@@ -79,36 +81,39 @@ function Search() {
   let render;
   switch (currentStep) {
     case 1:
-      render = (
-        <PasteLink onSelectReceiver={handleReceiverChange} next={nextStep} />
-      );
+      render = <PasteLink />;
       break;
     case 2:
-      render = (
-        <SearchSong
-          receiver={receiver}
-          onSelectSong={handleSongChange}
-          next={nextStep}
-        />
-      );
+      render = <SearchSong />;
       break;
     case 3:
-      render = <WriteMessage receiver={receiver} song={song} next={nextStep} />;
+      render = <WriteMessage />;
       break;
     case 4:
-      render = <Sent receiver={receiver} />;
+      render = <Sent />;
       break;
     default:
       break;
   }
 
+  const store = {
+    data: { song, receiver },
+    action: {
+      selectSong: handleSongChange,
+      selectReceiver: handleReceiverChange,
+      next: nextStep,
+    },
+  };
+
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
-      {loading ? <Loading fullScreens /> : render}
-      <div className=" relative mt-6 h-full w-full max-w-full">
-        <SearchSongBanner />
+    <SearchContext.Provider value={store}>
+      <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-6 pt-[60px]">
+        {loading ? <Loading fullScreens /> : render}
+        <div className=" relative mt-6 h-full w-full max-w-full">
+          <SearchSongBanner />
+        </div>
       </div>
-    </div>
+    </SearchContext.Provider>
   );
 }
 
