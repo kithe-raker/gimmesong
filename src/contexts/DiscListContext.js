@@ -14,10 +14,12 @@ function DiscListProvider({ children }) {
     const respond = await GimmesongAPI.User.queryVinylStyleInventory();
     let result = [];
     for (let i = 0; i < respond.background.length; i++) {
-      result.push({
-        background: respond.background[i],
-        center: respond.center[i],
-      });
+      for (let j = 0; j < respond.center.length; j++) {
+        result.push({
+          background: respond.background[i],
+          center: respond.center[j],
+        });
+      }
     }
     setDiscs(result);
     setLoading(false);
@@ -29,7 +31,11 @@ function DiscListProvider({ children }) {
     action: { fetchDiscs },
   };
 
-  return <DiscListContext.Provider value={store}>{children}</DiscListContext.Provider>;
+  return (
+    <DiscListContext.Provider value={store}>
+      {children}
+    </DiscListContext.Provider>
+  );
 }
 
 export default DiscListProvider;
