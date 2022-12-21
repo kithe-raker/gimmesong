@@ -29,14 +29,14 @@ function Slider({ discs, selectedDisc, setSelectedDisc, perView }) {
               <div className="relative pt-[100%]">
                 <img
                   className="absolute inset-0 h-full w-full select-none object-contain"
-                  src={item.background.image_url}
+                  src={item?.disc?.image_url}
                   alt="disc"
                 />
 
                 <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                   <img
                     className="h-[20%] w-[20%] select-none object-contain"
-                    src={item.center.image_url}
+                    src={item?.emoji?.image_url}
                     alt="disc"
                   />
                 </div>
@@ -48,7 +48,7 @@ function Slider({ discs, selectedDisc, setSelectedDisc, perView }) {
 
       {/* Just to make the images split the width evenly (when there is < 3 discs), therefore making the height be in the ratio of image width (which is divided, otherwise the width will be the entire parent's width)*/}
       {discs.length < 3 && <div className="h-full w-full"></div>}
-{discs.length < 2 && <div className="h-full w-full"></div>}
+      {discs.length < 2 && <div className="h-full w-full"></div>}
     </div>
   );
 }
