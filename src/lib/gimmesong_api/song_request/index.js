@@ -1,5 +1,7 @@
 import { axios } from "@lib/axios";
 
+import VinylStyle from "../vinyl_style";
+
 function _requestPath(path) {
   return "/api/v1/songrequest/" + path;
 }
@@ -31,6 +33,20 @@ const methods = {
       lastRequestId,
       limit,
     });
+
+    for (let index = 0; index < results?.contents?.length ?? 0; index++) {
+      for (
+        let vinlyIndex = 0;
+        vinlyIndex < results.contents[index].recentlyAdded?.length ?? 0;
+        vinlyIndex++
+      ) {
+        results.contents[index].recentlyAdded[vinlyIndex].vinyl_style =
+          await VinylStyle.getVinylStyleDetails(
+            results.contents[index].recentlyAdded[vinlyIndex].vinyl_style
+          );
+      }
+    }
+
     return results.contents;
   },
   QueryNewest: async function (langTag, { lastRequestId = "", limit = 10 }) {
@@ -41,6 +57,20 @@ const methods = {
       lastRequestId,
       limit,
     });
+
+    for (let index = 0; index < results?.contents?.length ?? 0; index++) {
+      for (
+        let vinlyIndex = 0;
+        vinlyIndex < results.contents[index].recentlyAdded?.length ?? 0;
+        vinlyIndex++
+      ) {
+        results.contents[index].recentlyAdded[vinlyIndex].vinyl_style =
+          await VinylStyle.getVinylStyleDetails(
+            results.contents[index].recentlyAdded[vinlyIndex].vinyl_style
+          );
+      }
+    }
+
     return results.contents;
   },
   QueryUserRequest: async function ({ lastRequestId = "", limit = 10 }) {
@@ -50,6 +80,20 @@ const methods = {
       lastRequestId,
       limit,
     });
+
+    for (let index = 0; index < results?.contents?.length ?? 0; index++) {
+      for (
+        let vinlyIndex = 0;
+        vinlyIndex < results.contents[index].recentlyAdded?.length ?? 0;
+        vinlyIndex++
+      ) {
+        results.contents[index].recentlyAdded[vinlyIndex].vinyl_style =
+          await VinylStyle.getVinylStyleDetails(
+            results.contents[index].recentlyAdded[vinlyIndex].vinyl_style
+          );
+      }
+    }
+
     return results.contents;
   },
   QueryRequestItem: async function (
@@ -65,6 +109,14 @@ const methods = {
       lastItemId,
       limit,
     });
+
+    for (let index = 0; index < results?.contents?.length ?? 0; index++) {
+      results.contents[index].vinyl_style =
+        await VinylStyle.getVinylStyleDetails(
+          results.contents[index].vinyl_style
+        );
+    }
+
     return results.contents;
   },
   Create: async function (langTag, message, isAnonymous = true) {
@@ -77,7 +129,19 @@ const methods = {
     });
     return results;
   },
-  AddSong: async function (langTag, requestId, message, song) {
+  /**
+   *
+   * @param {*} langTag
+   * @param {*} requestId
+   * @param {*} message
+   * @param {*} song
+   * @param {{
+   *            disc: string,
+   *            emoji: string,
+   *        }} vinylStyle passing only the component's id
+   * @returns
+   */
+  AddSong: async function (langTag, requestId, message, song, vinylStyle) {
     const {
       data: { success },
     } = await axios.post(_requestPath(`addsong`), {
@@ -85,6 +149,7 @@ const methods = {
       requestId,
       message,
       song,
+      vinylStyle,
     });
     return success;
   },

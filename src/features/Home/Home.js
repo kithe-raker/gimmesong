@@ -1,6 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import disc from "@assets/img/gimmesong_logo.png";
+import meme_icon from "@assets/img/meme_emoji.png";
+import confuse_icon from "@assets/img/confuse_emoji.png";
+import SignInMethod from "@components/SignInMethod";
+
 import GimmesongAPI from "@lib/gimmesong_api";
 
 import { accountingNum } from "@utils/number";

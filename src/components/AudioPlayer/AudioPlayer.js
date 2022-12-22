@@ -20,6 +20,7 @@ const AudioPlayer = forwardRef((props, ref) => {
     onEnded,
     loadingSource,
     autoPlayAfterSrcChange,
+    afterPlayed,
   } = props;
 
   const [audioSrc, setAudioSrc] = useState("");
@@ -71,7 +72,9 @@ const AudioPlayer = forwardRef((props, ref) => {
     let playPromise = audio.play();
     if (playPromise !== undefined) {
       playPromise
-        .then(() => {})
+        .then(() => {
+          afterPlayed();
+        })
         .catch((err) => {
           let error = new PlayerError({
             code: "PLAYER_FAILED",

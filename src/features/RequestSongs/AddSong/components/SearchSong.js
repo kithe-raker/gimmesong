@@ -4,24 +4,18 @@ import Loading from "@components/Loading";
 import AudioPlayer from "@components/AudioPlayer";
 
 import toast from "react-hot-toast";
-import useSession from "@hooks/useSession";
-import { useNavigate } from "react-router-dom";
 
 import { StreamingError, PlayerError } from "@lib/error";
 import GimmesongAPI from "@lib/gimmesong_api";
 import ytm from "@lib/ytm_api";
 import Ads from "@lib/ads";
 
-import { SearchContext } from "../Search";
+import { AddSongContext } from "../AddSong";
 
-function SearchSong({ children }) {
-  const navigate = useNavigate();
-  const { user } = useSession();
-
+function SearchSong() {
   const {
-    data: { receiver },
     action: { next, selectSong },
-  } = useContext(SearchContext);
+  } = useContext(AddSongContext);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
@@ -41,6 +35,7 @@ function SearchSong({ children }) {
 
   // Call VignetteBanner ads
   Ads.VignetteBanner();
+
   const handleSearching = (val) => {
     setSearchTerm(val);
 
@@ -176,9 +171,9 @@ function SearchSong({ children }) {
 
   return (
     <div className="flex w-full max-w-xs flex-col items-center justify-center">
-      <span className="gimmesong-primary-font text-xl text-gray-600 ">
-        Give me song anonymously!
-      </span>
+      {/* <span className="gimmesong-primary-font text-xl text-gray-600 ">
+        Lorem Lorem Lorem!
+      </span> */}
       <div className="relative mt-3 w-full">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           <svg
@@ -331,28 +326,28 @@ function SearchSong({ children }) {
           </>
         )}
       </div>
-      <div className="my-4 flex flex-col items-center">
+      {/* <div className="my-4 flex flex-col items-center">
         <span className="gimmesong-primary-font text-sm text-gray-500">
           give this song to
         </span>
         <span className="bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-transparent">
           gimmesong.link/@{receiver}
         </span>
-      </div>
+      </div> */}
       <button
         onClick={submit}
-        className="gimmesong-primary-font h-12 w-[250px] rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600"
+        className="gimmesong-primary-font mt-4 h-12 w-[250px] rounded-full bg-black text-white transition duration-150 ease-in-out hover:bg-gray-600"
       >
         NEXT
       </button>
-      {!user?.username && (
-        <button
-          onClick={() => navigate("/")}
-          className="mt-6 h-12 animate-bounce rounded-full bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] px-6 text-white transition duration-150 ease-in-out hover:bg-gray-600"
-        >
-          Get your own anonymous song!
-        </button>
-      )}
+      {/* {!user?.username && (
+          <button
+            onClick={() => navigate("/")}
+            className="mt-6 h-12 animate-bounce rounded-full bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] px-6 text-white transition duration-150 ease-in-out hover:bg-gray-600"
+          >
+            Get your own anonymous song!
+          </button>
+        )} */}
     </div>
   );
 }

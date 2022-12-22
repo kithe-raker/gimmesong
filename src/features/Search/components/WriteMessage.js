@@ -1,11 +1,35 @@
-import { useState } from "react";
+import { useState, useRef, useContext } from "react";
+
+import "keen-slider/keen-slider.min.css";
 
 import toast from "react-hot-toast";
 import GimmesongAPI from "@lib/gimmesong_api";
 
-function WriteMessage({ next, receiver, song }) {
+import disc from "@assets/img/disc.webp";
+import decoratedDisc from "@assets/img/decorated_disc.png";
+import shushingEmoji from "@assets/img/shushing_emoji.png";
+import presentEmoji from "@assets/img/present_emoji.png";
+import santaEmoji from "@assets/img/santa_emoji.png";
+import DiscList from "@components/DiscList";
+
+import { SearchContext } from "../Search";
+import { DiscListContext } from "contexts/DiscListContext";
+import { Tooltip } from "@chakra-ui/react";
+
+function WriteMessage({ children }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const {
+    data: { discs },
+  } = useContext(DiscListContext);
+
+  const {
+    data: { song, receiver },
+    action: { next },
+  } = useContext(SearchContext);
+
+  const [selectedDisc, setSelectedDisc] = useState(0);
 
   const handleMessageChange = (val) => {
     if (val.length > 100) return;
@@ -13,6 +37,7 @@ function WriteMessage({ next, receiver, song }) {
   };
 
   const sendSong = async () => {
+    if (loading) return;
     if (!receiver || !song) return;
     if (!message.trim()) {
       toast("Please write me a message 🥹", {
@@ -27,7 +52,18 @@ function WriteMessage({ next, receiver, song }) {
     // implement send song logic here
     try {
       setLoading(true);
-      const success = await GimmesongAPI.sendSong(receiver, message, song);
+
+      const vinylStyle = {
+        disc: discs[selectedDisc].disc.id,
+        emoji: discs[selectedDisc].emoji.id,
+      };
+
+      const success = await GimmesongAPI.sendSong(
+        receiver,
+        message,
+        song,
+        vinylStyle
+      );
       if (success) {
         // if success then go to next step
         next();
@@ -41,6 +77,31 @@ function WriteMessage({ next, receiver, song }) {
 
   return (
     <div className="flex w-full max-w-xs flex-col items-center justify-center">
+      <div className="flex w-full flex-row items-center justify-start ">
+        <span className="gimmesong-secondary-font text-[22px] font-extrabold">
+          Customize your disc:
+        </span>
+
+        <Tooltip
+          label="Receiver will see this disc when they receive their song."
+          placement="right"
+          bg="black"
+        >
+          <div
+            id="customize-your-disc-tooltip"
+            className="ml-2 flex h-[16px] w-[16px] select-none items-center justify-center rounded-full bg-gray-900 text-[10px] text-white"
+          >
+            i
+          </div>
+        </Tooltip>
+      </div>
+
+      <DiscList
+        selectedDisc={selectedDisc}
+        setSelectedDisc={setSelectedDisc}
+        className="mt-3 pb-8"
+      />
+
       <div className="flex h-[360px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
         <span className="mt-3 bg-gradient-to-r from-[#86C7DF] via-[#8583D6] to-[#CFB6D0] bg-clip-text text-transparent">
           gimmesong.link/@{receiver}

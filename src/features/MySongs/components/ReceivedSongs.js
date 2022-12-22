@@ -8,6 +8,7 @@ import {
 } from "react";
 
 import disc from "@assets/img/disc.webp";
+import logo from "@assets/img/gimmesong_logo.png";
 import shushingEmoji from "@assets/img/shushing_emoji.png";
 
 import Slider from "react-slick";
@@ -78,7 +79,7 @@ function ReceivedSongs({
   // useDocumentTitle(title);
 
   const slider = useRef(null);
-  const [current, setCurrent] = useState(null);
+  const [current, setCurrent] = useStateCallback(null);
 
   const [loadingStreamingData, setLoadingStreamingData] = useState(false);
   const [streamingError, setStreamingError] = useState(null);
@@ -88,6 +89,9 @@ function ReceivedSongs({
   const [error, setError] = useState(false);
 
   const [playbackURL, setPlaybackURL] = useState({});
+
+  // this seem "hack-y" to reset setting back
+  const [oldPlayerSetting, setOldPlayerSetting] = useStateCallback(null);
 
   const settings = {
     className: "center",
@@ -219,6 +223,35 @@ function ReceivedSongs({
     });
   };
 
+  const handlePlay = async (index) => {
+    // setGoingToPlay(true, () => setCurrent(index));
+
+    setOldPlayerSetting(playerSetting, () =>
+      setPlayerSetting(
+        {
+          autoplay: true,
+        },
+        () => {
+          if (index === current) {
+            setCurrent(null, () => setCurrent(index));
+          } else {
+            setCurrent(index);
+          }
+        }
+      )
+    );
+  };
+
+  const resetOldPlayerSetting = (callback) => {
+    if (oldPlayerSetting) {
+      setPlayerSetting(oldPlayerSetting, () =>
+        setOldPlayerSetting(null, () => {
+          if (callback) callback();
+        })
+      );
+    }
+  };
+
   const handleToggle = async (id) => {
     if (!items[current].played) await handleUpdateInbox(id);
     await audioRef.current.toggle();
@@ -320,10 +353,12 @@ function ReceivedSongs({
       }
       console.error(err);
 
-      if (playerSetting.autoplay) {
-        setNextTrack();
-        // upNextCallback(setNextTrack, autoPlayTimer);
-      }
+      resetOldPlayerSetting(() => {
+        if (playerSetting.autoplay) {
+          setNextTrack();
+          // upNextCallback(setNextTrack, autoPlayTimer);
+        }
+      });
     }
   };
 
@@ -438,64 +473,14 @@ function ReceivedSongs({
                   <Slider ref={slider} {...settings}>
                     {items.map((item, i) => {
                       return (
-                        <div className="outline-none" key={i}>
-                          <div className="flex flex-col items-center justify-center">
-                            <div className="mt-6 w-[90%]">
-                              <div
-                                className={`relative w-full pt-[100%] ${
-                                  items[current]?.id === item.id
-                                    ? "animate-spin-slow"
-                                    : ""
-                                } ${
-                                  !playing && items[current]?.id === item.id
-                                    ? "animate-pause"
-                                    : ""
-                                }`}
-                              >
-                                <img
-                                  className="absolute inset-0 h-full w-full select-none object-contain"
-                                  src={disc}
-                                  alt="disc"
-                                />
-                                {item.played ? (
-                                  <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                                    {item.content?.song?.thumbnails?.length >
-                                      0 && (
-                                      <img
-                                        className="h-[27%] w-[27%] select-none rounded-full object-contain"
-                                        src={
-                                          item.content?.song?.thumbnails[0]?.url
-                                        }
-                                        alt="thumbnail"
-                                        referrerPolicy="no-referrer"
-                                        crossOrigin="anonymous"
-                                      />
-                                    )}
-                                  </div>
-                                ) : (
-                                  <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                                    <img
-                                      className="h-[20%] w-[20%] select-none object-contain"
-                                      src={shushingEmoji}
-                                      alt="disc"
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                            {items[current]?.id === item.id && (
-                              <span
-                                style={{
-                                  wordBreak: "break-word",
-                                  whiteSpace: "pre-line",
-                                }}
-                                className="my-6 w-full text-center text-xl leading-6 text-gray-700"
-                              >
-                                {item.content?.message}
-                              </span>
-                            )}
-                          </div>
-                        </div>
+                        <SongCard
+                          playDisc={() => handlePlay(i)}
+                          showMessage
+                          key={i}
+                          currentItem={items[current]}
+                          item={item}
+                          playing={playing}
+                        />
                       );
                     })}
                   </Slider>
@@ -523,54 +508,20 @@ function ReceivedSongs({
                     <SongGrid title={request.name} songs={request.songs} />
                   ))}
               </>
-
-              // <div
-              //   className={`grid grid-cols-2 gap-4 overflow-x-hidden pt-4 ${
-              //     current !== null ? "pb-[88px]" : "pb-[24px]"
-              //   }`}
-              // >
-              //   {items.map((item, i) => (
-              //     <div
-              //       onClick={() => handleSelect(i)}
-              //       key={i}
-              //       className={`relative w-[160px] cursor-pointer pt-[100%] ${
-              //         items[current]?.id === item.id ? "animate-spin-slow" : ""
-              //       } ${
-              //         !playing && items[current]?.id === item.id
-              //           ? "animate-pause"
-              //           : ""
-              //       }`}
-              //     >
-              //       <img
-              //         className="absolute inset-0 h-full w-full select-none object-contain"
-              //         src={disc}
-              //         alt="disc"
-              //       />
-              //       {item.played ? (
-              //         <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-              //           {item.content?.song?.thumbnails?.length > 0 && (
-              //             <img
-              //               className="h-[27%] w-[27%] select-none rounded-full object-contain"
-              //               src={item.content?.song?.thumbnails[0]?.url}
-              //               alt="thumbnail"
-              //               referrerPolicy="no-referrer"
-              //               crossOrigin="anonymous"
-              //             />
-              //           )}
-              //         </div>
-              //       ) : (
-              //         <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-              //           <img
-              //             className="h-[20%] w-[20%] select-none object-contain"
-              //             src={shushingEmoji}
-              //             alt="disc"
-              //           />
-              //         </div>
-              //       )}
-              //     </div>
-              //   ))}
-              // </div>
             )}
+
+            <AudioPlayer
+              ref={audioRef}
+              src={getSavedURL}
+              onToggle={setPlaying}
+              onLoading={setLoadingAudio}
+              onEnded={handleTrackEnded}
+              onError={handlePlayerError}
+              autoPlayAfterSrcChange={playerSetting.autoplay}
+              loadingSource={loadingStreamingData}
+              afterPlayed={resetOldPlayerSetting}
+            />
+
             {current !== null && (
               <>
                 <div className="fixed left-0 right-0 bottom-[112px] flex w-full flex-col items-center justify-center">
@@ -674,16 +625,6 @@ function ReceivedSongs({
                   )}
                 </div>
                 <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
-                  <AudioPlayer
-                    ref={audioRef}
-                    src={getSavedURL}
-                    onToggle={setPlaying}
-                    onLoading={setLoadingAudio}
-                    onEnded={handleTrackEnded}
-                    onError={handlePlayerError}
-                    autoPlayAfterSrcChange={playerSetting.autoplay}
-                    loadingSource={loadingStreamingData}
-                  />
                   {!items[current]?.played ? (
                     <button
                       onClick={() => handleToggle(items[current]?.id)}
@@ -861,6 +802,7 @@ function ReceivedSongs({
                     </svg>
                   </button>
                   <ShareDialog
+                    isMysong={true}
                     content={{
                       song: {
                         title: items[current]?.content?.song?.title,
@@ -869,6 +811,7 @@ function ReceivedSongs({
                             ?.text,
                         thumbnails: items[current]?.content?.song?.thumbnails,
                       },
+                      vinylStyle: items[current]?.vinyl_style,
                       message: items[current]?.content?.message,
                     }}
                   />

@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useStateCallback } from "./useStateCallback";
 
 export const useLocalStorage = (keyName, defaultValue) => {
-  const [storedValue, setStoredValue] = useState(() => {
+  const [storedValue, setStoredValue] = useStateCallback(() => {
     try {
       const value = window.localStorage.getItem(keyName);
       if (value) {
@@ -14,11 +15,11 @@ export const useLocalStorage = (keyName, defaultValue) => {
       return defaultValue;
     }
   });
-  const setValue = (newValue) => {
+  const setValue = (newValue, callback) => {
     try {
       window.localStorage.setItem(keyName, JSON.stringify(newValue));
     } catch (err) {}
-    setStoredValue(newValue);
+    setStoredValue(newValue, callback);
   };
   return [storedValue, setValue];
 };

@@ -58,11 +58,23 @@ function Feed() {
     onOpen();
   };
 
+  
+  /**
+   * @dev To prevents the user's scroll from being reset.
+   * before run this effect, we need to make sure that feed items is empty and navigate state.reload is true
+   * remember, only thing to make the state.reload true, user need to navigate by pressing menu from the navbar.
+   */
+  useEffect(() => {
+    if (items.length > 0 && !state?.reload) return;
+    fetchContent({ loading: true, reset: true, filter });
+  }, [state]);
+
   return (
-    <div className="mx-auto mt-20 flex w-full max-w-md flex-col items-center py-6">
-      <div className="flex w-full flex-col px-4 pb-[80px]">
-        <div className="flex items-center justify-between">
-          {/* <div className="relative flex items-center">
+      <div className="mx-auto mt-20 flex w-full max-w-md flex-col items-center py-6">
+        <div className="flex w-full flex-col px-4 pb-[80px]">
+          <div className="flex items-center justify-between">
+            {/* <div className="relative flex items-center">
+          <div className="relative flex items-center">
             <img className=" mr-2 h-8 w-8" src={annouceEmoji} alt="" />
             <span className="gimmesong-secondary-font text-2xl font-bold">
               Songs Request

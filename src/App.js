@@ -25,6 +25,8 @@ import { auth } from "@lib/firebase";
 
 import PlaylistProvider from "contexts/PlaylistContext";
 import FeedProvider from "contexts/FeedContext";
+import DiscListProvider from "contexts/DiscListContext";
+
 import Profile from "@features/Profile";
 import Shop from "@features/Shop";
 
@@ -112,15 +114,17 @@ function App() {
     <>
       <FeedProvider>
         <PlaylistProvider>
-          <Toaster />
-          {loading ? (
-            <Loading fullScreen />
-          ) : (
-            <>
-              <Header />
-              {routes}
-            </>
-          )}
+          <DiscListProvider>
+            <Toaster />
+            {loading ? (
+              <Loading fullScreen />
+            ) : (
+              <>
+                <Header />
+                {routes}
+              </>
+            )}
+          </DiscListProvider>
         </PlaylistProvider>
       </FeedProvider>
     </>
