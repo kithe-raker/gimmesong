@@ -11,7 +11,7 @@ function Slider({ discs, selectedDisc, setSelectedDisc, perView }) {
   });
 
   return (
-    <div ref={sliderRef} className={`keen-slider`}>
+    <div ref={sliderRef} className={`keen-slider h-[100px]`}>
       {discs.map((item, i) => {
         return (
           <div
@@ -23,7 +23,7 @@ function Slider({ discs, selectedDisc, setSelectedDisc, perView }) {
             key={i}
           >
             <button
-              className="h-full w-full rounded-2xl border  bg-white p-1"
+              className="h-full w-full rounded-2xl bg-white p-1"
               onClick={() => setSelectedDisc(i)}
             >
               <div className="relative pt-[100%]">
