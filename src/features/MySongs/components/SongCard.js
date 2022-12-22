@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactCardFlip from "react-card-flip";
 import useDoubleClick from "use-double-click";
 
@@ -10,9 +10,11 @@ function SongCardSide({
   item,
   playing,
   showMessage = false,
-  forceRenderEmoji = false,
+  renderEmoji = false,
+  openDisc,
   onClick = () => {},
   onDoubleClick = () => {},
+  cardClassName = "",
   containerClassName = "",
 }) {
   const clickRef = useRef();
@@ -24,7 +26,7 @@ function SongCardSide({
     latency: 300,
   });
   return (
-    <div className="outline-none" ref={clickRef}>
+    <div className={`outline-none ${cardClassName}`} ref={clickRef}>
       <div className="flex flex-col items-center justify-center">
         <div className={`mt-6 w-[90%] ${containerClassName}`}>
           <div
@@ -39,7 +41,15 @@ function SongCardSide({
               src={item.vinyl_style?.disc?.image_url}
               alt="disc"
             />
-            {item.played && !forceRenderEmoji ? (
+            {renderEmoji ? (
+              <div className="absolute inset-0 flex h-full w-full items-center justify-center">
+                <img
+                  className="h-[20%] w-[20%] select-none object-contain"
+                  src={item.vinyl_style?.emoji?.image_url}
+                  alt="disc"
+                />
+              </div>
+            ) : (
               <div className="absolute inset-0 flex h-full w-full items-center justify-center">
                 {item.content?.song?.thumbnails?.length > 0 && (
                   <img
@@ -50,14 +60,6 @@ function SongCardSide({
                     crossOrigin="anonymous"
                   />
                 )}
-              </div>
-            ) : (
-              <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                <img
-                  className="h-[20%] w-[20%] select-none object-contain"
-                  src={item.vinyl_style?.emoji?.image_url}
-                  alt="disc"
-                />
               </div>
             )}
           </div>
@@ -86,13 +88,19 @@ function SongCard({
   item,
   playing,
   showMessage = false,
+  playDisc,
   onClick = () => {},
-  onDoubleClick = () => {},
+  cardClassName = "",
   containerClassName = "",
 }) {
-  const [flipped, setFlipped] = useState(false);
+  const [flipped, setFlipped] = useState(!item.played);
 
   const toggleFlipped = () => {
+    if (!item.played) {
+      // item is not played and is about to be flipped, mark the disc as played
+      playDisc();
+    }
+
     setFlipped(!flipped);
   };
 
@@ -104,17 +112,19 @@ function SongCard({
         currentItem={currentItem}
         item={item}
         playing={playing}
+        cardClassName={cardClassName}
         containerClassName={containerClassName}
         showMessage={showMessage}
       />
 
       <SongCardSide
-        forceRenderEmoji
+        renderEmoji
         onClick={onClick}
         onDoubleClick={toggleFlipped}
         currentItem={currentItem}
         item={item}
         playing={playing}
+        cardClassName={cardClassName}
         containerClassName={containerClassName}
         showMessage={showMessage}
       />

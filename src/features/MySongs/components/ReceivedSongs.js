@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 
 import disc from "@assets/img/disc.webp";
 import logo from "@assets/img/gimmesong_logo.png";
@@ -30,6 +30,7 @@ import { useLocalStorage } from "@hooks/useLocalStorage";
 
 import { useShareDialog } from "@hooks/useShareDialog";
 import SongCard from "./SongCard";
+import { useStateCallback } from "@hooks/useStateCallback";
 
 function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const { openShareDialog, ShareDialog } = useShareDialog();
@@ -59,7 +60,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   // useDocumentTitle(title);
 
   const slider = useRef(null);
-  const [current, setCurrent] = useState(null);
+  const [current, setCurrent] = useStateCallback(null);
 
   const [loadingStreamingData, setLoadingStreamingData] = useState(false);
   const [streamingError, setStreamingError] = useState(null);
@@ -69,6 +70,9 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const [error, setError] = useState(false);
 
   const [playbackURL, setPlaybackURL] = useState({});
+
+  // this seem "hack-y" to reset setting back
+  const [oldPlayerSetting, setOldPlayerSetting] = useStateCallback(null);
 
   const settings = {
     className: "center",
@@ -155,6 +159,35 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     });
   };
 
+  const handlePlay = async (index) => {
+    // setGoingToPlay(true, () => setCurrent(index));
+
+    setOldPlayerSetting(playerSetting, () =>
+      setPlayerSetting(
+        {
+          autoplay: true,
+        },
+        () => {
+          if (index === current) {
+            setCurrent(null, () => setCurrent(index));
+          } else {
+            setCurrent(index);
+          }
+        }
+      )
+    );
+  };
+
+  const resetOldPlayerSetting = (callback) => {
+    if (oldPlayerSetting) {
+      setPlayerSetting(oldPlayerSetting, () =>
+        setOldPlayerSetting(null, () => {
+          if (callback) callback();
+        })
+      );
+    }
+  };
+
   const handleToggle = async (id) => {
     if (!items[current].played) await handleUpdateInbox(id);
     await audioRef.current.toggle();
@@ -206,6 +239,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   };
 
   const handleTrackChange = async () => {
+    console.log("current", current, "setting", playerSetting);
     if (playerSetting.autoplay) {
       clearUpNextTimer();
       if (!items[current]?.played) await handleUpdateInbox(items[current]?.id);
@@ -256,10 +290,12 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
       }
       console.error(err);
 
-      if (playerSetting.autoplay) {
-        setNextTrack();
-        // upNextCallback(setNextTrack, autoPlayTimer);
-      }
+      resetOldPlayerSetting(() => {
+        if (playerSetting.autoplay) {
+          setNextTrack();
+          // upNextCallback(setNextTrack, autoPlayTimer);
+        }
+      });
     }
   };
 
@@ -370,6 +406,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                     {items.map((item, i) => {
                       return (
                         <SongCard
+                          playDisc={() => handlePlay(i)}
                           showMessage
                           key={i}
                           currentItem={items[current]}
@@ -390,11 +427,12 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                 {items.map((item, i) => (
                   <SongCard
                     onClick={() => handleSelect(i)}
+                    playDisc={() => handlePlay(i)}
                     key={i}
                     currentItem={items[current]}
                     item={item}
                     playing={playing}
-                    containerClassName="w-[160px]"
+                    cardClassName="w-[160px]"
                   />
                   // <div
                   //   onClick={() => handleSelect(i)}
@@ -437,6 +475,19 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                 ))}
               </div>
             )}
+
+            <AudioPlayer
+              ref={audioRef}
+              src={getSavedURL}
+              onToggle={setPlaying}
+              onLoading={setLoadingAudio}
+              onEnded={handleTrackEnded}
+              onError={handlePlayerError}
+              autoPlayAfterSrcChange={playerSetting.autoplay}
+              loadingSource={loadingStreamingData}
+              afterPlayed={resetOldPlayerSetting}
+            />
+
             {current !== null && (
               <>
                 <div className="fixed left-0 right-0 bottom-[112px] flex w-full flex-col items-center justify-center">
@@ -540,16 +591,6 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   )}
                 </div>
                 <div className="fixed left-0 right-0 bottom-0 z-20 flex w-full items-center justify-center py-6 px-5">
-                  <AudioPlayer
-                    ref={audioRef}
-                    src={getSavedURL}
-                    onToggle={setPlaying}
-                    onLoading={setLoadingAudio}
-                    onEnded={handleTrackEnded}
-                    onError={handlePlayerError}
-                    autoPlayAfterSrcChange={playerSetting.autoplay}
-                    loadingSource={loadingStreamingData}
-                  />
                   {!items[current]?.played ? (
                     <button
                       onClick={() => handleToggle(items[current]?.id)}
