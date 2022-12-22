@@ -7,7 +7,6 @@ import { useDisclosure } from "@chakra-ui/react";
 import { signOut } from "@lib/firebase";
 import OnMainPage from "./components/OnMainPage";
 import OnOtherPage from "./components/OnOtherPage";
-import OnViewPlaylistPage from "./components/OnViewPlaylistPage";
 
 function Header() {
   const location = useLocation();
@@ -18,16 +17,18 @@ function Header() {
     location.pathname.startsWith("/mysongs")
   ) {
     render = <OnMainPage />;
-  } else if (location.pathname.startsWith("/playlist")) {
-    render = <OnViewPlaylistPage />;
   } else {
     render = <OnOtherPage />;
   }
 
   return (
-    <header className="gimmesong-bg fixed top-0 right-0 left-0 z-50 mx-auto pt-1 flex w-full max-w-md items-center justify-between px-2.5">
-      {render}
-    </header>
+    <>
+      {!location.pathname.startsWith("/playlist") && (
+        <header className="gimmesong-bg fixed top-0 right-0 left-0 z-50 mx-auto flex w-full max-w-md items-center justify-between px-2.5 pt-1">
+          {render}
+        </header>
+      )}
+    </>
   );
 }
 

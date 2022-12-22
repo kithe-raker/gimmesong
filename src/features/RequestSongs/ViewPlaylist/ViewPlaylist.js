@@ -10,6 +10,7 @@ import AddSongModal from "./AddSongModal/AddSongModal";
 import Ads from "@lib/ads";
 
 import { PlaylistContext } from "contexts/PlaylistContext";
+import Top from "./components/Top";
 
 function ViewPlaylist() {
   const navigate = useNavigate();
@@ -32,19 +33,28 @@ function ViewPlaylist() {
     <div
       className={`relative mx-auto flex ${
         pageLayout === "single" ? "h-full" : "min-h-full"
-      } max-w-md flex-col items-center py-6 pt-64`}
+      } max-w-md flex-col items-center`}
     >
       {isLoadingInfo ? (
         <Loading fullScreen />
-      ) : playlistInfo ? (
-        <div className="flex w-full max-w-md flex-col items-center">
-          <ReceivedSongs layout={pageLayout} onLayoutChange={setPageLayout} />
-        </div>
       ) : (
-        <Empty
-          title="Not found"
-          message="Playlist that you are looking for may not exist."
-        />
+        <>
+          <Top />
+
+          {playlistInfo ? (
+            <div className="flex w-full max-w-md flex-col items-center">
+              <ReceivedSongs
+                layout={pageLayout}
+                onLayoutChange={setPageLayout}
+              />
+            </div>
+          ) : (
+            <Empty
+              title="Not found"
+              message="Playlist that you are looking for may not exist."
+            />
+          )}
+        </>
       )}
     </div>
   );
