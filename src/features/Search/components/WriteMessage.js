@@ -14,6 +14,7 @@ import DiscList from "@components/DiscList";
 
 import { SearchContext } from "../Search";
 import { DiscListContext } from "contexts/DiscListContext";
+import { Tooltip } from "@chakra-ui/react";
 
 function WriteMessage({ children }) {
   const [message, setMessage] = useState("");
@@ -77,15 +78,28 @@ function WriteMessage({ children }) {
   return (
     <div className="flex w-full max-w-xs flex-col items-center justify-center">
       <div className="flex w-full flex-row items-center justify-start ">
-        <span className="gimmesong-secondary-font text-2xl font-extrabold">
-          Select disc
+        <span className="gimmesong-secondary-font text-[22px] font-extrabold">
+          Customize your disc:
         </span>
+
+        <Tooltip
+          label="Receiver will see this disc when they receive their song."
+          placement="right"
+          bg="black"
+        >
+          <div
+            id="customize-your-disc-tooltip"
+            className="ml-2 flex h-[16px] w-[16px] select-none items-center justify-center rounded-full bg-gray-900 text-[10px] text-white"
+          >
+            i
+          </div>
+        </Tooltip>
       </div>
 
       <DiscList
         selectedDisc={selectedDisc}
         setSelectedDisc={setSelectedDisc}
-        className="pb-8"
+        className="mt-3 pb-8"
       />
 
       <div className="flex h-[360px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
