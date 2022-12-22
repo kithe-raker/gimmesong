@@ -1,18 +1,32 @@
-import { useContext } from "react";
+import DiscList from "@components/DiscList";
+import { useContext, useEffect } from "react";
 
 import { AddSongContext } from "../AddSong";
 
 function WriteMessage() {
   const {
     state: { isLoading },
-    data: { song, message },
-    action: { writeMessage, sendSong },
+    data: { song, message, selectedDisc },
+    action: { writeMessage, sendSong, selectDisc },
   } = useContext(AddSongContext);
 
   return (
     <>
       <div className="flex w-full max-w-xs flex-col items-center justify-center">
-        <div className="flex h-[360px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
+        <div className="flex w-full flex-row items-center justify-start ">
+          <span className="gimmesong-secondary-font text-lg font-extrabold">
+            Select disc
+          </span>
+        </div>
+
+        <DiscList
+          selectedDisc={selectedDisc}
+          setSelectedDisc={selectDisc}
+          perView={3}
+          className="mt-2"
+        />
+
+        <div className="mt-4 flex h-[280px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
           {/* <span className="mt-3">Lorem Lorem</span> */}
           <textarea
             disabled={isLoading}
