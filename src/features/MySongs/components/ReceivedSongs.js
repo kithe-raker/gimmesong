@@ -433,7 +433,7 @@ function ReceivedSongs({
 
   const store = {
     data: { items, current, playing },
-    action: { selectSong: handleSelect },
+    action: { selectSong: handleSelect, playSong: handlePlay },
   };
 
   return (
