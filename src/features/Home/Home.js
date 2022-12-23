@@ -56,7 +56,7 @@ function Home() {
   }
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col py-[60px] pt-[80px]">
+    <div className="mx-auto flex min-h-screen max-w-md flex-col py-[60px] pt-[52px]">
       {render}
       {/*
       <span className="gimmesong-primary-font">
