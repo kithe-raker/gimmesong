@@ -1,22 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ReactCardFlip from "react-card-flip";
 import useDoubleClick from "use-double-click";
+import { ReceivedSongsContext } from "./ReceivedSongs";
 
 /**
  * Song will have 2 side, front and back (front have the song cover as center, back have song emoji as center, anything else should be identical)
  */
 function SongCardSide({
-  currentItem,
   item,
-  playing,
   showMessage = false,
   renderEmoji = false,
-  openDisc,
   onClick = () => {},
   onDoubleClick = () => {},
   cardClassName = "",
   containerClassName = "",
 }) {
+  const {
+    data: { items, current, playing },
+  } = useContext(ReceivedSongsContext);
+
+  const currentItem = items[current];
+
   const clickRef = useRef();
 
   useDoubleClick({
@@ -84,12 +88,10 @@ function SongCardSide({
  * A flippable song card that have front and back side (double tap to flip)
  */
 function SongCard({
-  currentItem,
   item,
-  playing,
   showMessage = false,
-  playDisc,
   onClick = () => {},
+  playDisc,
   cardClassName = "",
   containerClassName = "",
 }) {
@@ -97,7 +99,7 @@ function SongCard({
 
   const toggleFlipped = () => {
     if (!item.played) {
-      // item is not played and is about to be flipped, mark the disc as played
+      // item is not played and is about to be flipped, automatically play the song
       playDisc();
     }
 
@@ -109,9 +111,7 @@ function SongCard({
       <SongCardSide
         onClick={onClick}
         onDoubleClick={toggleFlipped}
-        currentItem={currentItem}
         item={item}
-        playing={playing}
         cardClassName={cardClassName}
         containerClassName={containerClassName}
         showMessage={showMessage}
@@ -121,9 +121,7 @@ function SongCard({
         renderEmoji
         onClick={onClick}
         onDoubleClick={toggleFlipped}
-        currentItem={currentItem}
         item={item}
-        playing={playing}
         cardClassName={cardClassName}
         containerClassName={containerClassName}
         showMessage={showMessage}

@@ -6,8 +6,8 @@ import SongCard from "./SongCard";
 
 function SongGrid({ title, songs }) {
   const {
-    data: { items, current, playing },
-    action: { selectSong, playSong  },
+    data: { current },
+    action: { selectSong, playSong },
   } = useContext(ReceivedSongsContext);
 
   return (
@@ -26,9 +26,7 @@ function SongGrid({ title, songs }) {
             onClick={() => selectSong(i)}
             playDisc={() => playSong(i)}
             key={i}
-            currentItem={items[current]}
             item={item}
-            playing={playing}
             cardClassName="w-[160px]"
           />
         ))}
