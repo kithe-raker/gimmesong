@@ -47,8 +47,8 @@ function Header() {
             <>
               <button
                 onClick={() => navigate("/menu")}
-                className={`group mr-1.5 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-white shadow-sm ${
-                  location.pathname === "/menu" ? "bg-black" : ""
+                className={`group mr-1.5 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full shadow-sm ${
+                  location.pathname === "/menu" ? "bg-black" : "bg-white"
                 }`}
               >
                 <svg
@@ -82,11 +82,11 @@ function Header() {
                     },
                   })
                 }
-                className={`group mr-1.5 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-white shadow-sm ${
+                className={`group mr-1.5 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full shadow-sm ${
                   location.pathname === "/request" ||
                   location.pathname === "/request/new"
                     ? "bg-black"
-                    : ""
+                    : "bg-white"
                 }`}
               >
                 <svg
@@ -122,8 +122,8 @@ function Header() {
               </button>
               <button
                 onClick={() => navigate("/mysongs")}
-                className={`group mr-1.5 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-white shadow-sm ${
-                  location.pathname === "/mysongs" ? "bg-black" : ""
+                className={`group mr-1.5 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full shadow-sm ${
+                  location.pathname === "/mysongs" ? "bg-black" : "bg-white"
                 }`}
               >
                 <svg
