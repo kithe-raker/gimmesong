@@ -15,6 +15,7 @@ import DiscList from "@components/DiscList";
 import { SearchContext } from "../Search";
 import { DiscListContext } from "contexts/DiscListContext";
 import { Tooltip } from "@chakra-ui/react";
+import TouchFriendlyTooltip from "@components/TouchFriendlyTooltip";
 
 function WriteMessage({ children }) {
   const [message, setMessage] = useState("");
@@ -82,18 +83,7 @@ function WriteMessage({ children }) {
           Customize your disc:
         </span>
 
-        <Tooltip
-          label="Receiver will see this disc when they receive their song."
-          placement="right"
-          bg="black"
-        >
-          <div
-            id="customize-your-disc-tooltip"
-            className="ml-2 flex h-[16px] w-[16px] select-none items-center justify-center rounded-full bg-gray-900 text-[10px] text-white"
-          >
-            i
-          </div>
-        </Tooltip>
+        <TouchFriendlyTooltip label="Receiver will see this disc when they receive their song." />
       </div>
 
       <DiscList
