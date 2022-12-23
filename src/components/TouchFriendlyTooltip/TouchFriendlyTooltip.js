@@ -6,13 +6,13 @@ import { useState } from "react";
  * @param {*} param0
  * @returns
  */
-function TouchFriendlyTooltip({ label, placement = "right" }) {
+function TouchFriendlyTooltip({ label, placement = "bottom" }) {
   const [isLabelOpen, setIsLabelOpen] = useState(false);
 
   return (
     <Tooltip
       label="Receiver will see this disc when they receive their song."
-      placement="right"
+      placement={placement}
       bg="black"
       isOpen={isLabelOpen}
     >
