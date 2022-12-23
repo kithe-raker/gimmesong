@@ -15,10 +15,15 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "@styles/index.css";
 import "@styles/custom.css";
 
-console.log(process.env.REACT_APP_ENV);
+console.log("NODE_ENV: ", process.env.NODE_ENV);
+console.log("REACT_APP_ENV: ", process.env.REACT_APP_ENV);
 
 // disable console log on production
-if (process.env.NODE_ENV !== "development") console.log = () => {};
+if (
+  process.env.NODE_ENV === "production" &&
+  process.env.REACT_APP_ENV === "production"
+)
+  console.log = () => {};
 
 const theme = extendTheme({
   components: { Switch: switchTheme },
