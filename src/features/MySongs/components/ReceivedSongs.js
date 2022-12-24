@@ -414,7 +414,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                           spinningPaused={!playing && isCurrent}
                           flippedInitially={!item.played}
                           item={item}
-                          key={i}
+                          key={item.id}
                         />
                       );
                     })}
@@ -439,7 +439,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                       item={item}
                       flippedInitially={!item.played}
                       cardClassName="w-[160px]"
-                      key={i}
+                      key={item.id}
                     />
                   );
                 })}
