@@ -3,6 +3,7 @@ import { useContext, useEffect } from "react";
 
 import { AddSongContext } from "../AddSong";
 import { Tooltip } from "@chakra-ui/react";
+import TouchFriendlyTooltip from "@components/TouchFriendlyTooltip";
 
 function WriteMessage() {
   const {
@@ -19,18 +20,7 @@ function WriteMessage() {
             Customize your disc:
           </span>
 
-          <Tooltip
-            label="Receiver will see this disc when they receive their song."
-            placement="right"
-            bg="black"
-          >
-            <div
-              id="customize-your-disc-tooltip"
-              className="ml-2 flex h-[16px] w-[16px] select-none items-center justify-center rounded-full bg-gray-900 text-[10px] text-white"
-            >
-              i
-            </div>
-          </Tooltip>
+          <TouchFriendlyTooltip label="Receiver will see this disc when they receive their song." />
         </div>
 
         <DiscList

@@ -7,7 +7,8 @@ const _apiUrl = {
 
 const instance = axios.create({
   baseURL:
-    process.env.NODE_ENV !== "development"
+    process.env.NODE_ENV === "production" &&
+    process.env.REACT_APP_ENV === "production"
       ? _apiUrl.production
       : _apiUrl.development,
 });
