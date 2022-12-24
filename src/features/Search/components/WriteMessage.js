@@ -5,11 +5,6 @@ import "keen-slider/keen-slider.min.css";
 import toast from "react-hot-toast";
 import GimmesongAPI from "@lib/gimmesong_api";
 
-import disc from "@assets/img/disc.webp";
-import decoratedDisc from "@assets/img/decorated_disc.png";
-import shushingEmoji from "@assets/img/shushing_emoji.png";
-import presentEmoji from "@assets/img/present_emoji.png";
-import santaEmoji from "@assets/img/santa_emoji.png";
 import DiscList from "@components/DiscList";
 
 import { SearchContext } from "../Search";
