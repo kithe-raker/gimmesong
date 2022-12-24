@@ -15,7 +15,7 @@ function Slider({ discs, selectedDisc, setSelectedDisc, perView }) {
       {discs.map((item, i) => {
         return (
           <div
-            className={`keen-slider__slide h-full w-full rounded-2xl p-0.5 ${
+            className={`keen-slider__slide flex h-full w-full items-center justify-center rounded-2xl p-0.5 ${
               selectedDisc === i
                 ? "bg-gradient-to-b from-[#86C7DF] via-[#8583D6] to-[#C697C8]"
                 : "bg-black/[.05]"
