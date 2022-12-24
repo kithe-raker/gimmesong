@@ -29,8 +29,8 @@ import useScrollPosition from "@hooks/useScrollPosition";
 import { useLocalStorage } from "@hooks/useLocalStorage";
 
 import { useShareDialog } from "@hooks/useShareDialog";
-import SongCard from "./SongCard";
 import { useStateCallback } from "@hooks/useStateCallback";
+import SongCard from "@components/SongCard";
 
 function ReceivedSongs({ tab, layout, onLayoutChange }) {
   const { openShareDialog, ShareDialog } = useShareDialog();
@@ -159,23 +159,24 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     });
   };
 
-  const handlePlay = async (index) => {
-    // setGoingToPlay(true, () => setCurrent(index));
-
-    setOldPlayerSetting(playerSetting, () =>
-      setPlayerSetting(
-        {
-          autoplay: true,
-        },
-        () => {
-          if (index === current) {
-            setCurrent(null, () => setCurrent(index));
-          } else {
-            setCurrent(index);
+  const handleFlip = async (index) => {
+    if (!items[index].played) {
+      // item is not played and is being flip, automatically play the song.
+      setOldPlayerSetting(playerSetting, () =>
+        setPlayerSetting(
+          {
+            autoplay: true,
+          },
+          () => {
+            if (index === current) {
+              setCurrent(null, () => setCurrent(index));
+            } else {
+              setCurrent(index);
+            }
           }
-        }
-      )
-    );
+        )
+      );
+    }
   };
 
   const resetOldPlayerSetting = (callback) => {
@@ -239,7 +240,6 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   };
 
   const handleTrackChange = async () => {
-    console.log("current", current, "setting", playerSetting);
     if (playerSetting.autoplay) {
       clearUpNextTimer();
       if (!items[current]?.played) await handleUpdateInbox(items[current]?.id);
@@ -404,14 +404,17 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                 >
                   <Slider ref={slider} {...settings}>
                     {items.map((item, i) => {
+                      const isCurrent = items[current]?.id === item.id;
+
                       return (
                         <SongCard
-                          playDisc={() => handlePlay(i)}
-                          showMessage
-                          key={i}
-                          currentItem={items[current]}
+                          onFlip={() => handleFlip(i)}
+                          showMessage={isCurrent}
+                          spin={isCurrent}
+                          spinningPaused={!playing && isCurrent}
+                          flippedInitially={!item.played}
                           item={item}
-                          playing={playing}
+                          key={item.id}
                         />
                       );
                     })}
@@ -424,55 +427,22 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                   current !== null ? "pb-[88px]" : "pb-[24px]"
                 }`}
               >
-                {items.map((item, i) => (
-                  <SongCard
-                    onClick={() => handleSelect(i)}
-                    playDisc={() => handlePlay(i)}
-                    key={i}
-                    currentItem={items[current]}
-                    item={item}
-                    playing={playing}
-                    cardClassName="w-[160px]"
-                  />
-                  // <div
-                  //   onClick={() => handleSelect(i)}
-                  //   key={i}
-                  //   className={`relative w-[160px] cursor-pointer pt-[100%] ${
-                  //     items[current]?.id === item.id ? "animate-spin-slow" : ""
-                  //   } ${
-                  //     !playing && items[current]?.id === item.id
-                  //       ? "animate-pause"
-                  //       : ""
-                  //   }`}
-                  // >
-                  //   <img
-                  //     className="absolute inset-0 h-full w-full select-none object-contain"
-                  //     src={item.vinyl_style?.disc?.image_url}
-                  //     alt="disc"
-                  //   />
-                  //   {item.played ? (
-                  //     <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                  //       {item.content?.song?.thumbnails?.length > 0 && (
-                  //         <img
-                  //           className="h-[27%] w-[27%] select-none rounded-full object-contain"
-                  //           src={item.content?.song?.thumbnails[0]?.url}
-                  //           alt="thumbnail"
-                  //           referrerPolicy="no-referrer"
-                  //           crossOrigin="anonymous"
-                  //         />
-                  //       )}
-                  //     </div>
-                  //   ) : (
-                  //     <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                  //       <img
-                  //         className="h-[20%] w-[20%] select-none object-contain"
-                  //         src={item.vinyl_style?.emoji?.image_url}
-                  //         alt="disc"
-                  //       />
-                  //     </div>
-                  //   )}
-                  // </div>
-                ))}
+                {items.map((item, i) => {
+                  const isCurrent = items[current]?.id === item.id;
+
+                  return (
+                    <SongCard
+                      onClick={() => handleSelect(i)}
+                      onFlip={() => handleFlip(i)}
+                      spin={isCurrent}
+                      spinningPaused={!playing && isCurrent}
+                      item={item}
+                      flippedInitially={!item.played}
+                      cardClassName="w-[160px]"
+                      key={item.id}
+                    />
+                  );
+                })}
               </div>
             )}
 

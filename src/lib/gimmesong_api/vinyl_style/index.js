@@ -1,7 +1,7 @@
 import disc from "@assets/img/disc.webp";
 import santa_emoji from "@assets/img/santa_emoji.png";
 import shushing_emoji from "@assets/img/shushing_emoji.png";
-import present_emoji from "@assets/img/present_emoji.png";
+import present_emoji from "@assets/img/gift_emoji.png";
 
 const __VinylStyle = {
   disc: {

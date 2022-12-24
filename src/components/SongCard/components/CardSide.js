@@ -1,17 +1,15 @@
-import { useEffect, useRef, useState } from "react";
-import ReactCardFlip from "react-card-flip";
+import { useRef } from "react";
 import useDoubleClick from "use-double-click";
 
 /**
  * Song will have 2 side, front and back (front have the song cover as center, back have song emoji as center, anything else should be identical)
  */
-function SongCardSide({
-  currentItem,
+function CardSide({
   item,
-  playing,
-  showMessage = false,
-  renderEmoji = false,
-  openDisc,
+  spin,
+  spinningPaused,
+  showMessage,
+  renderEmoji,
   onClick = () => {},
   onDoubleClick = () => {},
   cardClassName = "",
@@ -31,10 +29,8 @@ function SongCardSide({
         <div className={`mt-6 w-[90%] ${containerClassName}`}>
           <div
             className={`relative w-full pt-[100%] ${
-              currentItem?.id === item.id ? "animate-spin-slow" : ""
-            } ${
-              !playing && currentItem?.id === item.id ? "animate-pause" : ""
-            }`}
+              spin ? "animate-spin-slow" : ""
+            } ${spinningPaused ? "animate-pause" : ""}`}
           >
             <img
               className="absolute inset-0 h-full w-full select-none object-contain"
@@ -64,7 +60,7 @@ function SongCardSide({
             )}
           </div>
         </div>
-        {showMessage && currentItem?.id === item.id && (
+        {showMessage && (
           <span
             style={{
               wordBreak: "break-word",
@@ -80,56 +76,4 @@ function SongCardSide({
   );
 }
 
-/**
- * A flippable song card that have front and back side (double tap to flip)
- */
-function SongCard({
-  currentItem,
-  item,
-  playing,
-  showMessage = false,
-  playDisc,
-  onClick = () => {},
-  cardClassName = "",
-  containerClassName = "",
-}) {
-  const [flipped, setFlipped] = useState(!item.played);
-
-  const toggleFlipped = () => {
-    if (!item.played) {
-      // item is not played and is about to be flipped, mark the disc as played
-      playDisc();
-    }
-
-    setFlipped(!flipped);
-  };
-
-  return (
-    <ReactCardFlip isFlipped={flipped}>
-      <SongCardSide
-        onClick={onClick}
-        onDoubleClick={toggleFlipped}
-        currentItem={currentItem}
-        item={item}
-        playing={playing}
-        cardClassName={cardClassName}
-        containerClassName={containerClassName}
-        showMessage={showMessage}
-      />
-
-      <SongCardSide
-        renderEmoji
-        onClick={onClick}
-        onDoubleClick={toggleFlipped}
-        currentItem={currentItem}
-        item={item}
-        playing={playing}
-        cardClassName={cardClassName}
-        containerClassName={containerClassName}
-        showMessage={showMessage}
-      />
-    </ReactCardFlip>
-  );
-}
-
-export default SongCard;
+export default CardSide;
