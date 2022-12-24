@@ -23,6 +23,8 @@ import useSession from "@hooks/useSession";
 import { useLocation } from "react-router-dom";
 import SignInMethod from "@components/SignInMethod";
 import { useInView } from "react-cool-inview";
+import SelectTab, { ClubAndMySongsTabs } from "@components/SelectTab";
+import Top from "./components/Top";
 
 function Feed() {
   const {
@@ -58,7 +60,6 @@ function Feed() {
     onOpen();
   };
 
-  
   /**
    * @dev To prevents the user's scroll from being reset.
    * before run this effect, we need to make sure that feed items is empty and navigate state.reload is true
@@ -70,10 +71,14 @@ function Feed() {
   }, [state]);
 
   return (
-      <div className="mx-auto mt-20 flex w-full max-w-md flex-col items-center py-6">
-        <div className="flex w-full flex-col px-4 pb-[80px]">
-          <div className="flex items-center justify-between">
-            {/* <div className="relative flex items-center">
+    <div className="mx-auto flex w-full max-w-md flex-col items-center">
+      <SelectTab tabs={ClubAndMySongsTabs} />
+
+      <Top />
+
+      <div className="flex w-full flex-col px-4 pb-[80px]">
+        <div className="flex items-center justify-between">
+          {/* <div className="relative flex items-center">
           <div className="relative flex items-center">
             <img className=" mr-2 h-8 w-8" src={annouceEmoji} alt="" />
             <span className="gimmesong-secondary-font text-2xl font-bold">
@@ -246,7 +251,7 @@ function Feed() {
           onClick={handleOpenRequestSong}
           className={`flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-3xl bg-gradient-to-b from-[#8583D6] to-[#C697C8] shadow-md`}
         >
-          <div className="m-0.5 w-[70px] h-[70px] flex items-center justify-center rounded-3xl bg-white hover:bg-gray-100">
+          <div className="m-0.5 flex h-[70px] w-[70px] items-center justify-center rounded-3xl bg-white hover:bg-gray-100">
             <img
               src={annouceEmoji}
               alt="Announce Emoji"

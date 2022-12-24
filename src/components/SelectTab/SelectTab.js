@@ -25,14 +25,14 @@ function SelectTab({ tabs }) {
   const navigate = useNavigate();
 
   return (
-    <div className="gimmesong-bg sticky top-[52px] z-50 w-full max-w-md">
+    <div className="gimmesong-bg sticky top-[52px] z-50 w-full max-w-md px-2.5">
       <div className="mb-2 flex flex-row items-center justify-center font-bold">
         {tabs.map((item, i) => (
           <button
             key={i}
             className={`flex flex-1 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
               location.pathname.startsWith(item.navigateTo)
-                ? "bg-black text-white shadow-lg hover:bg-gray-600"
+                ? "bg-black text-white shadow-md hover:bg-gray-600"
                 : "text-black hover:bg-gray-300"
             }`}
             onClick={() => navigate(item.navigateTo)}

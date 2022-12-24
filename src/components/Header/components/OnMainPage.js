@@ -1,15 +1,10 @@
 import { useNavigate, useLocation } from "react-router-dom";
 
 import logo from "@assets/img/gimmesong_logo.png";
-import ClubFeedBar from "./ClubFeedBar";
 
 function OnMainPage() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const isClubFeed =
-    location.pathname.startsWith("/club") &&
-    location.pathname.length > "/club".length;
 
   return (
     <div className="flex w-full max-w-md flex-col">
@@ -133,7 +128,6 @@ function OnMainPage() {
         </div>
       </div> */}
 
-      {isClubFeed && <ClubFeedBar />}
     </div>
   );
 }

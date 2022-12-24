@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FeedContext } from "contexts/FeedContext";
 import Dropdown from "@components/Dropdown";
 
-function ClubFeedBar() {
+function Top() {
   const navigate = useNavigate();
 
   const {
@@ -40,7 +40,7 @@ function ClubFeedBar() {
   }, [state]);
 
   return (
-    <div className="mt-2 mb-4 flex flex-row justify-between px-2">
+    <div className="gimmesong-bg sticky top-[116px] z-50 mt-2 flex w-full flex-row justify-between px-2 pb-3">
       <div className="flex flex-row">
         <button
           onClick={() => navigate(-1)}
@@ -84,4 +84,4 @@ function ClubFeedBar() {
   );
 }
 
-export default ClubFeedBar;
+export default Top;
