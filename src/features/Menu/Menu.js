@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import logo from "@assets/img/gimmesong_logo.png";
+import { useState, useEffect, useContext } from "react";
 
 import GetLink from "@components/GetLink";
 import ConnectWithUs from "@components/ConnectWithUs";
@@ -11,12 +10,15 @@ import { accountingNum } from "@utils/number";
 
 import meme_icon from "@assets/img/meme_emoji.png";
 import confuse_icon from "@assets/img/confuse_emoji.png";
+import { ThemeContext } from "contexts/ThemeContext";
 
 function Menu() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
+
+  const { logo } = useContext(ThemeContext);
 
   useEffect(() => {
     const getTotalSentSong = async () => {
@@ -36,13 +38,10 @@ function Menu() {
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-[60px] pt-[80px]">
       <div className="my-2 flex items-center justify-center">
-        <img
-          className="mr-2 h-[46px] w-[46px] shrink-0"
-          src={logo}
-          alt="disc"
-        />
-        <h1 className="gimmesong-primary-font text-5xl">GIMMESONG</h1>{" "}
+        <img className="mr-2 w-[46px] shrink-0" src={logo} alt="disc" />
+        <h1 className="gimmesong-primary-font mt-4 text-5xl">GIMMESONG</h1>
       </div>
+
       <span className="gimmesong-primary-font mb-6">
         Songs have been given{" "}
         {loading ? (
