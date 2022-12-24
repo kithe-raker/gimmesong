@@ -239,7 +239,6 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   };
 
   const handleTrackChange = async () => {
-    console.log("current", current, "setting", playerSetting);
     if (playerSetting.autoplay) {
       clearUpNextTimer();
       if (!items[current]?.played) await handleUpdateInbox(items[current]?.id);
