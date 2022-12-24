@@ -20,7 +20,7 @@ const AudioPlayer = forwardRef((props, ref) => {
     onEnded,
     loadingSource,
     autoPlayAfterSrcChange,
-    afterPlayed,
+    afterPlayed = () => {},
   } = props;
 
   const [audioSrc, setAudioSrc] = useState("");

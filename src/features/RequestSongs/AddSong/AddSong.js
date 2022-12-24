@@ -21,10 +21,6 @@ import { PlaylistContext } from "contexts/PlaylistContext";
 
 import { useSessionExpired } from "@hooks/useSessionExpired";
 
-import disc from "@assets/img/disc.webp";
-import shushingEmoji from "@assets/img/shushing_emoji.png";
-import presentEmoji from "@assets/img/present_emoji.png";
-import santaEmoji from "@assets/img/santa_emoji.png";
 import { DiscListContext } from "contexts/DiscListContext.js";
 
 export const AddSongContext = createContext();
