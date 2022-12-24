@@ -11,7 +11,7 @@ function Slider({ discs, selectedDisc, setSelectedDisc, perView }) {
   });
 
   return (
-    <div ref={sliderRef} className={`keen-slider h-[100px]`}>
+    <div ref={sliderRef} className={`keen-slider min-h-[100px]`}>
       {discs.map((item, i) => {
         return (
           <div

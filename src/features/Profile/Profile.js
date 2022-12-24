@@ -18,6 +18,7 @@ import { signOut } from "@lib/firebase";
 
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import DiscList from "@components/DiscList";
 
 function Profile() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ function Profile() {
   const [language, setLanguage] = useState("EN");
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-start py-[60px] pt-[80px]">
+    <div className="mx-auto flex min-h-screen max-w-md flex-col items-start py-[60px]">
       {user ? (
         <div className="gimmesong-secondary-font flex w-full max-w-md flex-col justify-center px-6 ">
           <span className="text-3xl font-extrabold">Profile</span>
@@ -48,7 +49,7 @@ function Profile() {
           </div>
 
           <span className="text-3xl font-extrabold">Disc</span>
-          {/* Probably wait for disc list component from feature/more-discs branch */}
+          <DiscList perView={3} className="mt-4" />
         </div>
       ) : (
         <SignInBox />
@@ -56,7 +57,7 @@ function Profile() {
 
       <div className="gimmesong-secondary-font flex w-full max-w-md flex-col justify-center px-6 ">
         <button
-          className="mt-20 hover:bg-gray-100"
+          className="mt-10 hover:bg-gray-100"
           onClick={() => navigate("/tutorial")}
         >
           <div className="flex h-full w-full max-w-md flex-row items-center justify-between rounded-xl border border-black/[0.1] py-3 px-5">
@@ -99,10 +100,7 @@ function Profile() {
 
         {user && (
           <>
-            <button
-              className="mt-8 hover:bg-gray-100"
-              onClick={onOpen}
-            >
+            <button className="mt-8 hover:bg-gray-100" onClick={onOpen}>
               <div className="flex h-full w-full max-w-md flex-row items-center justify-center rounded-xl border border-black/[0.1] py-3 px-5">
                 <span className="flex text-lg font-bold">Log out</span>
               </div>
