@@ -23,11 +23,12 @@ function Header() {
 
   return (
     <>
-      {!location.pathname.startsWith("/playlist") && (
-        <header className="gimmesong-bg fixed top-0 right-0 left-0 z-50 mx-auto flex w-full max-w-md items-center justify-between px-2.5 pt-1">
-          {render}
-        </header>
-      )}
+      {!location.pathname.startsWith("/playlist") &&
+        !location.pathname.startsWith("/tutorial") && (
+          <header className="gimmesong-bg fixed top-0 right-0 left-0 z-50 mx-auto flex w-full max-w-md items-center justify-between px-2.5 pt-1">
+            {render}
+          </header>
+        )}
     </>
   );
 }

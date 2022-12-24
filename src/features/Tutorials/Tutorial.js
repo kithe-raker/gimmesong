@@ -18,7 +18,7 @@ function Tutorial() {
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center">
       <div className="fixed top-0 z-20 mx-auto flex w-full max-w-md items-center py-6 px-5">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate(-1)}
           className="group flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full border"
         >
           <svg
