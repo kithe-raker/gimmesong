@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import disc from "@assets/img/gimmesong_logo.png";
+import { useState, useEffect, useContext } from "react";
 import meme_icon from "@assets/img/meme_emoji.png";
 import confuse_icon from "@assets/img/confuse_emoji.png";
 import SignInMethod from "@components/SignInMethod";
@@ -11,6 +10,7 @@ import GimmesongAPI from "@lib/gimmesong_api";
 import { accountingNum } from "@utils/number";
 
 import ConnectWithUs from "@components/ConnectWithUs";
+import { ThemeContext } from "contexts/ThemeContext";
 
 function Home() {
   const navigate = useNavigate();
@@ -18,6 +18,8 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
   const [] = useState(false);
+
+  const { logo } = useContext(ThemeContext);
 
   useEffect(() => {
     const getTotalSentSong = async () => {
@@ -69,7 +71,7 @@ function Home() {
         )}{" "}
         times.
       </span>
-      <img className="mt-6 w-60" src={disc} alt="disc" />
+      <img className="ml-5 mt-6 w-32" src={logo} alt="disc" />
       <h1 className="gimmesong-primary-font mt-6 text-5xl">GIMMESONG</h1>
       <span className="gimmesong-primary-font mt-3 text-center text-lg leading-6 text-gray-400">
         Give a song anonymously to <br />

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import useSession from "@hooks/useSession";
 import { useLocation } from "react-router-dom";
@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 
 import { signOut } from "@lib/firebase";
-import logo from "@assets/img/gimmesong_logo.png";
+import { ThemeContext } from "contexts/ThemeContext";
 
 function Header() {
   const { user } = useSession();
@@ -26,18 +26,20 @@ function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
+  const { logo } = useContext(ThemeContext);
+
   return (
     <header className="gimmesong-bg fixed top-0 right-0 left-0 z-50 mx-auto flex h-[60px] w-full max-w-md items-center justify-between px-2.5">
       <span
         onClick={() => navigate("/")}
-        className=" my-2 flex cursor-pointer items-center justify-center"
+        className="my-2 flex cursor-pointer items-center justify-center"
       >
         <img
-          className="mr-2 h-[26px] w-[26px] shrink-0"
+          className="mr-2 w-[26px] shrink-0"
           src={logo}
           alt="disc"
         />
-        <h1 className="gimmesong-primary-font select-none text-2xl">
+        <h1 className="mt-2 gimmesong-primary-font select-none text-2xl">
           GIMMESONG
         </h1>
       </span>
