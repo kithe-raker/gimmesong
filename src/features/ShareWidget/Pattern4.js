@@ -25,7 +25,7 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
 
   return (
     <>
-      <div className="h-0 w-0 overflow-hidden">
+      <div className="w-0 h-0 overflow-hidden">
         <div
           className="relative flex min-h-[715px] w-[960px] flex-col justify-between bg-[#FF9C9C] px-[86px] pt-[42px] pb-[86px]"
           ref={exportRefCallback}
