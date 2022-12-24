@@ -25,22 +25,14 @@ import SignInMethod from "@components/SignInMethod";
 import { useInView } from "react-cool-inview";
 import SelectTab, { ClubAndMySongsTabs } from "@components/SelectTab";
 import Top from "./components/Top";
+import PlaylistBubbleList from "@components/PlaylistBubbleList";
 
 function Feed() {
   const {
     state: { isLoading, isLoadingMore, hasNext },
     data: { items, filter, club },
-    action: { loadMore, changeFilter, fetchContent },
+    action: { loadMore, fetchContent },
   } = useContext(FeedContext);
-
-  const { observe: loadMoreRef } = useInView({
-    // For better UX, we can grow the root margin so the data will be loaded earlier
-    rootMargin: "50px 0px",
-    // When the last item comes to the viewport
-    onEnter: () => {
-      if (hasNext && !isLoadingMore) loadMore(20);
-    },
-  });
 
   const { state } = useLocation();
 
@@ -51,10 +43,6 @@ function Feed() {
 
   const tag = LanguageTag.getPreferenceLanguage();
   const preferenceLang = ["th", "en"];
-
-  // How many feed item per one ads banner
-  const _adsRate = 10;
-  var _feedCounter = 0;
 
   const handleOpenRequestSong = () => {
     onOpen();
@@ -76,176 +64,14 @@ function Feed() {
 
       <Top />
 
-      <div className="flex w-full flex-col px-4 pb-[80px]">
-        <div className="flex items-center justify-between">
-          {/* <div className="relative flex items-center">
-          <div className="relative flex items-center">
-            <img className=" mr-2 h-8 w-8" src={annouceEmoji} alt="" />
-            <span className="gimmesong-secondary-font text-2xl font-bold">
-              Songs Request
-            </span>
-            <span className="ml-2 rounded-lg bg-red-400 px-2 py-[1.5px] text-white">
-              BETA
-            </span>
-          </div> */}
-          {/* <button className="flex items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#AEAEAE"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-              <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
-          </button> */}
-        </div>
-        {/* <div className="mt-5 flex items-center justify-between">
-          <div className="overflow-x-auto">
-            <div className="flex">
-              <button
-                onClick={() => changeFilter("newest")}
-                className={`${
-                  filter === "newest"
-                    ? "bg-black text-white"
-                    : "border-[1.5px] border-gray-300"
-                } gimmesong-secondary-font mr-1.5 flex h-10 shrink-0 items-center rounded-full px-3.5 text-xs font-semibold`}
-              >
-                Newest
-              </button>
-              <button
-                onClick={() => changeFilter("most_play")}
-                className={`${
-                  filter === "most_play"
-                    ? "bg-black text-white"
-                    : "border-[1.5px] border-gray-300"
-                } gimmesong-secondary-font mr-1.5 flex h-10 shrink-0 items-center rounded-full px-3.5 text-xs font-semibold`}
-              >
-                Most play
-              </button>
-              {user?.username && (
-                <button
-                  onClick={() => changeFilter("my_request")}
-                  className={`${
-                    filter === "my_request"
-                      ? "bg-black text-white"
-                      : "border-[1.5px] border-gray-300"
-                  } gimmesong-secondary-font flex h-10 shrink-0 items-center rounded-full px-3.5 text-xs font-semibold`}
-                >
-                  My Request
-                </button>
-              )}
-            </div>
-          </div>
-          <select
-            value={lang}
-            onChange={(e) => setLang(e.target.value)}
-            className="block rounded-full border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
-          >
-            {preferenceLang.map((la, index) => (
-              <option key={`${la}-${index}`} value={la}>
-                {la.toUpperCase()}
-              </option>
-            ))}
-            {!preferenceLang.includes(lang) && (
-              <option value={lang}>{lang.toUpperCase()}</option>
-            )}
-          </select>
-        </div> */}
-        {isLoading ? (
-          <div className="my-12 flex items-center justify-center">
-            <svg
-              className="h-8 w-8 animate-spin text-gray-500"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-          </div>
-        ) : items.length > 0 ? (
-          <>
-            <div className="mt-6">
-              {items.map((item) => {
-                _feedCounter++;
-                const showAds = _feedCounter >= _adsRate;
+      <PlaylistBubbleList
+        canLoadMore={hasNext && filter !== "most_play"}
+        isLoading={isLoading}
+        isLoadingMore={isLoadingMore}
+        items={items}
+        loadMore={loadMore}
+      />
 
-                if (showAds) _feedCounter = 0;
-
-                return showAds ? (
-                  <div key={`${item.id}`}>
-                    <div className="mb-4">
-                      <NativeBanner />
-                    </div>
-
-                    <PlaylistBubble data={item} />
-                  </div>
-                ) : (
-                  <PlaylistBubble key={`${item.id}`} data={item} />
-                );
-              })}
-            </div>
-            {/* {hasNext && filter !== "most_play" && (
-              <button
-                onClick={loadMore}
-                className={`gimmesong-secondary-font mr-1.5 flex h-10 w-fit shrink-0 items-center self-center rounded-full border-[1.5px] border-gray-300 px-3.5 text-xs font-semibold`}
-              >
-                Load more
-              </button>
-            )} */}
-            {hasNext && filter !== "most_play" && (
-              <div
-                ref={loadMoreRef}
-                className={`my-12 flex items-center justify-center`}
-              >
-                <svg
-                  className="h-8 w-8 animate-spin text-gray-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </div>
-            )}
-          </>
-        ) : (
-          <Empty
-            title="Oops, What an empty space"
-            message="Let's create the world of music together."
-          />
-        )}
-      </div>
       <div className="fixed bottom-0 z-20 mx-auto flex w-full max-w-md items-center justify-end py-6 px-5">
         <button
           onClick={handleOpenRequestSong}
