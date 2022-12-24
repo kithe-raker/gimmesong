@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import disc from "@assets/img/gimmesong_logo.png";
+import { useState, useEffect, useContext } from "react";
 
 import { useNavigate } from "react-router-dom";
 import useSession from "@hooks/useSession";
@@ -7,12 +6,21 @@ import useSession from "@hooks/useSession";
 import GimmesongAPI from "@lib/gimmesong_api";
 import { accountingNum } from "@utils/number";
 
-function Sent({ receiver }) {
+import { SearchContext } from "../Search";
+import { ThemeContext } from "contexts/ThemeContext";
+
+function Sent({ children }) {
   const navigate = useNavigate();
   const { user } = useSession();
 
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
+
+  const { logo } = useContext(ThemeContext);
+
+  const {
+    data: { receiver },
+  } = useContext(SearchContext);
 
   useEffect(() => {
     const getTotalSentSong = async () => {
@@ -39,7 +47,7 @@ function Sent({ receiver }) {
           <span className="mb-[14px] text-xs text-white">
             Your song already given!
           </span>
-          <img className="h-[71px]" src={disc} alt="disc" />
+          <img className="w-[71px]" src={logo} alt="disc" />
         </div>
       </div>
       <span className="gimmesong-primary-font mt-4 text-sm">

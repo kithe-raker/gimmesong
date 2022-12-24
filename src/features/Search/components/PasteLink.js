@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import toast from "react-hot-toast";
 // import { useNavigate } from "react-router-dom";
 
 import GimmesongAPI from "@lib/gimmesong_api";
+import { SearchContext } from "../Search";
 
-function PasteLink({ next, onSelectReceiver }) {
+function PasteLink({ children }) {
   // const navigate = useNavigate();
+  const {
+    action: { next, selectReceiver },
+  } = useContext(SearchContext);
 
   const [link, setLink] = useState("");
   const [loading, setLoading] = useState(false);
@@ -34,7 +38,7 @@ function PasteLink({ next, onSelectReceiver }) {
 
       const isExist = await GimmesongAPI.checkUserExist(username);
       if (isExist) {
-        onSelectReceiver(username);
+        selectReceiver(username);
         next();
         // navigate(`/@${username}`);
       } else {

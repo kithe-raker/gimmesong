@@ -53,17 +53,17 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
                 />
               </div>
               <div className="ml-[32px] flex min-w-0 flex-col">
-                <div className="flex flex-row w-[560px]">
+                <div className="flex w-[560px] flex-row">
                   <span
                     className={`flex w-[460px] flex-row truncate text-[44px] font-bold italic leading-[2] text-white`}
                   >
                     {content.song.title}
                   </span>
-                  <div 
-                  style={{
-                    backgroundImage: `url(${textOverflowFade})`,
-                  }}
-                  className="relative top-[30px] right-[30px] w-12 h-16 border-none bg-contain"
+                  <div
+                    style={{
+                      backgroundImage: `url(${textOverflowFade})`,
+                    }}
+                    className="relative top-[30px] right-[30px] h-16 w-12 border-none bg-contain"
                   />
                 </div>
 
@@ -159,7 +159,7 @@ const Pattern4 = ({ content, isMysong, onSharing }) => {
           <div className="flex flex-col">
             <div className="flex items-center">
               <img
-                className="mr-[10px] mt-[12px]"
+                className="mr-[10px] mt-[12px] w-[44px]"
                 src={santaHatLogo}
                 alt="disc"
               />

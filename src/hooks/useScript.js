@@ -10,7 +10,12 @@ const useScript = ({
 }) => {
   useEffect(() => {
     if (disable) return;
-    if (disableInDevMode && process.env.NODE_ENV === "development") return;
+    if (
+      disableInDevMode &&
+      (process.env.NODE_ENV !== "production" ||
+        process.env.REACT_APP_ENV !== "production")
+    )
+      return;
 
     const script = document.createElement("script");
 

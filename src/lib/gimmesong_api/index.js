@@ -1,5 +1,7 @@
 import { axios } from "@lib/axios";
 import SongRequest from "./song_request";
+import VinylStyle from "./vinyl_style";
+import User from "./user";
 
 import { db } from "../firebase";
 import { ref, child, get } from "firebase/database";
@@ -44,13 +46,25 @@ const methods = {
     });
     return success;
   },
-  sendSong: async function (receiver, message, song) {
+  /**
+   *
+   * @param {*} receiver
+   * @param {*} message
+   * @param {*} song
+   * @param {{
+   *            disc: string,
+   *            emoji: string,
+   *        }} vinylStyle passing only the component's id
+   * @returns
+   */
+  sendSong: async function (receiver, message, song, vinylStyle) {
     const {
       data: { success },
     } = await axios.post(`/api/v1/sendsong`, {
       recipient: receiver,
       message,
       song,
+      vinylStyle,
     });
     return success;
   },
@@ -63,6 +77,13 @@ const methods = {
     const {
       data: { results },
     } = await axios.get(`/api/v1/queryinbox?${params}`);
+
+    for (let index = 0; index < results?.length ?? 0; index++) {
+      results[index].vinyl_style = await VinylStyle.getVinylStyleDetails(
+        results[index].vinyl_style
+      );
+    }
+
     return results;
   },
   playedInbox: async function (inboxId) {
@@ -100,6 +121,6 @@ const methods = {
   },
 };
 
-const GimmesongAPI = { ...methods, SongRequest };
+const GimmesongAPI = { ...methods, SongRequest, User };
 
 export default GimmesongAPI;

@@ -5,14 +5,16 @@ import decoratedDisc from "@assets/img/decorated_disc.png";
 import logo from "@assets/img/gimmesong_logo.png";
 import santaHatLogo from "@assets/img/gimmesong_logo_with_santa_hat.png";
 import santaEmoji from "@assets/img/santa_emoji.png";
-import bellEmoji from "@assets/img/bell_emoji.png";
-import bellEmojiLarge from "@assets/img/bell_emoji_large.png";
+import giftEmoji from "@assets/img/gift_emoji.png";
+import noteEmoji from "@assets/img/note_emoji.png";
+import decoration from "./assets/pattern4_decoration.png";
+import textOverflowFade from "./assets/pattern4_text_overflow_fade.png";
 
 import { ThreeDots } from "react-loader-spinner";
 import { useImageExporter } from "@hooks/useImageExporter";
 import useSession from "@hooks/useSession";
 
-const Pattern5 = ({ content, isMysong, onSharing }) => {
+const Pattern8 = ({ content, isMysong, onSharing }) => {
   const { exportedURL, exportedFile, exportRefCallback } = useImageExporter();
   const { user } = useSession();
 
@@ -25,13 +27,38 @@ const Pattern5 = ({ content, isMysong, onSharing }) => {
     <>
       <div className="h-0 w-0 overflow-hidden">
         <div
-          className="relative flex w-[960px] flex-col justify-between bg-[#1E1E1E] px-[86px] pt-[42px] pb-[86px]"
+          className="relative flex min-h-[715px] w-[960px] flex-col justify-between bg-[#FF9C9C] px-[86px] pt-[42px] pb-[86px]"
           ref={exportRefCallback}
         >
           <img
-            src={bellEmojiLarge}
-            alt="Bell"
-            className="absolute top-0 -right-[45%] h-full"
+            src={noteEmoji}
+            alt="Note"
+            className="absolute bottom-[390px] right-[10px] w-[80px] -rotate-[24deg]"
+          />
+          <img
+            src={noteEmoji}
+            alt="Note"
+            className="absolute bottom-[370px] right-[-30px] w-[80px] -rotate-[24deg]"
+          />
+          <img
+            src={giftEmoji}
+            alt="Gift"
+            className="absolute bottom-[120px] right-[-80px] w-[300px] -rotate-[30deg]"
+          />
+          <img
+            src={noteEmoji}
+            alt="Note"
+            className="absolute bottom-[130px] right-[140px] z-10 w-[80px] -rotate-[24deg]"
+          />
+          <img
+            src={noteEmoji}
+            alt="Note"
+            className="absolute bottom-[120px] right-[100px] z-10 w-[80px] -rotate-[24deg]"
+          />
+          <img
+            src={noteEmoji}
+            alt="Note"
+            className="absolute bottom-[140px] right-[60px] z-10 w-[80px] -rotate-[24deg]"
           />
 
           <div>
@@ -50,12 +77,21 @@ const Pattern5 = ({ content, isMysong, onSharing }) => {
                   crossOrigin="anonymous"
                 />
               </div>
-              <div className="ml-[32px] flex min-w-0 flex-col ">
-                <span
-                  className={`truncate text-[44px] font-bold italic leading-[2] text-white`}
-                >
-                  {content.song.title}
-                </span>
+              <div className="ml-[32px] flex min-w-0 flex-col">
+                <div className="flex w-[560px] flex-row">
+                  <span
+                    className={`flex w-[460px] flex-row truncate text-[44px] font-bold italic leading-[2] text-white`}
+                  >
+                    {content.song.title}
+                  </span>
+                  <div
+                    style={{
+                      backgroundImage: `url(${textOverflowFade})`,
+                    }}
+                    className="relative top-[30px] right-[30px] h-16 w-12 border-none bg-contain"
+                  />
+                </div>
+
                 <span
                   className={` -mt-[28px] truncate text-[42px] font-light italic leading-[2] text-[#EDEDED]`}
                 >
@@ -64,8 +100,9 @@ const Pattern5 = ({ content, isMysong, onSharing }) => {
               </div>
             </div>
           </div>
+
           {isMysong && (
-            <span className="mt-[20px]  text-[32px] font-bold text-gray-300">
+            <span className="mt-[20px]  text-[32px] font-bold text-[#C06A66]">
               @{user.username}
             </span>
           )}
@@ -76,7 +113,7 @@ const Pattern5 = ({ content, isMysong, onSharing }) => {
                 whiteSpace: "pre-line",
                 // "-webkit-text-stroke": "0.5px white",
               }}
-              className=" pr-[120px] text-[48px]  font-bold italic text-white"
+              className=" pr-[170px] text-[48px]  font-bold italic text-white"
             >
               {content.message}
             </p>
@@ -154,4 +191,4 @@ const Pattern5 = ({ content, isMysong, onSharing }) => {
     </>
   );
 };
-export default Pattern5;
+export default Pattern8;
