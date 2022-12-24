@@ -40,7 +40,7 @@ function Top() {
   }, [state]);
 
   return (
-    <div className="gimmesong-bg sticky top-[116px] z-50 mt-2 flex w-full flex-row justify-between px-2 pb-3">
+    <div className="gimmesong-bg sticky top-[108px] z-50 pt-2 flex w-full flex-row justify-between px-2 pb-3">
       <div className="flex flex-row">
         <button
           onClick={() => navigate(-1)}
