@@ -4,7 +4,7 @@ import useDoubleClick from "use-double-click";
 import CardSide from "./components/CardSide";
 
 /**
- * A flippable song card that have front and back side (double tap to flip). Front side has emoji at the center, back side has emoji as center. Used in my songs page and view playlist page.
+ * A flippable song card that have front and back side (double tap to flip). Front side has song cover image at the center, back side has emoji as center. Used in my songs page and view playlist page.
  * @param item the song item to be rendered.
  * @param spin whether or not this song's disc should spin (will be paused if spinningPaused = true, but still preserves rotation).
  * @param spinningPaused whether or not to pause this song's disc spinning (will still preserve the disc's rotation).
