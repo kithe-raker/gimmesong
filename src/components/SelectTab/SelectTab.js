@@ -29,9 +29,10 @@ function SelectTab({ tabs }) {
       <div className="mb-2 flex flex-row items-center justify-center font-bold">
         {tabs.map((item, i) => (
           <button
+            key={i}
             className={`flex flex-1 items-center justify-center rounded-2xl p-3 transition duration-150 ease-in-out ${
               location.pathname.startsWith(item.navigateTo)
-                ? "bg-black text-white hover:bg-gray-600"
+                ? "bg-black text-white shadow-lg hover:bg-gray-600"
                 : "text-black hover:bg-gray-300"
             }`}
             onClick={() => navigate(item.navigateTo)}
