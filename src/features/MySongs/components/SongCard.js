@@ -30,7 +30,7 @@ function SongCardSide({
     latency: 300,
   });
   return (
-    <div className={`outline-none ${cardClassName}`} ref={clickRef}>
+    <div className={`select-none outline-none ${cardClassName}`} ref={clickRef}>
       <div className="flex flex-col items-center justify-center">
         <div className={`mt-6 w-[90%] ${containerClassName}`}>
           <div
