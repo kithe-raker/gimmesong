@@ -33,10 +33,11 @@ function MainClub() {
   // TODO: use appropiate filter for like option
   const optionsFilter = ["my_request", "my_request"];
 
-  useEffect(
-    () => changeFilter(optionsFilter[selectedOption]),
-    [selectedOption]
-  );
+  useEffect(() => {
+    if (user) {
+      changeFilter(optionsFilter[selectedOption]);
+    }
+  }, [selectedOption]);
 
   //TODO: fetch clubs from api instead of this hard-coding
   const clubs = [
