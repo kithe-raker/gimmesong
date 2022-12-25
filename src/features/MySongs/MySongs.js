@@ -207,6 +207,7 @@ function MySongs() {
                 contentClassName="bg-white"
                 hideSelectedOption
                 arrow
+                arrowColor="#C2C2C2"
                 selectedOption={selectedOption}
                 onOptionSelected={selectOption}
                 options={options}
