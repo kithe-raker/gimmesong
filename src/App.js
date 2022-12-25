@@ -114,19 +114,21 @@ function App() {
   return (
     <>
       <ThemeProvider theme="christmas">
-        <FeedProvider>
-          <DiscListProvider>
-            <Toaster />
-            {loading ? (
-              <Loading fullScreen />
-            ) : (
-              <>
-                <Header />
-                {routes}
-              </>
-            )}
-          </DiscListProvider>
-        </FeedProvider>
+        <PlaylistProvider>
+          <FeedProvider>
+            <DiscListProvider>
+              <Toaster />
+              {loading ? (
+                <Loading fullScreen />
+              ) : (
+                <>
+                  <Header />
+                  {routes}
+                </>
+              )}
+            </DiscListProvider>
+          </FeedProvider>
+        </PlaylistProvider>
       </ThemeProvider>
     </>
   );
