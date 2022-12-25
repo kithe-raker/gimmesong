@@ -21,31 +21,22 @@ function SongGrid({ title, songs }) {
           current !== null ? "pb-[88px]" : "pb-[24px]"
         }`}
       >
-        {songs.map(
-          (item, i) => {
-            const isCurrent = item.id === items[current]?.id;
+        {songs.map((item, i) => {
+          const isCurrent = item.id === items[current]?.id;
 
-            return (
-              <SongCard
-                onClick={() => handleSelect(i)}
-                onFlip={() => handleFlip(i)}
-                spin={isCurrent}
-                spinningPaused={!playing && isCurrent}
-                item={item}
-                flipped={flipped[i]}
-                cardClassName="w-[160px]"
-                key={item.id}
-              />
-            );
-          }
-          // <SongCard
-          //   onClick={() => selectSong(i)}
-          //   playDisc={() => playSong(i)}
-          //   key={i}
-          //   item={item}
-          //   cardClassName="w-[160px]"
-          // />
-        )}
+          return (
+            <SongCard
+              onClick={() => handleSelect(i)}
+              onFlip={() => handleFlip(i)}
+              spin={isCurrent}
+              spinningPaused={!playing && isCurrent}
+              item={item}
+              flipped={flipped[i]}
+              cardClassName="w-[160px]"
+              key={item.id}
+            />
+          );
+        })}
       </div>
     </>
   );

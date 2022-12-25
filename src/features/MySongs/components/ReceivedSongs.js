@@ -517,6 +517,7 @@ function ReceivedSongs({
                         songs={items.filter(
                           (item) => compareDate(date, getDate(item)) === 0
                         )}
+                        key={dmy}
                       />
                     ))}
 
