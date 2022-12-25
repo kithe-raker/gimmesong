@@ -6,8 +6,6 @@ import useDoubleClick from "use-double-click";
  */
 function CardSide({
   item,
-  title,
-  subtitle,
   spin,
   spinningPaused,
   showMessage,
@@ -28,31 +26,6 @@ function CardSide({
   return (
     <div className={`select-none outline-none ${cardClassName}`} ref={clickRef}>
       <div className="flex flex-col items-center justify-center">
-        <div className="flex flex-col items-center justify-center h-[64px]">
-          {title && (
-            <span
-              style={{
-                wordBreak: "break-word",
-                whiteSpace: "pre-line",
-              }}
-              className="mt-6 w-full text-center text-base font-bold leading-6 text-gray-700"
-            >
-              {title}
-            </span>
-          )}
-          {subtitle && (
-            <span
-              style={{
-                wordBreak: "break-word",
-                whiteSpace: "pre-line",
-              }}
-              className="mt-1 w-full text-center text-base leading-6 text-gray-700"
-            >
-              {subtitle}
-            </span>
-          )}
-        </div>
-
         <div className={`mt-6 w-[90%] ${containerClassName}`}>
           <div
             className={`relative w-full pt-[100%] ${

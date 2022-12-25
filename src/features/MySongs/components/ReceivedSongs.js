@@ -39,6 +39,7 @@ import { useStateCallback } from "@hooks/useStateCallback";
 
 import SongGrid from "./SongGrid";
 import SongCard from "@components/SongCard";
+import FullViewCard from "./FullViewCard";
 
 export const ReceivedSongsContext = createContext();
 
@@ -105,7 +106,11 @@ function ReceivedSongs({
     slidesToShow: 1,
     speed: 500,
     beforeChange: (current, next) => {
-      setCurrent(next);
+      if (next < 0) {
+        setCurrent(null);
+      } else {
+        setCurrent(next);
+      }
     },
   };
 
@@ -338,8 +343,8 @@ function ReceivedSongs({
         artist: items[current]?.content?.song?.artistInfo?.artist[0]?.text,
         artwork: [
           {
-            src: items[current].content?.song?.thumbnails[
-              items[current].content?.song?.thumbnails.length - 1
+            src: items[current]?.content?.song?.thumbnails[
+              items[current]?.content?.song?.thumbnails.length - 1
             ]?.url,
           },
         ],
@@ -451,7 +456,7 @@ function ReceivedSongs({
 
   const store = {
     data: { items, current, playing, flipped },
-    action: { handleSelect, handleFlip },
+    action: { handleSelect, handleFlip, getDate, getDateText },
   };
 
   return (
@@ -491,24 +496,10 @@ function ReceivedSongs({
                   }`}
                 >
                   <Slider ref={slider} {...settings}>
-                    {items.map((item, i) => {
-                      const isCurrent = items[current]?.id === item.id;
-                      const dateText = getDateText(getDate(item));
-
-                      return (
-                        <SongCard
-                          onFlip={() => handleFlip(i)}
-                          title={isCurrent ? "Date" : null}
-                          subtitle={isCurrent ? dateText : null}
-                          showMessage={isCurrent}
-                          spin={isCurrent}
-                          spinningPaused={!playing && isCurrent}
-                          flipped={flipped[i]}
-                          item={item}
-                          key={item.id}
-                        />
-                      );
-                    })}
+                    {renderDirectSongs &&
+                      items.map((item, i) => (
+                        <FullViewCard key={item.id} index={i} />
+                      ))}
                   </Slider>
                 </div>
               </>
@@ -534,28 +525,6 @@ function ReceivedSongs({
                     <SongGrid title={request.name} songs={request.songs} />
                   ))}
               </>
-              // <div
-              //   className={`grid grid-cols-2 gap-4 overflow-x-hidden pt-4 ${
-              //     current !== null ? "pb-[88px]" : "pb-[24px]"
-              //   }`}
-              // >
-              //   {items.map((item, i) => {
-              //     const isCurrent = items[current]?.id === item.id;
-
-              //     return (
-              //       <SongCard
-              //         onClick={() => handleSelect(i)}
-              //         onFlip={() => handleFlip(i)}
-              //         spin={isCurrent}
-              //         spinningPaused={!playing && isCurrent}
-              //         item={item}
-              //         flipped={flipped[i]}
-              //         cardClassName="w-[160px]"
-              //         key={item.id}
-              //       />
-              //     );
-              //   })}
-              // </div>
             )}
 
             <AudioPlayer
@@ -579,7 +548,7 @@ function ReceivedSongs({
                       role="group"
                     >
                       <a
-                        href={`https://music.youtube.com/watch?v=${items[current].content?.song?.videoId}`}
+                        href={`https://music.youtube.com/watch?v=${items[current]?.content?.song?.videoId}`}
                         target="_blank"
                         rel="noreferrer"
                         className={`inline-flex rounded-l-full bg-white py-3 px-4 text-sm font-medium text-gray-500`}
