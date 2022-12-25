@@ -113,7 +113,7 @@ function App() {
 
   return (
     <>
-      <ThemeProvider theme="christmas">
+      <ThemeProvider theme="default">
         <PlaylistProvider>
           <FeedProvider>
             <DiscListProvider>
