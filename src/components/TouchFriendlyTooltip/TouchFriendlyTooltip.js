@@ -21,7 +21,7 @@ function TouchFriendlyTooltip({ label, placement = "bottom" }) {
         onMouseLeave={() => setIsLabelOpen(false)}
         onClick={() => setIsLabelOpen(true)}
         id="customize-your-disc-tooltip"
-        className="ml-2 flex h-[16px] w-[16px] select-none items-center justify-center rounded-full bg-gray-900 text-[10px] text-white"
+        className="ml-2 flex h-[14px] w-[14px] select-none items-center justify-center rounded-full bg-gray-900 text-[10px] text-white"
       >
         i
       </div>
