@@ -9,8 +9,8 @@ import CardSide from "./components/CardSide";
  * @param spin whether or not this song's disc should spin (will be paused if spinningPaused = true, but still preserves rotation).
  * @param spinningPaused whether or not to pause this song's disc spinning (will still preserve the disc's rotation).
  * @param showMessage whether or not to render the content message below the disc.
- * @param flippedInitially whether or not this component will start rendering on it flipped side.
- * @param onFlip a callback function to be called when this component is being flipped.
+ * @param flipped whether or not this component is rendering it flipped side.
+ * @param onFlip a callback function to be called when this component is being flipped. Note that the user of this component have to handle managing flip state by themselves.
  * @param onClick a callback function to be called when this component is being clicked.
  * @param cardClassName a className to be added to the entire card.
  * @param containerClassName a className to be added to the container that renders the disc.
@@ -20,24 +20,17 @@ function SongCard({
   spin = false,
   spinningPaused = false,
   showMessage = false,
-  flippedInitially = false,
+  flipped = false,
   onFlip = () => {},
   onClick = () => {},
   cardClassName = "",
   containerClassName = "",
 }) {
-  const [flipped, setFlipped] = useState(flippedInitially);
-
-  const toggleFlipped = () => {
-    onFlip();
-    setFlipped(!flipped);
-  };
-
   return (
     <ReactCardFlip isFlipped={flipped}>
       <CardSide
         onClick={onClick}
-        onDoubleClick={toggleFlipped}
+        onDoubleClick={onFlip}
         item={item}
         spin={spin}
         spinningPaused={spinningPaused}
@@ -49,7 +42,7 @@ function SongCard({
       <CardSide
         renderEmoji
         onClick={onClick}
-        onDoubleClick={toggleFlipped}
+        onDoubleClick={onFlip}
         item={item}
         spin={spin}
         spinningPaused={spinningPaused}
