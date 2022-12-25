@@ -72,9 +72,9 @@ function WriteMessage({ children }) {
   };
 
   return (
-    <div className="flex w-full max-w-xs flex-col items-center justify-center">
+    <div className="flex w-full max-w-xs flex-col items-center justify-center mt-6">
       <div className="flex w-full flex-row items-center justify-start ">
-        <span className="gimmesong-secondary-font text-[22px] font-extrabold">
+        <span className="gimmesong-secondary-font text-[18px] font-extrabold">
           Customize your disc:
         </span>
 
@@ -84,7 +84,7 @@ function WriteMessage({ children }) {
       <DiscList
         selectedDisc={selectedDisc}
         setSelectedDisc={setSelectedDisc}
-        className="mt-3 pb-8"
+        className="mt-3 pb-6"
       />
 
       <div className="flex h-[360px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">

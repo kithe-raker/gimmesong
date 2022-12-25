@@ -74,6 +74,8 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   // this seem "hack-y" to reset setting back
   const [oldPlayerSetting, setOldPlayerSetting] = useStateCallback(null);
 
+  const [flipped, setFlipped] = useStateCallback([]);
+
   const settings = {
     className: "center",
     centerMode: true,
@@ -125,6 +127,13 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     return `${url["audio/mp4"]}${identifier}`;
   }, [current, playbackURL]);
 
+  const matchFlipped = (fetched, callback) => {
+    setFlipped(
+      fetched.map((item) => !item.played),
+      callback
+    );
+  };
+
   const handleUpdateInbox = async (id) => {
     try {
       setUpdatingInbox(true);
@@ -159,7 +168,14 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
     });
   };
 
+  const flipDisc = (id) => {
+    let updated = flipped.map((val, i) => (items[i].id === id ? !val : val));
+    setFlipped(updated);
+  };
+
   const handleFlip = async (index) => {
+    flipDisc(items[index].id);
+
     if (!items[index].played) {
       // item is not played and is being flip, automatically play the song.
       setOldPlayerSetting(playerSetting, () =>
@@ -190,7 +206,10 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   };
 
   const handleToggle = async (id) => {
-    if (!items[current].played) await handleUpdateInbox(id);
+    if (!items[current].played) {
+      flipDisc(id);
+      await handleUpdateInbox(id);
+    }
     await audioRef.current.toggle();
   };
 
@@ -337,14 +356,14 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
       let filterType = tab;
       let results = await GimmesongAPI.queryInbox({ filter: filterType });
 
-      setItems(results);
+      matchFlipped(results, () => setItems(results));
       if (tab === "new") {
         if (results.length > 0) setCurrent(0);
       }
     } catch (err) {
       setError(true);
       console.error(err);
-      if (err.response.status === 403) openSessionExpired();
+      if (err.response?.status === 403) openSessionExpired();
     } finally {
       setLoading(false);
     }
@@ -413,7 +432,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                           showMessage={isCurrent}
                           spin={isCurrent}
                           spinningPaused={!playing && isCurrent}
-                          flippedInitially={!item.played}
+                          flipped={flipped[i]}
                           item={item}
                           key={item.id}
                         />
@@ -438,7 +457,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
                       spin={isCurrent}
                       spinningPaused={!playing && isCurrent}
                       item={item}
-                      flippedInitially={!item.played}
+                      flipped={flipped[i]}
                       cardClassName="w-[160px]"
                       key={item.id}
                     />
