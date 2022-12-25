@@ -129,6 +129,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   }, [current, playbackURL]);
 
   const matchFlipped = (fetched, callback) => {
+    // when first load, played song show cover, unplayed song show emoji
     setFlipped(
       fetched.map((item) => !item.played),
       callback
