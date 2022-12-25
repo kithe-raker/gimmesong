@@ -2,6 +2,8 @@ import DiscList from "@components/DiscList";
 import { useContext, useEffect } from "react";
 
 import { AddSongContext } from "../AddSong";
+import { Tooltip } from "@chakra-ui/react";
+import TouchFriendlyTooltip from "@components/TouchFriendlyTooltip";
 
 function WriteMessage() {
   const {
@@ -15,8 +17,10 @@ function WriteMessage() {
       <div className="flex w-full max-w-xs flex-col items-center justify-center">
         <div className="flex w-full flex-row items-center justify-start ">
           <span className="gimmesong-secondary-font text-lg font-extrabold">
-            Select disc
+            Customize your disc:
           </span>
+
+          <TouchFriendlyTooltip label="Receiver will see this disc when they receive their song." />
         </div>
 
         <DiscList
@@ -26,7 +30,7 @@ function WriteMessage() {
           className="mt-2"
         />
 
-        <div className="mt-4 flex h-[280px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
+        <div className="mt-7 flex h-[280px] w-full flex-col items-center justify-between rounded-[36px] border border-gray-200 bg-white p-3">
           {/* <span className="mt-3">Lorem Lorem</span> */}
           <textarea
             disabled={isLoading}
