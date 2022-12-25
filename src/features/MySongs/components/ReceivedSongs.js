@@ -74,6 +74,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   // this seem "hack-y" to reset setting back
   const [oldPlayerSetting, setOldPlayerSetting] = useStateCallback(null);
 
+  // flipped[i] (= true/false) means whether or not the items[i] should be rendered as flipped
   const [flipped, setFlipped] = useStateCallback([]);
 
   const settings = {
