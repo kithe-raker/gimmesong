@@ -14,9 +14,13 @@ import christmasMelodiesText from "@assets/img/christmas_melodies_text.png";
 import SelectTab, { ClubAndMySongsTabs } from "@components/SelectTab";
 import PlaylistBubbleList from "@components/PlaylistBubbleList";
 import Dropdown from "@components/Dropdown";
+import useSession from "@hooks/useSession";
+import SignInBox from "@components/SignInBox";
 
 function MainClub() {
   const navigate = useNavigate();
+
+  const { user } = useSession();
 
   const {
     state: { isLoading, isLoadingMore, hasNext },
@@ -119,7 +123,7 @@ function MainClub() {
           ))}
         </div>
 
-        <div className="gimmesong-bg sticky top-[108px] mt-4 pb-3 flex w-full flex-row justify-between">
+        <div className="gimmesong-bg sticky top-[108px] mt-4 flex w-full flex-row justify-between pb-3">
           <span className="mt-1 text-2xl font-extrabold">Playlist</span>
 
           <Dropdown
@@ -134,14 +138,18 @@ function MainClub() {
           />
         </div>
 
-        <PlaylistBubbleList
-          canLoadMore={hasNext}
-          isLoading={isLoading}
-          isLoadingMore={isLoadingMore}
-          items={items}
-          loadMore={loadMore}
-          className="px-2"
-        />
+        {user ? (
+          <PlaylistBubbleList
+            canLoadMore={hasNext}
+            isLoading={isLoading}
+            isLoadingMore={isLoadingMore}
+            items={items}
+            loadMore={loadMore}
+            className="px-2"
+          />
+        ) : (
+          <SignInBox className="mt-6" />
+        )}
       </div>
     </>
   );

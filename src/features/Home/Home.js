@@ -23,7 +23,6 @@ import useSession from "@hooks/useSession";
 import { ThemeContext } from "contexts/ThemeContext";
 
 function Home() {
-  const { user } = useSession();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -49,7 +48,7 @@ function Home() {
 
   let render;
   if (location.pathname === "/mysongs") {
-    render = user ? <MySongs /> : <SignInBox className="mt-14" />;
+    render = <MySongs />;
   } else if (location.pathname === "/club") {
     render = <MainClub />;
   } else if (location.pathname.startsWith("/club")) {
