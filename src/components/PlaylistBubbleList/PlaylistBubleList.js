@@ -18,6 +18,7 @@ function PlaylistBubbleList({
   loadMore,
   isLoadingMore,
   isLoading,
+  className = "",
 }) {
   // How many feed item per one ads banner
   const _adsRate = 10;
@@ -33,7 +34,7 @@ function PlaylistBubbleList({
   });
 
   return (
-    <div className="flex w-full flex-col px-4 pb-[80px]">
+    <div className={`flex w-full flex-col pb-[80px] ${className}`}>
       <div className="flex items-center justify-between"></div>
 
       {isLoading ? (

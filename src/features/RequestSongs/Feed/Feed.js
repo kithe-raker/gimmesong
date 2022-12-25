@@ -70,6 +70,7 @@ function Feed() {
         isLoadingMore={isLoadingMore}
         items={items}
         loadMore={loadMore}
+        className="px-4"
       />
 
       <div className="fixed bottom-0 z-20 mx-auto flex w-full max-w-md items-center justify-end py-6 px-5">

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -12,13 +12,27 @@ import sadEmoji from "@assets/img/sad_emoji.png";
 import christmasEventBackground from "@assets/img/christmas_event_bg.png";
 import christmasMelodiesText from "@assets/img/christmas_melodies_text.png";
 import SelectTab, { ClubAndMySongsTabs } from "@components/SelectTab";
+import PlaylistBubbleList from "@components/PlaylistBubbleList";
+import Dropdown from "@components/Dropdown";
 
 function MainClub() {
   const navigate = useNavigate();
 
   const {
-    action: { changeClub },
+    state: { isLoading, isLoadingMore, hasNext },
+    data: { items },
+    action: { loadMore, changeClub, changeFilter },
   } = useContext(FeedContext);
+
+  const [selectedOption, setSelectedOption] = useState(0);
+  const options = ["My request", "Like"];
+  // TODO: use appropiate filter for like option
+  const optionsFilter = ["my_request", "my_request"];
+
+  useEffect(
+    () => changeFilter(optionsFilter[selectedOption]),
+    [selectedOption]
+  );
 
   //TODO: fetch clubs from api instead of this hard-coding
   const clubs = [
@@ -87,7 +101,7 @@ function MainClub() {
           </div>
         </div>
 
-        <span className="text-2xl font-extrabold">Join the club 🍸</span>
+        <span className="mt-4 text-2xl font-extrabold">Join the club 🍸</span>
         <span className="mt-1 text-lg font-medium">Select club</span>
 
         <div className="mt-5 flex flex-wrap">
@@ -104,6 +118,30 @@ function MainClub() {
             </button>
           ))}
         </div>
+
+        <div className="gimmesong-bg sticky top-[108px] mt-4 pb-3 flex w-full flex-row justify-between">
+          <span className="mt-1 text-2xl font-extrabold">Playlist</span>
+
+          <Dropdown
+            arrow
+            hideSelectedOption
+            arrowColor="#C2C2C2"
+            options={options}
+            selectedOption={selectedOption}
+            onOptionSelected={setSelectedOption}
+            className="w-[160px]"
+            contentClassName="border border-black/[0.05] bg-white"
+          />
+        </div>
+
+        <PlaylistBubbleList
+          canLoadMore={hasNext}
+          isLoading={isLoading}
+          isLoadingMore={isLoadingMore}
+          items={items}
+          loadMore={loadMore}
+          className="px-2"
+        />
       </div>
     </>
   );
