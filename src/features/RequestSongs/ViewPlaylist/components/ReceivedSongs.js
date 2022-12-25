@@ -30,6 +30,7 @@ import { useLocalStorage } from "@hooks/useLocalStorage";
 
 import { useShareDialog } from "@hooks/useShareDialog";
 import SongCard from "@components/SongCard";
+import MaintainedSongCard from "./MaintainedSongCard";
 
 function ReceivedSongs({ layout, onLayoutChange }) {
   const {
@@ -343,7 +344,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                       const isCurrent = items[current]?.id === item.id;
 
                       return (
-                        <SongCard
+                        <MaintainedSongCard
                           item={item}
                           showMessage={isCurrent}
                           spin={isCurrent}
@@ -364,7 +365,7 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                     const isCurrent = items[current]?.id === item.id;
 
                     return (
-                      <SongCard
+                      <MaintainedSongCard
                         onClick={() => handleSelect(i)}
                         item={item}
                         showMessage={isCurrent}
