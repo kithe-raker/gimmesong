@@ -6,6 +6,8 @@ import CardSide from "./components/CardSide";
 /**
  * A flippable song card that have front and back side (double tap to flip). Front side has song cover image at the center, back side has emoji as center. Used in my songs page and view playlist page.
  * @param item the song item to be rendered.
+ * @param title the text to be rendered at the top of the card. will not be rendered if set as undefined.
+ * @param subtitle the text to be rendered right below the title text. will not be rendered if set as undefined.
  * @param spin whether or not this song's disc should spin (will be paused if spinningPaused = true, but still preserves rotation).
  * @param spinningPaused whether or not to pause this song's disc spinning (will still preserve the disc's rotation).
  * @param showMessage whether or not to render the content message below the disc.
@@ -17,6 +19,8 @@ import CardSide from "./components/CardSide";
  */
 function SongCard({
   item,
+  title,
+  subtitle,
   spin = false,
   spinningPaused = false,
   showMessage = false,
@@ -32,6 +36,8 @@ function SongCard({
         onClick={onClick}
         onDoubleClick={onFlip}
         item={item}
+        title={title}
+        subtitle={subtitle}
         spin={spin}
         spinningPaused={spinningPaused}
         cardClassName={cardClassName}
@@ -44,6 +50,8 @@ function SongCard({
         onClick={onClick}
         onDoubleClick={onFlip}
         item={item}
+        title={title}
+        subtitle={subtitle}
         spin={spin}
         spinningPaused={spinningPaused}
         cardClassName={cardClassName}

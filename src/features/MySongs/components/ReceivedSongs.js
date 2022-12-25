@@ -157,10 +157,8 @@ function ReceivedSongs({
     };
   };
 
+  const getDateText = (date) => `${date.day}/${date.month}/${date.year}`;
   /**
-   *
-   * @param {*} date1
-   * @param {*} date2
    * @returns negative number if date1 is before date2, positive number if date1 is after date 2, or 0 if two dates are equal.
    */
   const compareDate = (date1, date2) => {
@@ -495,10 +493,13 @@ function ReceivedSongs({
                   <Slider ref={slider} {...settings}>
                     {items.map((item, i) => {
                       const isCurrent = items[current]?.id === item.id;
+                      const dateText = getDateText(getDate(item));
 
                       return (
                         <SongCard
                           onFlip={() => handleFlip(i)}
+                          title={isCurrent ? "Date" : null}
+                          subtitle={isCurrent ? dateText : null}
                           showMessage={isCurrent}
                           spin={isCurrent}
                           spinningPaused={!playing && isCurrent}
