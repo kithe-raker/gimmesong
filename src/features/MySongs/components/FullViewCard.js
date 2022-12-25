@@ -20,7 +20,7 @@ function FullViewCard({ index }) {
 
   return (
     <div>
-      <div className="flex h-[64px] flex-col items-center justify-center">
+      <div className="flex h-[64px] flex-col items-center justify-center overflow-hidden">
         {title && (
           <span
             style={{
