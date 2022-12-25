@@ -1,11 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useContext,
-  useMemo,
-} from "react";
+import { useState, useEffect, useRef, useContext, useMemo } from "react";
 
 import disc from "@assets/img/disc.webp";
 import logo from "@assets/img/gimmesong_logo.png";
@@ -26,16 +19,8 @@ import html2canvas from "html2canvas";
 
 import { useDisclosure } from "@chakra-ui/react";
 
-import {
-  Switch,AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
-  Button,
-} from "@chakra-ui/react";
+// import { durationToStr } from "@utils/audio";
+import { Switch } from "@chakra-ui/react";
 
 import AddSong from "@features/RequestSongs/AddSong";
 
@@ -53,6 +38,8 @@ import useCounterEffect from "@hooks/useCounterEffect";
 import { useLocalStorage } from "@hooks/useLocalStorage";
 
 import { useShareDialog } from "@hooks/useShareDialog";
+import SongCard from "@components/SongCard";
+import MaintainedSongCard from "./MaintainedSongCard";
 
 function ReceivedSongs({ layout, onLayoutChange }) {
   const {
@@ -371,58 +358,22 @@ function ReceivedSongs({ layout, onLayoutChange }) {
             {layout === "single" ? (
               <>
                 <div
-                  className={`overflow-hidden ${current !== null ? "pb-[88px]" : "pb-[24px]"
-                    }`}
+                  className={`overflow-hidden ${
+                    current !== null ? "pb-[88px]" : "pb-[24px]"
+                  }`}
                 >
                   <Slider ref={slider} {...settings}>
                     {items.map((item, i) => {
+                      const isCurrent = items[current]?.id === item.id;
+
                       return (
-                        <div className="outline-none" key={item.id}>
-                          <div className="flex flex-col items-center justify-center">
-                            <div className="mt-6 w-[90%]">
-                              <div
-                                className={`relative w-full pt-[100%] ${items[current]?.id === item.id
-                                    ? "animate-spin-slow"
-                                    : ""
-                                  } ${!playing && items[current]?.id === item.id
-                                    ? "animate-pause"
-                                    : ""
-                                  }`}
-                              >
-                                <img
-                                  className="absolute inset-0 h-full w-full select-none object-contain"
-                                  src={item.vinyl_style?.disc?.image_url} 
-                                  alt="disc"
-                                />
-                                <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                                  {item.content?.song?.thumbnails?.length >
-                                    0 && (
-                                      <img
-                                        className="h-[27%] w-[27%] select-none rounded-full object-contain"
-                                        src={
-                                          item.content?.song?.thumbnails[0]?.url
-                                        }
-                                        alt="thumbnail"
-                                        referrerPolicy="no-referrer"
-                                        crossOrigin="anonymous"
-                                      />
-                                    )}
-                                </div>
-                              </div>
-                            </div>
-                            {items[current]?.id === item.id && (
-                              <span
-                                style={{
-                                  wordBreak: "break-word",
-                                  whiteSpace: "pre-line",
-                                }}
-                                className="my-6 w-full text-center text-xl leading-6 text-gray-700"
-                              >
-                                {item.content?.message}
-                              </span>
-                            )}
-                          </div>
-                        </div>
+                        <MaintainedSongCard
+                          item={item}
+                          showMessage={isCurrent}
+                          spin={isCurrent}
+                          spinningPaused={!playing && isCurrent}
+                          key={item.id}
+                        />
                       );
                     })}
                   </Slider>
@@ -433,42 +384,28 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                 <div
                   className={`grid grid-cols-2 gap-4 overflow-x-hidden pt-4`}
                 >
-                  {items.map((item, i) => (
-                    <div
-                      onClick={() => handleSelect(i)}
-                      data-id={item.id}
-                      key={item.id}
-                      className={`relative w-[160px] cursor-pointer pt-[100%] ${items[current]?.id === item.id
-                          ? "animate-spin-slow"
-                          : ""
-                        } ${!playing && items[current]?.id === item.id
-                          ? "animate-pause"
-                          : ""
-                        }`}
-                    >
-                      <img
-                        className="absolute inset-0 h-full w-full select-none object-contain"
-                        src={item.vinyl_style?.disc?.image_url} 
-                        alt="disc"
+                  {items.map((item, i) => {
+                    const isCurrent = items[current]?.id === item.id;
+
+                    return (
+                      <MaintainedSongCard
+                        onClick={() => handleSelect(i)}
+                        item={item}
+                        showMessage={isCurrent}
+                        spin={isCurrent}
+                        spinningPaused={!playing && isCurrent}
+                        cardClassName="w-[160px]"
+                        key={item.id}
                       />
-                      <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                        {item.content?.song?.thumbnails?.length > 0 && (
-                          <img
-                            className="h-[27%] w-[27%] select-none rounded-full object-contain"
-                            src={item.content?.song?.thumbnails[0]?.url}
-                            alt="thumbnail"
-                            referrerPolicy="no-referrer"
-                            crossOrigin="anonymous"
-                          />
-                        )}
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
+
                 <div
                   ref={loadMoreRef}
-                  className={`flex items-center justify-center ${current !== null ? "pb-[88px]" : "pb-[24px]"
-                    }`}
+                  className={`flex items-center justify-center ${
+                    current !== null ? "pb-[88px]" : "pb-[24px]"
+                  }`}
                 >
                   {hasNext && (
                     <svg
@@ -793,17 +730,20 @@ function ReceivedSongs({ layout, onLayoutChange }) {
                       </div>
                     </div>
                   </div>
-                  <ShareDialog content={{
-                    song: {
-                      title: items[current]?.content?.song?.title,
-                      artist:
-                        items[current]?.content?.song?.artistInfo?.artist[0]
-                          ?.text,
-                      thumbnails: items[current]?.content?.song?.thumbnails,
-                    },
-                    vinylStyle: items[current]?.vinyl_style,
-                    message: items[current]?.content?.message,
-                  }} showLink={false} />
+                  <ShareDialog
+                    content={{
+                      song: {
+                        title: items[current]?.content?.song?.title,
+                        artist:
+                          items[current]?.content?.song?.artistInfo?.artist[0]
+                            ?.text,
+                        thumbnails: items[current]?.content?.song?.thumbnails,
+                      },
+                      vinylStyle: items[current]?.vinyl_style,
+                      message: items[current]?.content?.message,
+                    }}
+                    showLink={false}
+                  />
                 </div>
               </>
             )}

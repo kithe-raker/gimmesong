@@ -34,11 +34,11 @@ import { useSessionExpired } from "@hooks/useSessionExpired";
 import useCounterEffect from "@hooks/useCounterEffect";
 import useScrollPosition from "@hooks/useScrollPosition";
 import { useLocalStorage } from "@hooks/useLocalStorage";
-
 import { useShareDialog } from "@hooks/useShareDialog";
-import SongGrid from "./SongGrid";
-import SongCard from "./SongCard";
 import { useStateCallback } from "@hooks/useStateCallback";
+
+import SongGrid from "./SongGrid";
+import SongCard from "@components/SongCard";
 
 export const ReceivedSongsContext = createContext();
 
@@ -94,6 +94,8 @@ function ReceivedSongs({
 
   // this seem "hack-y" to reset setting back
   const [oldPlayerSetting, setOldPlayerSetting] = useStateCallback(null);
+
+  const [flipped, setFlipped] = useStateCallback([]);
 
   const settings = {
     className: "center",
@@ -191,6 +193,13 @@ function ReceivedSongs({
     ]);
   }, [items]);
 
+  const matchFlipped = (fetched, callback) => {
+    setFlipped(
+      fetched.map((item) => !item.played),
+      callback
+    );
+  };
+
   const handleUpdateInbox = async (id) => {
     try {
       setUpdatingInbox(true);
@@ -225,23 +234,31 @@ function ReceivedSongs({
     });
   };
 
-  const handlePlay = async (index) => {
-    // setGoingToPlay(true, () => setCurrent(index));
+  const flipDisc = (id) => {
+    let updated = flipped.map((val, i) => (items[i].id === id ? !val : val));
+    setFlipped(updated);
+  };
 
-    setOldPlayerSetting(playerSetting, () =>
-      setPlayerSetting(
-        {
-          autoplay: true,
-        },
-        () => {
-          if (index === current) {
-            setCurrent(null, () => setCurrent(index));
-          } else {
-            setCurrent(index);
+  const handleFlip = async (index) => {
+    flipDisc(items[index].id);
+
+    if (!items[index].played) {
+      // item is not played and is being flip, automatically play the song.
+      setOldPlayerSetting(playerSetting, () =>
+        setPlayerSetting(
+          {
+            autoplay: true,
+          },
+          () => {
+            if (index === current) {
+              setCurrent(null, () => setCurrent(index));
+            } else {
+              setCurrent(index);
+            }
           }
-        }
-      )
-    );
+        )
+      );
+    }
   };
 
   const resetOldPlayerSetting = (callback) => {
@@ -255,7 +272,10 @@ function ReceivedSongs({
   };
 
   const handleToggle = async (id) => {
-    if (!items[current].played) await handleUpdateInbox(id);
+    if (!items[current].played) {
+      flipDisc(id);
+      await handleUpdateInbox(id);
+    }
     await audioRef.current.toggle();
   };
 
@@ -401,14 +421,14 @@ function ReceivedSongs({
       let filterType = tab;
       let results = await GimmesongAPI.queryInbox({ filter: filterType });
 
-      setItems(results);
+      matchFlipped(results, () => setItems(results));
       if (tab === "new") {
         if (results.length > 0) setCurrent(0);
       }
     } catch (err) {
       setError(true);
       console.error(err);
-      if (err.response.status === 403) openSessionExpired();
+      if (err.response?.status === 403) openSessionExpired();
     } finally {
       setLoading(false);
     }
@@ -474,14 +494,17 @@ function ReceivedSongs({
                 >
                   <Slider ref={slider} {...settings}>
                     {items.map((item, i) => {
+                      const isCurrent = items[current]?.id === item.id;
+
                       return (
                         <SongCard
-                          playDisc={() => handlePlay(i)}
-                          showMessage
-                          key={i}
-                          currentItem={items[current]}
+                          onFlip={() => handleFlip(i)}
+                          showMessage={isCurrent}
+                          spin={isCurrent}
+                          spinningPaused={!playing && isCurrent}
+                          flipped={flipped[i]}
                           item={item}
-                          playing={playing}
+                          key={item.id}
                         />
                       );
                     })}
@@ -510,6 +533,28 @@ function ReceivedSongs({
                     <SongGrid title={request.name} songs={request.songs} />
                   ))}
               </>
+              // <div
+              //   className={`grid grid-cols-2 gap-4 overflow-x-hidden pt-4 ${
+              //     current !== null ? "pb-[88px]" : "pb-[24px]"
+              //   }`}
+              // >
+              //   {items.map((item, i) => {
+              //     const isCurrent = items[current]?.id === item.id;
+
+              //     return (
+              //       <SongCard
+              //         onClick={() => handleSelect(i)}
+              //         onFlip={() => handleFlip(i)}
+              //         spin={isCurrent}
+              //         spinningPaused={!playing && isCurrent}
+              //         item={item}
+              //         flipped={flipped[i]}
+              //         cardClassName="w-[160px]"
+              //         key={item.id}
+              //       />
+              //     );
+              //   })}
+              // </div>
             )}
 
             <AudioPlayer

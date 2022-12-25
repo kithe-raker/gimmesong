@@ -132,7 +132,7 @@ const Pattern6 = ({ content, isMysong, onSharing }) => {
           <div className="flex flex-col">
             <div className="flex items-center">
               <img
-                className="mr-[10px] mt-[12px]"
+                className="mr-[10px] mt-[12px] w-[44px]"
                 src={santaHatLogo}
                 alt="disc"
               />

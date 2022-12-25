@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useSession from "@hooks/useSession";
 
@@ -7,6 +7,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import { signOut } from "@lib/firebase";
 import OnMainPage from "./components/OnMainPage";
 import OnOtherPage from "./components/OnOtherPage";
+import { ThemeContext } from "contexts/ThemeContext";
 
 function Header() {
   const location = useLocation();
@@ -20,6 +21,8 @@ function Header() {
   } else {
     render = <OnOtherPage />;
   }
+
+  const { logo } = useContext(ThemeContext);
 
   return (
     <>

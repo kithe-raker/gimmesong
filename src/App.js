@@ -26,6 +26,7 @@ import { auth } from "@lib/firebase";
 import PlaylistProvider from "contexts/PlaylistContext";
 import FeedProvider from "contexts/FeedContext";
 import DiscListProvider from "contexts/DiscListContext";
+import ThemeProvider from "contexts/ThemeContext";
 
 import Profile from "@features/Profile";
 import Shop from "@features/Shop";
@@ -112,8 +113,8 @@ function App() {
 
   return (
     <>
-      <FeedProvider>
-        <PlaylistProvider>
+      <ThemeProvider theme="christmas">
+        <FeedProvider>
           <DiscListProvider>
             <Toaster />
             {loading ? (
@@ -125,8 +126,8 @@ function App() {
               </>
             )}
           </DiscListProvider>
-        </PlaylistProvider>
-      </FeedProvider>
+        </FeedProvider>
+      </ThemeProvider>
     </>
   );
 }
