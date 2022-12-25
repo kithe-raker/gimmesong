@@ -1,9 +1,9 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 /**
- * A custom dropdown component. 
+ * A custom dropdown component.
  *  <p> (1) Note that it is very important to specify the width of the dropdown (using className). </p>
- *  <p> (1) Note that the user of this component is expected to maintain the selectedOption state themselves, meaning that nothing will happens when an option is selected, unless user update the selectedOption props passed to this component when onOptionSelected callback is called. </p>
+ *  <p> (2) Note that the user of this component is expected to maintain the selectedOption state themselves, meaning that nothing will happens when an option is selected, unless user update the selectedOption props passed to this component when onOptionSelected callback is called. </p>
  * @param options the available options for dropdown. It can be in shape of ["value1", "value2", "value3", ...] in which the dropdown will render each option in a text button and when a value changes, the callback function will be passed the option value,
  * or [{value: "value1", component: \<span>text1\</span>}, {value: "value2", component: \<span>text2\</span>}, ...] the dropdown will render each option's component and when a value changes, the callback function will be passed the option.value.
  * @param selectedOption the index of an option that will be shown when this dropdown is hiding its options.
@@ -88,6 +88,7 @@ function Dropdown({
                 <></>
               ) : (
                 <button
+                  key={i}
                   className={`flex w-full flex-row items-center justify-start py-2 ${buttonClassName}`}
                   onClick={() => selectOption(i)}
                 >
