@@ -29,6 +29,10 @@ function Top() {
     setSelectedOption(index);
   };
 
+  useEffect(() => {
+    changeFilter("most_play");
+  }, []);
+
   /**
    * @dev To prevents the user's scroll from being reset.
    * before run this effect, we need to make sure that feed items is empty and navigate state.reload is true
@@ -40,7 +44,7 @@ function Top() {
   }, [state]);
 
   return (
-    <div className="gimmesong-bg sticky top-[108px] z-50 pt-2 flex w-full flex-row justify-between px-2 pb-3">
+    <div className="gimmesong-bg sticky top-[108px] z-50 flex w-full flex-row justify-between px-2 pt-2 pb-3">
       <div className="flex flex-row">
         <button
           onClick={() => navigate(-1)}
