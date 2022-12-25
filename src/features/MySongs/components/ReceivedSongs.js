@@ -452,8 +452,8 @@ function ReceivedSongs({
   }, [scrollY]);
 
   const store = {
-    data: { items, current, playing },
-    action: { selectSong: handleSelect, playSong: handlePlay },
+    data: { items, current, playing, flipped },
+    action: { handleSelect, handleFlip },
   };
 
   return (
