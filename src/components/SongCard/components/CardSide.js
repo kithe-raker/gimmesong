@@ -1,6 +1,5 @@
 import { useRef, useContext } from "react";
 import useDoubleClick from "use-double-click";
-import { ReceivedSongsContext } from "./ReceivedSongs";
 
 /**
  * Song will have 2 side, front and back (front have the song cover as center, back have song emoji as center, anything else should be identical)
@@ -16,12 +15,6 @@ function CardSide({
   cardClassName = "",
   containerClassName = "",
 }) {
-  const {
-    data: { items, current, playing },
-  } = useContext(ReceivedSongsContext);
-
-  const currentItem = items[current];
-
   const clickRef = useRef();
 
   useDoubleClick({
