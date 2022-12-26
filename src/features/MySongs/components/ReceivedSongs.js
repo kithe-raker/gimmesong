@@ -71,8 +71,8 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
 
   const [playbackURL, setPlaybackURL] = useState({});
 
-  // this seem "hack-y" to reset setting back
-  const [oldPlayerSetting, setOldPlayerSetting] = useStateCallback(null);
+  // whether or not to play the song immediately after the current state is change (will reset itself back to false when the song is played)
+  const [playCurrent, setPlayCurrent] = useStateCallback(false);
 
   // flipped[i] (= true/false) means whether or not the items[i] should be rendered as flipped
   const [flipped, setFlipped] = useStateCallback([]);
@@ -180,30 +180,13 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
 
     if (!items[index].played) {
       // item is not played and is being flip, automatically play the song.
-      setOldPlayerSetting(playerSetting, () =>
-        setPlayerSetting(
-          {
-            autoplay: true,
-          },
-          () => {
-            if (index === current) {
-              setCurrent(null, () => setCurrent(index));
-            } else {
-              setCurrent(index);
-            }
-          }
-        )
-      );
-    }
-  };
-
-  const resetOldPlayerSetting = (callback) => {
-    if (oldPlayerSetting) {
-      setPlayerSetting(oldPlayerSetting, () =>
-        setOldPlayerSetting(null, () => {
-          if (callback) callback();
-        })
-      );
+      setPlayCurrent(true, () => {
+        if (index === current) {
+          setCurrent(null, () => setCurrent(index));
+        } else {
+          setCurrent(index);
+        }
+      });
     }
   };
 
@@ -261,7 +244,7 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
   };
 
   const handleTrackChange = async () => {
-    if (playerSetting.autoplay) {
+    if (playerSetting.autoplay || playCurrent) {
       clearUpNextTimer();
       if (!items[current]?.played) await handleUpdateInbox(items[current]?.id);
     }
@@ -311,12 +294,11 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
       }
       console.error(err);
 
-      resetOldPlayerSetting(() => {
-        if (playerSetting.autoplay) {
-          setNextTrack();
-          // upNextCallback(setNextTrack, autoPlayTimer);
-        }
-      });
+      setPlayCurrent(false);
+      if (playerSetting.autoplay) {
+        setNextTrack();
+        // upNextCallback(setNextTrack, autoPlayTimer);
+      }
     }
   };
 
@@ -474,9 +456,9 @@ function ReceivedSongs({ tab, layout, onLayoutChange }) {
               onLoading={setLoadingAudio}
               onEnded={handleTrackEnded}
               onError={handlePlayerError}
-              autoPlayAfterSrcChange={playerSetting.autoplay}
+              autoPlayAfterSrcChange={playerSetting.autoplay || playCurrent}
               loadingSource={loadingStreamingData}
-              afterPlayed={resetOldPlayerSetting}
+              afterPlayed={() => setPlayCurrent(false)}
             />
 
             {current !== null && (
