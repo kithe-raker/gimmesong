@@ -14,9 +14,42 @@ function ThemeProvider({ theme, children }) {
   const themes = {
     default: {
       logo: logo,
+      style: {
+        header: {
+          logo: "mr-2 h-[26px] w-[26px] shrink-0",
+          logo_text: "gimmesong-primary-font select-none text-2xl",
+        },
+        home: {
+          logo: "mt-6 w-60",
+        },
+        menu: {
+          logo: "mr-2 h-[46px] w-[46px] shrink-0",
+          logo_text: "gimmesong-primary-font text-5xl",
+        },
+        sent: {
+          logo: "h-[71px]",
+        },
+      },
     },
+
     christmas: {
       logo: santaHatLogo,
+      style: {
+        header: {
+          logo: "mr-2 w-[26px] shrink-0",
+          logo_text: "gimmesong-primary-font mt-2 select-none text-2xl",
+        },
+        home: {
+          logo: "ml-5 mt-6 w-32",
+        },
+        menu: {
+          logo: "mr-2 w-[46px] shrink-0",
+          logo_text: "gimmesong-primary-font mt-4 text-5xl",
+        },
+        sent: {
+          logo: "w-[71px]",
+        },
+      },
     },
   };
 

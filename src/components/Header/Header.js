@@ -26,7 +26,7 @@ function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
-  const { logo } = useContext(ThemeContext);
+  const { logo, style } = useContext(ThemeContext);
 
   return (
     <header className="gimmesong-bg fixed top-0 right-0 left-0 z-50 mx-auto flex h-[60px] w-full max-w-md items-center justify-between px-2.5">
@@ -34,14 +34,8 @@ function Header() {
         onClick={() => navigate("/")}
         className="my-2 flex cursor-pointer items-center justify-center"
       >
-        <img
-          className="mr-2 w-[26px] shrink-0"
-          src={logo}
-          alt="disc"
-        />
-        <h1 className="mt-2 gimmesong-primary-font select-none text-2xl">
-          GIMMESONG
-        </h1>
+        <img className={style.header.logo} src={logo} alt="disc" />
+        <h1 className={style.header.logo_text}>GIMMESONG</h1>
       </span>
       {user ? (
         <div className="flex items-center">

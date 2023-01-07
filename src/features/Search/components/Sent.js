@@ -16,7 +16,7 @@ function Sent({ children }) {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
 
-  const { logo } = useContext(ThemeContext);
+  const { logo, style } = useContext(ThemeContext);
 
   const {
     data: { receiver },
@@ -47,7 +47,7 @@ function Sent({ children }) {
           <span className="mb-[14px] text-xs text-white">
             Your song already given!
           </span>
-          <img className="w-[71px]" src={logo} alt="disc" />
+          <img className={style.sent.logo} src={logo} alt="disc" />
         </div>
       </div>
       <span className="gimmesong-primary-font mt-4 text-sm">
