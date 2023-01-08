@@ -18,7 +18,7 @@ function Menu() {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
 
-  const { logo } = useContext(ThemeContext);
+  const { logo, style } = useContext(ThemeContext);
 
   useEffect(() => {
     const getTotalSentSong = async () => {
@@ -38,8 +38,8 @@ function Menu() {
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center py-[60px] pt-[80px]">
       <div className="my-2 flex items-center justify-center">
-        <img className="mr-2 w-[46px] shrink-0" src={logo} alt="disc" />
-        <h1 className="gimmesong-primary-font mt-4 text-5xl">GIMMESONG</h1>
+        <img className={style.menu.logo} src={logo} alt="disc" />
+        <h1 className={style.menu.logo_text}>GIMMESONG</h1>
       </div>
 
       <span className="gimmesong-primary-font mb-6">
